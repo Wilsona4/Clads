@@ -2,4 +2,6 @@
 <resources>
     <dimen name="margin_113dp">113dp</dimen>
     <dimen name="margin_30dp">30dp</dimen>
+    <dimen name="margin_200dp">200dp</dimen>
+    <dimen name="text_size_16sp">16sp</dimen>
 </resources>
