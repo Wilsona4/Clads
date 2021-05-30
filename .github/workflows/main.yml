@@ -1,4 +1,4 @@
-name: Android PR CI
+name: Clads Push
 
 on: push
 
