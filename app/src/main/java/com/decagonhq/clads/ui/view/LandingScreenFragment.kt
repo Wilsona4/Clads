@@ -36,7 +36,7 @@ class LandingScreenFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_landing_screen, container, false)
+        return inflater.inflate(R.layout.landing_screen_fragment, container, false)
     }
 
     companion object {
