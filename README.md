@@ -4,3 +4,4 @@ Clads product is an android application designed in an attempt to solve an age o
 
 They can now easily search for any client and update their details or contact them.
 Customers get exactly what they requested, they are happy with their services and they bring their friends and loved ones.
+
