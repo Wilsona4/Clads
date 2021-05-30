@@ -3,98 +3,98 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/nav_graph"
-    app:startDestination="@id/landingScreenFragment">
+    app:startDestination="@id/landing_screen_fragment">
 
     <fragment
-        android:id="@+id/landingScreenFragment"
-        android:name="com.decagonhq.clads.LandingScreenFragment"
+        android:id="@+id/landing_screen_fragment"
+        android:name="com.decagonhq.clads.ui.view.LandingScreenFragment"
         android:label="fragment_landing_screen"
         tools:layout="@layout/fragment_landing_screen" >
         <action
             android:id="@+id/action_landingScreenFragment_to_signUpOptionsFragment"
-            app:destination="@id/signUpOptionsFragment" />
+            app:destination="@id/sign_up_options_fragment" />
     </fragment>
     <fragment
-        android:id="@+id/signUpOptionsFragment"
-        android:name="com.decagonhq.clads.SignUpOptionsFragment"
+        android:id="@+id/sign_up_options_fragment"
+        android:name="com.decagonhq.clads.ui.view.SignUpOptionsFragment"
         android:label="fragment_sign_up_options"
         tools:layout="@layout/fragment_sign_up_options" >
         <action
             android:id="@+id/action_signUpOptionsFragment_to_emailSignUpFragment"
-            app:destination="@id/emailSignUpFragment" />
+            app:destination="@id/email_sign_up_fragment" />
         <action
             android:id="@+id/action_signUpOptionsFragment_to_loginFragment"
-            app:destination="@id/loginFragment" />
+            app:destination="@id/login_fragment" />
     </fragment>
     <fragment
-        android:id="@+id/emailSignUpFragment"
-        android:name="com.decagonhq.clads.EmailSignUpFragment"
+        android:id="@+id/email_sign_up_fragment"
+        android:name="com.decagonhq.clads.ui.view.EmailSignUpFragment"
         android:label="fragment_email_sign_up"
         tools:layout="@layout/fragment_email_sign_up" >
         <action
             android:id="@+id/action_emailSignUpFragment_to_emailConfirmationFragment"
-            app:destination="@id/emailConfirmationFragment" />
+            app:destination="@id/email_confirmation_fragment" />
         <action
             android:id="@+id/action_emailSignUpFragment_to_loginFragment"
-            app:destination="@id/loginFragment" />
+            app:destination="@id/login_fragment" />
     </fragment>
     <fragment
-        android:id="@+id/emailConfirmationFragment"
-        android:name="com.decagonhq.clads.EmailConfirmationFragment"
+        android:id="@+id/email_confirmation_fragment"
+        android:name="com.decagonhq.clads.ui.view.EmailConfirmationFragment"
         android:label="fragment_email_confirmation"
         tools:layout="@layout/fragment_email_confirmation" >
         <action
             android:id="@+id/action_emailConfirmationFragment_to_loginFragment"
-            app:destination="@id/loginFragment" />
+            app:destination="@id/login_fragment" />
     </fragment>
     <fragment
-        android:id="@+id/loginFragment"
-        android:name="com.decagonhq.clads.LoginFragment"
+        android:id="@+id/login_fragment"
+        android:name="com.decagonhq.clads.ui.view.LoginFragment"
         android:label="fragment_login"
         tools:layout="@layout/fragment_login" >
         <action
             android:id="@+id/action_loginFragment_to_forgotPasswordFragment"
-            app:destination="@id/forgotPasswordFragment" />
+            app:destination="@id/forgot_password_fragment" />
         <action
             android:id="@+id/action_loginFragment_to_dashboardFragment"
-            app:destination="@id/dashboardFragment" />
+            app:destination="@id/dashboard_fragment" />
     </fragment>
     <fragment
-        android:id="@+id/resetPasswordFragment"
-        android:name="com.decagonhq.clads.ResetPasswordFragment"
+        android:id="@+id/reset_password_fragment"
+        android:name="com.decagonhq.clads.ui.view.ResetPasswordFragment"
         android:label="fragment_reset_password"
         tools:layout="@layout/fragment_reset_password" >
         <action
             android:id="@+id/action_resetPasswordFragment_to_loginFragment"
-            app:destination="@id/loginFragment" />
+            app:destination="@id/login_fragment" />
         <action
             android:id="@+id/action_resetPasswordFragment_to_loginFragment2"
-            app:destination="@id/loginFragment" />
+            app:destination="@id/login_fragment" />
     </fragment>
     <fragment
-        android:id="@+id/confirmPasswordResetFragment"
-        android:name="com.decagonhq.clads.ConfirmPasswordResetFragment"
+        android:id="@+id/confirm_password_reset_fragment"
+        android:name="com.decagonhq.clads.ui.view.ConfirmPasswordResetFragment"
         android:label="fragment_confirm_password_reset"
         tools:layout="@layout/fragment_confirm_password_reset" >
         <action
             android:id="@+id/action_confirmPasswordResetFragment_to_resetPasswordFragment"
-            app:destination="@id/resetPasswordFragment" />
+            app:destination="@id/reset_password_fragment" />
     </fragment>
     <fragment
-        android:id="@+id/forgotPasswordFragment"
-        android:name="com.decagonhq.clads.ForgotPasswordFragment"
+        android:id="@+id/forgot_password_fragment"
+        android:name="com.decagonhq.clads.ui.view.ForgotPasswordFragment"
         android:label="fragment_forgot_password"
         tools:layout="@layout/fragment_forgot_password" >
         <action
             android:id="@+id/action_forgotPasswordFragment_to_confirmPasswordResetFragment"
-            app:destination="@id/confirmPasswordResetFragment" />
+            app:destination="@id/confirm_password_reset_fragment" />
         <action
             android:id="@+id/action_forgotPasswordFragment_to_loginFragment"
-            app:destination="@id/loginFragment" />
+            app:destination="@id/login_fragment" />
     </fragment>
     <fragment
-        android:id="@+id/dashboardFragment"
-        android:name="com.decagonhq.clads.DashboardFragment"
+        android:id="@+id/dashboard_fragment"
+        android:name="com.decagonhq.clads.ui.view.DashboardFragment"
         android:label="fragment_dashboard"
         tools:layout="@layout/fragment_dashboard" />
 </navigation>
