@@ -25,9 +25,6 @@
         <action
             android:id="@+id/action_signUpOptionsFragment_to_loginFragment"
             app:destination="@id/loginFragment" />
-        <action
-            android:id="@+id/action_signUpOptionsFragment_to_googleSignUpFragment"
-            app:destination="@id/googleSignUpFragment" />
     </fragment>
     <fragment
         android:id="@+id/emailSignUpFragment"
@@ -61,15 +58,6 @@
         <action
             android:id="@+id/action_loginFragment_to_dashboardFragment"
             app:destination="@id/dashboardFragment" />
-    </fragment>
-    <fragment
-        android:id="@+id/googleSignUpFragment"
-        android:name="com.decagonhq.clads.GoogleSignUpFragment"
-        android:label="fragment_google_sign_up"
-        tools:layout="@layout/fragment_google_sign_up" >
-        <action
-            android:id="@+id/action_googleSignUpFragment_to_emailSignUpFragment"
-            app:destination="@id/emailSignUpFragment" />
     </fragment>
     <fragment
         android:id="@+id/resetPasswordFragment"
