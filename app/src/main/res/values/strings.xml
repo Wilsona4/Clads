@@ -2,4 +2,7 @@
     <string name="app_name">Clads</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="lorem_ipsum_ipsum_sum">Lorem Ipsum. Ipsum sum.</string>
+    <string name="login">login</string>
+    <string name="sign_up">sign up</string>
 </resources>
