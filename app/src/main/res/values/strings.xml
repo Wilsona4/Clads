@@ -2,4 +2,10 @@
     <string name="app_name">Clads</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="view_in_browser">view in browser</string>
+    <string name="hi_obioma">Hi Ijeoma, you are almost ready to start enjoying obioma. Simply click the
+        blue button below to verify your email address
+    </string>
+    <string name="copyright_2020">copyright 2020.All rights reserved</string>
+    <string name="email_sent_by_obioma">email sent by obioma</string>
 </resources>

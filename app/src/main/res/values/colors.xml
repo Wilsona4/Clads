@@ -9,10 +9,12 @@
     <color name="white">#FFFFFFFF</color>
 
     <color name="deep_sky_blue">#0066F5</color>
-    <color name="light_sky_blue">#E8F0FE</color>
+    <color name="light_sky_blue">#BFD3F4</color>
     <color name="navy_blue">#0A2E65</color>
     <color name="deep_gray">#7F92B4</color>
     <color name="gray">#F2F2F2</color>
+    <color name="gray_3">#828282</color>
     <color name="menu_text_color">#506992</color>
+    <color name="email_confirmatory_background_color">#E5E5E5</color>
     <color name="red">#FF0000</color>
 </resources>
