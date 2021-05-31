@@ -10,8 +10,8 @@
     <ImageView
         android:id="@+id/fragment_landing_screen_logo_image_view"
         android:layout_width="@dimen/layout_width_155"
-        android:layout_height="54dp"
-        android:layout_marginTop="184dp"
+        android:layout_height="@dimen/layout_height_54dp"
+        android:layout_marginTop="@dimen/layout_margin_top_184dp"
         android:maxWidth="@dimen/image_view_max_width"
         android:maxHeight="@dimen/image_view_max_height"
         android:src="@drawable/logo_image"
@@ -27,7 +27,7 @@
         android:fontFamily="@font/poppins_medium"
         android:text="@string/lorem_ipsum_ipsum_sum"
         android:textColor="@color/white"
-        android:textSize="14sp"
+        android:textSize="@dimen/text_size_14sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/fragment_landing_screen_logo_image_view" />
