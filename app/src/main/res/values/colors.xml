@@ -15,4 +15,5 @@
     <color name="gray">#F2F2F2</color>
     <color name="menu_text_color">#506992</color>
     <color name="red">#FF0000</color>
+    <color name="medium_gray">#DADADA</color>
 </resources>

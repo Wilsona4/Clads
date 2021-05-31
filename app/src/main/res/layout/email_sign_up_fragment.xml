@@ -1,14 +1,262 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/deep_sky_blue"
     tools:context=".ui.view.EmailSignUpFragment">
 
-    <!-- TODO: Update blank fragment layout -->
-    <TextView
+    <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:text="@string/hello_blank_fragment" />
+        android:fillViewport="true"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
 
-</FrameLayout>
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:id="@+id/email_sign_up_fragment_title_text_view"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/margin_18dp"
+                android:layout_marginTop="@dimen/margin_46dp"
+                android:fontFamily="@font/poppins_bold"
+                android:text="@string/create_an_account"
+                android:textColor="@color/white"
+                android:textSize="@dimen/text_size_18sp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/email_sign_up_fragment_subtitle_text_view"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/margin_18dp"
+                android:layout_marginTop="@dimen/margin_9dp"
+                android:fontFamily="@font/poppins"
+                android:text="@string/lets_get_to_know_you"
+                android:textColor="@color/white"
+                android:textSize="@dimen/text_size_18sp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/email_sign_up_fragment_title_text_view" />
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/email_sign_up_fragment_first_name_edit_text_layout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="@dimen/margin_18dp"
+                android:layout_marginTop="@dimen/margin_46dp"
+                android:fontFamily="@font/poppins"
+                android:hint="@string/first_name"
+                android:textColorHint="@color/gray"
+                app:errorEnabled="true"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/email_sign_up_fragment_subtitle_text_view">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/email_sign_up_fragment_first_name_edit_text"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:backgroundTint="@color/deep_sky_blue"
+                    android:inputType="text" />
+
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/email_sign_up_fragment_last_name_edit_text_layout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="@dimen/margin_18dp"
+                android:layout_marginTop="@dimen/margin_18dp"
+                android:fontFamily="@font/poppins"
+                android:hint="@string/last_name"
+                android:textColorHint="@color/gray"
+                app:errorEnabled="true"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/email_sign_up_fragment_first_name_edit_text_layout">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/email_sign_up_fragment_last_name_edit_text"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:backgroundTint="@color/deep_sky_blue"
+                    android:inputType="text" />
+
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/email_sign_up_fragment_other_name_edit_text_layout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="@dimen/margin_18dp"
+                android:layout_marginTop="@dimen/margin_18dp"
+                android:fontFamily="@font/poppins"
+                android:hint="@string/other_name"
+                android:textColorHint="@color/gray"
+                app:errorEnabled="true"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/email_sign_up_fragment_last_name_edit_text_layout">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/email_sign_up_fragment_other_name_edit_text"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:backgroundTint="@color/deep_sky_blue"
+                    android:inputType="text" />
+
+            </com.google.android.material.textfield.TextInputLayout>
+
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/email_sign_up_fragment_account_category_text_layout"
+                style="@style/Widget.MaterialComponents.TextInputLayout.FilledBox.ExposedDropdownMenu"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="@dimen/margin_18dp"
+                android:layout_marginTop="@dimen/margin_18dp"
+                android:fontFamily="@font/poppins"
+                android:paddingVertical="@dimen/margin_9dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/email_sign_up_fragment_other_name_edit_text_layout">
+
+                <AutoCompleteTextView
+                    android:id="@+id/email_sign_up_fragment_account_category_text_view"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:backgroundTint="@color/deep_sky_blue"
+                    android:inputType="none"
+                    android:text="@string/choose_account_category"
+                    android:textColor="@color/gray" />
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/email_sign_up_fragment_email_edit_text_layout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="@dimen/margin_18dp"
+                android:layout_marginTop="@dimen/margin_18dp"
+                android:fontFamily="@font/poppins"
+                android:hint="@string/email_address"
+                android:textColorHint="@color/gray"
+                app:errorEnabled="true"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/email_sign_up_fragment_account_category_text_layout">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/email_sign_up_fragment_email_edit_text"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:backgroundTint="@color/deep_sky_blue"
+                    android:inputType="textEmailAddress" />
+
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/email_sign_up_fragment_password_edit_text_layout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="@dimen/margin_18dp"
+                android:layout_marginTop="@dimen/margin_18dp"
+                android:fontFamily="@font/poppins"
+                android:hint="@string/password"
+                android:textColorHint="@color/gray"
+                app:errorEnabled="true"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/email_sign_up_fragment_email_edit_text_layout"
+                app:passwordToggleEnabled="true"
+                app:passwordToggleTint="@color/medium_gray">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/email_sign_up_fragment_password_edit_text"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:backgroundTint="@color/deep_sky_blue"
+                    android:inputType="textPassword" />
+
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/email_sign_up_fragment_confirm_password_edit_text_layout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="@dimen/margin_18dp"
+                android:layout_marginTop="@dimen/margin_18dp"
+                android:fontFamily="@font/poppins"
+                android:hint="@string/confirm_password"
+                android:textColorHint="@color/gray"
+                app:errorEnabled="true"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/email_sign_up_fragment_password_edit_text_layout"
+                app:passwordToggleEnabled="true"
+                app:passwordToggleTint="@color/medium_gray">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/email_sign_up_fragment_confirm_password_edit_text"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:backgroundTint="@color/deep_sky_blue"
+                    android:inputType="textPassword" />
+
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/email_sign_up_fragment_signup_button"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="@dimen/margin_18dp"
+                android:layout_marginTop="@dimen/margin_48dp"
+                android:fontFamily="@font/poppins_bold"
+                android:paddingVertical="@dimen/padding_10dp"
+                android:text="@string/signup"
+                android:textAllCaps="false"
+                android:textColor="@color/deep_sky_blue"
+                android:textSize="@dimen/text_size_16sp"
+                app:backgroundTint="@color/white"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/email_sign_up_fragment_confirm_password_edit_text_layout" />
+
+            <TextView
+                android:id="@+id/email_sign_up_fragment_have_account_text_view"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/poppins"
+                android:text="@string/have_an_account"
+                android:textColor="@color/white"
+                app:layout_constraintBaseline_toBaselineOf="@+id/email_sign_up_fragment_login_text_view"
+                app:layout_constraintEnd_toEndOf="@+id/email_sign_up_fragment_signup_button"
+                app:layout_constraintHorizontal_bias="0.37"
+                app:layout_constraintStart_toStartOf="@+id/email_sign_up_fragment_signup_button" />
+
+            <TextView
+                android:id="@+id/email_sign_up_fragment_login_text_view"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/margin_18dp"
+                android:layout_marginTop="@dimen/margin_18dp"
+                android:layout_marginBottom="@dimen/margin_76dp"
+                android:fontFamily="@font/poppins_semibold"
+                android:text="@string/login"
+                android:textColor="@color/white"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toEndOf="@+id/email_sign_up_fragment_have_account_text_view"
+                app:layout_constraintTop_toBottomOf="@+id/email_sign_up_fragment_signup_button" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </androidx.core.widget.NestedScrollView>
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

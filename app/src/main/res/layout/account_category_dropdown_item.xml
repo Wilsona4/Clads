@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_margin="@dimen/margin_18dp"
+    app:cardBackgroundColor="@color/white"
+    app:cardCornerRadius="@dimen/corner_radius_10dp"
+    app:cardElevation="@dimen/margin_18dp">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:paddingVertical="@dimen/padding_22dp">
+
+
+        <TextView
+            android:id="@+id/account_category_dropdown_item_tailor_text_view"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:backgroundTint="@color/account_category_dropdown_selected_item_color"
+            android:fontFamily="@font/poppins_medium"
+            android:paddingHorizontal="@dimen/padding_54dp"
+            android:paddingVertical="@dimen/padding_10dp"
+            android:text="@string/tailor"
+            android:textColor="@color/navy_blue"
+            android:textSize="@dimen/text_size_14sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/account_category_dropdown_item_weaver_text_view"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:backgroundTint="@color/account_category_dropdown_selected_item_color"
+            android:fontFamily="@font/poppins_medium"
+            android:paddingHorizontal="@dimen/padding_54dp"
+            android:paddingVertical="@dimen/padding_10dp"
+            android:text="@string/weaver"
+            android:textColor="@color/navy_blue"
+            android:textSize="@dimen/text_size_14sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/account_category_dropdown_item_tailor_text_view" />
+
+        <TextView
+            android:id="@+id/account_category_dropdown_item_client_text_view"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:backgroundTint="@color/account_category_dropdown_selected_item_color"
+            android:fontFamily="@font/poppins_medium"
+            android:paddingHorizontal="@dimen/padding_54dp"
+            android:paddingVertical="@dimen/padding_10dp"
+            android:text="@string/client"
+            android:textColor="@color/navy_blue"
+            android:textSize="@dimen/text_size_14sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/account_category_dropdown_item_weaver_text_view" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</androidx.cardview.widget.CardView>
