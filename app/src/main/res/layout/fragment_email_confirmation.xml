@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -111,7 +112,7 @@
                         android:layout_marginBottom="@dimen/margin_44dp"
                         android:backgroundTint="@color/deep_sky_blue"
                         android:padding="@dimen/padding_10dp"
-                        android:text="Verify Email Address"
+                        android:text="@string/verify_email_address"
                         android:textAlignment="center"
                         android:textColor="@color/white"
                         app:layout_constraintBottom_toBottomOf="parent"
