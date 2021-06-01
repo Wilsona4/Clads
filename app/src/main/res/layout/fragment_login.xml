@@ -1,208 +1,207 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.core.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
+    style="@style/match_parent_match_parent"
     android:id="@+id/login_fragment_parent_layout"
-    android:layout_height="match_parent"
+    android:fillViewport="true"
     android:background="@color/deep_sky_blue"
     tools:context=".ui.view.LoginFragment">
 
-
-    <TextView
-        android:id="@+id/login_fragment_welcome_back_message_text_view"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="18dp"
-        android:layout_marginTop="65dp"
-        android:fontFamily="@font/poppins_bold"
-        android:text="@string/welcome_back"
-        android:textColor="@color/white"
-        android:textSize="@dimen/text_size_18sp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-
-    <TextView
-        android:id="@+id/login_fragment_login_continue_text_view"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="18dp"
-        android:layout_marginTop="9dp"
-        android:fontFamily="@font/poppins_medium"
-        android:text="@string/login_continue"
-        android:textColor="@color/white"
-        android:textSize="@dimen/text_size_14sp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/login_fragment_welcome_back_message_text_view" />
-
-
-    <androidx.cardview.widget.CardView
-        android:id="@+id/login_fragment_google_sign_in_card_view"
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginHorizontal="18dp"
-        android:layout_marginTop="29dp"
-        app:cardCornerRadius="@dimen/corner_radius_5dp"
-        android:background="@color/white"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/login_fragment_login_continue_text_view">
+        android:layout_height="match_parent">
 
-        <androidx.constraintlayout.widget.ConstraintLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:paddingVertical="@dimen/padding_10dp">
+        <TextView
+            android:id="@+id/login_fragment_welcome_back_message_text_view"
+            style="@style/wrap_content_wrap_content"
+            android:layout_marginStart="@dimen/margin_18dp"
+            android:layout_marginTop="@dimen/margin_65dp"
+            android:fontFamily="@font/poppins_bold"
+            android:text="@string/welcome_back"
+            android:textColor="@color/white"
+            android:textSize="@dimen/text_size_18sp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
-            <TextView
-                android:id="@+id/login_fragment_sign_in_with_google_view"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:fontFamily="@font/poppins_medium"
-                android:text="@string/signup_with_google"
-                android:textColor="@color/black"
-                android:textSize="@dimen/text_size_14sp"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
-
-            <ImageView
-                android:layout_width="16dp"
-                android:layout_height="17dp"
-                android:layout_marginEnd="9dp"
-                android:src="@drawable/google_icon"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toStartOf="@+id/login_fragment_sign_in_with_google_view"
-                app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintVertical_bias="0.52" />
-
-        </androidx.constraintlayout.widget.ConstraintLayout>
-    </androidx.cardview.widget.CardView>
-
-    <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/login_fragment_email_address_edit_text_layout"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginHorizontal="@dimen/margin_18dp"
-        android:layout_marginTop="44dp"
-        android:hint="@string/email_address"
-        android:textColorHint="@color/gray"
-        android:textColor="@color/text_gray_text_field_color"
-        app:errorEnabled="true"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:boxStrokeColor="@color/text_gray_text_field_color"
-        style="@style/Widget.MaterialComponents.TextInputLayout.FilledBox.Dense"
-        app:layout_constraintTop_toBottomOf="@+id/login_fragment_google_sign_in_card_view">
-
-        <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/login_fragment_email_address_edit_text"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:textCursorDrawable="@color/text_gray_text_field_color"
-            android:textColor="@color/text_gray_text_field_color"
-            android:backgroundTint="@color/deep_sky_blue"
-            android:fontFamily="@font/roboto_medium"
-            android:inputType="textEmailAddress" />
-    </com.google.android.material.textfield.TextInputLayout>
-
-    <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/login_fragment_password_edit_text_layout"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginHorizontal="@dimen/margin_18dp"
-        android:layout_marginTop="@dimen/margin_18dp"
-        android:hint="@string/password"
-        android:textColorHint="@color/gray"
-        app:errorEnabled="true"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/login_fragment_email_address_edit_text_layout"
-        app:passwordToggleEnabled="true"
-        app:boxStrokeColor="@color/text_gray_text_field_color"
-        app:passwordToggleTint="@color/medium_gray">
-        <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/login_fragment_password_edit_text"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:textCursorDrawable="@color/text_gray_text_field_color"
-            android:textColor="@color/gray"
+        <TextView
+            android:id="@+id/login_fragment_login_continue_text_view"
+           style="@style/wrap_content_wrap_content"
+            android:layout_marginStart="@dimen/margin_18dp"
+            android:layout_marginTop="9dp"
             android:fontFamily="@font/poppins_medium"
-            android:backgroundTint="@color/deep_sky_blue"
-            android:inputType="textPassword" />
-    </com.google.android.material.textfield.TextInputLayout>
+            android:text="@string/login_continue"
+            android:textColor="@color/white"
+            android:textSize="@dimen/text_size_14sp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/login_fragment_welcome_back_message_text_view" />
 
-    <androidx.cardview.widget.CardView
-        android:id="@+id/login_fragment_log_in_card_view"
-        android:layout_width="0dp"
-        android:layout_height="44dp"
-        android:layout_marginStart="18dp"
-        android:layout_marginTop="25dp"
-        android:layout_marginEnd="18dp"
-        app:cardCornerRadius="@dimen/corner_radius_5dp"
-        android:backgroundTint="@color/white"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/login_fragment_password_edit_text_layout">
+        <androidx.cardview.widget.CardView
+            android:id="@+id/login_fragment_google_sign_in_card_view"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="18dp"
+            android:layout_marginTop="@dimen/margin_29dp"
+            app:cardCornerRadius="@dimen/corner_radius_5dp"
+            android:background="@color/white"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/login_fragment_login_continue_text_view">
 
-        <androidx.constraintlayout.widget.ConstraintLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            <androidx.constraintlayout.widget.ConstraintLayout
+                style="@style/match_parent_match_parent"
+                android:paddingVertical="@dimen/padding_10dp">
 
-            <TextView
-                android:id="@+id/login_fragment_log_in_text_view"
-                android:layout_width="wrap_content"
+                <TextView
+                    android:id="@+id/login_fragment_sign_in_with_google_view"
+                    style="@style/wrap_content_wrap_content"
+                    android:fontFamily="@font/poppins_medium"
+                    android:text="@string/signup_with_google"
+                    android:textColor="@color/black"
+                    android:textSize="@dimen/text_size_14sp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <ImageView
+                    android:layout_width="@dimen/width_16dp"
+                    android:layout_height="@dimen/height_17dp"
+                    android:layout_marginEnd="@dimen/margin_9dp"
+                    android:src="@drawable/google_icon"
+                    app:layout_constraintBottom_toBottomOf="@+id/login_fragment_sign_in_with_google_view"
+                    app:layout_constraintEnd_toStartOf="@+id/login_fragment_sign_in_with_google_view"
+                    app:layout_constraintHorizontal_bias="1.0"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintVertical_bias="0.666"
+                    android:contentDescription="@string/google_icon" />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+        </androidx.cardview.widget.CardView>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/login_fragment_email_address_edit_text_layout"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="@dimen/margin_18dp"
+            android:layout_marginTop="@dimen/margin_44dp"
+            android:hint="@string/email_address"
+            android:textColorHint="@color/gray"
+            android:textColor="@color/text_gray_text_field_color"
+            app:errorEnabled="true"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:boxStrokeColor="@color/text_gray_text_field_color"
+            style="@style/Widget.MaterialComponents.TextInputLayout.FilledBox.Dense"
+            app:layout_constraintTop_toBottomOf="@+id/login_fragment_google_sign_in_card_view">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/login_fragment_email_address_edit_text"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:fontFamily="@font/poppins_bold"
-                android:text="@string/login"
-                android:textColor="@color/deep_sky_blue"
-                android:textSize="@dimen/text_size_16sp"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
+                android:textCursorDrawable="@color/text_gray_text_field_color"
+                android:textColor="@color/text_gray_text_field_color"
+                android:backgroundTint="@color/deep_sky_blue"
+                android:fontFamily="@font/roboto_medium"
+                android:inputType="textEmailAddress" />
+        </com.google.android.material.textfield.TextInputLayout>
 
-        </androidx.constraintlayout.widget.ConstraintLayout>
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/login_fragment_password_edit_text_layout"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="@dimen/margin_18dp"
+            android:layout_marginTop="@dimen/margin_18dp"
+            android:hint="@string/password"
+            android:textColorHint="@color/gray"
+            app:errorEnabled="true"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/login_fragment_email_address_edit_text_layout"
+            app:passwordToggleEnabled="true"
+            app:boxStrokeColor="@color/text_gray_text_field_color"
+            app:passwordToggleTint="@color/medium_gray">
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/login_fragment_password_edit_text"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textCursorDrawable="@color/text_gray_text_field_color"
+                android:textColor="@color/gray"
+                android:fontFamily="@font/poppins_medium"
+                android:backgroundTint="@color/deep_sky_blue"
+                android:inputType="textPassword" />
+        </com.google.android.material.textfield.TextInputLayout>
 
-    </androidx.cardview.widget.CardView>
+        <androidx.cardview.widget.CardView
+            android:id="@+id/login_fragment_log_in_card_view"
+            android:layout_width="0dp"
+            android:layout_height="@dimen/height_44dp"
+            android:layout_marginStart="18dp"
+            android:layout_marginTop="25dp"
+            android:layout_marginEnd="18dp"
+            app:cardCornerRadius="@dimen/corner_radius_5dp"
+            android:clickable="true"
+            android:backgroundTint="@color/white"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/login_fragment_password_edit_text_layout">
 
-    <TextView
-        android:id="@+id/login_fragment_new_user_text_view"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:fontFamily="@font/poppins"
-        android:text="@string/new_user"
-        android:textColor="@color/text_gray"
-        app:layout_constraintBaseline_toBaselineOf="@+id/login_fragment_sign_up_for_free_text_view"
-        app:layout_constraintEnd_toEndOf="@+id/login_fragment_log_in_card_view"
-        app:layout_constraintHorizontal_bias="0.264"
-        app:layout_constraintStart_toStartOf="@+id/login_fragment_log_in_card_view" />
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/login_fragment_log_in_constrain_view"
+                style="@style/match_parent_match_parent">
 
-    <TextView
-        android:id="@+id/login_fragment_sign_up_for_free_text_view"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="12dp"
-        android:layout_marginTop="@dimen/margin_44dp"
-        android:fontFamily="@font/poppins_bold"
-        android:text="@string/sign_up_for_free"
-        android:textColor="@color/white"
-        android:padding="@dimen/padding_10dp"
-        app:layout_constraintStart_toEndOf="@+id/login_fragment_new_user_text_view"
-        app:layout_constraintTop_toBottomOf="@+id/login_fragment_log_in_card_view" />
+                <TextView
+                    android:id="@+id/login_fragment_log_in_text_view"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/poppins_bold"
+                    android:text="@string/login"
+                    android:textColor="@color/deep_sky_blue"
+                    android:textSize="@dimen/text_size_16sp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
 
-    <TextView
-        android:id="@+id/login_fragment_forget_password_text_view"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="22dp"
-        android:textColor="@color/text_gray"
-        android:fontFamily="@font/poppins_medium"
-        android:text="@string/forget_password"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/login_fragment_new_user_text_view" />
+            </androidx.constraintlayout.widget.ConstraintLayout>
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+        </androidx.cardview.widget.CardView>
+
+        <TextView
+            android:id="@+id/login_fragment_new_user_text_view"
+            style="@style/wrap_content_wrap_content"
+            android:fontFamily="@font/poppins"
+            android:text="@string/new_user"
+            android:textColor="@color/text_gray"
+            app:layout_constraintBaseline_toBaselineOf="@+id/login_fragment_sign_up_for_free_text_view"
+            app:layout_constraintEnd_toEndOf="@+id/login_fragment_log_in_card_view"
+            app:layout_constraintHorizontal_bias="0.264"
+            app:layout_constraintStart_toStartOf="@+id/login_fragment_log_in_card_view" />
+
+        <TextView
+            android:id="@+id/login_fragment_sign_up_for_free_text_view"
+            style="@style/wrap_content_wrap_content"
+            android:layout_marginStart="@dimen/margin_12p"
+            android:layout_marginTop="@dimen/margin_44dp"
+            android:fontFamily="@font/poppins_bold"
+            android:padding="@dimen/padding_10dp"
+            android:text="@string/sign_up_for_free"
+            android:textColor="@color/white"
+            app:layout_constraintStart_toEndOf="@+id/login_fragment_new_user_text_view"
+            app:layout_constraintTop_toBottomOf="@+id/login_fragment_log_in_card_view" />
+
+        <TextView
+            android:id="@+id/login_fragment_forget_password_text_view"
+            style="@style/wrap_content_wrap_content"
+            android:layout_marginTop="@dimen/margin_22p"
+            android:fontFamily="@font/poppins_medium"
+            android:text="@string/forget_password"
+            android:textColor="@color/text_gray"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/login_fragment_sign_up_for_free_text_view" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</androidx.core.widget.NestedScrollView>
