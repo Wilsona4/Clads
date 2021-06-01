@@ -17,9 +17,11 @@ import com.google.android.gms.auth.api.signin.GoogleSignInOptions
 import com.google.android.gms.auth.api.signin.GoogleSignInResult
 
 class SignUpOptionsFragment : Fragment() {
-    private lateinit var cladsGoogleSignInClient: GoogleSignInClient
+
     private var _binding: FragmentSignUpOptionsBinding? = null
     private val binding get() = _binding!!
+
+    private lateinit var cladsGoogleSignInClient: GoogleSignInClient
     private var SIGN_IN = 100
 
     override fun onCreateView(
@@ -27,8 +29,7 @@ class SignUpOptionsFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        // Inflate the layout for this fragment
-
+        /*Inflate the layout for this fragment*/
         _binding = FragmentSignUpOptionsBinding.inflate(inflater, container, false)
         return binding.root
     }
@@ -36,16 +37,16 @@ class SignUpOptionsFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        // create the google signin client
+        /*create the google signin client*/
         val gso = GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
             .requestEmail()
             .build()
 
         cladsGoogleSignInClient = GoogleSignIn.getClient(requireContext(), gso)
-        // add a listener to the signin button
-        binding.signInButton.setOnClickListener {
-            signIn()
-        }
+        /*add a listener to the signin button*/
+//        binding.signInButton.setOnClickListener {
+//            signIn()
+//        }
     }
 
     private fun signIn() {
@@ -53,7 +54,7 @@ class SignUpOptionsFragment : Fragment() {
         startActivityForResult(signInIntent, SIGN_IN)
     }
 
-    // gets the result of successful authentication
+    /*gets the result of successful authentication*/
     override fun onActivityResult(
         requestCode: Int,
         resultCode: Int,
@@ -68,7 +69,7 @@ class SignUpOptionsFragment : Fragment() {
         }
     }
 
-    // handles the result of signin from user
+    /*handles the result of signin from user*/
     private fun handleSignInResult(result: GoogleSignInResult) {
         if (result.isSuccess) {
             findNavController().navigate(R.id.action_signUpOptionsFragment_to_emailSignUpFragment)
@@ -81,7 +82,7 @@ class SignUpOptionsFragment : Fragment() {
         }
     }
 
-// check for existing account on start
+    /*check for existing account on start*/
     override fun onStart() {
         super.onStart()
         val account = GoogleSignIn.getLastSignedInAccount(requireContext())

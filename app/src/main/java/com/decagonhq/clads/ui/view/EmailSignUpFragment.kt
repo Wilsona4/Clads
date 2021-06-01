@@ -11,12 +11,13 @@ class EmailSignUpFragment : Fragment() {
 
     private var _binding: FragmentEmailSignUpBinding? = null
     private val binding get() = _binding!!
+
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        // Inflate the layout for this fragment
+        /*Inflate the layout for this fragment*/
         _binding = FragmentEmailSignUpBinding.inflate(inflater, container, false)
         return binding.root
     }

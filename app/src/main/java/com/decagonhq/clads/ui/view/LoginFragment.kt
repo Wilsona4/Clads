@@ -8,6 +8,7 @@ import androidx.fragment.app.Fragment
 import com.decagonhq.clads.databinding.FragmentLoginBinding
 
 class LoginFragment : Fragment() {
+
     private var _binding: FragmentLoginBinding? = null
     private val binding get() = _binding!!
 
@@ -16,7 +17,7 @@ class LoginFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        // Inflate the layout for this fragment
+        /*Inflate the layout for this fragment*/
         _binding = FragmentLoginBinding.inflate(inflater, container, false)
         return binding.root
     }
