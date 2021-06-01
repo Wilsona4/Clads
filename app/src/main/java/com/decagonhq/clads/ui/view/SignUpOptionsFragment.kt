@@ -1,34 +1,26 @@
 package com.decagonhq.clads.ui.view
 
+import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.fragment.app.Fragment
+import androidx.navigation.fragment.findNavController
 import com.decagonhq.clads.R
+import com.decagonhq.clads.databinding.FragmentSignUpOptionsBinding
+import com.google.android.gms.auth.api.Auth
+import com.google.android.gms.auth.api.signin.GoogleSignIn
+import com.google.android.gms.auth.api.signin.GoogleSignInClient
+import com.google.android.gms.auth.api.signin.GoogleSignInOptions
+import com.google.android.gms.auth.api.signin.GoogleSignInResult
 
-// TODO: Rename parameter arguments, choose names that match
-// the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-private const val ARG_PARAM1 = "param1"
-private const val ARG_PARAM2 = "param2"
-
-/**
- * A simple [Fragment] subclass.
- * Use the [SignUpOptionsFragment.newInstance] factory method to
- * create an instance of this fragment.
- */
 class SignUpOptionsFragment : Fragment() {
-    // TODO: Rename and change types of parameters
-    private var param1: String? = null
-    private var param2: String? = null
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        arguments?.let {
-            param1 = it.getString(ARG_PARAM1)
-            param2 = it.getString(ARG_PARAM2)
-        }
-    }
+    private lateinit var cladsGoogleSignInClient: GoogleSignInClient
+    private var _binding: FragmentSignUpOptionsBinding? = null
+    private val binding get() = _binding!!
+    private var SIGN_IN = 100
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -36,26 +28,71 @@ class SignUpOptionsFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_sign_up_options, container, false)
+
+        _binding = FragmentSignUpOptionsBinding.inflate(inflater, container, false)
+        return binding.root
     }
 
-    companion object {
-        /**
-         * Use this factory method to create a new instance of
-         * this fragment using the provided parameters.
-         *
-         * @param param1 Parameter 1.
-         * @param param2 Parameter 2.
-         * @return A new instance of fragment SignUpOptionsFragment.
-         */
-        // TODO: Rename and change types and number of parameters
-        @JvmStatic
-        fun newInstance(param1: String, param2: String) =
-            SignUpOptionsFragment().apply {
-                arguments = Bundle().apply {
-                    putString(ARG_PARAM1, param1)
-                    putString(ARG_PARAM2, param2)
-                }
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
+        // create the google signin client
+        val gso = GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
+            .requestEmail()
+            .build()
+
+        cladsGoogleSignInClient = GoogleSignIn.getClient(requireContext(), gso)
+        // add a listener to the signin button
+        binding.signInButton.setOnClickListener {
+            signIn()
+        }
+    }
+
+    private fun signIn() {
+        val signInIntent = cladsGoogleSignInClient.signInIntent
+        startActivityForResult(signInIntent, SIGN_IN)
+    }
+
+    // gets the result of successful authentication
+    override fun onActivityResult(
+        requestCode: Int,
+        resultCode: Int,
+        data: Intent?
+    ) {
+        super.onActivityResult(requestCode, resultCode, data)
+        if (requestCode == SIGN_IN) {
+            val result = Auth.GoogleSignInApi.getSignInResultFromIntent(data)
+            if (result != null) {
+                handleSignInResult(result)
             }
+        }
+    }
+
+    // handles the result of signin from user
+    private fun handleSignInResult(result: GoogleSignInResult) {
+        if (result.isSuccess) {
+            findNavController().navigate(R.id.action_signUpOptionsFragment_to_emailSignUpFragment)
+        } else {
+            Toast.makeText(
+                requireContext().applicationContext,
+                "Sign in cancel",
+                Toast.LENGTH_LONG
+            ).show()
+        }
+    }
+
+// check for existing account on start
+    override fun onStart() {
+        super.onStart()
+        val account = GoogleSignIn.getLastSignedInAccount(requireContext())
+
+        if (account != null) {
+            findNavController().navigate(R.id.action_signUpOptionsFragment_to_emailSignUpFragment)
+        }
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
     }
 }
