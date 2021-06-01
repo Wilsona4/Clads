@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="text_size_18sp">18sp</dimen>
+    <dimen name="line_height_27sp">27sp</dimen>
+    <dimen name="text_size_14sp">14sp</dimen>
+    <dimen name="corner_radius_5dp">5dp</dimen>
+    <dimen name="margin_18dp">18dp</dimen>
+    <dimen name="margin_32dp">32dp</dimen>
+    <dimen name="text_size_16sp">16sp</dimen>
+    <dimen name="padding_10dp">10dp</dimen>
+    <dimen name="margin_44dp">44dp</dimen>
+</resources>
