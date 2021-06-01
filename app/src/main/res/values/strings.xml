@@ -2,14 +2,14 @@
     <string name="app_name">Clads</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
-    <string name="welcome_back">Welcome back</string>
+    <string name="all_welcome_back">Welcome back</string>
     <string name="login_continue">Login continue</string>
-    <string name="signup_with_google">Signin with Google</string>
-    <string name="email_address">Email Address</string>
-    <string name="password">Password</string>
-    <string name="new_user">New user?</string>
+    <string name="all_signup_with_google">Signin with Google</string>
+    <string name="all_email_address">Email Address</string>
+    <string name="all_password">Password</string>
+    <string name="all_new_user">New user?</string>
     <string name="sign_up_for_free">Sign Up for free</string>
-    <string name="forget_password">Forget Password?</string>
+    <string name="all_forget_password">Forget Password?</string>
     <string name="login">Login</string>
     <string name="google_icon">Google icon</string>
 

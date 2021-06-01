@@ -2,10 +2,10 @@
 <androidx.core.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    style="@style/match_parent_match_parent"
     android:id="@+id/login_fragment_parent_layout"
-    android:fillViewport="true"
+    style="@style/match_parent_match_parent"
     android:background="@color/deep_sky_blue"
+    android:fillViewport="true"
     tools:context=".ui.view.LoginFragment">
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -26,9 +26,9 @@
 
         <TextView
             android:id="@+id/login_fragment_login_continue_text_view"
-           style="@style/wrap_content_wrap_content"
+            style="@style/wrap_content_wrap_content"
             android:layout_marginStart="@dimen/margin_18dp"
-            android:layout_marginTop="9dp"
+            android:layout_marginTop="@dimen/margin_9dp"
             android:fontFamily="@font/poppins_medium"
             android:text="@string/login_continue"
             android:textColor="@color/white"
@@ -40,10 +40,10 @@
             android:id="@+id/login_fragment_google_sign_in_card_view"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginHorizontal="18dp"
+            android:layout_marginHorizontal="@dimen/margin_18dp"
             android:layout_marginTop="@dimen/margin_29dp"
-            app:cardCornerRadius="@dimen/corner_radius_5dp"
             android:background="@color/white"
+            app:cardCornerRadius="@dimen/corner_radius_5dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="parent"
@@ -69,43 +69,42 @@
                     android:layout_width="@dimen/width_16dp"
                     android:layout_height="@dimen/height_17dp"
                     android:layout_marginEnd="@dimen/margin_9dp"
+                    android:contentDescription="@string/google_icon"
                     android:src="@drawable/google_icon"
                     app:layout_constraintBottom_toBottomOf="@+id/login_fragment_sign_in_with_google_view"
                     app:layout_constraintEnd_toStartOf="@+id/login_fragment_sign_in_with_google_view"
                     app:layout_constraintHorizontal_bias="1.0"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
-                    app:layout_constraintVertical_bias="0.666"
-                    android:contentDescription="@string/google_icon" />
+                    app:layout_constraintVertical_bias="0.666" />
 
             </androidx.constraintlayout.widget.ConstraintLayout>
         </androidx.cardview.widget.CardView>
 
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/login_fragment_email_address_edit_text_layout"
+            style="@style/Widget.MaterialComponents.TextInputLayout.FilledBox.Dense"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="@dimen/margin_18dp"
             android:layout_marginTop="@dimen/margin_44dp"
             android:hint="@string/email_address"
-            android:textColorHint="@color/gray"
             android:textColor="@color/text_gray_text_field_color"
-            app:errorEnabled="true"
+            android:textColorHint="@color/gray"
+            app:boxStrokeColor="@color/text_gray_text_field_color"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:boxStrokeColor="@color/text_gray_text_field_color"
-            style="@style/Widget.MaterialComponents.TextInputLayout.FilledBox.Dense"
             app:layout_constraintTop_toBottomOf="@+id/login_fragment_google_sign_in_card_view">
 
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/login_fragment_email_address_edit_text"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:textCursorDrawable="@color/text_gray_text_field_color"
-                android:textColor="@color/text_gray_text_field_color"
                 android:backgroundTint="@color/deep_sky_blue"
                 android:fontFamily="@font/roboto_medium"
-                android:inputType="textEmailAddress" />
+                android:inputType="textEmailAddress"
+                android:textColor="@color/text_gray_text_field_color"
+                android:textCursorDrawable="@color/text_gray_text_field_color" />
         </com.google.android.material.textfield.TextInputLayout>
 
         <com.google.android.material.textfield.TextInputLayout
@@ -116,34 +115,35 @@
             android:layout_marginTop="@dimen/margin_18dp"
             android:hint="@string/password"
             android:textColorHint="@color/gray"
-            app:errorEnabled="true"
+            app:boxStrokeColor="@color/text_gray_text_field_color"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/login_fragment_email_address_edit_text_layout"
             app:passwordToggleEnabled="true"
-            app:boxStrokeColor="@color/text_gray_text_field_color"
             app:passwordToggleTint="@color/medium_gray">
+
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/login_fragment_password_edit_text"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:textCursorDrawable="@color/text_gray_text_field_color"
-                android:textColor="@color/gray"
-                android:fontFamily="@font/poppins_medium"
                 android:backgroundTint="@color/deep_sky_blue"
-                android:inputType="textPassword" />
+                android:fontFamily="@font/poppins_medium"
+                android:inputType="textPassword"
+                android:textColor="@color/gray"
+                android:textCursorDrawable="@color/text_gray_text_field_color" />
         </com.google.android.material.textfield.TextInputLayout>
 
         <androidx.cardview.widget.CardView
             android:id="@+id/login_fragment_log_in_card_view"
             android:layout_width="0dp"
             android:layout_height="@dimen/height_44dp"
-            android:layout_marginStart="18dp"
-            android:layout_marginTop="25dp"
-            android:layout_marginEnd="18dp"
-            app:cardCornerRadius="@dimen/corner_radius_5dp"
-            android:clickable="true"
+            android:layout_marginStart="@dimen/margin_18dp"
+            android:layout_marginTop="@dimen/margin_25dp"
+            android:layout_marginEnd="@dimen/margin_18dp"
             android:backgroundTint="@color/white"
+            android:clickable="true"
+            android:focusable="true"
+            app:cardCornerRadius="@dimen/corner_radius_5dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/login_fragment_password_edit_text_layout">
@@ -195,13 +195,15 @@
         <TextView
             android:id="@+id/login_fragment_forget_password_text_view"
             style="@style/wrap_content_wrap_content"
-            android:layout_marginTop="@dimen/margin_22p"
+            android:layout_marginVertical="@dimen/margin_22p"
             android:fontFamily="@font/poppins_medium"
             android:text="@string/forget_password"
             android:textColor="@color/text_gray"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/login_fragment_sign_up_for_free_text_view" />
+            app:layout_constraintTop_toBottomOf="@+id/login_fragment_sign_up_for_free_text_view"
+            app:layout_constraintVertical_bias="0.0" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </androidx.core.widget.NestedScrollView>

@@ -62,11 +62,14 @@ dependencies {
     androidTestImplementation "androidx.test.ext:junit-ktx:1.1.2"
     androidTestImplementation 'androidx.test.ext:junit:1.1.2'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.3.0'
+    testImplementation "org.mockito:mockito-core:$versions.mokito_version"
+    androidTestImplementation "org.mockito:mockito-android:$versions.mokito_version"
 
 
     //navigation controller
     implementation "androidx.navigation:navigation-fragment-ktx:$versions.nav_version"
     implementation "androidx.navigation:navigation-ui-ktx:$versions.nav_version"
+    androidTestImplementation "androidx.navigation:navigation-testing:$versions.nav_version"
 
     //Retrofit
     implementation "com.squareup.retrofit2:retrofit:$versions.retrofit_version"
