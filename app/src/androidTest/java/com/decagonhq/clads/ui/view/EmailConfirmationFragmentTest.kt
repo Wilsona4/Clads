@@ -7,7 +7,6 @@ import androidx.test.espresso.Espresso
 import androidx.test.espresso.assertion.ViewAssertions
 import androidx.test.espresso.matcher.ViewMatchers
 import com.decagonhq.clads.R
-import org.junit.Assert.*
 import org.junit.Before
 import org.junit.Test
 
