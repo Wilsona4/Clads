@@ -67,6 +67,7 @@ dependencies {
     //navigation controller
     implementation "androidx.navigation:navigation-fragment-ktx:$versions.nav_version"
     implementation "androidx.navigation:navigation-ui-ktx:$versions.nav_version"
+    androidTestImplementation "androidx.navigation:navigation-testing:$versions.nav_version"
 
     //Retrofit
     implementation "com.squareup.retrofit2:retrofit:$versions.retrofit_version"
@@ -86,6 +87,7 @@ dependencies {
 
     //fragment Ktx
     implementation "androidx.fragment:fragment-ktx:$versions.fragment_version"
+    debugImplementation "androidx.fragment:fragment-testing:$versions.fragment_version"
 
     //Glide
     implementation "com.github.bumptech.glide:glide:$versions.glide_version"
@@ -93,5 +95,11 @@ dependencies {
 
 
     implementation "com.jakewharton.timber:timber:$versions.timber_version"
+
+    //mockito for test
+    testImplementation 'org.mockito:mockito-core:2.24.5'
+    androidTestImplementation 'org.mockito:mockito-android:2.24.5'
+
+
 
 }
