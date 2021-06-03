@@ -22,7 +22,7 @@
             android:textColor="@color/white"
             android:textSize="@dimen/text_size_18sp"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toTopOf="parent"/>
 
         <TextView
             android:id="@+id/login_fragment_login_continue_text_view"
@@ -207,3 +207,5 @@
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </androidx.core.widget.NestedScrollView>
+
+
