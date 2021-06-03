@@ -9,10 +9,6 @@ import com.decagonhq.clads.R
 
 class ConfirmPasswordResetFragment : Fragment() {
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-    }
-
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
