@@ -9,10 +9,8 @@ import com.decagonhq.clads.databinding.FragmentEmailConfirmationBinding
 
 class EmailConfirmationFragment : Fragment() {
 
-
     private var _binding: FragmentEmailConfirmationBinding? = null
     private val binding get() = _binding!!
-
 
     override fun onCreateView(
         inflater: LayoutInflater,

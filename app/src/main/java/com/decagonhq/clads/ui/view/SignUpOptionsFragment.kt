@@ -22,13 +22,11 @@ import com.google.firebase.ktx.Firebase
 
 class SignUpOptionsFragment : Fragment() {
 
-
     private var _binding: FragmentSignUpOptionsBinding? = null
     private val binding get() = _binding!!
     private lateinit var cladsGoogleSignInClient: GoogleSignInClient
     private var GOOGLE_SIGN_IN_REQ_CODE = 100
     private lateinit var authentication: FirebaseAuth
-
 
     override fun onCreateView(
         inflater: LayoutInflater,
