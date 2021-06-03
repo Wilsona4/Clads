@@ -2,6 +2,10 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.decagonhq.clads">
 
+<<<<<<< HEAD
+=======
+    <uses-permission android:name="android.permission.INTERNET"/>
+>>>>>>> ff911ba4be7ee44032c92d0aee2533f7e4690b28
 
     <application
         android:allowBackup="true"
