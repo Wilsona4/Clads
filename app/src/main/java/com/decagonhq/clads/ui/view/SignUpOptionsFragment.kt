@@ -21,7 +21,6 @@ import com.google.firebase.auth.GoogleAuthProvider
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.ktx.Firebase
 
-
 class SignUpOptionsFragment : Fragment() {
 
     private var _binding: FragmentSignUpOptionsBinding? = null
@@ -30,7 +29,6 @@ class SignUpOptionsFragment : Fragment() {
     private lateinit var cladsGoogleSignInClient: GoogleSignInClient
     private var GOOGLE_SIGN_IN_REQ_CODE = 100
     private lateinit var authentication: FirebaseAuth
-
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -42,7 +40,6 @@ class SignUpOptionsFragment : Fragment() {
         _binding = FragmentSignUpOptionsBinding.inflate(inflater, container, false)
         return binding.root
     }
-
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -69,7 +66,6 @@ class SignUpOptionsFragment : Fragment() {
         }
     }
 
-
     /*launch the login screen*/
     private fun signIn() {
         val signInIntent = cladsGoogleSignInClient.signInIntent
@@ -90,7 +86,6 @@ class SignUpOptionsFragment : Fragment() {
         }
     }
 
-
     /*check for existing account on start*/
     override fun onStart() {
         super.onStart()
@@ -102,40 +97,37 @@ class SignUpOptionsFragment : Fragment() {
         }
     }
 
+    // start auth with google
+    private fun firebaseAuthWithGoogle(idToken: String) {
+        val credential = GoogleAuthProvider.getCredential(idToken, null)
+        authentication.signInWithCredential(credential)
+            .addOnCompleteListener(requireActivity()) { task ->
+                if (task.isSuccessful) {
 
-        // start auth with google
-        private fun firebaseAuthWithGoogle(idToken: String) {
-            val credential = GoogleAuthProvider.getCredential(idToken, null)
-            authentication.signInWithCredential(credential)
-                .addOnCompleteListener(requireActivity()) { task ->
-                    if (task.isSuccessful) {
-
-                        // Sign in success, update UI with the signed-in user's information
-                        val user = authentication.currentUser
-                        updateUI(user)
-                        Toast.makeText(requireContext(), "User Signed In", Toast.LENGTH_SHORT)
-                            .show()
-                    } else {
-                        // If sign in fails, display a message to the user.
-                        Toast.makeText(
-                            requireContext(), "Authentication failed.",
-                            Toast.LENGTH_SHORT
-                        ).show()
-                        updateUI(null)
-                    }
+                    // Sign in success, update UI with the signed-in user's information
+                    val user = authentication.currentUser
+                    updateUI(user)
+                    Toast.makeText(requireContext(), "User Signed In", Toast.LENGTH_SHORT)
+                        .show()
+                } else {
+                    // If sign in fails, display a message to the user.
+                    Toast.makeText(
+                        requireContext(), "Authentication failed.",
+                        Toast.LENGTH_SHORT
+                    ).show()
+                    updateUI(null)
                 }
-        }
-
-
-        /*update the user*/
-        private fun updateUI(user: FirebaseUser?) {
-            findNavController().navigate(R.id.action_signUpOptionsFragment_to_emailSignUpFragment)
-        }
-
-
-        /*remove the binding from the view to prevent memory leak*/
-        override fun onDestroyView() {
-            super.onDestroyView()
-            _binding = null
-        }
+            }
     }
+
+    /*update the user*/
+    private fun updateUI(user: FirebaseUser?) {
+        findNavController().navigate(R.id.action_signUpOptionsFragment_to_emailSignUpFragment)
+    }
+
+    /*remove the binding from the view to prevent memory leak*/
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
+    }
+}
