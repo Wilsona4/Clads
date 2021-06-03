@@ -9,8 +9,6 @@ import com.decagonhq.clads.databinding.FragmentConfirmPasswordResetBinding
 
 class ConfirmPasswordResetFragment : Fragment() {
 
-
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         arguments?.let {
@@ -18,10 +16,8 @@ class ConfirmPasswordResetFragment : Fragment() {
         }
     }
 
-
     private var _binding: FragmentConfirmPasswordResetBinding? = null
     private val binding get() = _binding!!
-
 
     override fun onCreateView(
         inflater: LayoutInflater,

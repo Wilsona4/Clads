@@ -9,7 +9,6 @@ import com.decagonhq.clads.databinding.FragmentLandingScreenBinding
 
 class LandingScreenFragment : Fragment() {
 
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
     }

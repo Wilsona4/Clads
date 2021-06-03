@@ -7,20 +7,16 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import com.decagonhq.clads.databinding.FragmentDashboardBinding
 
-
-
 class DashboardFragment : Fragment() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         arguments?.let {
-
         }
     }
 
     private var _binding: FragmentDashboardBinding? = null
     private val binding get() = _binding!!
-
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -32,10 +28,8 @@ class DashboardFragment : Fragment() {
         return binding.root
     }
 
-
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
     }
-
 }
