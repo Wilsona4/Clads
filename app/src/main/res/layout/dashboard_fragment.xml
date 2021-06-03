@@ -4,7 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:id="@+id/dashboard_fragment_root_layout"
-    tools:context=".ui.view.DashboardFragment">
+    tools:context=".ui.auth.DashboardFragment">
 
 
     <TextView

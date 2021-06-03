@@ -4,7 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:id="@+id/email_confirmation_fragment_root_layout"
-    tools:context=".ui.view.EmailConfirmationFragment">
+    tools:context=".ui.auth.EmailConfirmationFragment">
 
 
     <TextView

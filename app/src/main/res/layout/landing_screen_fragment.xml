@@ -5,7 +5,7 @@
     android:id="@+id/landing_screen_fragment_root_layout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ui.view.LandingScreenFragment">
+    tools:context=".ui.auth.LandingScreenFragment">
 
 
     <!-- TODO: Update blank fragment layout -->

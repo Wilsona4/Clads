@@ -7,7 +7,7 @@
 
     <fragment
         android:id="@+id/landing_screen_fragment"
-        android:name="com.decagonhq.clads.ui.view.LandingScreenFragment"
+        android:name="com.decagonhq.clads.ui.auth.LandingScreenFragment"
         android:label="fragment_landing_screen"
         tools:layout="@layout/landing_screen_fragment" >
         <action
@@ -19,7 +19,7 @@
     </fragment>
     <fragment
         android:id="@+id/sign_up_options_fragment"
-        android:name="com.decagonhq.clads.ui.view.SignUpOptionsFragment"
+        android:name="com.decagonhq.clads.ui.auth.SignUpOptionsFragment"
         android:label="fragment_sign_up_options"
         tools:layout="@layout/sign_up_options_fragment" >
         <action
@@ -31,7 +31,7 @@
     </fragment>
     <fragment
         android:id="@+id/email_sign_up_fragment"
-        android:name="com.decagonhq.clads.ui.view.EmailSignUpFragment"
+        android:name="com.decagonhq.clads.ui.auth.EmailSignUpFragment"
         android:label="fragment_email_sign_up"
         tools:layout="@layout/email_sign_up_fragment" >
         <action
@@ -53,7 +53,7 @@
     </fragment>
     <fragment
         android:id="@+id/email_confirmation_fragment"
-        android:name="com.decagonhq.clads.ui.view.EmailConfirmationFragment"
+        android:name="com.decagonhq.clads.ui.auth.EmailConfirmationFragment"
         android:label="fragment_email_confirmation"
         tools:layout="@layout/email_confirmation_fragment" >
         <action
@@ -66,7 +66,7 @@
     </fragment>
     <fragment
         android:id="@+id/login_fragment"
-        android:name="com.decagonhq.clads.ui.view.LoginFragment"
+        android:name="com.decagonhq.clads.ui.auth.LoginFragment"
         android:label="fragment_login"
         tools:layout="@layout/login_fragment" >
         <action
@@ -78,7 +78,7 @@
     </fragment>
     <fragment
         android:id="@+id/reset_password_fragment"
-        android:name="com.decagonhq.clads.ui.view.ResetPasswordFragment"
+        android:name="com.decagonhq.clads.ui.auth.ResetPasswordFragment"
         android:label="fragment_reset_password"
         tools:layout="@layout/reset_password_fragment" >
         <action
@@ -90,7 +90,7 @@
     </fragment>
     <fragment
         android:id="@+id/confirm_password_reset_fragment"
-        android:name="com.decagonhq.clads.ui.view.ConfirmPasswordResetFragment"
+        android:name="com.decagonhq.clads.ui.auth.ConfirmPasswordResetFragment"
         android:label="fragment_confirm_password_reset"
         tools:layout="@layout/confirm_password_reset_fragment" >
         <action
@@ -99,7 +99,7 @@
     </fragment>
     <fragment
         android:id="@+id/forgot_password_fragment"
-        android:name="com.decagonhq.clads.ui.view.ForgotPasswordFragment"
+        android:name="com.decagonhq.clads.ui.auth.ForgotPasswordFragment"
         android:label="fragment_forgot_password"
         tools:layout="@layout/forgot_password_fragment" >
         <action
@@ -111,7 +111,7 @@
     </fragment>
     <fragment
         android:id="@+id/dashboard_fragment"
-        android:name="com.decagonhq.clads.ui.view.DashboardFragment"
+        android:name="com.decagonhq.clads.ui.auth.DashboardFragment"
         android:label="fragment_dashboard"
         tools:layout="@layout/dashboard_fragment" />
 </navigation>
