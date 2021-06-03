@@ -7,7 +7,6 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import com.decagonhq.clads.R
-
 import com.decagonhq.clads.databinding.FragmentForgotPasswordBinding
 
 class ForgotPasswordFragment : Fragment() {
@@ -25,10 +24,8 @@ class ForgotPasswordFragment : Fragment() {
         return binding.root
     }
 
-
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
         /*Initialize User Inputs*/
         val emailEditText = binding.forgotPasswordFragmentEmailEditText
 

@@ -9,10 +9,8 @@ import com.decagonhq.clads.databinding.FragmentLoginBinding
 
 class LoginFragment : Fragment() {
 
-
     private var _binding: FragmentLoginBinding? = null
     private val binding get() = _binding!!
-
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -24,10 +22,8 @@ class LoginFragment : Fragment() {
         return binding.root
     }
 
-
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
     }
-
 }

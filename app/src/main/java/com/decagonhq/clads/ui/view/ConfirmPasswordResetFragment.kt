@@ -9,7 +9,6 @@ import com.decagonhq.clads.databinding.FragmentConfirmPasswordResetBinding
 
 class ConfirmPasswordResetFragment : Fragment() {
 
-
     private var _binding: FragmentConfirmPasswordResetBinding? = null
     private val binding get() = _binding!!
 
