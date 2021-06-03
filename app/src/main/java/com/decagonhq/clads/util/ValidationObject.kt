@@ -24,5 +24,4 @@ object ValidationObject {
             else -> false
         }
     }
-
 }

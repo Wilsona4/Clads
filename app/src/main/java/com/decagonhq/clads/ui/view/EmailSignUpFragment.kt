@@ -6,7 +6,6 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ArrayAdapter
 import android.widget.AutoCompleteTextView
-import androidx.core.widget.doAfterTextChanged
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import com.decagonhq.clads.R
@@ -21,14 +20,14 @@ class EmailSignUpFragment : Fragment() {
     private var _binding: EmailSignUpFragmentBinding? = null
     private val binding get() = _binding!!
 
-    private lateinit var firstNameEditText : TextInputEditText
-    private lateinit var lastNameEditText : TextInputEditText
-    private lateinit var otherNameEditText : TextInputEditText
+    private lateinit var firstNameEditText: TextInputEditText
+    private lateinit var lastNameEditText: TextInputEditText
+    private lateinit var otherNameEditText: TextInputEditText
     private lateinit var emailEditText: TextInputEditText
-    private lateinit var accountCategoryDropDown : AutoCompleteTextView
-    private lateinit var passwordEditText : TextInputEditText
-    private lateinit var confirmPasswordEditText : TextInputEditText
-    private lateinit var signUpButton : MaterialButton
+    private lateinit var accountCategoryDropDown: AutoCompleteTextView
+    private lateinit var passwordEditText: TextInputEditText
+    private lateinit var confirmPasswordEditText: TextInputEditText
+    private lateinit var signUpButton: MaterialButton
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -56,16 +55,17 @@ class EmailSignUpFragment : Fragment() {
         confirmPasswordEditText = binding.emailSignUpFragmentConfirmPasswordEditText
         signUpButton = binding.emailSignUpFragmentSignupButton
 
+        /*Initialize User Inputs*/
+        val firstName = firstNameEditText.text.toString().trim()
+        val lastName = lastNameEditText.text.toString().trim()
+        val otherName = otherNameEditText.text.toString().trim()
+        val email = emailEditText.text.toString().trim()
+        val accountCategory = accountCategoryDropDown.text.toString().trim()
+        val password = passwordEditText.text.toString().trim()
+        val confirmPassword = confirmPasswordEditText.text.toString().trim()
+
         /*Validate Email Sign Up*/
         signUpButton.setOnClickListener {
-            /*Initialize User Inputs*/
-            val firstName = firstNameEditText.text.toString()
-            val lastName = lastNameEditText.text.toString()
-            val otherName = otherNameEditText.text.toString()
-            val email = emailEditText.text.toString()
-            val accountCategory = accountCategoryDropDown.text.toString()
-            val password = passwordEditText.text.toString()
-            val confirmPassword = confirmPasswordEditText.text.toString()
 
             when {
                 firstName.isEmpty() -> {
@@ -97,7 +97,10 @@ class EmailSignUpFragment : Fragment() {
                     return@setOnClickListener
                 }
                 else -> {
-                    val action = EmailSignUpFragmentDirections.actionEmailSignUpFragmentToEmailConfirmationFragment(accountCategory)
+                    val action =
+                        EmailSignUpFragmentDirections.actionEmailSignUpFragmentToEmailConfirmationFragment(
+                            accountCategory
+                        )
                     findNavController().navigate(action)
                 }
             }
@@ -108,12 +111,16 @@ class EmailSignUpFragment : Fragment() {
         super.onResume()
         /*Set up Account Category Dropdown*/
         val accountCategories = resources.getStringArray(R.array.account_category)
-        val accountCategoriesArrayAdapter = ArrayAdapter(requireContext(), R.layout.account_category_dropdown_item, accountCategories)
+        val accountCategoriesArrayAdapter = ArrayAdapter(
+            requireContext(),
+            R.layout.account_category_dropdown_item,
+            accountCategories
+        )
         accountCategoryDropDown.setAdapter(accountCategoriesArrayAdapter)
     }
 
-    override fun onDestroy() {
-        super.onDestroy()
+    override fun onDestroyView() {
+        super.onDestroyView()
         _binding = null
     }
 }

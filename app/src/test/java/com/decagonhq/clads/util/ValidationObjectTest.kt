@@ -53,6 +53,4 @@ class ValidationObjectTest {
         val result = validateAccountCategory(accountCategory)
         assertTrue(result)
     }
-
-
 }
