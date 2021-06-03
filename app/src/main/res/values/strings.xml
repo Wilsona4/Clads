@@ -1,5 +1,16 @@
 <resources>
     <string name="app_name">Clads</string>
     <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="hello_blank_fragment">hello_blank_fragment</string>
+    <string name="forgot_password_fragment_send_request_password_link">Send Request Password Link</string>
+    <string name="all_reset_password">Reset Password</string>
+    <string name="all_email_address">Email</string>
+    <string name="reset_password_fragment_new_password">New Password</string>
+    <string name="reset_password_fragment_confirm_new_password">Confirm New Password</string>
+    <string name="all_back_arrow">back_arrow</string>
+    <string name="all_forgot_password">Forgot Password</string>
+    <string name="all_remember_my_password">I can remember my password,</string>
+    <string name="all_login">Login</string>
+
+
 </resources>
