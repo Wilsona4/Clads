@@ -13,6 +13,9 @@
         <action
             android:id="@+id/action_landingScreenFragment_to_signUpOptionsFragment"
             app:destination="@id/sign_up_options_fragment" />
+        <action
+            android:id="@+id/action_landing_screen_fragment_to_email_sign_up_fragment"
+            app:destination="@id/email_sign_up_fragment" />
     </fragment>
     <fragment
         android:id="@+id/sign_up_options_fragment"
@@ -34,9 +37,10 @@
         <action
             android:id="@+id/action_emailSignUpFragment_to_emailConfirmationFragment"
             app:destination="@id/email_confirmation_fragment" />
-        <action
-            android:id="@+id/action_emailSignUpFragment_to_loginFragment"
-            app:destination="@id/login_fragment" />
+        <argument
+            android:name="intArgs"
+            app:argType="integer"
+            android:defaultValue="2" />
     </fragment>
     <fragment
         android:id="@+id/email_confirmation_fragment"
@@ -46,6 +50,10 @@
         <action
             android:id="@+id/action_emailConfirmationFragment_to_loginFragment"
             app:destination="@id/login_fragment" />
+        <argument
+            android:name="myArg"
+            app:argType="string"
+            android:defaultValue="null" />
     </fragment>
     <fragment
         android:id="@+id/login_fragment"

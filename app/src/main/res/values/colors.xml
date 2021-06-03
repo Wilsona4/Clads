@@ -16,4 +16,5 @@
     <color name="menu_text_color">#506992</color>
     <color name="red">#FF0000</color>
     <color name="medium_gray">#DADADA</color>
+    <color name="text_indicator_gray">#EEEEEE</color>
 </resources>

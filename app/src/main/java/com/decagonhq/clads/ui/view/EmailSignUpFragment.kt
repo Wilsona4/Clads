@@ -5,14 +5,30 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ArrayAdapter
+import android.widget.AutoCompleteTextView
+import androidx.core.widget.doAfterTextChanged
 import androidx.fragment.app.Fragment
+import androidx.navigation.fragment.findNavController
 import com.decagonhq.clads.R
 import com.decagonhq.clads.databinding.EmailSignUpFragmentBinding
-
+import com.decagonhq.clads.util.ValidationObject.validateAccountCategory
+import com.decagonhq.clads.util.ValidationObject.validateEmail
+import com.decagonhq.clads.util.ValidationObject.validatePasswordMismatch
+import com.google.android.material.button.MaterialButton
+import com.google.android.material.textfield.TextInputEditText
 
 class EmailSignUpFragment : Fragment() {
     private var _binding: EmailSignUpFragmentBinding? = null
     private val binding get() = _binding!!
+
+    private lateinit var firstNameEditText : TextInputEditText
+    private lateinit var lastNameEditText : TextInputEditText
+    private lateinit var otherNameEditText : TextInputEditText
+    private lateinit var emailEditText: TextInputEditText
+    private lateinit var accountCategoryDropDown : AutoCompleteTextView
+    private lateinit var passwordEditText : TextInputEditText
+    private lateinit var confirmPasswordEditText : TextInputEditText
+    private lateinit var signUpButton : MaterialButton
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -30,7 +46,62 @@ class EmailSignUpFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        /*Initialize Views*/
+        firstNameEditText = binding.emailSignUpFragmentFirstNameEditText
+        lastNameEditText = binding.emailSignUpFragmentLastNameEditText
+        otherNameEditText = binding.emailSignUpFragmentOtherNameEditText
+        emailEditText = binding.emailSignUpFragmentEmailEditText
+        accountCategoryDropDown = binding.emailSignUpFragmentAccountCategoryTextView
+        passwordEditText = binding.emailSignUpFragmentPasswordEditText
+        confirmPasswordEditText = binding.emailSignUpFragmentConfirmPasswordEditText
+        signUpButton = binding.emailSignUpFragmentSignupButton
 
+        /*Validate Email Sign Up*/
+        signUpButton.setOnClickListener {
+            /*Initialize User Inputs*/
+            val firstName = firstNameEditText.text.toString()
+            val lastName = lastNameEditText.text.toString()
+            val otherName = otherNameEditText.text.toString()
+            val email = emailEditText.text.toString()
+            val accountCategory = accountCategoryDropDown.text.toString()
+            val password = passwordEditText.text.toString()
+            val confirmPassword = confirmPasswordEditText.text.toString()
+
+            when {
+                firstName.isEmpty() -> {
+                    firstNameEditText.error = "Please Enter First Name"
+                    return@setOnClickListener
+                }
+                email.isEmpty() -> {
+                    emailEditText.error = "Email Can't Be Empty"
+                    return@setOnClickListener
+                }
+                !validateEmail(email) -> {
+                    emailEditText.error = "Invalid Email"
+                    return@setOnClickListener
+                }
+                password.isEmpty() -> {
+                    passwordEditText.error = "Password Can't Be Empty"
+                    return@setOnClickListener
+                }
+                confirmPassword.isEmpty() -> {
+                    confirmPasswordEditText.error = "Field Can't Be Empty"
+                    return@setOnClickListener
+                }
+                !validateAccountCategory(accountCategory) -> {
+                    accountCategoryDropDown.error = "Select Account Type"
+                    return@setOnClickListener
+                }
+                !validatePasswordMismatch(password, confirmPassword) -> {
+                    confirmPasswordEditText.error = "Password Mismatch"
+                    return@setOnClickListener
+                }
+                else -> {
+                    val action = EmailSignUpFragmentDirections.actionEmailSignUpFragmentToEmailConfirmationFragment(accountCategory)
+                    findNavController().navigate(action)
+                }
+            }
+        }
     }
 
     override fun onResume() {
@@ -38,6 +109,11 @@ class EmailSignUpFragment : Fragment() {
         /*Set up Account Category Dropdown*/
         val accountCategories = resources.getStringArray(R.array.account_category)
         val accountCategoriesArrayAdapter = ArrayAdapter(requireContext(), R.layout.account_category_dropdown_item, accountCategories)
-        binding.emailSignUpFragmentAccountCategoryTextView.setAdapter(accountCategoriesArrayAdapter)
+        accountCategoryDropDown.setAdapter(accountCategoriesArrayAdapter)
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        _binding = null
     }
 }
