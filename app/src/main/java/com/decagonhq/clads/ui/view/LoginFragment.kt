@@ -36,7 +36,6 @@ class LoginFragment : Fragment() {
         binding.loginFragmentLogInCardView.setOnClickListener {
             val emailAddress = binding.loginFragmentEmailAddressEditText.text.toString()
             val password = binding.loginFragmentPasswordEditText.text.toString()
-
             when {
                 // Check if email is empty
                 emailAddress.isEmpty() -> {

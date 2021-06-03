@@ -8,10 +8,8 @@ import androidx.fragment.app.Fragment
 import com.decagonhq.clads.databinding.FragmentResetPasswordBinding
 
 class ResetPasswordFragment : Fragment() {
-
     private var _binding: FragmentResetPasswordBinding? = null
     private val binding get() = _binding!!
-
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
