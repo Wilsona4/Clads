@@ -31,6 +31,7 @@ class SignUpOptionsFragment : Fragment() {
     private var GOOGLE_SIGN_IN_REQ_CODE = 100
     private lateinit var authentication: FirebaseAuth
 
+
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -42,6 +43,7 @@ class SignUpOptionsFragment : Fragment() {
         return binding.root
     }
 
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
@@ -49,21 +51,24 @@ class SignUpOptionsFragment : Fragment() {
 
         emailSignUpButton.setOnClickListener {
 
-        /*create the google sign in client*/
-        val googleSignInOptions = GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
-            .requestIdToken(getString(R.string.default_web_client_id))
-            .requestEmail()
-            .build()
+            /*create the google sign in client*/
+            val googleSignInOptions =
+                GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
+                    .requestIdToken(getString(R.string.default_web_client_id))
+                    .requestEmail()
+                    .build()
 
-        cladsGoogleSignInClient = GoogleSignIn.getClient(requireContext(), googleSignInOptions)
-        /*Initialize Firebase Auth */
-        authentication = Firebase.auth
+            cladsGoogleSignInClient = GoogleSignIn.getClient(requireContext(), googleSignInOptions)
+            /*Initialize Firebase Auth */
+            authentication = Firebase.auth
 
-        /*add a listener to the sign in button*/
+            /*add a listener to the sign in button*/
 //        binding.signInButton.setOnClickListener {
 //            signIn()
 //        }
+        }
     }
+
 
     /*launch the login screen*/
     private fun signIn() {
@@ -85,6 +90,7 @@ class SignUpOptionsFragment : Fragment() {
         }
     }
 
+
     /*check for existing account on start*/
     override fun onStart() {
         super.onStart()
@@ -96,9 +102,7 @@ class SignUpOptionsFragment : Fragment() {
         }
     }
 
-    override fun onDestroyView() {
-        super.onDestroyView()
-        _binding = null
+
         // start auth with google
         private fun firebaseAuthWithGoogle(idToken: String) {
             val credential = GoogleAuthProvider.getCredential(idToken, null)
@@ -122,10 +126,12 @@ class SignUpOptionsFragment : Fragment() {
                 }
         }
 
+
         /*update the user*/
         private fun updateUI(user: FirebaseUser?) {
             findNavController().navigate(R.id.action_signUpOptionsFragment_to_emailSignUpFragment)
         }
+
 
         /*remove the binding from the view to prevent memory leak*/
         override fun onDestroyView() {
@@ -133,5 +139,3 @@ class SignUpOptionsFragment : Fragment() {
             _binding = null
         }
     }
-    }
-}
