@@ -37,9 +37,6 @@ class SignUpOptionsFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_sign_up_options, container, false)
-
         /*Inflate the layout for this fragment*/
         _binding = FragmentSignUpOptionsBinding.inflate(inflater, container, false)
         return binding.root

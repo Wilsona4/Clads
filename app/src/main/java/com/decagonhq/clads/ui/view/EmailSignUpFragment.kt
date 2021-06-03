@@ -9,9 +9,6 @@ import com.decagonhq.clads.databinding.FragmentEmailSignUpBinding
 
 class EmailSignUpFragment : Fragment() {
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-    }
     private var _binding: FragmentEmailSignUpBinding? = null
     private val binding get() = _binding!!
 
