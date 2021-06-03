@@ -7,7 +7,6 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import com.decagonhq.clads.R
 
-
 class EmailSignUpFragment : Fragment() {
 
     override fun onCreateView(
@@ -18,6 +17,4 @@ class EmailSignUpFragment : Fragment() {
         // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_email_sign_up, container, false)
     }
-
-
 }
