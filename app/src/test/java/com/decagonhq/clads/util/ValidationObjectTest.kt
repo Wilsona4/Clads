@@ -3,10 +3,11 @@ package com.decagonhq.clads.util
 import com.decagonhq.clads.util.ValidationObject.validateEmail
 import com.decagonhq.clads.util.ValidationObject.validatePasswordMismatch
 import junit.framework.TestCase
-import org.junit.Assert.*
+import org.junit.Assert.assertFalse
+import org.junit.Assert.assertTrue
 import org.junit.Test
 
-class ValidationObjectTest{
+class ValidationObjectTest {
 
     /*Set Up Mock Input Data*/
     private val emailTrue: String = "johndoe@gmail.com"

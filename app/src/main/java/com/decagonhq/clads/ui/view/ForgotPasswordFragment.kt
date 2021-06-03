@@ -9,7 +9,6 @@ import androidx.navigation.fragment.findNavController
 import com.decagonhq.clads.R
 import com.decagonhq.clads.databinding.FragmentForgotPasswordBinding
 
-
 class ForgotPasswordFragment : Fragment() {
 
     private var _binding: FragmentForgotPasswordBinding? = null
@@ -41,6 +40,4 @@ class ForgotPasswordFragment : Fragment() {
             findNavController().navigate(R.id.action_forgotPasswordFragment_to_confirmPasswordResetFragment)
         }
     }
-
-
 }

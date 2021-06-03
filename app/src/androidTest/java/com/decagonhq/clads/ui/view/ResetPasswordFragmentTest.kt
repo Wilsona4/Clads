@@ -6,19 +6,23 @@ import androidx.navigation.NavController
 import androidx.navigation.Navigation
 import androidx.test.core.app.ApplicationProvider
 import androidx.test.espresso.Espresso.onView
-import androidx.test.espresso.action.ViewActions.*
+import androidx.test.espresso.action.ViewActions.click
+import androidx.test.espresso.action.ViewActions.closeSoftKeyboard
+import androidx.test.espresso.action.ViewActions.replaceText
+import androidx.test.espresso.action.ViewActions.swipeUp
 import androidx.test.espresso.assertion.ViewAssertions.matches
-import androidx.test.espresso.matcher.ViewMatchers.*
+import androidx.test.espresso.matcher.ViewMatchers.isDisplayed
+import androidx.test.espresso.matcher.ViewMatchers.withId
 import androidx.test.internal.runner.junit4.AndroidJUnit4ClassRunner
 import com.decagonhq.clads.R
 import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
-import org.mockito.Mockito.*
+import org.mockito.Mockito.mock
+import org.mockito.Mockito.verify
 
 @RunWith(AndroidJUnit4ClassRunner::class)
 class ResetPasswordFragmentTest {
-
 
     @Before
     fun setUp() {
@@ -69,40 +73,35 @@ class ResetPasswordFragmentTest {
                     fragment.viewLifecycleOwnerLiveData.observeForever { viewLifecycleOwner ->
                         if (viewLifecycleOwner != null) {
                             // The fragment’s view has just been created
-                            //navController.setGraph(R.navigation.nav_graph)
+                            // navController.setGraph(R.navigation.nav_graph)
                             Navigation.setViewNavController(fragment.requireView(), navController)
                         }
                     }
                 }
             }
 
-
-        //disable animation for this to work
+        // disable animation for this to work
         onView(withId(R.id.reset_password_fragment_new_password_edit_text)).perform(
             replaceText(PASSWORD), closeSoftKeyboard()
         )
 
-        //disable animation for this to work
-        //closeSoftKeyboard()
+        // disable animation for this to work
+        // closeSoftKeyboard()
         onView(withId(R.id.reset_password_fragment_confirm_new_password_edit_text)).perform(
             replaceText(PASSWORD), closeSoftKeyboard()
         )
 
-      // closeSoftKeyboard()
+        // closeSoftKeyboard()
         onView(withId(R.id.reset_password_fragment_btn_reset_password_button)).perform(
             click()
         )
 
         /*Check if Confirmation Password Reset Fragment is Displayed*/
         verify(navController).navigate(R.id.action_reset_password_fragment_to_loginFragment)
-
     }
 
     companion object {
 
         const val PASSWORD = "Abcde@1234"
-
     }
 }
-
-

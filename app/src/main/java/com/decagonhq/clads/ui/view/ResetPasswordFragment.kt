@@ -10,7 +10,6 @@ import com.decagonhq.clads.R
 import com.decagonhq.clads.databinding.FragmentResetPasswordBinding
 import com.decagonhq.clads.util.ValidationObject.validatePasswordMismatch
 
-
 class ResetPasswordFragment : Fragment() {
 
     private var _binding: FragmentResetPasswordBinding? = null
@@ -18,7 +17,6 @@ class ResetPasswordFragment : Fragment() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
     }
 
     override fun onCreateView(
@@ -74,6 +72,4 @@ class ResetPasswordFragment : Fragment() {
         super.onDestroyView()
         _binding = null
     }
-
-
 }
