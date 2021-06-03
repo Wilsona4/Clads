@@ -37,6 +37,15 @@
         <action
             android:id="@+id/action_emailSignUpFragment_to_loginFragment"
             app:destination="@id/login_fragment" />
+        <argument
+            android:name="firstName"
+            app:argType="string" />
+        <argument
+            android:name="lastName"
+            app:argType="string" />
+        <argument
+            android:name="email"
+            app:argType="string" />
     </fragment>
     <fragment
         android:id="@+id/email_confirmation_fragment"
