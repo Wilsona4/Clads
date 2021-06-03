@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 <<<<<<< HEAD
+<<<<<<< HEAD
     <dimen name="margin_136dp">136dp</dimen>
     <dimen name="margin_16dp">16dp</dimen>
     <dimen name="margin_15dp">15dp</dimen>
@@ -18,4 +19,29 @@
     <dimen name="margin_200dp">200dp</dimen>
     <dimen name="text_size_16sp">16sp</dimen>
 >>>>>>> feature_splash-screen_hope
+=======
+    <dimen name="margin_164dp">164dp</dimen>
+    <dimen name="text_size_12sp">12sp</dimen>
+    <dimen name="margin_108dp">108dp</dimen>
+    <dimen name="margin_65dp">65dp</dimen>
+    <dimen name="text_size">20sp</dimen>
+    <dimen name="margin_40dp">40dp</dimen>
+    <dimen name="sign_up_with_google_font_size_14sp">14sp</dimen>
+    <dimen name="padding_10dp">10dp</dimen>
+    <dimen name="width_16dp">16dp</dimen>
+    <dimen name="height_17dp">17dp</dimen>
+    <dimen name="margin_27dp">27dp</dimen>
+    <dimen name="text_size_14sp">14sp</dimen>
+    <dimen name="margin_61dp">61dp</dimen>
+    <dimen name="margin_70dp">70dp</dimen>
+    <dimen name="margin_13dp">13dp</dimen>
+    <dimen name="margin_17dp">17dp</dimen>
+    <dimen name="text_size_20sp">20sp</dimen>
+    <dimen name="margin_78dp">78dp</dimen>
+    <dimen name="corner_radius_5dp">5dp</dimen>
+    <dimen name="margin_66dp">66dp</dimen>
+    <dimen name="margin_76dp">76dp</dimen>
+    <dimen name="margin_8dp">8dp</dimen>
+    <dimen name="padding_18dp">18dp</dimen>
+>>>>>>> feature_signup-options-screen_hope
 </resources>

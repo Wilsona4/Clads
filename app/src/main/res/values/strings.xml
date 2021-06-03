@@ -3,10 +3,16 @@
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
 <<<<<<< HEAD
+<<<<<<< HEAD
     <string name="lorem_ipsum_ipsum_sum">Lorem Ipsum. Ipsum sum.</string>
     <string name="login">login</string>
     <string name="sign_up">sign up</string>
 =======
     <string name="Loading">Loading...</string>
 >>>>>>> feature_splash-screen_hope
+=======
+    <string name="have_an_account_login">Have an account? Login</string>
+    <string name="sign_up_with_phone_number">Sign up with phone number</string>
+    <string name="signup_with_google">Signup with Google</string>
+>>>>>>> feature_signup-options-screen_hope
 </resources>

@@ -1,11 +1,121 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+
+<androidx.core.widget.NestedScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:id="@+id/sign_up_options_fragment_root_layout"
+    android:fillViewport="true"
+    android:background="@color/deep_sky_blue"
     tools:context=".ui.view.SignUpOptionsFragment">
 
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+
+        <ImageView
+            android:id="@+id/sign_up_options_fragment_clads_logo_image_view"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/sign_up_screen_logo"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/guideline2" />
+
+        <androidx.cardview.widget.CardView
+            android:id="@+id/sign_up_options_fragment_clads_sign_up_with_google_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/margin_78dp"
+            android:background="@color/white"
+            app:cardCornerRadius="@dimen/corner_radius_5dp"
+            app:layout_constraintEnd_toEndOf="@+id/sign_up_options_fragment_clads_logo_image_view"
+            app:layout_constraintStart_toStartOf="@+id/sign_up_options_fragment_clads_logo_image_view"
+            app:layout_constraintTop_toBottomOf="@id/sign_up_options_fragment_clads_logo_image_view">
+
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:paddingHorizontal="@dimen/padding_18dp"
+                android:paddingVertical="@dimen/padding_10dp">
+
+                <TextView
+                    android:id="@+id/login_fragment_sign_in_with_google_view"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/margin_13dp"
+                    android:fontFamily="@font/poppins_medium"
+                    android:text="@string/signup_with_google"
+                    android:textColor="@color/black"
+                    android:textSize="@dimen/sign_up_with_google_font_size_14sp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toEndOf="@id/sign_up_options_fragment_google_icon_image_view"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <ImageView
+                    android:id="@+id/sign_up_options_fragment_google_icon_image_view"
+                    android:layout_width="@dimen/width_16dp"
+                    android:layout_height="@dimen/height_17dp"
+                    android:src="@drawable/google_icon"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintVertical_bias="0.5" />
+            </androidx.constraintlayout.widget.ConstraintLayout>
+        </androidx.cardview.widget.CardView>
+
+        <Button
+            android:id="@+id/sign_up_options_fragment_sign_up_with_email_button"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/margin_27dp"
+            android:background="@drawable/sign_up_with_email_and_phone_number_buttons"
+            android:fontFamily="@font/poppins_medium"
+            android:text="Sign up with email"
+            android:textAllCaps="false"
+            android:textColor="@color/white"
+            android:textSize="@dimen/text_size_14sp"
+            app:layout_constraintEnd_toEndOf="@+id/sign_up_options_fragment_clads_sign_up_with_google_button"
+            app:layout_constraintStart_toStartOf="@+id/sign_up_options_fragment_clads_sign_up_with_google_button"
+            app:layout_constraintTop_toBottomOf="@id/sign_up_options_fragment_clads_sign_up_with_google_button" />
+
+        <TextView
+            android:id="@+id/sign_up_options_fragment_have_an_account_text_view"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/margin_76dp"
+            android:fontFamily="@font/poppins_medium"
+            android:text="Have an account?"
+            android:textColor="@color/deep_gray"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@id/sign_up_options_fragment_login_text_view"
+            app:layout_constraintStart_toStartOf="@+id/sign_up_options_fragment_clads_logo_image_view"
+            app:layout_constraintTop_toBottomOf="@+id/sign_up_options_fragment_sign_up_with_email_button"
+            app:layout_constraintVertical_bias="0.0" />
+
+        <TextView
+            android:id="@+id/sign_up_options_fragment_login_text_view"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/poppins_bold"
+            android:text="Login"
+            android:layout_marginStart="@dimen/margin_8dp"
+            android:textColor="@color/white"
+            app:layout_constraintEnd_toEndOf="@+id/sign_up_options_fragment_clads_logo_image_view"
+            app:layout_constraintStart_toEndOf="@id/sign_up_options_fragment_have_an_account_text_view"
+            app:layout_constraintTop_toTopOf="@+id/sign_up_options_fragment_have_an_account_text_view" />
+
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/guideline2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            app:layout_constraintGuide_percent="0.15" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</androidx.core.widget.NestedScrollView>
