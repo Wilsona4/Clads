@@ -18,7 +18,8 @@ class LandingScreenFragment : Fragment() {
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View {
+
+    ): View? {
         // Inflate the layout for this fragment
         _binding = LandingScreenFragmentBinding.inflate(inflater, container, false)
         return binding.root
@@ -29,5 +30,9 @@ class LandingScreenFragment : Fragment() {
         binding.landingScreenFragmentHelloTextView.setOnClickListener {
             findNavController().navigate(R.id.action_landing_screen_fragment_to_email_sign_up_fragment)
         }
+    }
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
     }
 }
