@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:id="@+id/splash_screen_activity_root_layout"
     tools:context=".ui.view.SplashScreenActivity"
     android:background="@color/deep_sky_blue">
 
@@ -41,5 +42,4 @@
         app:layout_constraintHorizontal_bias="0.50"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/splash_screen_activity_progress_bar" />
-
 </androidx.constraintlayout.widget.ConstraintLayout>
