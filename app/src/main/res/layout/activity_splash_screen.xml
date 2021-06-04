@@ -7,5 +7,7 @@
     android:id="@+id/splash_screen_activity_root_layout"
     tools:context=".ui.view.SplashScreenActivity">
 
+<!--    splash screen fragment layout-->
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>
