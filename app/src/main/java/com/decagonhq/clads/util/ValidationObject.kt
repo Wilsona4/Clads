@@ -1,6 +1,6 @@
 package com.decagonhq.clads.util
 
-import java.util.*
+import java.util.Locale
 
 object ValidationObject {
 

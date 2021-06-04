@@ -6,9 +6,7 @@ import androidx.navigation.NavController
 import androidx.navigation.Navigation
 import androidx.test.core.app.ApplicationProvider
 import androidx.test.espresso.Espresso.onView
-import androidx.test.espresso.action.ViewActions.click
-import androidx.test.espresso.action.ViewActions.swipeUp
-import androidx.test.espresso.action.ViewActions.typeText
+import androidx.test.espresso.action.ViewActions.*
 import androidx.test.espresso.assertion.ViewAssertions.matches
 import androidx.test.espresso.matcher.ViewMatchers.isDisplayed
 import androidx.test.espresso.matcher.ViewMatchers.withId
@@ -79,11 +77,11 @@ class ForgotPasswordFragmentTest {
 
         /*Input Data*/
         // disable animation for this to work
-        onView(withId(R.id.forgot_password_fragment_email_edit_text)).perform(typeText(
-            EMAIL
-        ))
-
-        // closeSoftKeyboard()
+        onView(withId(R.id.forgot_password_fragment_email_edit_text)).perform(
+            typeText(
+                EMAIL
+            )
+        )
 
         /* Verify that performing a click changes the NavController’s state*/
         onView(withId(R.id.forgot_password_fragment_send_request_button)).perform(
