@@ -29,8 +29,8 @@ class SignUpOptionsFragment : Fragment() {
     private lateinit var googleSignUpButton: TextView
     private lateinit var cladsGoogleSignInClient: GoogleSignInClient
     private var GOOGLE_SIGN_IN_REQ_CODE = 100
+    private lateinit var emailLoginButton: TextView
     private lateinit var authentication: FirebaseAuth
-
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -43,6 +43,23 @@ class SignUpOptionsFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        emailLoginButton = binding.signUpOptionsFragmentLoginTextView
+
+        // Navigation to login screen
+        emailLoginButton.setOnClickListener {
+            findNavController().navigate(R.id.action_signUpOptionsFragment_to_loginFragment)
+        }
+
+        // create the google sign in client
+        val googleSignInOptions = GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
+            .requestIdToken(getString(R.string.default_web_client_id))
+            .requestEmail()
+            .build()
+        cladsGoogleSignInClient = GoogleSignIn.getClient(requireContext(), googleSignInOptions)
+        /*Initialize Firebase Auth */
+        authentication = Firebase.auth
+        /*add a listener to the sign in button*/
         /*Initialize Firebase Auth */
         authentication = Firebase.auth
 

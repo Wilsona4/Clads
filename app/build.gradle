@@ -68,8 +68,8 @@ dependencies {
 
     //Firebase
     implementation 'com.google.firebase:firebase-auth-ktx'
-    implementation platform('com.google.firebase:firebase-bom:28.0.1')
-    implementation 'com.google.android.gms:play-services-auth:19.0.0'
+    implementation platform("com.google.firebase:firebase-bom:$versions.firebase_version")
+    implementation "com.google.android.gms:play-services-auth:$versions.play_service_auth"
 
     //navigation controller
     implementation "androidx.navigation:navigation-fragment-ktx:$versions.nav_version"
@@ -105,6 +105,4 @@ dependencies {
     //Mockito
     testImplementation "org.mockito:mockito-core:$versions.mockito_version"
     androidTestImplementation "org.mockito:mockito-android:$versions.mockito_version"
-
-
 }

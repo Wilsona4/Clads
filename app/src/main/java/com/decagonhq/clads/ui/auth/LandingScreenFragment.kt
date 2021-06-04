@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.TextView
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import com.decagonhq.clads.R
@@ -11,6 +12,7 @@ import com.decagonhq.clads.databinding.LandingScreenFragmentBinding
 
 class LandingScreenFragment : Fragment() {
 
+    private lateinit var emaiLoginButton: TextView
     private var _binding: LandingScreenFragmentBinding? = null
     private val binding get() = _binding!!
 
@@ -27,8 +29,16 @@ class LandingScreenFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        emaiLoginButton = binding.landingScreenFragmentLoginButton
+
+        // Navigation to sign up option fragment
         binding.landingScreenFragmentSignUpButton.setOnClickListener {
             findNavController().navigate(R.id.action_landingScreenFragment_to_signUpOptionsFragment)
+        }
+
+        // Navigation to login fragment
+        emaiLoginButton.setOnClickListener {
+            findNavController().navigate(R.id.action_landing_screen_fragment_to_login_fragment)
         }
     }
 

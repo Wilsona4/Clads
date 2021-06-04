@@ -1,7 +1,15 @@
 <resources>
     <string name="app_name">Clads</string>
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">hello_blank_fragment</string>
+
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="welcome_back">Welcome back</string>
+    <string name="login_continue">Login continue</string>
+    <string name="all_signup_with_google">Signin with Google</string>
+    <string name="all_email_address">Email Address</string>
+    <string name="all_password">Password</string>
+    <string name="all_forget_password">Forget Password?</string>
+    <string name="login">Login</string>
+    <string name="google_icon">Google icon</string>
     <string name="forgot_password_fragment_send_request_password_link">Send Request Password Link</string>
     <string name="all_reset_password">Reset Password</string>
     <string name="reset_password_fragment_new_password">New Password</string>
@@ -9,11 +17,8 @@
     <string name="all_back_arrow">back_arrow</string>
     <string name="all_forgot_password">Forgot Password</string>
     <string name="all_remember_my_password">I can remember my password,</string>
-
     <string name="email_sign_up_fragment_create_an_account">Create an account</string>
     <string name="email_sign_up_fragment_lets_get_to_know_you">Lets get to know you</string>
-    <string name="all_email_address">Email Address</string>
-    <string name="all_password">Password</string>
     <string name="all_signup">Signup</string>
     <string name="all_have_an_account">Have an account?</string>
     <string name="all_login">Login</string>
@@ -26,7 +31,6 @@
     <string name="all_last_name">Last Name</string>
     <string name="all_other_name">Other Name</string>
     <string name="lorem_ipsum_ipsum_sum">Lorem Ipsum. Ipsum sum.</string>
-    <string name="login">login</string>
     <string name="sign_up">sign up</string>
     <string name="Loading">Loading...</string>
     <string name="have_an_account_login">Have an account? Login</string>
@@ -48,4 +52,13 @@
         <item>Client</item>
     </string-array>
 
+    <style name="match_parent_match_parent">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">match_parent</item>
+    </style>
+
+    <style name="wrap_content_wrap_content">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+    </style>
 </resources>
