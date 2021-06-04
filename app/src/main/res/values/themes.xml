@@ -2,8 +2,8 @@
     <!-- Base application theme. -->
     <style name="Theme.Clads" parent="Theme.MaterialComponents.DayNight.NoActionBar">
         <!-- Primary brand color. -->
-        <item name="colorPrimary">@color/purple_500</item>
-        <item name="colorPrimaryVariant">@color/purple_700</item>
+        <item name="colorPrimary">@color/deep_sky_blue</item>
+        <item name="colorPrimaryVariant">@color/deep_sky_blue</item>
         <item name="colorOnPrimary">@color/white</item>
         <!-- Secondary brand color. -->
         <item name="colorSecondary">@color/teal_200</item>
@@ -12,5 +12,15 @@
         <!-- Status bar color. -->
         <item name="android:statusBarColor" tools:targetApi="l">?attr/colorPrimaryVariant</item>
         <!-- Customize your theme here. -->
+    </style>
+
+    <style name="material_edit_text" parent="Widget.MaterialComponents.TextInputLayout.FilledBox">
+        <item name="fontFamily">@font/poppins</item>
+        <item name="errorEnabled">true</item>
+    </style>
+
+    <style name="SplashTheme" parent="Theme.MaterialComponents.DayNight.NoActionBar">
+        <item name="android:windowBackground">@drawable/splash_screen_layer_list</item>
+        <item name="android:statusBarColor" tools:targetApi="l">@color/deep_sky_blue</item>
     </style>
 </resources>
