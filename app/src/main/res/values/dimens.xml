@@ -41,5 +41,6 @@
     <dimen name="text_size_16sp">16sp</dimen>
     <dimen name="text_size_18sp">18sp</dimen>
     <dimen name="corner_radius_10dp">10dp</dimen>
+    <dimen name="padding_0dp">0dp</dimen>
 
 </resources>

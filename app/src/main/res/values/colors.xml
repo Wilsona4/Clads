@@ -17,4 +17,5 @@
     <color name="red">#FF0000</color>
     <color name="medium_gray">#DADADA</color>
     <color name="text_indicator_gray">#EEEEEE</color>
+    <color name="mtrl_textinput_default_box_stroke_color">#F2F2F2</color>
 </resources>

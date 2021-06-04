@@ -61,6 +61,8 @@
                 android:layout_height="match_parent"
                 android:backgroundTint="@color/deep_sky_blue"
                 android:inputType="text"
+                android:paddingStart="@dimen/padding_0dp"
+                android:paddingEnd="@dimen/padding_0dp"
                 android:textColor="@color/gray"
                 android:textCursorDrawable="@color/gray" />
 
@@ -88,6 +90,8 @@
                 android:layout_height="match_parent"
                 android:backgroundTint="@color/deep_sky_blue"
                 android:inputType="text"
+                android:paddingStart="@dimen/padding_0dp"
+                android:paddingEnd="@dimen/padding_0dp"
                 android:textColor="@color/gray"
                 android:textCursorDrawable="@color/gray" />
 
@@ -115,6 +119,8 @@
                 android:layout_height="match_parent"
                 android:inputType="text"
                 android:textColor="@color/gray"
+                android:paddingStart="@dimen/padding_0dp"
+                android:paddingEnd="@dimen/padding_0dp"
                 android:textCursorDrawable="@color/gray"
                 app:backgroundTint="@color/deep_sky_blue" />
 
@@ -147,6 +153,8 @@
                 android:paddingBottom="@dimen/margin_18dp"
                 android:text="@string/email_sign_up_fragment_choose_account_category"
                 android:textColor="@color/gray"
+                android:paddingStart="@dimen/padding_0dp"
+                android:paddingEnd="@dimen/padding_0dp"
                 android:textCursorDrawable="@color/gray" />
         </com.google.android.material.textfield.TextInputLayout>
 
@@ -173,6 +181,8 @@
                 android:backgroundTint="@color/deep_sky_blue"
                 android:inputType="textEmailAddress"
                 android:textColor="@color/gray"
+                android:paddingStart="@dimen/padding_0dp"
+                android:paddingEnd="@dimen/padding_0dp"
                 android:textCursorDrawable="@color/gray" />
 
         </com.google.android.material.textfield.TextInputLayout>
@@ -202,6 +212,8 @@
                 android:backgroundTint="@color/deep_sky_blue"
                 android:inputType="textPassword"
                 android:textColor="@color/gray"
+                android:paddingStart="@dimen/padding_0dp"
+                android:paddingEnd="@dimen/padding_0dp"
                 android:textCursorDrawable="@color/gray" />
 
         </com.google.android.material.textfield.TextInputLayout>
@@ -231,6 +243,8 @@
                 android:backgroundTint="@color/deep_sky_blue"
                 android:inputType="textPassword"
                 android:textColor="@color/gray"
+                android:paddingStart="@dimen/padding_0dp"
+                android:paddingEnd="@dimen/padding_0dp"
                 android:textCursorDrawable="@color/gray" />
 
         </com.google.android.material.textfield.TextInputLayout>
