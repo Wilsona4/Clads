@@ -81,13 +81,13 @@
         android:name="com.decagonhq.clads.ui.auth.ResetPasswordFragment"
         android:label="fragment_reset_password"
         tools:layout="@layout/reset_password_fragment" >
+
         <action
             android:id="@+id/action_resetPasswordFragment_to_loginFragment"
             app:destination="@id/login_fragment" />
-        <action
-            android:id="@+id/action_resetPasswordFragment_to_loginFragment2"
-            app:destination="@id/login_fragment" />
     </fragment>
+
+
     <fragment
         android:id="@+id/confirm_password_reset_fragment"
         android:name="com.decagonhq.clads.ui.auth.ConfirmPasswordResetFragment"

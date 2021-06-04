@@ -21,5 +21,6 @@
 
     <style name="SplashTheme" parent="Theme.AppCompat.Light.NoActionBar">
         <item name="android:windowBackground">@drawable/splash_screen_layer_list</item>
+        <item name="android:statusBarColor" tools:targetApi="l">@color/deep_sky_blue</item>
     </style>
 </resources>

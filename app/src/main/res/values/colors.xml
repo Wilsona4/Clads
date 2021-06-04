@@ -12,10 +12,10 @@
     <color name="light_sky_blue">#E8F0FE</color>
     <color name="navy_blue">#0A2E65</color>
     <color name="deep_gray">#7F92B4</color>
+    <color name="medium_gray">#DADADA</color>
     <color name="gray">#F2F2F2</color>
     <color name="menu_text_color">#506992</color>
     <color name="red">#FF0000</color>
-    <color name="medium_gray">#DADADA</color>
     <color name="text_indicator_gray">#EEEEEE</color>
     <color name="mtrl_textinput_default_box_stroke_color">#F2F2F2</color>
 </resources>

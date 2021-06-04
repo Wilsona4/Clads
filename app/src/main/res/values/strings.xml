@@ -1,7 +1,14 @@
 <resources>
     <string name="app_name">Clads</string>
     <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="hello_blank_fragment">hello_blank_fragment</string>
+    <string name="forgot_password_fragment_send_request_password_link">Send Request Password Link</string>
+    <string name="all_reset_password">Reset Password</string>
+    <string name="reset_password_fragment_new_password">New Password</string>
+    <string name="reset_password_fragment_confirm_new_password">Confirm New Password</string>
+    <string name="all_back_arrow">back_arrow</string>
+    <string name="all_forgot_password">Forgot Password</string>
+    <string name="all_remember_my_password">I can remember my password,</string>
 
     <string name="email_sign_up_fragment_create_an_account">Create an account</string>
     <string name="email_sign_up_fragment_lets_get_to_know_you">Lets get to know you</string>
@@ -29,9 +36,16 @@
     <string name="login_caps">Login</string>
     <string name="sign_up_with_email">Sign up with email</string>
     <string name="clads_logo">clads logo</string>
+    <string name="all_email_cant_be_empty">Email Can\'t Be Empty</string>
+    <string name="all_invalid_email">Invalid Email</string>
+    <string name="all_password_is_required">Password is Required</string>
+    <string name="all_please_enter_first_name">Please Enter First Name</string>
+    <string name="all_password_mismatch">Password Mismatch</string>
+    <string name="all_select_account_type">Select Account Type</string>
     <string-array name="account_category">
         <item>Tailor</item>
         <item>Weaver</item>
         <item>Client</item>
     </string-array>
+
 </resources>
