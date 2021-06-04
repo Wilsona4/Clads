@@ -24,7 +24,6 @@ class ValidationObjectTest {
     fun test_validateEmail_isTrue() {
         val result = validateEmail(emailTrue)
         assertTrue(result)
-
     }
 
     /*Test Validate Email Function with Wrong Email*/
