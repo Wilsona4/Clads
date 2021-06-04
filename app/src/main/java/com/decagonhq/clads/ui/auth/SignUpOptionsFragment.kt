@@ -5,7 +5,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Button
+import android.widget.TextView
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
@@ -25,8 +25,8 @@ class SignUpOptionsFragment : Fragment() {
 
     private var _binding: SignUpOptionsFragmentBinding? = null
     private val binding get() = _binding!!
-    private lateinit var emailSignUpButton: Button
-    private lateinit var googleSignUpButton: Button
+    private lateinit var emailSignUpButton: TextView
+    private lateinit var googleSignUpButton: TextView
     private lateinit var cladsGoogleSignInClient: GoogleSignInClient
     private var GOOGLE_SIGN_IN_REQ_CODE = 100
     private lateinit var authentication: FirebaseAuth

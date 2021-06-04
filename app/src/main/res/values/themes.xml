@@ -1,6 +1,6 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
     <!-- Base application theme. -->
-    <style name="Theme.Clads" parent="Theme.AppCompat.Light.NoActionBar">
+    <style name="Theme.Clads" parent="Theme.MaterialComponents.DayNight.NoActionBar">
         <!-- Primary brand color. -->
         <item name="colorPrimary">@color/deep_sky_blue</item>
         <item name="colorPrimaryVariant">@color/deep_sky_blue</item>

@@ -24,28 +24,33 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="@+id/guideline2" />
 
-        <Button
+
+        <TextView
             android:id="@+id/sign_up_options_fragment_clads_sign_up_with_google_button"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:background="@drawable/sign_up_with_google_button_style"
-            android:drawableStart="@drawable/google_icon_icon"
-            android:drawablePadding="@dimen/margin_6dp"
+            android:drawablePadding="@dimen/margin_12dp"
             android:fontFamily="@font/poppins_medium"
             android:paddingHorizontal="@dimen/margin_10dp"
+            android:paddingVertical="@dimen/margin_10dp"
             android:text="@string/sign_up_with_google"
             android:textAllCaps="false"
+            android:textColor="@color/black"
+            app:drawableStartCompat="@drawable/google_icon"
             app:layout_constraintEnd_toEndOf="@+id/sign_up_options_fragment_clads_logo_image_view"
             app:layout_constraintStart_toStartOf="@+id/sign_up_options_fragment_clads_logo_image_view"
             app:layout_constraintTop_toBottomOf="@id/guideline3" />
 
-        <Button
+        <TextView
             android:id="@+id/sign_up_options_fragment_sign_up_with_email_button"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/margin_27dp"
             android:background="@drawable/sign_up_with_email_and_phone_number_buttons"
             android:fontFamily="@font/poppins_medium"
+            android:gravity="center"
+            android:paddingVertical="@dimen/margin_12dp"
             android:text="@string/sign_up_with_email"
             android:textAllCaps="false"
             android:textColor="@color/white"
