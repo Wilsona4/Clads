@@ -34,7 +34,7 @@
             android:drawableStart="@drawable/google_icon_icon"
             android:drawablePadding="@dimen/margin_6dp"
             android:fontFamily="@font/poppins_medium"
-            android:paddingHorizontal="10dp"
+            android:paddingHorizontal="@dimen/margin_10dp"
             android:text="@string/sign_up_with_google"
             android:textAllCaps="false"
             android:textFontWeight="550"

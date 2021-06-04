@@ -39,5 +39,8 @@
     <dimen name="margin_50dp">50dp</dimen>
     <dimen name="margin_6dp">6dp</dimen>
     <dimen name="margin_20dp">20dp</dimen>
+    <dimen name="margin_60dp">60dp</dimen>
+    <dimen name="margin_44dp">44dp</dimen>
+    <dimen name="margin_10dp">10dp</dimen>
     >>>>>>> feature_signup-options-screen_hope
 </resources>
