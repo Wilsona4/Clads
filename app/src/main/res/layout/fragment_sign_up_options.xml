@@ -22,51 +22,25 @@
             android:src="@drawable/sign_up_screen_logo"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
+            android:layout_marginTop="@dimen/margin_20dp"
             app:layout_constraintTop_toTopOf="@+id/guideline2" />
 
-        <androidx.cardview.widget.CardView
+        <Button
             android:id="@+id/sign_up_options_fragment_clads_sign_up_with_google_button"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/margin_78dp"
-            android:background="@color/white"
-            app:cardCornerRadius="@dimen/corner_radius_5dp"
+            android:layout_marginTop="@dimen/margin_50dp"
+            android:background="@drawable/sign_up_with_google_button_style"
+            android:drawableStart="@drawable/google_icon_icon"
+            android:drawablePadding="@dimen/margin_6dp"
+            android:fontFamily="@font/poppins_medium"
+            android:paddingHorizontal="10dp"
+            android:text="@string/sign_up_with_google"
+            android:textAllCaps="false"
+            android:textFontWeight="550"
             app:layout_constraintEnd_toEndOf="@+id/sign_up_options_fragment_clads_logo_image_view"
             app:layout_constraintStart_toStartOf="@+id/sign_up_options_fragment_clads_logo_image_view"
-            app:layout_constraintTop_toBottomOf="@id/sign_up_options_fragment_clads_logo_image_view">
-
-
-            <androidx.constraintlayout.widget.ConstraintLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:paddingHorizontal="@dimen/padding_18dp"
-                android:paddingVertical="@dimen/padding_10dp">
-
-                <TextView
-                    android:id="@+id/login_fragment_sign_in_with_google_view"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="@dimen/margin_13dp"
-                    android:fontFamily="@font/poppins_medium"
-                    android:text="@string/signup_with_google"
-                    android:textColor="@color/black"
-                    android:textSize="@dimen/sign_up_with_google_font_size_14sp"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toEndOf="@id/sign_up_options_fragment_google_icon_image_view"
-                    app:layout_constraintTop_toTopOf="parent" />
-
-                <ImageView
-                    android:id="@+id/sign_up_options_fragment_google_icon_image_view"
-                    android:layout_width="@dimen/width_16dp"
-                    android:layout_height="@dimen/height_17dp"
-                    android:src="@drawable/google_icon"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent"
-                    app:layout_constraintVertical_bias="0.5" />
-            </androidx.constraintlayout.widget.ConstraintLayout>
-        </androidx.cardview.widget.CardView>
+            app:layout_constraintTop_toBottomOf="@id/sign_up_options_fragment_clads_logo_image_view" />
 
         <Button
             android:id="@+id/sign_up_options_fragment_sign_up_with_email_button"
