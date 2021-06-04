@@ -12,7 +12,6 @@ class ConfirmPasswordResetFragment : Fragment() {
     private var _binding: ConfirmPasswordResetFragmentBinding? = null
     private val binding get() = _binding!!
 
-
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
