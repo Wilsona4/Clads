@@ -5,7 +5,76 @@
     android:id="@+id/landing_screen_fragment_root_layout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/deep_sky_blue"
     tools:context=".ui.view.LandingScreenFragment">
 
+
+    <ImageView
+        android:id="@+id/landing_screen_fragment_logo_image_view"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/margin_44dp"
+        android:src="@drawable/logo_image"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/landing_screen_fragment_top_guideline" />
+
+    <TextView
+        android:id="@+id/landing_screen_fragment_title_text_view"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/margin_16dp"
+        android:fontFamily="@font/poppins_medium"
+        android:text="@string/lorem_ipsum_ipsum_sum"
+        android:textColor="@color/white"
+        android:textSize="@dimen/text_size_14sp"
+        app:layout_constraintEnd_toEndOf="@+id/landing_screen_fragment_logo_image_view"
+        app:layout_constraintStart_toStartOf="@+id/landing_screen_fragment_logo_image_view"
+        app:layout_constraintTop_toBottomOf="@+id/landing_screen_fragment_logo_image_view" />
+
+    <Button
+        android:id="@+id/landing_screen_fragment_login_button"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="@dimen/margin_15dp"
+        android:layout_marginBottom="@dimen/margin_60dp"
+        android:background="@drawable/fragment_landing_screen_login_button"
+        android:fontFamily="@font/poppins_medium"
+        android:text="@string/login"
+        android:textColor="@color/white"
+        app:layout_constraintBottom_toTopOf="@+id/landing_screen_fragment_bottom_guideline"
+        app:layout_constraintEnd_toEndOf="@+id/landing_screen_fragment_logo_image_view"
+        app:layout_constraintStart_toStartOf="@+id/landing_screen_fragment_logo_image_view" />
+
+    <Button
+        android:id="@+id/landing_screen_fragment_sign_up_button"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="@dimen/margin_horizontal_15dp"
+        android:background="@drawable/fragment_landing_screen_sign_up_button"
+        android:fontFamily="@font/poppins_medium"
+        android:text="@string/sign_up"
+        android:layout_marginBottom="@dimen/layout_margin_top_13dp"
+        android:layout_marginTop="@dimen/layout_margin_top_13dp"
+        android:textColor="@color/deep_sky_blue"
+        app:layout_constraintBottom_toTopOf="@+id/landing_screen_fragment_login_button"
+        app:layout_constraintEnd_toEndOf="@+id/landing_screen_fragment_logo_image_view"
+        app:layout_constraintStart_toStartOf="@+id/landing_screen_fragment_logo_image_view"
+        app:layout_constraintTop_toBottomOf="@+id/landing_screen_fragment_title_text_view"
+        app:layout_constraintVertical_bias="1.0" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/landing_screen_fragment_bottom_guideline"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintGuide_percent="0.73" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/landing_screen_fragment_top_guideline"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintGuide_percent="0.21" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

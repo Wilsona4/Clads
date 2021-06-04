@@ -9,6 +9,9 @@ import com.decagonhq.clads.databinding.FragmentForgotPasswordBinding
 
 class ForgotPasswordFragment : Fragment() {
 
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+    }
     private var _binding: FragmentForgotPasswordBinding? = null
     private val binding get() = _binding!!
 

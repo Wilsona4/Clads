@@ -9,6 +9,10 @@ import com.decagonhq.clads.databinding.FragmentLoginBinding
 
 class LoginFragment : Fragment() {
 
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+    }
+
     private var _binding: FragmentLoginBinding? = null
     private val binding get() = _binding!!
 

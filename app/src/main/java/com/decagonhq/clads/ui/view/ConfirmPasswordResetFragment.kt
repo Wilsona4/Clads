@@ -9,6 +9,9 @@ import com.decagonhq.clads.databinding.FragmentConfirmPasswordResetBinding
 
 class ConfirmPasswordResetFragment : Fragment() {
 
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+    }
     private var _binding: FragmentConfirmPasswordResetBinding? = null
     private val binding get() = _binding!!
 

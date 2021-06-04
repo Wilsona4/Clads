@@ -9,6 +9,9 @@ import com.decagonhq.clads.databinding.FragmentDashboardBinding
 
 class DashboardFragment : Fragment() {
 
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+    }
     private var _binding: FragmentDashboardBinding? = null
     private val binding get() = _binding!!
 

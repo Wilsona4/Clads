@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Button
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
@@ -22,8 +23,13 @@ import com.google.firebase.ktx.Firebase
 
 class SignUpOptionsFragment : Fragment() {
 
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+    }
+
     private var _binding: FragmentSignUpOptionsBinding? = null
     private val binding get() = _binding!!
+    lateinit var emailSignUpButton: Button
     private lateinit var cladsGoogleSignInClient: GoogleSignInClient
     private var GOOGLE_SIGN_IN_REQ_CODE = 100
     private lateinit var authentication: FirebaseAuth
@@ -33,7 +39,6 @@ class SignUpOptionsFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-
         /*Inflate the layout for this fragment*/
         _binding = FragmentSignUpOptionsBinding.inflate(inflater, container, false)
         return binding.root
@@ -42,20 +47,26 @@ class SignUpOptionsFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        /*create the google sign in client*/
-        val googleSignInOptions = GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
-            .requestIdToken(getString(R.string.default_web_client_id))
-            .requestEmail()
-            .build()
+        emailSignUpButton = binding.signUpOptionsFragmentSignUpWithEmailButton
 
-        cladsGoogleSignInClient = GoogleSignIn.getClient(requireContext(), googleSignInOptions)
-        /*Initialize Firebase Auth */
-        authentication = Firebase.auth
+        emailSignUpButton.setOnClickListener {
 
-        /*add a listener to the sign in button*/
+            /*create the google sign in client*/
+            val googleSignInOptions =
+                GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
+                    .requestIdToken(getString(R.string.default_web_client_id))
+                    .requestEmail()
+                    .build()
+
+            cladsGoogleSignInClient = GoogleSignIn.getClient(requireContext(), googleSignInOptions)
+            /*Initialize Firebase Auth */
+            authentication = Firebase.auth
+
+            /*add a listener to the sign in button*/
 //        binding.signInButton.setOnClickListener {
 //            signIn()
 //        }
+        }
     }
 
     /*launch the login screen*/
@@ -99,7 +110,8 @@ class SignUpOptionsFragment : Fragment() {
                     // Sign in success, update UI with the signed-in user's information
                     val user = authentication.currentUser
                     updateUI(user)
-                    Toast.makeText(requireContext(), "User Signed In", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(requireContext(), "User Signed In", Toast.LENGTH_SHORT)
+                        .show()
                 } else {
                     // If sign in fails, display a message to the user.
                     Toast.makeText(

@@ -9,6 +9,9 @@ import com.decagonhq.clads.databinding.FragmentEmailConfirmationBinding
 
 class EmailConfirmationFragment : Fragment() {
 
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+    }
     private var _binding: FragmentEmailConfirmationBinding? = null
     private val binding get() = _binding!!
 
@@ -21,7 +24,6 @@ class EmailConfirmationFragment : Fragment() {
         _binding = FragmentEmailConfirmationBinding.inflate(inflater, container, false)
         return binding.root
     }
-
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null

@@ -8,6 +8,7 @@ import androidx.fragment.app.Fragment
 import com.decagonhq.clads.databinding.FragmentEmailSignUpBinding
 
 class EmailSignUpFragment : Fragment() {
+
     private var _binding: FragmentEmailSignUpBinding? = null
     private val binding get() = _binding!!
 

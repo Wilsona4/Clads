@@ -8,7 +8,6 @@ import androidx.fragment.app.Fragment
 import com.decagonhq.clads.databinding.FragmentLandingScreenBinding
 
 class LandingScreenFragment : Fragment() {
-
     private var _binding: FragmentLandingScreenBinding? = null
     private val binding get() = _binding!!
 

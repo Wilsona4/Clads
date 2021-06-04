@@ -9,6 +9,10 @@ import com.decagonhq.clads.databinding.FragmentResetPasswordBinding
 
 class ResetPasswordFragment : Fragment() {
 
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+    }
+
     private var _binding: FragmentResetPasswordBinding? = null
     private val binding get() = _binding!!
 
@@ -21,7 +25,6 @@ class ResetPasswordFragment : Fragment() {
         _binding = FragmentResetPasswordBinding.inflate(inflater, container, false)
         return binding.root
     }
-
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
