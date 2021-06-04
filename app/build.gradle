@@ -58,14 +58,15 @@ dependencies {
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.3.0'
     implementation 'com.google.android.material:material:1.4.0-beta01'
 
-    // androidx.test
+    //androidx.test
     androidTestImplementation "androidx.test:runner:$versions.androidx_test"
     androidTestImplementation "androidx.test:core:$versions.androidx_test"
     androidTestImplementation "androidx.test.ext:junit-ktx:1.1.2"
     androidTestImplementation 'androidx.test.ext:junit:1.1.2'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.3.0'
+    testImplementation "com.google.truth:truth:$versions.truth_version"
 
-//    Firebase
+    //Firebase
     implementation 'com.google.firebase:firebase-auth-ktx'
     implementation platform('com.google.firebase:firebase-bom:28.0.1')
     implementation 'com.google.android.gms:play-services-auth:19.0.0'
@@ -99,11 +100,11 @@ dependencies {
     implementation "com.github.bumptech.glide:glide:$versions.glide_version"
     kapt "com.github.bumptech.glide:compiler:$versions.glide_version"
 
+    implementation "com.jakewharton.timber:timber:$versions.timber_version"
+
     //Mockito
     testImplementation "org.mockito:mockito-core:$versions.mockito_version"
     androidTestImplementation "org.mockito:mockito-android:$versions.mockito_version"
 
-
-    implementation "com.jakewharton.timber:timber:$versions.timber_version"
 
 }
