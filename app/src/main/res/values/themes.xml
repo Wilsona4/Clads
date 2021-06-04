@@ -1,6 +1,6 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
     <!-- Base application theme. -->
-    <style name="Theme.Clads" parent="Theme.MaterialComponents.DayNight.NoActionBar">
+    <style name="Theme.Clads" parent="Theme.AppCompat.Light.NoActionBar">
         <!-- Primary brand color. -->
         <item name="colorPrimary">@color/deep_sky_blue</item>
         <item name="colorPrimaryVariant">@color/deep_sky_blue</item>
@@ -17,5 +17,9 @@
     <style name="material_edit_text" parent="Widget.MaterialComponents.TextInputLayout.FilledBox">
         <item name="fontFamily">@font/poppins</item>
         <item name="errorEnabled">true</item>
+    </style>
+
+    <style name="SplashTheme" parent="Theme.AppCompat.Light.NoActionBar">
+        <item name="android:windowBackground">@drawable/splash_screen_layer_list</item>
     </style>
 </resources>
