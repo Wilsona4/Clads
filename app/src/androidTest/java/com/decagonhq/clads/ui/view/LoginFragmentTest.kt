@@ -50,7 +50,7 @@ class LoginFragmentTest {
 
     @Test
     fun login_fragment_log_in_card_view() {
-        onView(withId(R.id.login_fragment_log_in_card_view)).check(matches(isDisplayed()))
+        onView(withId(R.id.login_fragment_log_in_button)).check(matches(isDisplayed()))
     }
 
     // Test typing and perform click
@@ -67,7 +67,7 @@ class LoginFragmentTest {
         onView(withId(R.id.login_fragment_email_address_edit_text)).perform(replaceText(EMAIL))
         onView(withId(R.id.login_fragment_password_edit_text)).perform(replaceText(PASSWORD))
         closeSoftKeyboard()
-        onView(withId(R.id.login_fragment_log_in_card_view)).perform(click())
+        onView(withId(R.id.login_fragment_log_in_button)).perform(click())
         verify(mockNavController).navigate(R.id.action_loginFragment_to_dashboardFragment)
     }
 }

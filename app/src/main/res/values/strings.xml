@@ -7,8 +7,6 @@
     <string name="all_signup_with_google">Signin with Google</string>
     <string name="all_email_address">Email Address</string>
     <string name="all_password">Password</string>
-    <string name="all_new_user">New user?</string>
-    <string name="sign_up_for_free">Sign Up for free</string>
     <string name="all_forget_password">Forget Password?</string>
     <string name="login">Login</string>
     <string name="google_icon">Google icon</string>
