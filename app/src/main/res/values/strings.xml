@@ -2,4 +2,36 @@
     <string name="app_name">Clads</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
+
+    <string name="email_sign_up_fragment_create_an_account">Create an account</string>
+    <string name="email_sign_up_fragment_lets_get_to_know_you">Lets get to know you</string>
+    <string name="all_email_address">Email Address</string>
+    <string name="all_password">Password</string>
+    <string name="all_signup">Signup</string>
+    <string name="all_have_an_account">Have an account?</string>
+    <string name="all_login">Login</string>
+    <string name="email_sign_up_fragment_choose_account_category">Choose account category</string>
+    <string name="client">Client</string>
+    <string name="weaver">Weaver</string>
+    <string name="tailor">Tailor</string>
+    <string name="all_confirm_password">Confirm Password</string>
+    <string name="all_first_name">First Name</string>
+    <string name="all_last_name">Last Name</string>
+    <string name="all_other_name">Other Name</string>
+    <string name="lorem_ipsum_ipsum_sum">Lorem Ipsum. Ipsum sum.</string>
+    <string name="login">login</string>
+    <string name="sign_up">sign up</string>
+    <string name="Loading">Loading...</string>
+    <string name="have_an_account_login">Have an account? Login</string>
+    <string name="sign_up_with_phone_number">Sign up with phone number</string>
+    <string name="signup_with_google">Signup with Google</string>
+    <string name="sign_up_with_google">Sign up with Google</string>
+    <string name="login_caps">Login</string>
+    <string name="sign_up_with_email">Sign up with email</string>
+    <string name="clads_logo">clads logo</string>
+    <string-array name="account_category">
+        <item>Tailor</item>
+        <item>Weaver</item>
+        <item>Client</item>
+    </string-array>
 </resources>
