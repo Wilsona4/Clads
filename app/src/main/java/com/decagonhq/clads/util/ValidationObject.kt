@@ -10,7 +10,7 @@ object ValidationObject {
         return email.matches(pattern)
     }
 
-    /*Function to check password mismatch*/
+    // Function to check password mismatch
     fun validatePasswordMismatch(password: String, confirmPassword: String): Boolean {
         return password == confirmPassword
     }

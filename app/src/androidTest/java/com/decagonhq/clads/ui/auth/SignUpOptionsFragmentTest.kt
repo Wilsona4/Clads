@@ -1,4 +1,4 @@
-package com.decagonhq.clads.ui.view
+package com.decagonhq.clads.ui.auth
 
 import androidx.fragment.app.testing.launchFragmentInContainer
 import androidx.navigation.NavController
@@ -62,6 +62,6 @@ class SignUpOptionsFragmentTest {
 
         /* Verify that performing a click changes the NavController’s state*/
         onView(withId(R.id.sign_up_options_fragment_sign_up_with_email_button)).perform(click())
-        verify(navController).navigate(R.id.action_signUpOptionsFragment_to_emailSignUpFragment)
+        verify(navController).navigate(R.id.email_sign_up_fragment)
     }
 }

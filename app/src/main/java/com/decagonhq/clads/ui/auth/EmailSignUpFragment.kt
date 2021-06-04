@@ -74,38 +74,38 @@ class EmailSignUpFragment : Fragment() {
             when {
                 firstName.isEmpty() -> {
                     binding.emailSignUpFragmentFirstNameEditTextLayout.error =
-                        "Please Enter First Name"
+                        getString(R.string.all_please_enter_first_name)
                     return@setOnClickListener
                 }
                 !validateAccountCategory(accountCategory) -> {
                     binding.emailSignUpFragmentAccountCategoryTextLayout.error =
-                        "Select Account Type"
+                        getString(R.string.all_select_account_type)
                     binding.emailSignUpFragmentAccountCategoryTextLayout.errorIconDrawable = null
                     return@setOnClickListener
                 }
                 email.isEmpty() -> {
-                    binding.emailSignUpFragmentEmailEditTextLayout.error = "Email Can't Be Empty"
+                    binding.emailSignUpFragmentEmailEditTextLayout.error = getString(R.string.all_email_cant_be_empty)
                     return@setOnClickListener
                 }
                 !validateEmail(email) -> {
-                    binding.emailSignUpFragmentEmailEditTextLayout.error = "Invalid Email"
+                    binding.emailSignUpFragmentEmailEditTextLayout.error = getString(R.string.all_invalid_email)
                     return@setOnClickListener
                 }
                 password.isEmpty() -> {
-                    binding.emailSignUpFragmentPasswordEditTextLayout.error = "Password is Required"
+                    binding.emailSignUpFragmentPasswordEditTextLayout.error = getString(R.string.all_password_is_required)
                     binding.emailSignUpFragmentPasswordEditTextLayout.errorIconDrawable = null
                     return@setOnClickListener
                 }
                 confirmPassword.isEmpty() -> {
                     binding.emailSignUpFragmentConfirmPasswordEditTextLayout.error =
-                        "Password is Required"
+                        getString(R.string.all_password_is_required)
                     binding.emailSignUpFragmentConfirmPasswordEditTextLayout.errorIconDrawable =
                         null
                     return@setOnClickListener
                 }
                 !validatePasswordMismatch(password, confirmPassword) -> {
                     binding.emailSignUpFragmentConfirmPasswordEditTextLayout.error =
-                        "Password Mismatch"
+                        getString(R.string.all_password_mismatch)
                     binding.emailSignUpFragmentConfirmPasswordEditTextLayout.errorIconDrawable =
                         null
                     return@setOnClickListener
@@ -143,7 +143,7 @@ class EmailSignUpFragment : Fragment() {
             when {
                 firstNameEditText.text.toString().trim().isEmpty() -> {
                     binding.emailSignUpFragmentFirstNameEditTextLayout.error =
-                        "Please Enter First Name"
+                        getString(R.string.all_please_enter_first_name)
                     isValidated = false
                 }
                 else -> {
@@ -156,11 +156,11 @@ class EmailSignUpFragment : Fragment() {
         emailEditText.doOnTextChanged { text, start, before, count ->
             when {
                 emailEditText.text.toString().trim().isEmpty() -> {
-                    binding.emailSignUpFragmentEmailEditTextLayout.error = "Email Can't Be Empty"
+                    binding.emailSignUpFragmentEmailEditTextLayout.error = getString(R.string.all_email_cant_be_empty)
                     isValidated = false
                 }
                 !validateEmail(emailEditText.text.toString().trim()) -> {
-                    binding.emailSignUpFragmentEmailEditTextLayout.error = "Invalid Email"
+                    binding.emailSignUpFragmentEmailEditTextLayout.error = getString(R.string.all_invalid_email)
                     isValidated = false
                 }
                 else -> {
@@ -173,7 +173,7 @@ class EmailSignUpFragment : Fragment() {
         passwordEditText.doOnTextChanged { text, start, before, count ->
             when {
                 passwordEditText.text.toString().trim().isEmpty() -> {
-                    binding.emailSignUpFragmentPasswordEditTextLayout.error = "Password is Required"
+                    binding.emailSignUpFragmentPasswordEditTextLayout.error = getString(R.string.all_password_is_required)
                     binding.emailSignUpFragmentPasswordEditTextLayout.errorIconDrawable = null
                     isValidated = false
                 }
@@ -188,7 +188,7 @@ class EmailSignUpFragment : Fragment() {
             when {
                 confirmPasswordEditText.text.toString().trim().isEmpty() -> {
                     binding.emailSignUpFragmentConfirmPasswordEditTextLayout.error =
-                        "Password is Required"
+                        getString(R.string.all_password_is_required)
                     binding.emailSignUpFragmentConfirmPasswordEditTextLayout.errorIconDrawable =
                         null
                     isValidated = false
@@ -198,7 +198,7 @@ class EmailSignUpFragment : Fragment() {
                     confirmPasswordEditText.text.toString().trim()
                 ) -> {
                     binding.emailSignUpFragmentConfirmPasswordEditTextLayout.error =
-                        "Password Mismatch"
+                        getString(R.string.all_password_mismatch)
                     binding.emailSignUpFragmentConfirmPasswordEditTextLayout.errorIconDrawable =
                         null
                     isValidated = false
@@ -212,7 +212,7 @@ class EmailSignUpFragment : Fragment() {
 
         accountCategoryDropDown.doOnTextChanged { text, start, before, count ->
             if (!validateAccountCategory(binding.emailSignUpFragmentAccountCategoryTextView.text.toString())) {
-                binding.emailSignUpFragmentAccountCategoryTextLayout.error = "Select Account Type"
+                binding.emailSignUpFragmentAccountCategoryTextLayout.error = getString(R.string.all_select_account_type)
                 binding.emailSignUpFragmentAccountCategoryTextLayout.errorIconDrawable = null
                 isValidated = false
             } else {
