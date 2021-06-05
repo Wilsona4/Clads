@@ -72,17 +72,17 @@ class SignUpOptionsFragment : Fragment() {
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
         if (requestCode == GOOGLE_SIGN_IN_REQ_CODE) {
-          val task = GoogleSignIn.getSignedInAccountFromIntent(data)
+            val task = GoogleSignIn.getSignedInAccountFromIntent(data)
             handleSignUpResult(task)
         }
     }
 
     /*handles the result of successful signUp with google*/
-    private fun handleSignUpResult(completedTask: Task<GoogleSignInAccount>){
+    private fun handleSignUpResult(completedTask: Task<GoogleSignInAccount>) {
         try {
             val account = completedTask.getResult(ApiException::class.java)
             account?.let { loadEmailSignUpFragment() }
-        } catch (e: ApiException){
+        } catch (e: ApiException) {
             Toast.makeText(requireContext(), "Login Failed", Toast.LENGTH_SHORT).show()
         }
     }

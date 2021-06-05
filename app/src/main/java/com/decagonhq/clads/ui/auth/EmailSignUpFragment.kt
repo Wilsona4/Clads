@@ -6,7 +6,6 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ArrayAdapter
 import android.widget.AutoCompleteTextView
-import android.widget.TextView
 import androidx.core.widget.doOnTextChanged
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
@@ -57,7 +56,6 @@ class EmailSignUpFragment : Fragment() {
         confirmPasswordEditText = binding.emailSignUpFragmentConfirmPasswordEditText
         signUpButton = binding.emailSignUpFragmentSignupButton
 
-
         getUserRemoteData()
         validateSignUpFieldsOnTextChange()
 
@@ -86,15 +84,18 @@ class EmailSignUpFragment : Fragment() {
                     return@setOnClickListener
                 }
                 email.isEmpty() -> {
-                    binding.emailSignUpFragmentEmailEditTextLayout.error = getString(R.string.all_email_cant_be_empty)
+                    binding.emailSignUpFragmentEmailEditTextLayout.error =
+                        getString(R.string.all_email_cant_be_empty)
                     return@setOnClickListener
                 }
                 !validateEmail(email) -> {
-                    binding.emailSignUpFragmentEmailEditTextLayout.error = getString(R.string.all_invalid_email)
+                    binding.emailSignUpFragmentEmailEditTextLayout.error =
+                        getString(R.string.all_invalid_email)
                     return@setOnClickListener
                 }
                 password.isEmpty() -> {
-                    binding.emailSignUpFragmentPasswordEditTextLayout.error = getString(R.string.all_password_is_required)
+                    binding.emailSignUpFragmentPasswordEditTextLayout.error =
+                        getString(R.string.all_password_is_required)
                     binding.emailSignUpFragmentPasswordEditTextLayout.errorIconDrawable = null
                     return@setOnClickListener
                 }
@@ -158,11 +159,13 @@ class EmailSignUpFragment : Fragment() {
         emailEditText.doOnTextChanged { text, start, before, count ->
             when {
                 emailEditText.text.toString().trim().isEmpty() -> {
-                    binding.emailSignUpFragmentEmailEditTextLayout.error = getString(R.string.all_email_cant_be_empty)
+                    binding.emailSignUpFragmentEmailEditTextLayout.error =
+                        getString(R.string.all_email_cant_be_empty)
                     isValidated = false
                 }
                 !validateEmail(emailEditText.text.toString().trim()) -> {
-                    binding.emailSignUpFragmentEmailEditTextLayout.error = getString(R.string.all_invalid_email)
+                    binding.emailSignUpFragmentEmailEditTextLayout.error =
+                        getString(R.string.all_invalid_email)
                     isValidated = false
                 }
                 else -> {
@@ -175,7 +178,8 @@ class EmailSignUpFragment : Fragment() {
         passwordEditText.doOnTextChanged { text, start, before, count ->
             when {
                 passwordEditText.text.toString().trim().isEmpty() -> {
-                    binding.emailSignUpFragmentPasswordEditTextLayout.error = getString(R.string.all_password_is_required)
+                    binding.emailSignUpFragmentPasswordEditTextLayout.error =
+                        getString(R.string.all_password_is_required)
                     binding.emailSignUpFragmentPasswordEditTextLayout.errorIconDrawable = null
                     isValidated = false
                 }
@@ -214,7 +218,8 @@ class EmailSignUpFragment : Fragment() {
 
         accountCategoryDropDown.doOnTextChanged { text, start, before, count ->
             if (!validateAccountCategory(binding.emailSignUpFragmentAccountCategoryTextView.text.toString())) {
-                binding.emailSignUpFragmentAccountCategoryTextLayout.error = getString(R.string.all_select_account_type)
+                binding.emailSignUpFragmentAccountCategoryTextLayout.error =
+                    getString(R.string.all_select_account_type)
                 binding.emailSignUpFragmentAccountCategoryTextLayout.errorIconDrawable = null
                 isValidated = false
             } else {
@@ -226,7 +231,7 @@ class EmailSignUpFragment : Fragment() {
         return isValidated
     }
 
-    private fun getUserRemoteData(){
+    private fun getUserRemoteData() {
 
         val googleSignInOptions = GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
             .requestEmail()
@@ -235,7 +240,7 @@ class EmailSignUpFragment : Fragment() {
 
         val googleAccount = GoogleSignIn.getLastSignedInAccount(requireContext())
 
-        if (googleAccount != null){
+        if (googleAccount != null) {
             val accountFirstName = googleAccount.givenName
             val accountLastName = googleAccount.familyName
             val accountEmail = googleAccount.email
