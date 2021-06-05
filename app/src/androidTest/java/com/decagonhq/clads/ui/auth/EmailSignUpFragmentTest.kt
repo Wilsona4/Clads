@@ -1,10 +1,8 @@
 package com.decagonhq.clads.ui.auth
 
-import android.content.Context
 import androidx.fragment.app.testing.launchFragmentInContainer
 import androidx.navigation.NavController
 import androidx.navigation.Navigation
-import androidx.test.core.app.ApplicationProvider
 import androidx.test.espresso.Espresso.onView
 import androidx.test.espresso.action.ViewActions.click
 import androidx.test.espresso.action.ViewActions.closeSoftKeyboard
@@ -28,7 +26,6 @@ class EmailSignUpFragmentTest {
     fun setUp() {
         val scenario =
             launchFragmentInContainer<EmailSignUpFragment>(themeResId = R.style.Base_Theme_MaterialComponents)
-        val context = ApplicationProvider.getApplicationContext<Context>()
     }
 
     @Test
@@ -51,8 +48,8 @@ class EmailSignUpFragmentTest {
 
     @Test
     fun test_email_fragment_account_sign_up_button_in_view() {
-        onView(withId(R.id.email_sign_up_fragment_signup_button)).perform(swipeUp())
-            .check(matches(isDisplayed()))
+        swipeUp()
+        onView(withId(R.id.email_sign_up_fragment_signup_button)).check(matches(isDisplayed()))
     }
 
     /*Test Navigation to Profile Activity*/
@@ -72,11 +69,6 @@ class EmailSignUpFragmentTest {
                     }
                 }
             }
-        /*Setup Navigation Action*/
-        val action =
-            EmailSignUpFragmentDirections.actionEmailSignUpFragmentToEmailConfirmationFragment(
-                ACCOUNT_TYPE
-            )
 
         /*Input Data*/
         onView(withId(R.id.email_sign_up_fragment_first_name_edit_text)).perform(
@@ -111,8 +103,9 @@ class EmailSignUpFragmentTest {
         closeSoftKeyboard()
         Thread.sleep(250)
         /* Verify that performing a click changes the NavController’s state*/
-        onView(withId(R.id.email_sign_up_fragment_signup_button)).perform(swipeUp(), click())
-        verify(navController).navigate(action)
+        swipeUp()
+        onView(withId(R.id.email_sign_up_fragment_signup_button)).perform(click())
+        verify(navController).navigate(R.id.email_confirmation_fragment)
     }
 
     companion object {

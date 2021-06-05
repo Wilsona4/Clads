@@ -7,13 +7,14 @@ import androidx.navigation.Navigation
 import androidx.test.core.app.ApplicationProvider
 import androidx.test.espresso.Espresso.onView
 import androidx.test.espresso.action.ViewActions.click
+import androidx.test.espresso.action.ViewActions.replaceText
 import androidx.test.espresso.action.ViewActions.swipeUp
-import androidx.test.espresso.action.ViewActions.typeText
 import androidx.test.espresso.assertion.ViewAssertions.matches
 import androidx.test.espresso.matcher.ViewMatchers.isDisplayed
 import androidx.test.espresso.matcher.ViewMatchers.withId
 import androidx.test.internal.runner.junit4.AndroidJUnit4ClassRunner
 import com.decagonhq.clads.R
+import com.decagonhq.clads.ui.auth.EmailSignUpFragmentTest.Companion.EMAIL
 import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
@@ -80,7 +81,7 @@ class ForgotPasswordFragmentTest {
         /*Input Data*/
         // disable animation for this to work
         onView(withId(R.id.forgot_password_fragment_email_edit_text)).perform(
-            typeText(
+            replaceText(
                 EMAIL
             )
         )
@@ -92,10 +93,5 @@ class ForgotPasswordFragmentTest {
 
         /*Check if Confirmation Password Reset Fragment is Displayed*/
         verify(navController).navigate(R.id.action_forgotPasswordFragment_to_confirmPasswordResetFragment)
-    }
-
-    companion object {
-
-        const val EMAIL = "johndoe@gmail.com"
     }
 }

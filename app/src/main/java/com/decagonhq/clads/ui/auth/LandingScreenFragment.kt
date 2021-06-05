@@ -12,7 +12,7 @@ import com.decagonhq.clads.databinding.LandingScreenFragmentBinding
 
 class LandingScreenFragment : Fragment() {
 
-    private lateinit var emaiLoginButton: TextView
+    private lateinit var emailLoginButton: TextView
     private var _binding: LandingScreenFragmentBinding? = null
     private val binding get() = _binding!!
 
@@ -29,7 +29,7 @@ class LandingScreenFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        emaiLoginButton = binding.landingScreenFragmentLoginButton
+        emailLoginButton = binding.landingScreenFragmentLoginButton
 
         // Navigation to sign up option fragment
         binding.landingScreenFragmentSignUpButton.setOnClickListener {
@@ -37,7 +37,7 @@ class LandingScreenFragment : Fragment() {
         }
 
         // Navigation to login fragment
-        emaiLoginButton.setOnClickListener {
+        emailLoginButton.setOnClickListener {
             findNavController().navigate(R.id.action_landing_screen_fragment_to_login_fragment)
         }
     }

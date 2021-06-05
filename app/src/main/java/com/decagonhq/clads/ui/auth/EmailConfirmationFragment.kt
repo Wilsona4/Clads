@@ -25,8 +25,7 @@ class EmailConfirmationFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        val retrievedArgs = args.myArg
-        binding.emailConfirmationFragmentHelloTextView.text = retrievedArgs
+        /*Navigate to Login Screen After Confirmation*/
     }
 
     override fun onDestroyView() {

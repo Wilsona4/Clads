@@ -55,6 +55,7 @@
     <string name="all_please_enter_first_name">Please Enter First Name</string>
     <string name="all_password_mismatch">Password Mismatch</string>
     <string name="all_select_account_type">Select Account Type</string>
+    <string name="new_user_sign_up_for_free">New user? Sign Up for free</string>
     <string-array name="account_category">
         <item>Tailor</item>
         <item>Weaver</item>

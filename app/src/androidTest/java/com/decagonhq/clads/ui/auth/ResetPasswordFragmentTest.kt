@@ -15,6 +15,7 @@ import androidx.test.espresso.matcher.ViewMatchers.isDisplayed
 import androidx.test.espresso.matcher.ViewMatchers.withId
 import androidx.test.internal.runner.junit4.AndroidJUnit4ClassRunner
 import com.decagonhq.clads.R
+import com.decagonhq.clads.ui.auth.EmailSignUpFragmentTest.Companion.PASSWORD
 import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
@@ -98,10 +99,5 @@ class ResetPasswordFragmentTest {
 
         /*Check if Confirmation Password Reset Fragment is Displayed*/
         verify(navController).navigate(R.id.login_fragment)
-    }
-
-    companion object {
-
-        const val PASSWORD = "Abcde@1234"
     }
 }

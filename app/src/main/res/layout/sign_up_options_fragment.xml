@@ -19,7 +19,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/margin_20dp"
             android:contentDescription="@string/clads_logo"
-            android:src="@drawable/sign_up_screen_logo"
+            android:src="@drawable/clads_logo"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="@+id/guideline2" />

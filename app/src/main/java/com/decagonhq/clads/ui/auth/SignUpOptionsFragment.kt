@@ -12,14 +12,11 @@ import androidx.navigation.fragment.findNavController
 import com.decagonhq.clads.R
 import com.decagonhq.clads.databinding.SignUpOptionsFragmentBinding
 import com.google.android.gms.auth.api.signin.GoogleSignIn
+import com.google.android.gms.auth.api.signin.GoogleSignInAccount
 import com.google.android.gms.auth.api.signin.GoogleSignInClient
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions
 import com.google.android.gms.common.api.ApiException
-import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.auth.FirebaseUser
-import com.google.firebase.auth.GoogleAuthProvider
-import com.google.firebase.auth.ktx.auth
-import com.google.firebase.ktx.Firebase
+import com.google.android.gms.tasks.Task
 
 class SignUpOptionsFragment : Fragment() {
 
@@ -27,10 +24,10 @@ class SignUpOptionsFragment : Fragment() {
     private val binding get() = _binding!!
     private lateinit var emailSignUpButton: TextView
     private lateinit var googleSignUpButton: TextView
+    private lateinit var loginButton: TextView
     private lateinit var cladsGoogleSignInClient: GoogleSignInClient
     private var GOOGLE_SIGN_IN_REQ_CODE = 100
-    private lateinit var emailLoginButton: TextView
-    private lateinit var authentication: FirebaseAuth
+
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -44,49 +41,30 @@ class SignUpOptionsFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        emailLoginButton = binding.signUpOptionsFragmentLoginTextView
-
-        // Navigation to login screen
-        emailLoginButton.setOnClickListener {
-            findNavController().navigate(R.id.action_signUpOptionsFragment_to_loginFragment)
-        }
-
-        // create the google sign in client
-        val googleSignInOptions = GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
-            .requestIdToken(getString(R.string.default_web_client_id))
-            .requestEmail()
-            .build()
-        cladsGoogleSignInClient = GoogleSignIn.getClient(requireContext(), googleSignInOptions)
-        /*Initialize Firebase Auth */
-        authentication = Firebase.auth
-        /*add a listener to the sign in button*/
-        /*Initialize Firebase Auth */
-        authentication = Firebase.auth
-
         emailSignUpButton = binding.signUpOptionsFragmentSignUpWithEmailButton
         googleSignUpButton = binding.signUpOptionsFragmentCladsSignUpWithGoogleButton
+        loginButton = binding.signUpOptionsFragmentLoginTextView
+
+        /*create the google sign in client*/
+        val googleSignInOptions =
+            GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
+                .requestIdToken(getString(R.string.default_web_client_id))
+                .requestEmail()
+                .build()
+
+        cladsGoogleSignInClient = GoogleSignIn.getClient(requireContext(), googleSignInOptions)
 
         emailSignUpButton.setOnClickListener {
-            findNavController().navigate(R.id.email_sign_up_fragment)
+            loadEmailSignUpFragment()
         }
 
+        /*add a listener to the sign in button*/
         googleSignUpButton.setOnClickListener {
+            signIn()
+        }
 
-            /*create the google sign in client*/
-            val googleSignInOptions =
-                GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
-                    .requestIdToken(getString(R.string.default_web_client_id))
-                    .requestEmail()
-                    .build()
-
-            cladsGoogleSignInClient = GoogleSignIn.getClient(requireContext(), googleSignInOptions)
-            /*Initialize Firebase Auth */
-            authentication = Firebase.auth
-
-            /*add a listener to the sign in button*/
-//        binding.signInButton.setOnClickListener {
-//            signIn()
-//        }
+        loginButton.setOnClickListener {
+            findNavController().navigate(R.id.login_fragment)
         }
     }
 
@@ -101,52 +79,23 @@ class SignUpOptionsFragment : Fragment() {
         super.onActivityResult(requestCode, resultCode, data)
         if (requestCode == GOOGLE_SIGN_IN_REQ_CODE) {
             val task = GoogleSignIn.getSignedInAccountFromIntent(data)
-            try {
-                val account = task.getResult(ApiException::class.java)
-                firebaseAuthWithGoogle(account?.idToken!!)
-            } catch (e: ApiException) {
-                Toast.makeText(requireActivity(), e.localizedMessage, Toast.LENGTH_SHORT).show()
-            }
+            handleSignUpResult(task)
         }
     }
 
-    /*check for existing account on start*/
-    override fun onStart() {
-        super.onStart()
-        /*Check if user is signed in (non-null) and update UI accordingly.*/
-        val currentUser = authentication.currentUser
-
-        if (currentUser != null) {
-            findNavController().navigate(R.id.action_signUpOptionsFragment_to_emailSignUpFragment)
+    /*handles the result of successful signUp with google*/
+    private fun handleSignUpResult(completedTask: Task<GoogleSignInAccount>) {
+        try {
+            val account = completedTask.getResult(ApiException::class.java)
+            account?.let { loadEmailSignUpFragment() }
+        } catch (e: ApiException) {
+            Toast.makeText(requireContext(), "Login Failed", Toast.LENGTH_SHORT).show()
         }
     }
 
-    // start auth with google
-    private fun firebaseAuthWithGoogle(idToken: String) {
-        val credential = GoogleAuthProvider.getCredential(idToken, null)
-        authentication.signInWithCredential(credential)
-            .addOnCompleteListener(requireActivity()) { task ->
-                if (task.isSuccessful) {
-
-                    // Sign in success, update UI with the signed-in user's information
-                    val user = authentication.currentUser
-                    updateUI(user)
-                    Toast.makeText(requireContext(), "User Signed In", Toast.LENGTH_SHORT)
-                        .show()
-                } else {
-                    // If sign in fails, display a message to the user.
-                    Toast.makeText(
-                        requireContext(), "Authentication failed.",
-                        Toast.LENGTH_SHORT
-                    ).show()
-                    updateUI(null)
-                }
-            }
-    }
-
-    /*update the user*/
-    private fun updateUI(user: FirebaseUser?) {
-        findNavController().navigate(R.id.action_signUpOptionsFragment_to_emailSignUpFragment)
+    /*load the emailSignUpFragment*/
+    private fun loadEmailSignUpFragment() {
+        findNavController().navigate(R.id.email_sign_up_fragment)
     }
 
     /*remove the binding from the view to prevent memory leak*/

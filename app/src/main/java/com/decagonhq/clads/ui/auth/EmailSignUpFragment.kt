@@ -6,6 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ArrayAdapter
 import android.widget.AutoCompleteTextView
+import android.widget.TextView
 import androidx.core.widget.doOnTextChanged
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
@@ -14,10 +15,14 @@ import com.decagonhq.clads.databinding.EmailSignUpFragmentBinding
 import com.decagonhq.clads.util.ValidationObject.validateAccountCategory
 import com.decagonhq.clads.util.ValidationObject.validateEmail
 import com.decagonhq.clads.util.ValidationObject.validatePasswordMismatch
+import com.google.android.gms.auth.api.signin.GoogleSignIn
+import com.google.android.gms.auth.api.signin.GoogleSignInClient
+import com.google.android.gms.auth.api.signin.GoogleSignInOptions
 import com.google.android.material.button.MaterialButton
 import com.google.android.material.textfield.TextInputEditText
 
 class EmailSignUpFragment : Fragment() {
+    private lateinit var cladsGoogleSignInClient: GoogleSignInClient
     private var _binding: EmailSignUpFragmentBinding? = null
     private val binding get() = _binding!!
 
@@ -29,6 +34,7 @@ class EmailSignUpFragment : Fragment() {
     private lateinit var passwordEditText: TextInputEditText
     private lateinit var confirmPasswordEditText: TextInputEditText
     private lateinit var signUpButton: MaterialButton
+    private lateinit var loginButton: TextView
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -51,8 +57,13 @@ class EmailSignUpFragment : Fragment() {
         passwordEditText = binding.emailSignUpFragmentPasswordEditText
         confirmPasswordEditText = binding.emailSignUpFragmentConfirmPasswordEditText
         signUpButton = binding.emailSignUpFragmentSignupButton
+        loginButton = binding.emailSignUpFragmentLoginTextView
 
-        validateSignUpFieldsOnTextChange()
+        getUserRemoteData()
+
+        loginButton.setOnClickListener {
+            findNavController().navigate(R.id.login_fragment)
+        }
 
         /*Validate Email Sign Up*/
         signUpButton.setOnClickListener {
@@ -79,15 +90,18 @@ class EmailSignUpFragment : Fragment() {
                     return@setOnClickListener
                 }
                 email.isEmpty() -> {
-                    binding.emailSignUpFragmentEmailEditTextLayout.error = getString(R.string.all_email_cant_be_empty)
+                    binding.emailSignUpFragmentEmailEditTextLayout.error =
+                        getString(R.string.all_email_cant_be_empty)
                     return@setOnClickListener
                 }
                 !validateEmail(email) -> {
-                    binding.emailSignUpFragmentEmailEditTextLayout.error = getString(R.string.all_invalid_email)
+                    binding.emailSignUpFragmentEmailEditTextLayout.error =
+                        getString(R.string.all_invalid_email)
                     return@setOnClickListener
                 }
                 password.isEmpty() -> {
-                    binding.emailSignUpFragmentPasswordEditTextLayout.error = getString(R.string.all_password_is_required)
+                    binding.emailSignUpFragmentPasswordEditTextLayout.error =
+                        getString(R.string.all_password_is_required)
                     binding.emailSignUpFragmentPasswordEditTextLayout.errorIconDrawable = null
                     return@setOnClickListener
                 }
@@ -107,11 +121,7 @@ class EmailSignUpFragment : Fragment() {
                 }
                 else -> {
                     if (validateSignUpFieldsOnTextChange()) {
-                        val action =
-                            EmailSignUpFragmentDirections.actionEmailSignUpFragmentToEmailConfirmationFragment(
-                                accountCategory
-                            )
-                        findNavController().navigate(action)
+                        findNavController().navigate(R.id.email_confirmation_fragment)
                     }
                 }
             }
@@ -128,13 +138,16 @@ class EmailSignUpFragment : Fragment() {
             accountCategories
         )
         accountCategoryDropDown.setAdapter(accountCategoriesArrayAdapter)
+
+        /*Method to Validate All Sign Up Fields*/
+        validateSignUpFieldsOnTextChange()
     }
 
     /*Method to Validate All Sign Up Fields*/
     private fun validateSignUpFieldsOnTextChange(): Boolean {
         var isValidated = true
 
-        firstNameEditText.doOnTextChanged { text, start, before, count ->
+        firstNameEditText.doOnTextChanged { _, _, _, _ ->
             when {
                 firstNameEditText.text.toString().trim().isEmpty() -> {
                     binding.emailSignUpFragmentFirstNameEditTextLayout.error =
@@ -148,14 +161,16 @@ class EmailSignUpFragment : Fragment() {
             }
         }
 
-        emailEditText.doOnTextChanged { text, start, before, count ->
+        emailEditText.doOnTextChanged { _, _, _, _ ->
             when {
                 emailEditText.text.toString().trim().isEmpty() -> {
-                    binding.emailSignUpFragmentEmailEditTextLayout.error = getString(R.string.all_email_cant_be_empty)
+                    binding.emailSignUpFragmentEmailEditTextLayout.error =
+                        getString(R.string.all_email_cant_be_empty)
                     isValidated = false
                 }
                 !validateEmail(emailEditText.text.toString().trim()) -> {
-                    binding.emailSignUpFragmentEmailEditTextLayout.error = getString(R.string.all_invalid_email)
+                    binding.emailSignUpFragmentEmailEditTextLayout.error =
+                        getString(R.string.all_invalid_email)
                     isValidated = false
                 }
                 else -> {
@@ -165,10 +180,11 @@ class EmailSignUpFragment : Fragment() {
             }
         }
 
-        passwordEditText.doOnTextChanged { text, start, before, count ->
+        passwordEditText.doOnTextChanged { _, _, _, _ ->
             when {
                 passwordEditText.text.toString().trim().isEmpty() -> {
-                    binding.emailSignUpFragmentPasswordEditTextLayout.error = getString(R.string.all_password_is_required)
+                    binding.emailSignUpFragmentPasswordEditTextLayout.error =
+                        getString(R.string.all_password_is_required)
                     binding.emailSignUpFragmentPasswordEditTextLayout.errorIconDrawable = null
                     isValidated = false
                 }
@@ -179,7 +195,7 @@ class EmailSignUpFragment : Fragment() {
             }
         }
 
-        confirmPasswordEditText.doOnTextChanged { text, start, before, count ->
+        confirmPasswordEditText.doOnTextChanged { _, _, _, _ ->
             when {
                 confirmPasswordEditText.text.toString().trim().isEmpty() -> {
                     binding.emailSignUpFragmentConfirmPasswordEditTextLayout.error =
@@ -205,9 +221,10 @@ class EmailSignUpFragment : Fragment() {
             }
         }
 
-        accountCategoryDropDown.doOnTextChanged { text, start, before, count ->
+        accountCategoryDropDown.doOnTextChanged { _, _, _, _ ->
             if (!validateAccountCategory(binding.emailSignUpFragmentAccountCategoryTextView.text.toString())) {
-                binding.emailSignUpFragmentAccountCategoryTextLayout.error = getString(R.string.all_select_account_type)
+                binding.emailSignUpFragmentAccountCategoryTextLayout.error =
+                    getString(R.string.all_select_account_type)
                 binding.emailSignUpFragmentAccountCategoryTextLayout.errorIconDrawable = null
                 isValidated = false
             } else {
@@ -217,6 +234,25 @@ class EmailSignUpFragment : Fragment() {
         }
 
         return isValidated
+    }
+
+    private fun getUserRemoteData() {
+
+        val googleSignInOptions = GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
+            .requestEmail()
+            .build()
+        cladsGoogleSignInClient = GoogleSignIn.getClient(requireContext(), googleSignInOptions)
+
+        val googleAccount = GoogleSignIn.getLastSignedInAccount(requireContext())
+
+        if (googleAccount != null) {
+            val accountFirstName = googleAccount.givenName
+            val accountLastName = googleAccount.familyName
+            val accountEmail = googleAccount.email
+            firstNameEditText.setText(accountFirstName)
+            lastNameEditText.setText(accountLastName)
+            emailEditText.setText(accountEmail)
+        }
     }
 
     override fun onDestroyView() {
