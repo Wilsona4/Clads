@@ -6,6 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ArrayAdapter
 import android.widget.AutoCompleteTextView
+import android.widget.TextView
 import androidx.core.widget.doOnTextChanged
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
@@ -33,6 +34,7 @@ class EmailSignUpFragment : Fragment() {
     private lateinit var passwordEditText: TextInputEditText
     private lateinit var confirmPasswordEditText: TextInputEditText
     private lateinit var signUpButton: MaterialButton
+    private lateinit var loginButton: TextView
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -55,9 +57,13 @@ class EmailSignUpFragment : Fragment() {
         passwordEditText = binding.emailSignUpFragmentPasswordEditText
         confirmPasswordEditText = binding.emailSignUpFragmentConfirmPasswordEditText
         signUpButton = binding.emailSignUpFragmentSignupButton
+        loginButton = binding.emailSignUpFragmentLoginTextView
 
         getUserRemoteData()
-        validateSignUpFieldsOnTextChange()
+
+        loginButton.setOnClickListener {
+            findNavController().navigate(R.id.login_fragment)
+        }
 
         /*Validate Email Sign Up*/
         signUpButton.setOnClickListener {
@@ -115,11 +121,7 @@ class EmailSignUpFragment : Fragment() {
                 }
                 else -> {
                     if (validateSignUpFieldsOnTextChange()) {
-                        val action =
-                            EmailSignUpFragmentDirections.actionEmailSignUpFragmentToEmailConfirmationFragment(
-                                accountCategory
-                            )
-                        findNavController().navigate(action)
+                        findNavController().navigate(R.id.email_confirmation_fragment)
                     }
                 }
             }
@@ -136,13 +138,16 @@ class EmailSignUpFragment : Fragment() {
             accountCategories
         )
         accountCategoryDropDown.setAdapter(accountCategoriesArrayAdapter)
+
+        /*Method to Validate All Sign Up Fields*/
+        validateSignUpFieldsOnTextChange()
     }
 
     /*Method to Validate All Sign Up Fields*/
     private fun validateSignUpFieldsOnTextChange(): Boolean {
         var isValidated = true
 
-        firstNameEditText.doOnTextChanged { text, start, before, count ->
+        firstNameEditText.doOnTextChanged { _, _, _, _ ->
             when {
                 firstNameEditText.text.toString().trim().isEmpty() -> {
                     binding.emailSignUpFragmentFirstNameEditTextLayout.error =
@@ -156,7 +161,7 @@ class EmailSignUpFragment : Fragment() {
             }
         }
 
-        emailEditText.doOnTextChanged { text, start, before, count ->
+        emailEditText.doOnTextChanged { _, _, _, _ ->
             when {
                 emailEditText.text.toString().trim().isEmpty() -> {
                     binding.emailSignUpFragmentEmailEditTextLayout.error =
@@ -175,7 +180,7 @@ class EmailSignUpFragment : Fragment() {
             }
         }
 
-        passwordEditText.doOnTextChanged { text, start, before, count ->
+        passwordEditText.doOnTextChanged { _, _, _, _ ->
             when {
                 passwordEditText.text.toString().trim().isEmpty() -> {
                     binding.emailSignUpFragmentPasswordEditTextLayout.error =
@@ -190,7 +195,7 @@ class EmailSignUpFragment : Fragment() {
             }
         }
 
-        confirmPasswordEditText.doOnTextChanged { text, start, before, count ->
+        confirmPasswordEditText.doOnTextChanged { _, _, _, _ ->
             when {
                 confirmPasswordEditText.text.toString().trim().isEmpty() -> {
                     binding.emailSignUpFragmentConfirmPasswordEditTextLayout.error =
@@ -216,7 +221,7 @@ class EmailSignUpFragment : Fragment() {
             }
         }
 
-        accountCategoryDropDown.doOnTextChanged { text, start, before, count ->
+        accountCategoryDropDown.doOnTextChanged { _, _, _, _ ->
             if (!validateAccountCategory(binding.emailSignUpFragmentAccountCategoryTextView.text.toString())) {
                 binding.emailSignUpFragmentAccountCategoryTextLayout.error =
                     getString(R.string.all_select_account_type)

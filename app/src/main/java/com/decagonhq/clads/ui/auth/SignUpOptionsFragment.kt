@@ -24,6 +24,7 @@ class SignUpOptionsFragment : Fragment() {
     private val binding get() = _binding!!
     private lateinit var emailSignUpButton: TextView
     private lateinit var googleSignUpButton: TextView
+    private lateinit var loginButton: TextView
     private lateinit var cladsGoogleSignInClient: GoogleSignInClient
     private var GOOGLE_SIGN_IN_REQ_CODE = 100
 
@@ -42,6 +43,7 @@ class SignUpOptionsFragment : Fragment() {
 
         emailSignUpButton = binding.signUpOptionsFragmentSignUpWithEmailButton
         googleSignUpButton = binding.signUpOptionsFragmentCladsSignUpWithGoogleButton
+        loginButton = binding.signUpOptionsFragmentLoginTextView
 
         /*create the google sign in client*/
         val googleSignInOptions =
@@ -59,6 +61,10 @@ class SignUpOptionsFragment : Fragment() {
         /*add a listener to the sign in button*/
         googleSignUpButton.setOnClickListener {
             signIn()
+        }
+
+        loginButton.setOnClickListener {
+            findNavController().navigate(R.id.login_fragment)
         }
     }
 

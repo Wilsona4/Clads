@@ -4,16 +4,20 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.widget.doOnTextChanged
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import com.decagonhq.clads.R
 import com.decagonhq.clads.databinding.ResetPasswordFragmentBinding
 import com.decagonhq.clads.util.ValidationObject.validatePasswordMismatch
+import com.google.android.material.textfield.TextInputEditText
 
 class ResetPasswordFragment : Fragment() {
 
     private var _binding: ResetPasswordFragmentBinding? = null
     private val binding get() = _binding!!
+    private lateinit var newPasswordEditText: TextInputEditText
+    private lateinit var confirmNewPasswordEditText: TextInputEditText
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -30,21 +34,25 @@ class ResetPasswordFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         /*Initialize User Inputs*/
-        val newPasswordEditText = binding.resetPasswordFragmentNewPasswordEditText
-        val confirmNewPasswordEditText = binding.resetPasswordFragmentConfirmNewPasswordEditText
+        newPasswordEditText = binding.resetPasswordFragmentNewPasswordEditText
+        confirmNewPasswordEditText = binding.resetPasswordFragmentConfirmNewPasswordEditText
 
         /*Validate Email*/
         binding.resetPasswordFragmentBtnResetPasswordButton.setOnClickListener {
 
             when {
-
                 newPasswordEditText.text.toString().isEmpty() -> {
-                    newPasswordEditText.error = getString(R.string.all_password_is_required)
+                    binding.resetPasswordFragmentNewPasswordEditTextLayout.error =
+                        getString(R.string.all_password_is_required)
+                    binding.resetPasswordFragmentNewPasswordEditTextLayout.errorIconDrawable = null
                     return@setOnClickListener
                 }
 
                 confirmNewPasswordEditText.text.toString().isEmpty() -> {
-                    confirmNewPasswordEditText.error = getString(R.string.all_password_is_required)
+                    binding.resetPasswordFragmentConfirmNewPasswordEditTextLayout.error =
+                        getString(R.string.all_password_is_required)
+                    binding.resetPasswordFragmentConfirmNewPasswordEditTextLayout.errorIconDrawable =
+                        null
                     return@setOnClickListener
                 }
 
@@ -52,16 +60,57 @@ class ResetPasswordFragment : Fragment() {
                     newPasswordEditText.text.toString(),
                     confirmNewPasswordEditText.text.toString()
                 ) -> {
-
-                    binding.resetPasswordFragmentConfirmNewPasswordEditText.error =
+                    binding.resetPasswordFragmentConfirmNewPasswordEditTextLayout.error =
                         getString(R.string.all_password_mismatch)
+                    binding.resetPasswordFragmentConfirmNewPasswordEditTextLayout.errorIconDrawable =
+                        null
                     return@setOnClickListener
                 }
                 else -> {
-                    findNavController().navigate(R.id.login_fragment)
+                    if (validateSignUpFieldsOnTextChange()) {
+                        findNavController().navigate(R.id.login_fragment)
+                    }
                 }
             }
         }
+    }
+
+    override fun onResume() {
+        super.onResume()
+        /*Method to Validate Text Field onText Change*/
+        validateSignUpFieldsOnTextChange()
+    }
+
+    /*Method to Validate All Password Fields*/
+    private fun validateSignUpFieldsOnTextChange(): Boolean {
+        var isValidated = true
+
+        confirmNewPasswordEditText.doOnTextChanged { _, _, _, _ ->
+            when {
+                confirmNewPasswordEditText.text.toString().trim().isEmpty() -> {
+                    binding.resetPasswordFragmentConfirmNewPasswordEditTextLayout.error =
+                        getString(R.string.all_password_is_required)
+                    binding.resetPasswordFragmentConfirmNewPasswordEditTextLayout.errorIconDrawable =
+                        null
+                    isValidated = false
+                }
+                !validatePasswordMismatch(
+                    newPasswordEditText.text.toString().trim(),
+                    confirmNewPasswordEditText.text.toString().trim()
+                ) -> {
+                    binding.resetPasswordFragmentConfirmNewPasswordEditTextLayout.error =
+                        getString(R.string.all_password_mismatch)
+                    binding.resetPasswordFragmentConfirmNewPasswordEditTextLayout.errorIconDrawable =
+                        null
+                    isValidated = false
+                }
+                else -> {
+                    binding.resetPasswordFragmentConfirmNewPasswordEditTextLayout.error = null
+                    isValidated = true
+                }
+            }
+        }
+        return isValidated
     }
 
     override fun onDestroyView() {

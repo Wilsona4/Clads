@@ -1,4 +1,4 @@
-package com.decagonhq.clads.ui.view
+package com.decagonhq.clads.ui.auth
 
 import android.content.Context
 import androidx.fragment.app.testing.launchFragmentInContainer
@@ -14,11 +14,11 @@ import org.junit.Test
 import org.junit.runner.RunWith
 
 @RunWith(AndroidJUnit4ClassRunner::class)
-class ConfirmPasswordResetFragmentTest {
+class ResetPasswordConfirmationFragmentTest {
     @Before
     fun setUp() {
         val scenario =
-            launchFragmentInContainer<ConfirmPasswordResetFragment>(themeResId = R.style.Base_Theme_MaterialComponents)
+            launchFragmentInContainer<ResetPasswordConfirmationFragment>(themeResId = R.style.Base_Theme_MaterialComponents)
         val context = ApplicationProvider.getApplicationContext<Context>()
     }
 
