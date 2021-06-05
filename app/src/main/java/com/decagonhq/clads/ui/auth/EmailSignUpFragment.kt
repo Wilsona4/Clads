@@ -6,6 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ArrayAdapter
 import android.widget.AutoCompleteTextView
+import android.widget.TextView
 import androidx.core.widget.doOnTextChanged
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
@@ -55,6 +56,7 @@ class EmailSignUpFragment : Fragment() {
         passwordEditText = binding.emailSignUpFragmentPasswordEditText
         confirmPasswordEditText = binding.emailSignUpFragmentConfirmPasswordEditText
         signUpButton = binding.emailSignUpFragmentSignupButton
+
 
         getUserRemoteData()
         validateSignUpFieldsOnTextChange()

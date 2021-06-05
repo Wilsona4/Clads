@@ -80,16 +80,6 @@ class SignUpOptionsFragment : Fragment() {
         }
     }
 
-    /*check for existing account on start*/
-    override fun onStart() {
-        super.onStart()
-        /*Check if user is signed in (non-null) and update UI accordingly.*/
-        val account = GoogleSignIn.getLastSignedInAccount(requireContext())
-        if (account != null) {
-            loadEmailSignUpFragment()
-        }
-    }
-
     private fun loadEmailSignUpFragment() {
         findNavController().navigate(R.id.email_sign_up_fragment)
     }
