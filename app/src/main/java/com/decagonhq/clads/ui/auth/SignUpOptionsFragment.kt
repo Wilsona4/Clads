@@ -12,9 +12,11 @@ import androidx.navigation.fragment.findNavController
 import com.decagonhq.clads.R
 import com.decagonhq.clads.databinding.SignUpOptionsFragmentBinding
 import com.google.android.gms.auth.api.signin.GoogleSignIn
+import com.google.android.gms.auth.api.signin.GoogleSignInAccount
 import com.google.android.gms.auth.api.signin.GoogleSignInClient
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions
 import com.google.android.gms.common.api.ApiException
+import com.google.android.gms.tasks.Task
 
 class SignUpOptionsFragment : Fragment() {
 
@@ -37,7 +39,6 @@ class SignUpOptionsFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        /*Initialize Firebase Auth */
 
         emailSignUpButton = binding.signUpOptionsFragmentSignUpWithEmailButton
         googleSignUpButton = binding.signUpOptionsFragmentCladsSignUpWithGoogleButton
@@ -71,15 +72,22 @@ class SignUpOptionsFragment : Fragment() {
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
         if (requestCode == GOOGLE_SIGN_IN_REQ_CODE) {
-            try {
-                loadEmailSignUpFragment()
-            } catch (e: ApiException) {
-                Toast.makeText(requireContext(), "Login Failed", Toast.LENGTH_SHORT).show()
-            }
-
+          val task = GoogleSignIn.getSignedInAccountFromIntent(data)
+            handleSignUpResult(task)
         }
     }
 
+    /*handles the result of successful signUp with google*/
+    private fun handleSignUpResult(completedTask: Task<GoogleSignInAccount>){
+        try {
+            val account = completedTask.getResult(ApiException::class.java)
+            account?.let { loadEmailSignUpFragment() }
+        } catch (e: ApiException){
+            Toast.makeText(requireContext(), "Login Failed", Toast.LENGTH_SHORT).show()
+        }
+    }
+
+    /*load the emailSignUpFragment*/
     private fun loadEmailSignUpFragment() {
         findNavController().navigate(R.id.email_sign_up_fragment)
     }
