@@ -19,7 +19,6 @@ import com.google.android.gms.common.api.ApiException
 import com.google.android.gms.tasks.Task
 
 class SignUpOptionsFragment : Fragment() {
-
     private var _binding: SignUpOptionsFragmentBinding? = null
     private val binding get() = _binding!!
     private lateinit var emailSignUpButton: TextView
@@ -27,7 +26,6 @@ class SignUpOptionsFragment : Fragment() {
     private lateinit var loginButton: TextView
     private lateinit var cladsGoogleSignInClient: GoogleSignInClient
     private var GOOGLE_SIGN_IN_REQ_CODE = 100
-
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -40,40 +38,38 @@ class SignUpOptionsFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
         emailSignUpButton = binding.signUpOptionsFragmentSignUpWithEmailButton
         googleSignUpButton = binding.signUpOptionsFragmentCladsSignUpWithGoogleButton
         loginButton = binding.signUpOptionsFragmentLoginTextView
+        emailSignUpButton.setOnClickListener {
+            findNavController().navigate(R.id.email_sign_up_fragment)
+        }
+        /*call the googleSignInClient method*/
+        googleSignInClient()
+        /*add a listener to the sign in button*/
+        googleSignUpButton.setOnClickListener {
+            signIn()
+        }
+        loginButton.setOnClickListener {
+            findNavController().navigate(R.id.login_fragment)
+        }
+    }
 
+    private fun googleSignInClient() {
         /*create the google sign in client*/
         val googleSignInOptions =
             GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
                 .requestIdToken(getString(R.string.default_web_client_id))
                 .requestEmail()
                 .build()
-
         cladsGoogleSignInClient = GoogleSignIn.getClient(requireContext(), googleSignInOptions)
-
-        emailSignUpButton.setOnClickListener {
-            loadEmailSignUpFragment()
-        }
-
-        /*add a listener to the sign in button*/
-        googleSignUpButton.setOnClickListener {
-            signIn()
-        }
-
-        loginButton.setOnClickListener {
-            findNavController().navigate(R.id.login_fragment)
-        }
     }
-
     /*launch the login screen*/
     private fun signIn() {
+        cladsGoogleSignInClient.signOut()
         val signInIntent = cladsGoogleSignInClient.signInIntent
         startActivityForResult(signInIntent, GOOGLE_SIGN_IN_REQ_CODE)
     }
-
     /*gets the result of successful authentication*/
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
@@ -82,22 +78,22 @@ class SignUpOptionsFragment : Fragment() {
             handleSignUpResult(task)
         }
     }
-
     /*handles the result of successful signUp with google*/
     private fun handleSignUpResult(completedTask: Task<GoogleSignInAccount>) {
         try {
             val account = completedTask.getResult(ApiException::class.java)
-            account?.let { loadEmailSignUpFragment() }
+            loadEmailSignUpFragment(account)
         } catch (e: ApiException) {
-            Toast.makeText(requireContext(), "Login Failed", Toast.LENGTH_SHORT).show()
+            loadEmailSignUpFragment(null)
+            Toast.makeText(requireContext(), "Cancelled", Toast.LENGTH_SHORT).show()
         }
     }
-
     /*load the emailSignUpFragment*/
-    private fun loadEmailSignUpFragment() {
-        findNavController().navigate(R.id.email_sign_up_fragment)
+    private fun loadEmailSignUpFragment(account: GoogleSignInAccount?) {
+        if (account != null) {
+            findNavController().navigate(R.id.email_sign_up_fragment)
+        }
     }
-
     /*remove the binding from the view to prevent memory leak*/
     override fun onDestroyView() {
         super.onDestroyView()
