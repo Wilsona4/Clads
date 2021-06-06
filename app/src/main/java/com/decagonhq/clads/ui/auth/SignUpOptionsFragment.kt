@@ -55,7 +55,7 @@ class SignUpOptionsFragment : Fragment() {
         cladsGoogleSignInClient = GoogleSignIn.getClient(requireContext(), googleSignInOptions)
 
         emailSignUpButton.setOnClickListener {
-            loadEmailSignUpFragment()
+            findNavController().navigate(R.id.email_sign_up_fragment)
         }
 
         /*add a listener to the sign in button*/
@@ -87,15 +87,19 @@ class SignUpOptionsFragment : Fragment() {
     private fun handleSignUpResult(completedTask: Task<GoogleSignInAccount>) {
         try {
             val account = completedTask.getResult(ApiException::class.java)
-            account?.let { loadEmailSignUpFragment() }
+             loadEmailSignUpFragment(account)
         } catch (e: ApiException) {
-            Toast.makeText(requireContext(), "Login Failed", Toast.LENGTH_SHORT).show()
+            loadEmailSignUpFragment(null)
+            Toast.makeText(requireContext(), "Cancelled", Toast.LENGTH_SHORT).show()
         }
     }
 
+
     /*load the emailSignUpFragment*/
-    private fun loadEmailSignUpFragment() {
-        findNavController().navigate(R.id.email_sign_up_fragment)
+    private fun loadEmailSignUpFragment(account: GoogleSignInAccount?) {
+        if (account != null){
+            findNavController().navigate(R.id.email_sign_up_fragment)
+        }
     }
 
     /*remove the binding from the view to prevent memory leak*/
