@@ -8,7 +8,6 @@ import androidx.fragment.app.Fragment
 import androidx.viewpager2.widget.ViewPager2
 import com.decagonhq.clads.R
 import com.decagonhq.clads.databinding.AddClientFragmentBinding
-import com.decagonhq.clads.ui.profile.editprofile.EditProfilePagerAdapter
 import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayoutMediator
 
@@ -36,7 +35,7 @@ class AddClientFragment : Fragment() {
         viewPager2 = binding.addClientViewPager
         tabLayout = binding.addClientTabLayout
 
-        val adapter = EditProfilePagerAdapter(childFragmentManager, lifecycle)
+        val adapter = AddClientPagerAdapter(childFragmentManager, lifecycle)
         viewPager2.adapter = adapter
 
         TabLayoutMediator(tabLayout, viewPager2) { tab, position ->
