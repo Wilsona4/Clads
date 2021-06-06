@@ -1,5 +1,6 @@
 package com.decagonhq.clads.ui.auth
 
+import android.content.Intent
 import android.graphics.Color
 import android.graphics.Typeface
 import android.os.Bundle
@@ -12,6 +13,7 @@ import android.text.style.ForegroundColorSpan
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Button
 import android.widget.TextView
 import androidx.core.content.res.ResourcesCompat
 import androidx.core.widget.doOnTextChanged
@@ -19,8 +21,15 @@ import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import com.decagonhq.clads.R
 import com.decagonhq.clads.databinding.LoginFragmentBinding
+import com.decagonhq.clads.ui.profile.DashboardActivity
 import com.decagonhq.clads.util.CustomTypefaceSpan
 import com.decagonhq.clads.util.ValidationObject.validateEmail
+import com.google.android.gms.auth.api.signin.GoogleSignIn
+import com.google.android.gms.auth.api.signin.GoogleSignInAccount
+import com.google.android.gms.auth.api.signin.GoogleSignInClient
+import com.google.android.gms.auth.api.signin.GoogleSignInOptions
+import com.google.android.gms.common.api.ApiException
+import com.google.android.gms.tasks.Task
 import com.google.android.material.textfield.TextInputEditText
 
 class LoginFragment : Fragment() {
@@ -32,6 +41,9 @@ class LoginFragment : Fragment() {
     private lateinit var forgetPasswordButton: TextView
     private lateinit var emailEditText: TextInputEditText
     private lateinit var passwordEditText: TextInputEditText
+    private lateinit var googleSignInButton: Button
+    private lateinit var cladsSignInClient: GoogleSignInClient
+    private var GOOGLE_SIGNIN_RQ_CODE = 100
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -53,8 +65,10 @@ class LoginFragment : Fragment() {
         passwordEditText = binding.loginFragmentPasswordEditText
         newUserSignUpForFree = binding.loginFragmentSignUpForFreeTextView
         forgetPasswordButton = binding.loginFragmentForgetPasswordTextView
+        googleSignInButton = binding.loginFragmentGoogleSignInButton
 
         newUserSignUpForFreeSpannable()
+        googleSignInClient()
 
         // On login button pressed
         binding.loginFragmentLogInButton.setOnClickListener {
@@ -81,7 +95,9 @@ class LoginFragment : Fragment() {
                     return@setOnClickListener
                 }
                 else -> {
-                    findNavController().navigate(R.id.action_loginFragment_to_dashboardFragment)
+//                    findNavController().navigate(R.id.action_loginFragment_to_dashboardFragment)
+                    val intent = Intent(requireContext(), DashboardActivity::class.java)
+                    startActivity(intent)
                 }
             }
         }
@@ -89,12 +105,59 @@ class LoginFragment : Fragment() {
         forgetPasswordButton.setOnClickListener {
             findNavController().navigate(R.id.forgot_password_fragment)
         }
+
+        googleSignInButton.setOnClickListener {
+            signIn()
+        }
     }
 
     override fun onResume() {
         super.onResume()
         /*Method to Validate Email Field onText Change*/
         validateSignUpFieldsOnTextChange()
+    }
+
+    /*create the googleSignIn client*/
+    private fun googleSignInClient() {
+        val googleSignInOptions = GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
+            .requestIdToken(getString(R.string.default_web_client_id))
+            .requestEmail()
+            .build()
+
+        cladsSignInClient = GoogleSignIn.getClient(requireContext(), googleSignInOptions)
+    }
+
+    /*launch the signIn with google dialog*/
+    private fun signIn() {
+        cladsSignInClient.signOut()
+        val signInIntent = cladsSignInClient.signInIntent
+        startActivityForResult(signInIntent, GOOGLE_SIGNIN_RQ_CODE)
+    }
+
+    /*gets the selected google account from the intent*/
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        if (requestCode == GOOGLE_SIGNIN_RQ_CODE) {
+            val task = GoogleSignIn.getSignedInAccountFromIntent(data)
+            handleSignInResult(task)
+        }
+    }
+
+    /*handles the result of successful sign in*/
+    private fun handleSignInResult(completedTask: Task<GoogleSignInAccount>) {
+        try {
+            val account = completedTask.getResult(ApiException::class.java)
+            loadDashBoardFragment(account)
+        } catch (e: ApiException) {
+            loadDashBoardFragment(null)
+        }
+    }
+
+    /*open the dashboard fragment if account was selected*/
+    private fun loadDashBoardFragment(account: GoogleSignInAccount?) {
+        if (account != null) {
+            findNavController().navigate(R.id.dashboard_fragment)
+        }
     }
 
     /*Method to Validate All Login In Fields*/
@@ -138,7 +201,7 @@ class LoginFragment : Fragment() {
     }
 
     private fun newUserSignUpForFreeSpannable() {
-        var message = getString(R.string.new_user_sign_up_for_free)
+        val message = getString(R.string.new_user_sign_up_for_free)
         val spannable = SpannableStringBuilder(message)
         val myTypeface = Typeface.create(
             ResourcesCompat.getFont(requireContext(), R.font.poppins_bold),

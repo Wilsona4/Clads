@@ -22,7 +22,7 @@
             android:textColor="@color/white"
             android:textSize="@dimen/text_size_18sp"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"/>
+            app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
             android:id="@+id/login_fragment_login_continue_text_view"
@@ -43,16 +43,16 @@
             android:layout_marginTop="@dimen/margin_29dp"
             android:text="@string/all_signup_with_google"
             android:textColor="@color/black"
-            app:iconGravity="textStart"
-            app:iconTintMode="multiply"
-            app:iconSize="@dimen/height_17dp"
-            app:cardCornerRadius="@dimen/corner_radius_5dp"
             app:backgroundTint="@color/white"
+            app:cardCornerRadius="@dimen/corner_radius_5dp"
             app:icon="@drawable/google_icon"
+            app:iconGravity="textStart"
+            app:iconSize="@dimen/height_17dp"
+            app:iconTintMode="multiply"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/login_fragment_login_continue_text_view"/>
+            app:layout_constraintTop_toBottomOf="@+id/login_fragment_login_continue_text_view" />
 
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/login_fragment_email_address_edit_text_layout"
