@@ -19,7 +19,6 @@ import com.google.android.gms.common.api.ApiException
 import com.google.android.gms.tasks.Task
 
 class SignUpOptionsFragment : Fragment() {
-
     private var _binding: SignUpOptionsFragmentBinding? = null
     private val binding get() = _binding!!
     private lateinit var emailSignUpButton: TextView
@@ -27,12 +26,7 @@ class SignUpOptionsFragment : Fragment() {
     private lateinit var loginButton: TextView
     private lateinit var cladsGoogleSignInClient: GoogleSignInClient
     private var GOOGLE_SIGN_IN_REQ_CODE = 100
-
-    override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         /*Inflate the layout for this fragment*/
         _binding = SignUpOptionsFragmentBinding.inflate(inflater, container, false)
         return binding.root
@@ -40,10 +34,16 @@ class SignUpOptionsFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
         emailSignUpButton = binding.signUpOptionsFragmentSignUpWithEmailButton
         googleSignUpButton = binding.signUpOptionsFragmentCladsSignUpWithGoogleButton
         loginButton = binding.signUpOptionsFragmentLoginTextView
+
+        emailSignUpButton.setOnClickListener {
+            findNavController().navigate(R.id.email_sign_up_fragment)
+        }
+
+        /*call the googleSignInClient method*/
+        googleSignInClient()
 
         emailSignUpButton.setOnClickListener {
             findNavController().navigate(R.id.email_sign_up_fragment)
@@ -56,7 +56,6 @@ class SignUpOptionsFragment : Fragment() {
         googleSignUpButton.setOnClickListener {
             signIn()
         }
-
         loginButton.setOnClickListener {
             findNavController().navigate(R.id.login_fragment)
         }

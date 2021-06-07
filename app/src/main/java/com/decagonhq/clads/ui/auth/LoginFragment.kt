@@ -21,6 +21,7 @@ import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import com.decagonhq.clads.R
 import com.decagonhq.clads.databinding.LoginFragmentBinding
+import com.decagonhq.clads.ui.profile.DashboardActivity
 import com.decagonhq.clads.util.CustomTypefaceSpan
 import com.decagonhq.clads.util.ValidationObject.validateEmail
 import com.google.android.gms.auth.api.signin.GoogleSignIn
@@ -67,6 +68,7 @@ class LoginFragment : Fragment() {
         googleSignInButton = binding.loginFragmentGoogleSignInButton
 
         newUserSignUpForFreeSpannable()
+        googleSignInClient()
 
         // On login button pressed
         binding.loginFragmentLogInButton.setOnClickListener {
@@ -93,7 +95,9 @@ class LoginFragment : Fragment() {
                     return@setOnClickListener
                 }
                 else -> {
-                    findNavController().navigate(R.id.action_loginFragment_to_dashboardFragment)
+//                    findNavController().navigate(R.id.action_loginFragment_to_dashboardFragment)
+                    val intent = Intent(requireContext(), DashboardActivity::class.java)
+                    startActivity(intent)
                 }
             }
         }
@@ -108,6 +112,12 @@ class LoginFragment : Fragment() {
         googleSignInButton.setOnClickListener {
             signIn()
         }
+    }
+
+    override fun onResume() {
+        super.onResume()
+        /*Method to Validate Email Field onText Change*/
+        validateSignUpFieldsOnTextChange()
     }
 
     /*create the googleSignIn client*/
@@ -149,14 +159,9 @@ class LoginFragment : Fragment() {
     /*open the dashboard fragment if account was selected*/
     private fun loadDashBoardFragment(account: GoogleSignInAccount?) {
         if (account != null) {
-            findNavController().navigate(R.id.dashboard_fragment)
+            val intent = Intent(requireContext(), DashboardActivity::class.java)
+            startActivity(intent)
         }
-    }
-
-    override fun onResume() {
-        super.onResume()
-        /*Method to Validate Email Field onText Change*/
-        validateSignUpFieldsOnTextChange()
     }
 
     /*Method to Validate All Login In Fields*/
@@ -200,7 +205,7 @@ class LoginFragment : Fragment() {
     }
 
     private fun newUserSignUpForFreeSpannable() {
-        var message = getString(R.string.new_user_sign_up_for_free)
+        val message = getString(R.string.new_user_sign_up_for_free)
         val spannable = SpannableStringBuilder(message)
         val myTypeface = Typeface.create(
             ResourcesCompat.getFont(requireContext(), R.font.poppins_bold),

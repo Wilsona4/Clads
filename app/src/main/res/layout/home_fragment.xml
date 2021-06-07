@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/home_fragment_root_layout"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".ui.profile.bottomnav.HomeFragment">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/home_fragment_card_details_constraint_layout"
+        android:layout_width="299dp"
+        android:layout_height="115dp"
+        android:layout_marginHorizontal="@dimen/margin_30dp"
+        android:layout_marginTop="@dimen/margin_16dp"
+        android:background="@drawable/card_details_background"
+        android:paddingStart="@dimen/padding_18dp"
+        android:paddingEnd="@dimen/padding_20dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+
+        <TextView
+            android:id="@+id/home_fragment_account_name_text_view"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/poppins"
+            android:layout_marginTop="@dimen/margin_25dp"
+            android:text="@string/ijeoma_ibukun_babangida"
+            android:textColor="@color/white"
+            android:textSize="@dimen/text_size_14sp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/home_fragment_wallet_text_view"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/poppins"
+            android:text="@string/wallet"
+            android:textColor="@color/white"
+            android:textSize="@dimen/text_size_8sp"
+            app:layout_constraintStart_toStartOf="@+id/home_fragment_account_name_text_view"
+            app:layout_constraintTop_toBottomOf="@id/home_fragment_account_name_text_view" />
+
+        <TextView
+            android:id="@+id/home_fragment_account_balance_text_view"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/margin_11dp"
+            android:fontFamily="@font/poppins"
+            android:text="@string/_23_481_000_00"
+            android:textColor="@color/white"
+            android:textSize="@dimen/text_size_12sp"
+            app:layout_constraintStart_toStartOf="@+id/home_fragment_account_name_text_view"
+            app:layout_constraintTop_toBottomOf="@id/home_fragment_wallet_text_view" />
+
+        <ImageView
+            android:id="@+id/home_fragment_wallet_imageView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginVertical="@dimen/margin_20dp"
+            android:layout_marginTop="@dimen/margin_20dp"
+            android:layout_marginEnd="@dimen/margin_20dp"
+            android:src="@drawable/wallet_icon"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="1.5"
+            app:layout_constraintStart_toEndOf="@+id/home_fragment_account_name_text_view"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/home_fragment_view_all_details_text_view"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/margin_16dp"
+            android:layout_marginBottom="@dimen/margin_16dp"
+            android:fontFamily="@font/poppins"
+            android:text="@string/view_all_details"
+            android:textColor="@color/white"
+            android:textSize="@dimen/text_size_8sp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/home_fragment_arrow_imageView"
+            app:layout_constraintHorizontal_bias="0.91"
+            app:layout_constraintStart_toEndOf="@+id/home_fragment_account_balance_text_view" />
+
+        <ImageView
+            android:id="@+id/home_fragment_arrow_imageView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/margin_20dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="@+id/home_fragment_wallet_imageView"
+            app:srcCompat="@drawable/arrow_icon"
+            app:tint="@color/white" />
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

@@ -4,7 +4,6 @@
 
     <uses-permission android:name="android.permission.INTERNET" />
 
-
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
@@ -12,7 +11,10 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.Clads">
-
+        <activity
+            android:name=".ui.profile.DashboardActivity"
+            android:label="@string/title_activity_dashboard"
+            android:theme="@style/Theme.Clads.NoActionBar"></activity>
         <activity
             android:name=".ui.auth.SplashScreenActivity"
             android:theme="@style/SplashTheme">
@@ -22,7 +24,7 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".ui.auth.MainActivity"></activity>
+        <activity android:name=".ui.auth.MainActivity" />
 
         <meta-data
             android:name="preloaded_fonts"

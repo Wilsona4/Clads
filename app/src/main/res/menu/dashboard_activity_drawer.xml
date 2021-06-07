@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:showIn="navigation_view">
+
+    <group android:checkableBehavior="single">
+        <item
+            android:id="@+id/editProfileFragment"
+            android:icon="@drawable/edit_profile_icon"
+            android:title="@string/edit_profile"/>
+        <item
+            android:id="@+id/clientFragment"
+            android:icon="@drawable/nav_drawer_clients_icon"
+            android:title="@string/clients"/>
+        <item
+            android:id="@+id/resourcesFragment"
+            android:icon="@drawable/nav_drawer_theater_icon"
+            android:title="@string/resources" />
+        <item
+            android:id="@+id/subscriptionFragment"
+            android:icon="@drawable/nav_drawer_shopping_cart"
+            android:title="@string/subscription" />
+        <item android:id="@+id/logout"
+            android:icon="@drawable/nav_drawer_logout_icon"
+            android:title="@string/logout"/>
+    </group>
+</menu>
