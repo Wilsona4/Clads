@@ -111,7 +111,7 @@ class LoginFragment : Fragment() {
     }
 
     /*create the googleSignIn client*/
-    private fun googleSignInClient(){
+    private fun googleSignInClient() {
         val googleSignInOptions = GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
             .requestIdToken(getString(R.string.default_web_client_id))
             .requestEmail()
@@ -121,7 +121,7 @@ class LoginFragment : Fragment() {
     }
 
     /*launch the signIn with google dialog*/
-    private fun signIn(){
+    private fun signIn() {
         cladsSignInClient.signOut()
         val signInIntent = cladsSignInClient.signInIntent
         startActivityForResult(signInIntent, GOOGLE_SIGNIN_RQ_CODE)
@@ -130,26 +130,26 @@ class LoginFragment : Fragment() {
     /*gets the selected google account from the intent*/
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
-        if (requestCode == GOOGLE_SIGNIN_RQ_CODE){
-        val task = GoogleSignIn.getSignedInAccountFromIntent(data)
-        handleSignInResult(task)
+        if (requestCode == GOOGLE_SIGNIN_RQ_CODE) {
+            val task = GoogleSignIn.getSignedInAccountFromIntent(data)
+            handleSignInResult(task)
         }
     }
 
     /*handles the result of successful sign in*/
-    private fun handleSignInResult(completedTask : Task<GoogleSignInAccount>){
+    private fun handleSignInResult(completedTask: Task<GoogleSignInAccount>) {
         try {
             val account = completedTask.getResult(ApiException::class.java)
-                loadDashBoardFragment(account)
-        } catch (e: ApiException){
+            loadDashBoardFragment(account)
+        } catch (e: ApiException) {
             loadDashBoardFragment(null)
         }
     }
 
     /*open the dashboard fragment if account was selected*/
-    private fun loadDashBoardFragment(account: GoogleSignInAccount?){
-        if (account != null){
-        findNavController().navigate(R.id.dashboard_fragment)
+    private fun loadDashBoardFragment(account: GoogleSignInAccount?) {
+        if (account != null) {
+            findNavController().navigate(R.id.dashboard_fragment)
         }
     }
 
