@@ -45,18 +45,12 @@ class SignUpOptionsFragment : Fragment() {
         googleSignUpButton = binding.signUpOptionsFragmentCladsSignUpWithGoogleButton
         loginButton = binding.signUpOptionsFragmentLoginTextView
 
-        /*create the google sign in client*/
-        val googleSignInOptions =
-            GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
-                .requestIdToken(getString(R.string.default_web_client_id))
-                .requestEmail()
-                .build()
-
-        cladsGoogleSignInClient = GoogleSignIn.getClient(requireContext(), googleSignInOptions)
-
         emailSignUpButton.setOnClickListener {
             findNavController().navigate(R.id.email_sign_up_fragment)
         }
+
+        /*call the googleSignInClient method*/
+        googleSignInClient()
 
         /*add a listener to the sign in button*/
         googleSignUpButton.setOnClickListener {
@@ -68,8 +62,20 @@ class SignUpOptionsFragment : Fragment() {
         }
     }
 
+    private fun googleSignInClient() {
+        /*create the google sign in client*/
+        val googleSignInOptions =
+            GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
+                .requestIdToken(getString(R.string.default_web_client_id))
+                .requestEmail()
+                .build()
+
+        cladsGoogleSignInClient = GoogleSignIn.getClient(requireContext(), googleSignInOptions)
+    }
+
     /*launch the login screen*/
     private fun signIn() {
+        cladsGoogleSignInClient.signOut()
         val signInIntent = cladsGoogleSignInClient.signInIntent
         startActivityForResult(signInIntent, GOOGLE_SIGN_IN_REQ_CODE)
     }
@@ -87,17 +93,16 @@ class SignUpOptionsFragment : Fragment() {
     private fun handleSignUpResult(completedTask: Task<GoogleSignInAccount>) {
         try {
             val account = completedTask.getResult(ApiException::class.java)
-             loadEmailSignUpFragment(account)
+            loadEmailSignUpFragment(account)
         } catch (e: ApiException) {
             loadEmailSignUpFragment(null)
             Toast.makeText(requireContext(), "Cancelled", Toast.LENGTH_SHORT).show()
         }
     }
 
-
     /*load the emailSignUpFragment*/
     private fun loadEmailSignUpFragment(account: GoogleSignInAccount?) {
-        if (account != null){
+        if (account != null) {
             findNavController().navigate(R.id.email_sign_up_fragment)
         }
     }
