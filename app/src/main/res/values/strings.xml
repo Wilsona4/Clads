@@ -106,4 +106,8 @@
     <string name="view_all_details">View All Details</string>
     <string name="wallet">Wallet</string>
     <string name="_23_481_000_00">$ 23, 481,000.00</string>
+    <string name="ola_machiavelli">Ola Machiavelli</string>
+    <string name="lorem_ipsum">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua</string>
+    <string name="read_more">Read More</string>
+    <string name="today">Today</string>
 </resources>
