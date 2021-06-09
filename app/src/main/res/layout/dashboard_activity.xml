@@ -33,6 +33,7 @@
             android:layout_marginEnd="@dimen/margin_20dp"
             android:layout_marginBottom="@dimen/margin_33dp"
             android:text="@string/version_1_0" />
+
     </com.google.android.material.navigation.NavigationView>
 
 

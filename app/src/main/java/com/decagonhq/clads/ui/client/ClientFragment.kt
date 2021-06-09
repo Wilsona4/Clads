@@ -33,7 +33,7 @@ class ClientFragment : Fragment() {
         addClientFab = binding.clientFragmentAddClientFab
 
         addClientFab.setOnClickListener {
-            findNavController().navigate(R.id.addClientFragment)
+            findNavController().navigate(R.id.action_clientFragment_to_addClientFragment)
         }
     }
 

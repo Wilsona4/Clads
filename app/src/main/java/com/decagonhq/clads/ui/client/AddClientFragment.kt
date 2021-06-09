@@ -43,8 +43,6 @@ class AddClientFragment : Fragment() {
                 0 -> tab.text = getString(R.string.client_account)
                 1 -> tab.text = getString(R.string.measurements)
                 2 -> tab.text = getString(R.string.delivery_addresses)
-                3 -> tab.text = getString(R.string.native_measurement)
-                4 -> tab.text = getString(R.string.english_measurement)
             }
         }.attach()
     }

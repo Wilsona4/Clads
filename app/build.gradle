@@ -106,4 +106,7 @@ dependencies {
     //Mockito
     testImplementation "org.mockito:mockito-core:$versions.mockito_version"
     androidTestImplementation "org.mockito:mockito-android:$versions.mockito_version"
+
+//    Circle Image View
+    implementation "de.hdodenhof:circleimageview:$versions.circle_iv_version"
 }
