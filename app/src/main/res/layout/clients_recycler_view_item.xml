@@ -1,25 +1,25 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    android:layout_height="wrap_content">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
 
         <de.hdodenhof.circleimageview.CircleImageView
             android:id="@+id/clients_recycler_view_item_initial_circle_image_view"
-            android:layout_width="30dp"
-            android:layout_height="30dp"
-            android:src="@drawable/edit_profile_icon"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/margin_10dp"
+            android:src="@drawable/edit_profile_icon"
             app:civ_border_color="#FF000000"
-            app:civ_border_width="2dp"
+            app:civ_border_width="@dimen/width_2dp"
             app:civ_circle_background_color="@color/deep_sky_blue"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
@@ -30,41 +30,52 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginVertical="@dimen/margin_16dp"
-            android:layout_marginStart="24dp"
+            android:layout_marginStart="@dimen/margin_24dp"
             android:text="@string/ola_machiavelli"
+            android:textSize="@dimen/text_size_12sp"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toStartOf="@+id/clients_recycler_view_item_location_image_view"
-            app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toEndOf="@id/clients_recycler_view_item_initial_circle_image_view"
             app:layout_constraintTop_toTopOf="parent" />
+
 
         <ImageView
             android:id="@+id/clients_recycler_view_item_location_image_view"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginHorizontal="@dimen/padding_9dp"
+            android:layout_marginHorizontal="@dimen/margin_9dp"
             android:src="@drawable/location_icon"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toStartOf="@id/clients_recycler_view_item_location_text_view"
+            app:layout_constraintStart_toStartOf="@+id/clients_recycler_view_item_guideline"
             app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
             android:id="@+id/clients_recycler_view_item_location_text_view"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Lagos"
+            android:layout_marginStart="@dimen/margin_12dp"
+            android:text="@string/lagos"
+            android:textSize="@dimen/text_size_10sp"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/clients_recycler_view_item_location_image_view"
             app:layout_constraintTop_toTopOf="parent" />
 
         <View
             android:layout_width="match_parent"
-            android:layout_height="2dp"
-            android:background="#E5E5E5"
+            android:layout_height="@dimen/height_2dp"
             android:layout_marginTop="@dimen/margin_16dp"
+            android:background="@color/light_gray"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintTop_toBottomOf="@id/clients_recycler_view_item_location_text_view"
             tools:layout_editor_absoluteX="18dp" />
+
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/clients_recycler_view_item_guideline"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            app:layout_constraintGuide_percent="0.68"
+            app:layout_constraintStart_toStartOf="parent" />
+
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

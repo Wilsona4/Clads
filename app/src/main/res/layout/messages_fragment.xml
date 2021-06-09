@@ -7,9 +7,15 @@
     android:id="@+id/messages_fragment_root_layout"
     tools:context=".ui.profile.bottomnav.MessagesFragment">
 
+
     <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/messages_fragment_client_messages_recycler_view"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:listitem="@layout/messages_recycler_view_item"/>
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:listitem="@layout/messages_recycler_view_item" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

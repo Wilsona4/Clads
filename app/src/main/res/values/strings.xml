@@ -110,4 +110,10 @@
     <string name="lorem_ipsum">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua</string>
     <string name="read_more">Read More</string>
     <string name="today">Today</string>
+    <string name="lagos">Lagos</string>
+    <string name="messages">Messages</string>
+
+    <string name="channel_name">notification</string>
+    <string name="channel_description">this is a notification channel</string>
+    <string name="get_notification">get notification</string>
 </resources>

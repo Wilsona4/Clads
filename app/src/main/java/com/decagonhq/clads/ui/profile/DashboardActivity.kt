@@ -1,8 +1,15 @@
 package com.decagonhq.clads.ui.profile
 
+import android.app.NotificationChannel
+import android.app.NotificationManager
+import android.app.PendingIntent
+import android.content.Context
+import android.content.Intent
+import android.os.Build
 import android.os.Bundle
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.app.NotificationCompat
 import androidx.drawerlayout.widget.DrawerLayout
 import androidx.navigation.NavController
 import androidx.navigation.findNavController
@@ -12,6 +19,7 @@ import androidx.navigation.ui.setupActionBarWithNavController
 import androidx.navigation.ui.setupWithNavController
 import com.decagonhq.clads.R
 import com.decagonhq.clads.databinding.DashboardActivityBinding
+import com.decagonhq.clads.ui.profile.bottomnav.MessagesFragment
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.android.material.navigation.NavigationView
 
@@ -48,6 +56,7 @@ class DashboardActivity : AppCompatActivity() {
         navView.setupWithNavController(navController)
         bottomNavigationView.setupWithNavController(navController)
 
+        // var notificationButton = binding.
         /*Edit User Detail onClick*/
 //        editProfile.setOnClickListener {
 //            navController.navigate(R.id.action_nav_home_to_editProfileFragment)
@@ -62,11 +71,54 @@ class DashboardActivity : AppCompatActivity() {
 //                    bottomNavigationView.visibility = View.VISIBLE
                 }
             }
+        createNotification()
     }
 
     override fun onResume() {
         super.onResume()
         navController.addOnDestinationChangedListener(listener)
+    }
+
+    private fun createNotification() {
+        // Create the NotificationChannel
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            val name = getString(R.string.channel_name)
+            val descriptionText = getString(R.string.channel_description)
+            val importance = NotificationManager.IMPORTANCE_DEFAULT
+            val channel = NotificationChannel("ID", name, importance).apply {
+                description = descriptionText
+            }
+            // Register the channel with the system
+            val notificationManager: NotificationManager =
+                getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
+            notificationManager.createNotificationChannel(channel)
+
+            // create an explicit intent to open the second activity
+            val notifyIntent = Intent(this, MessagesFragment::class.java).apply {
+                putExtra("firstName", "Ola")
+                putExtra("lastName", "Michavelli")
+                putExtra("body", getString(R.string.lorem_ipsum))
+                flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+            }
+
+            // get the pending intent
+            val notifyPendingIntent =
+                PendingIntent.getActivity(this, 0, notifyIntent, PendingIntent.FLAG_UPDATE_CURRENT)
+            val builder = NotificationCompat.Builder(this, "ID")
+                .setContentTitle("My notification")
+                .setSmallIcon(R.drawable.clads_logo_blue)
+                .setContentText("You have a notification")
+                .setPriority(NotificationCompat.PRIORITY_DEFAULT)
+
+                // Set the intent that will fire when the user taps the notification
+                .setContentIntent(notifyPendingIntent)
+                .setAutoCancel(true)
+
+            // set on click listener to button1 to open this assignment
+//            notify_me.setOnClickListener {
+//                notificationManager.notify(100, builder.build())
+//            }
+        }
     }
 
     override fun onPause() {

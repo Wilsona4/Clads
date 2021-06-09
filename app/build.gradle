@@ -60,6 +60,7 @@ dependencies {
     implementation 'com.google.android.material:material:1.4.0-rc01'
     implementation 'de.hdodenhof:circleimageview:3.1.0'
     compile 'com.github.PhilJay:MPAndroidChart:v2.2.2'
+    implementation 'com.amulyakhare:com.amulyakhare.textdrawable:1.0.1'
 
     //androidx.test
     androidTestImplementation "androidx.test:runner:$versions.androidx_test"
