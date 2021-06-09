@@ -1,5 +1,117 @@
 <resources>
     <string name="app_name">Clads</string>
-    <!-- TODO: Remove or change this placeholder text -->
+
     <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="view_in_browser">view in browser</string>
+    <string name="hi_obioma">Hi Ijeoma, you are almost ready to start enjoying clads. Simply click the
+        blue button below to verify your email address
+    </string>
+    <string name="hi_you_are_almost_there">Hi you are almost there to finish reseting your password please click on the reset button below</string>
+    <string name="copyright_2020">copyright 2020.All rights reserved</string>
+    <string name="email_sent_by_obioma">email sent by obioma</string>
+    <string name="verify_email_address">Verify Email Address</string>
+    <string name="reset_password">Reset Password</string>
+    <string name="welcome_back">Welcome back</string>
+    <string name="login_continue">Login to continue</string>
+    <string name="all_signup_with_google">Signin with Google</string>
+    <string name="all_email_address">Email Address</string>
+    <string name="all_password">Password</string>
+    <string name="all_forget_password">Forget Password?</string>
+    <string name="login">Login</string>
+    <string name="google_icon">Google icon</string>
+    <string name="forgot_password_fragment_send_request_password_link">Send Request Password Link</string>
+    <string name="all_reset_password">Reset Password</string>
+    <string name="reset_password_fragment_new_password">New Password</string>
+    <string name="reset_password_fragment_confirm_new_password">Confirm New Password</string>
+    <string name="all_back_arrow">back_arrow</string>
+    <string name="all_forgot_password">Forgot Password</string>
+    <string name="all_remember_my_password">I can remember my password,</string>
+    <string name="email_sign_up_fragment_create_an_account">Create an account</string>
+    <string name="email_sign_up_fragment_lets_get_to_know_you">Lets get to know you</string>
+    <string name="all_signup">Signup</string>
+    <string name="all_have_an_account">Have an account?</string>
+    <string name="all_login">Login</string>
+    <string name="email_sign_up_fragment_choose_account_category">Choose account category</string>
+    <string name="client">Client</string>
+    <string name="weaver">Weaver</string>
+    <string name="tailor">Tailor</string>
+    <string name="all_confirm_password">Confirm Password</string>
+    <string name="all_first_name">First Name</string>
+    <string name="all_last_name">Last Name</string>
+    <string name="all_other_name">Other Name</string>
+    <string name="lorem_ipsum_ipsum_sum">Lorem Ipsum. Ipsum sum.</string>
+    <string name="sign_up">sign up</string>
+    <string name="Loading">Loading...</string>
+    <string name="have_an_account_login">Have an account? Login</string>
+    <string name="sign_up_with_phone_number">Sign up with phone number</string>
+    <string name="signup_with_google">Signup with Google</string>
+    <string name="sign_up_with_google">Sign up with Google</string>
+    <string name="login_caps">Login</string>
+    <string name="sign_up_with_email">Sign up with email</string>
+    <string name="clads_logo">clads logo</string>
+    <string name="all_email_cant_be_empty">Email Can\'t Be Empty</string>
+    <string name="all_invalid_email">Invalid Email</string>
+    <string name="all_password_is_required">Password is Required</string>
+    <string name="all_please_enter_first_name">Please Enter First Name</string>
+    <string name="all_password_mismatch">Password Mismatch</string>
+    <string name="all_select_account_type">Select Account Type</string>
+    <string name="new_user_sign_up_for_free">New user? Sign Up for free</string>
+    <string-array name="account_category">
+        <item>Tailor</item>
+        <item>Weaver</item>
+        <item>Client</item>
+    </string-array>
+
+    <style name="match_parent_match_parent">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">match_parent</item>
+    </style>
+
+    <style name="wrap_content_wrap_content">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+    </style>
+
+    <string name="title_activity_dashboard">DashboardActivity</string>
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+    <string name="nav_header_title">Android Studio</string>
+    <string name="nav_header_subtitle">android.studio@android.com</string>
+    <string name="nav_header_desc">Navigation header</string>
+    <string name="action_settings">Settings</string>
+
+    <string name="menu_home">Home</string>
+    <string name="menu_gallery">Gallery</string>
+    <string name="menu_slideshow">Slideshow</string>
+    <string name="menu_messages">Messages</string>
+    <string name="menu_media">Media</string>
+    <string name="clients">Clients</string>
+    <string name="resources">Resources</string>
+    <string name="subscription">Subscription</string>
+    <string name="logout">Logout</string>
+    <string name="edit_profile">Edit Profile</string>
+    <string name="ijeoma_ibukun_babangida">Ijeoma Ibukun Babangida</string>
+    <string name="version_1_0">version 1.0</string>
+    <string name="account">Account</string>
+    <string name="security">Security</string>
+    <string name="payment_method">Payment Method</string>
+    <string name="specialty">Specialty</string>
+    <string name="measurements">Measurements</string>
+    <string name="delivery_addresses">Delivery Addresses</string>
+    <string name="client_account">Client Account</string>
+    <string name="add_client">Add Client</string>
+    <string name="native_measurement">Native Measurement</string>
+    <string name="english_measurement">English Measurement</string>
+    <string name="add_measurement">Add Measurement</string>
+    <string name="all_first_initial">M</string>
+    <string name="all_last_initial">O</string>
+    <string name="all_male">Male</string>
+    <string name="all_female">Female</string>
+    <string name="all_gender">Gender</string>
+    <string name="all_next">Next</string>
+    <string name="all_phone_number">Phone Number</string>
+    <string name="enter_phone_number">Phone Number</string>
+    <string name="all_address">Address</string>
+    <string name="all_lagos">Lagos</string>
+    <string name="all_you_have_not_clients_yet">You have no clients yet</string>
 </resources>

@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/landing_screen_fragment_root_layout"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/deep_sky_blue"
+    tools:context=".ui.auth.LandingScreenFragment">
+
+    <ImageView
+        android:id="@+id/landing_screen_fragment_logo_image_view"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/clads_logo"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/landing_screen_fragment_top_guideline" />
+
+    <TextView
+        android:id="@+id/landing_screen_fragment_title_text_view"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginVertical="@dimen/margin_16dp"
+        android:fontFamily="@font/poppins_medium"
+        android:text="@string/lorem_ipsum_ipsum_sum"
+        android:textColor="@color/white"
+        android:textSize="@dimen/text_size_14sp"
+        app:layout_constraintBottom_toTopOf="@+id/landing_screen_fragment_bottom_guideline"
+        app:layout_constraintEnd_toEndOf="@+id/landing_screen_fragment_logo_image_view"
+        app:layout_constraintStart_toStartOf="@+id/landing_screen_fragment_logo_image_view"
+        app:layout_constraintTop_toBottomOf="@+id/landing_screen_fragment_logo_image_view"
+        app:layout_constraintVertical_bias="0.0" />
+
+    <TextView
+        android:id="@+id/landing_screen_fragment_login_button"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="@dimen/margin_15dp"
+        android:layout_marginTop="@dimen/margin_18dp"
+        android:background="@drawable/fragment_landing_screen_login_button"
+        android:fontFamily="@font/poppins_bold"
+        android:text="@string/login"
+        android:textAllCaps="true"
+        android:textColor="@color/white"
+        android:theme="@style/Widget.AppCompat.Button"
+        app:layout_constraintEnd_toEndOf="@+id/landing_screen_fragment_sign_up_button"
+        app:layout_constraintStart_toStartOf="@+id/landing_screen_fragment_sign_up_button"
+        app:layout_constraintTop_toBottomOf="@+id/landing_screen_fragment_sign_up_button" />
+
+    <TextView
+        android:id="@+id/landing_screen_fragment_sign_up_button"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="@dimen/margin_horizontal_15dp"
+        android:background="@drawable/fragment_landing_screen_sign_up_button"
+        android:fontFamily="@font/poppins_bold"
+        android:text="@string/sign_up"
+        android:textAllCaps="true"
+        android:textColor="@color/deep_sky_blue"
+        android:theme="@style/Widget.AppCompat.Button"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/landing_screen_fragment_bottom_guideline" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/landing_screen_fragment_bottom_guideline"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintGuide_percent="0.55" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/landing_screen_fragment_top_guideline"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintGuide_percent="0.23" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<TextView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/account_category_dropdown_item_text_view"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:backgroundTint="@color/account_category_dropdown_selected_item_color"
+    android:fontFamily="@font/poppins_medium"
+    android:paddingHorizontal="@dimen/padding_54dp"
+    android:paddingVertical="@dimen/padding_10dp"
+    android:text="@string/tailor"
+    android:textColor="@color/navy_blue"
+    android:textSize="@dimen/text_size_14sp"
+    app:layout_constraintEnd_toEndOf="parent"
+    app:layout_constraintStart_toStartOf="parent"
+    app:layout_constraintTop_toTopOf="parent" />
