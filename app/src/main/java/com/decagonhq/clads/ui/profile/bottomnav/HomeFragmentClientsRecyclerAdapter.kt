@@ -36,10 +36,11 @@ class HomeFragmentClientsRecyclerAdapter(private var clientList: ArrayList<Clien
                     val generator: ColorGenerator = ColorGenerator.MATERIAL
                     val color = generator.randomColor
                     val drawable = TextDrawable.builder().beginConfig()
-                        .width(100)
-                        .height(100)
+                        .width(150)
+                        .height(150)
+                        .fontSize(55)
                         .endConfig()
-                        .buildRound(model.firstName.substring(0, 1), color)
+                        .buildRound("${model.firstName.substring(0, 1)}${model.lastName.substring(0, 1)}", color)
 
                     clientInitials.setImageDrawable(drawable)
                 }

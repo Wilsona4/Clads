@@ -25,4 +25,6 @@
     <color name="mtrl_textinput_default_box_stroke_color">#F2F2F2</color>
     <color name="mint">#DCF5D4</color>
     <color name="dark_ash">#4A4A4A</color>
+    <color name="chart_blue">#0066F5</color>
+
 </resources>

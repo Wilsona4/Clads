@@ -42,10 +42,10 @@ class MessagesFragment : Fragment() {
         messageNotificationList = arrayListOf(
             MessagesNotificationModel("Ola", "Michavelli", "Today", "Lorem Ipsum"),
             MessagesNotificationModel("Ruth", "Unoka", "Yesterday", "My name is Ruth. I need a dress for sunday"),
-            MessagesNotificationModel("Michael", "Isesele", "Yesterday", "Hi, I have an event next moth"),
+            MessagesNotificationModel("Michael", "Isesele", "Yesterday", "Hi, I have an event next month"),
             MessagesNotificationModel("Ola", "Michavelli", "Today", "Lorem Ipsum"),
             MessagesNotificationModel("Ruth", "Unoka", "Yesterday", "My name is Ruth. I need a dress for sunday"),
-            MessagesNotificationModel("Michael", "Isesele", "Yesterday", "Hi, I have an event next moth")
+            MessagesNotificationModel("Michael", "Isesele", "Yesterday", "Hi, I have an event next month")
         )
     }
 

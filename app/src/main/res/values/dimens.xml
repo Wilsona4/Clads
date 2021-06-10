@@ -150,4 +150,7 @@
     <dimen name="padding_31dp">31dp</dimen>
     <dimen name="height_2dp">2dp</dimen>
     <dimen name="width_2dp">2dp</dimen>
+    <dimen name="margin_31dp">31dp</dimen>
+    <dimen name="layout_width_30dp">30dp</dimen>
+    <dimen name="layout_height_30dp">30dp</dimen>
 </resources>

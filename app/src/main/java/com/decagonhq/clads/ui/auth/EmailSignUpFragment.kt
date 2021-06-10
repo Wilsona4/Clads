@@ -1,6 +1,7 @@
 package com.decagonhq.clads.ui.auth
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -249,6 +250,8 @@ class EmailSignUpFragment : Fragment() {
             val accountFirstName = googleAccount.givenName
             val accountLastName = googleAccount.familyName
             val accountEmail = googleAccount.email
+            val token = googleAccount.idToken
+            Log.d("Token", "$token")
             firstNameEditText.setText(accountFirstName)
             lastNameEditText.setText(accountLastName)
             emailEditText.setText(accountEmail)
