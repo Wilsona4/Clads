@@ -103,4 +103,18 @@
     <string name="native_measurement">Native Measurement</string>
     <string name="english_measurement">English Measurement</string>
     <string name="add_measurement">Add Measurement</string>
+    <string name="add_measurement_fragment_name">Name</string>
+    <string name="add_measurement_fragment_add_measurement">Add measurement</string>
+    <string name="add_measurement_fragment_save_button">Save</string>
+    <string name="add_measurement_fragment_add_button">Add</string>
+    <string name="blank_text_view_item">Blank text view item</string>
+    <string name="add_delivery_address">Add Delivery Address</string>
+    <string name="delivery_address">Delivery Address</string>
+    <string name="enter_delivery_address">Enter Delivery Address</string>
+    <string name="delivery_address_city">City</string>
+    <string name="delivery_address_state">State</string>
+    <string name="there_are_no_delivery_address">There are no delivery address for this client</string>
+    <string name="add_address">Add address</string>
+    <string name="add_address_fragment">Add address</string>
+    <string name="edit_measurement">Edit measurement</string>
 </resources>
