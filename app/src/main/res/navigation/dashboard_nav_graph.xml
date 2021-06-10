@@ -74,6 +74,9 @@
         <action
             android:id="@+id/action_measurementsFragment_to_editMeasurementDialogFragment"
             app:destination="@id/editMeasurementDialogFragment" />
+        <action
+            android:id="@+id/action_measurementsFragment_to_editMeasurementDialogFragment2"
+            app:destination="@id/editMeasurementDialogFragment" />
     </fragment>
     <fragment
         android:id="@+id/deliveryAddressFragment"
@@ -94,6 +97,9 @@
         <action
             android:id="@+id/action_editMeasurementDialogFragment_to_measurementsFragment2"
             app:destination="@id/measurementsFragment" />
+        <argument
+            android:name="edit_measurement"
+            app:argType="com.decagonhq.clads.ui.client.model.DressMeasurementModel" />
     </fragment>
     <fragment
         android:id="@+id/addAddressFragment"

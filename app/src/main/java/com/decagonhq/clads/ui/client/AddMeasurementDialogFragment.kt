@@ -5,11 +5,11 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
+import androidx.core.os.bundleOf
 import androidx.fragment.app.DialogFragment
-import androidx.navigation.fragment.findNavController
+import androidx.fragment.app.setFragmentResult
 import com.decagonhq.clads.databinding.AddMeasurementDialogFragmentBinding
 import com.decagonhq.clads.ui.client.model.DressMeasurementModel
-import com.decagonhq.clads.util.DialogFragmentInterface
 
 class AddMeasurementDialogFragment : DialogFragment(){
     private var _binding: AddMeasurementDialogFragmentBinding? = null
@@ -37,10 +37,10 @@ class AddMeasurementDialogFragment : DialogFragment(){
         addMeasurementButton.setOnClickListener {
             val measurementName = binding.addAddressFragmentMeasurementNameEditText.text.toString()
             val measurement = binding.addMeasurementFragmentAddMeasureEditText.text.toString().toBigDecimal()
-            val action = AddMeasurementDialogFragmentDirections.actionAddMeasurementFragmentToMeasurementsFragment(
-                DressMeasurementModel(measurementName, measurement)
-            )
-            findNavController().navigate(action)
+            val bundle = DressMeasurementModel(measurementName, measurement)
+            setFragmentResult("keyClicked", bundleOf("bundleKey" to bundle))
+            dismiss()
+
         }
     }
 
@@ -48,14 +48,4 @@ class AddMeasurementDialogFragment : DialogFragment(){
         super.onDestroyView()
         _binding = null
     }
-
-    interface DialogFragmentInterface {
-        fun passDataMethod(data:DressMeasurementModel)
-    }
-
-//
-//    override fun passDataMethod(data: DressMeasurementModel) {
-//        MeasurementsFragment().setTargetFragment(this, 0)
-//        findNavController().navigateUp()
-//    }
 }

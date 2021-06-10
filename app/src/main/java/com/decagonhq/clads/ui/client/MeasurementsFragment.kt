@@ -6,8 +6,10 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import android.widget.Toast
+import androidx.core.os.bundleOf
 import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.FragmentResultListener
+import androidx.fragment.app.setFragmentResult
 import androidx.fragment.app.setFragmentResultListener
 import androidx.lifecycle.LifecycleOwner
 import androidx.navigation.fragment.findNavController
@@ -27,6 +29,7 @@ class MeasurementsFragment : androidx.fragment.app.Fragment(), RecyclerClickList
     private val binding get() = _binding!!
     private lateinit var addMeasurementFab: FloatingActionButton
     private lateinit var display:TextView
+    private lateinit var myAdapter: AddMeasurementAdapter
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -53,14 +56,7 @@ class MeasurementsFragment : androidx.fragment.app.Fragment(), RecyclerClickList
         display = binding.measurementsFragmentTestingTextView
         addMeasurementFab = binding.clientMeasurementFragmentAddMeasurementFab
         addMeasurementFab.setOnClickListener {
-//            AddMeasurementDialogFragment().show(childFragmentManager, "Dialog tag")
-            setFragmentResultListener("request_key") { requestKey: String, bundle: Bundle ->
-                val result = bundle.getString("your_data_key")
-                // do something with the result
-
-            }
-
-
+            AddMeasurementDialogFragment().show(childFragmentManager, "Dialog tag")
         }
 
 
@@ -68,12 +64,21 @@ class MeasurementsFragment : androidx.fragment.app.Fragment(), RecyclerClickList
         if (args != null) {
             val measurementFragmentArgs = MeasurementsFragmentArgs.fromBundle(args)
             // parse measurementArgs
-           currentList.add(0,measurementFragmentArgs.dressMeasurement)
+           currentList.add(0, measurementFragmentArgs.dressMeasurement)
         }
 
         val recyclerView = binding.measurementsFragmentRecyclerView
-        recyclerView.adapter = AddMeasurementAdapter(currentList,this@MeasurementsFragment, this@MeasurementsFragment)
+        myAdapter = AddMeasurementAdapter(currentList,this@MeasurementsFragment, this@MeasurementsFragment)
+        recyclerView.adapter = myAdapter
         recyclerView.layoutManager = StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL)
+
+        childFragmentManager.setFragmentResultListener("keyClicked", requireActivity()) { key, bundle ->
+            val editTextString = bundle.getParcelable<DressMeasurementModel>("bundleKey")
+            // Do something with the string
+            currentList.add(0, editTextString!!)
+            myAdapter.notifyDataSetChanged()
+
+        }
 
     }
 
@@ -85,11 +90,15 @@ class MeasurementsFragment : androidx.fragment.app.Fragment(), RecyclerClickList
     }
 
     override fun onItemClicked1(dressMeasurementModel: DressMeasurementModel) {
+        val data = DressMeasurementModel(dressMeasurementModel.measurementName, dressMeasurementModel.measurement)
+        val bundle = bundleOf("editData" to data)
+        setFragmentResult("editData_key", bundle)
         EditMeasurementDialogFragment().show(childFragmentManager, "Dialog tag")
     }
 
     override fun onItemClicked2(dressMeasurementModel: DressMeasurementModel) {
-        Toast.makeText(requireContext(), "Position 2 was clicked", Toast.LENGTH_SHORT).show()
+
+
     }
 
 }
