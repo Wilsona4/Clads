@@ -15,15 +15,18 @@ class HomeFragmentClientsRecyclerAdapter(private var clientList: ArrayList<Clien
         var clientInitials = binding.clientsRecyclerViewItemInitialCircleImageView
     }
 
+    /*inflate the views*/
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val binding = ClientsRecyclerViewItemBinding.inflate(LayoutInflater.from(parent.context), parent, false)
         return ViewHolder(binding)
     }
 
+    /*return size of list*/
     override fun getItemCount(): Int {
         return clientList.size
     }
 
+    /*bind data with the view holder*/
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val model = clientList[position]
         holder.itemView.apply {

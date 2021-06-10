@@ -108,9 +108,6 @@
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
-
-
-
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/home_fragment_chat_constraint_layout"
         android:layout_width="0dp"
@@ -126,16 +123,29 @@
         app:layout_constraintTop_toBottomOf="@id/home_fragment_card_details_constraint_layout"
         tools:layout_editor_absoluteY="148dp">
 
+        <TextView
+            android:id="@+id/textView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="@dimen/padding_31dp"
+            android:layout_marginTop="4dp"
+            android:text="Clients"
+            android:textColor="@color/dark_ash"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+<!--        <DatePicker-->
+<!--            android:layout_width="wrap_content"-->
+<!--            android:layout_height="wrap_content"/>-->
 
         <com.github.mikephil.charting.charts.LineChart
             android:id="@+id/lineChart"
             android:layout_width="match_parent"
             android:layout_height="@dimen/margin_200dp"
-            android:layout_marginTop="@dimen/padding_16dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toBottomOf="@+id/textView" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

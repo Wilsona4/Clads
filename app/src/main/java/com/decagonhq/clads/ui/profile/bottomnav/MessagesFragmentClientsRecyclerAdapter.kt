@@ -11,16 +11,18 @@ class MessagesFragmentClientsRecyclerAdapter(private var messageNotificationList
         val clientName = binding.messagesFragmentClientNameTextView
         val notificationBody = binding.messagesFragmentLoremIpsumTextView
     }
-
+    /*inflate the views*/
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val binding = MessagesRecyclerViewItemBinding.inflate(LayoutInflater.from(parent.context), parent, false)
         return ViewHolder(binding)
     }
 
+    /*return the messageNotificationList*/
     override fun getItemCount(): Int {
         return messageNotificationList.size
     }
 
+    /*bind the views with their holders*/
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         holder.itemView.apply {
             with(holder) {

@@ -1,5 +1,6 @@
 package com.decagonhq.clads.ui.auth
 
+import android.app.ProgressDialog
 import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -23,9 +24,11 @@ class SignUpOptionsFragment : Fragment() {
     private val binding get() = _binding!!
     private lateinit var emailSignUpButton: TextView
     private lateinit var googleSignUpButton: TextView
+    lateinit var progressDialog: ProgressDialog
     private lateinit var loginButton: TextView
     private lateinit var cladsGoogleSignInClient: GoogleSignInClient
     private var GOOGLE_SIGN_IN_REQ_CODE = 100
+
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         /*Inflate the layout for this fragment*/
         _binding = SignUpOptionsFragmentBinding.inflate(inflater, container, false)

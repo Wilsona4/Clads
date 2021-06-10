@@ -42,7 +42,8 @@ class HomeFragment : Fragment() {
         clientsRecyclerView = binding.homeFragmentClientListRecyclerView
         populateClient()
         clientsAdapter = HomeFragmentClientsRecyclerAdapter(clientList)
-        clientsRecyclerView.layoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, false)
+        clientsRecyclerView.layoutManager =
+            LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, false)
         clientsRecyclerView.adapter = clientsAdapter
 
         chartData()
@@ -52,6 +53,7 @@ class HomeFragment : Fragment() {
         val chart = binding.lineChart
         val entries = ArrayList<String>()
 
+        // initialise data for the xAxis
         entries.add("Jan")
         entries.add("Feb")
         entries.add("Mar")
@@ -65,6 +67,7 @@ class HomeFragment : Fragment() {
         entries.add("Nov")
         entries.add("Dec")
 
+        /*initialise data for the yAxis*/
         val lineEntry = ArrayList<Entry>()
         lineEntry.add(Entry(30f, 0))
         lineEntry.add(Entry(50f, 1))
@@ -79,8 +82,9 @@ class HomeFragment : Fragment() {
         lineEntry.add(Entry(55f, 10))
         lineEntry.add(Entry(65f, 11))
 
-        val mFillColor = Color.argb(100, 0, 102, 245)
+        val mFillColor = Color.argb(100, 0, 102, 245) // chart fill color
 
+        /*set chart attributes*/
         val lineDataSet = LineDataSet(lineEntry, "Clients")
         lineDataSet.color = resources.getColor(R.color.chart_blue)
         lineDataSet.setDrawValues(false)
@@ -99,14 +103,13 @@ class HomeFragment : Fragment() {
         chart.setBackgroundColor(resources.getColor(R.color.white))
         chart.animateXY(3000, 3000)
         chart.setDescription(null)
-        chart.isDragEnabled = true
         chart.setGridBackgroundColor(R.color.deep_sky_blue)
         chart.axisRight.isEnabled = false
         chart.setTouchEnabled(false)
         chart.setDrawGridBackground(false)
-
         chart.setNoDataText("No forex yet!")
 
+        /*set xAxis attributes*/
         val xAxis = chart.xAxis
         val yAxis = chart.axisLeft
         xAxis.position = XAxis.XAxisPosition.BOTTOM
@@ -115,10 +118,14 @@ class HomeFragment : Fragment() {
         xAxis.labelRotationAngle = -90f
         xAxis.axisLineColor = R.color.deep_sky_blue
 
+        /*set yAxis attributes*/
         yAxis.setDrawGridLines(false)
         yAxis.axisLineColor = R.color.deep_sky_blue
+        yAxis.textSize = 6f
+        yAxis.mAxisMaximum = 100F
     }
 
+    // dummy data to populate the recycler view
     private fun populateClient() {
         clientList = arrayListOf(
             ClientsListModel("Ruth", "Unoka", "Lagos"),
