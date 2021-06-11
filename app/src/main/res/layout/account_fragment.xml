@@ -156,14 +156,14 @@
             android:id="@+id/account_fragment_workshop_address_text_view"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:fontFamily="@font/poppins_bold"
             android:layout_marginStart="@dimen/margin_24dp"
-            android:text="@string/workshop_address"
             android:layout_marginTop="@dimen/margin_45dp"
+            android:fontFamily="@font/poppins_bold"
+            android:text="@string/workshop_address"
+            android:textAllCaps="true"
             android:textColor="@color/gray"
             android:textSize="@dimen/text_size_12sp"
-            app:layout_constraintEnd_toEndOf="@+id/account_fragment_gender_text_view"
-            app:layout_constraintStart_toStartOf="@+id/account_fragment_gender_text_view"
+            app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/account_fragment_gender_text_view" />
 
         <com.google.android.material.textview.MaterialTextView
@@ -329,6 +329,7 @@
             android:fontFamily="@font/poppins_bold"
             android:layout_marginStart="@dimen/margin_24dp"
             android:text="@string/union_membership"
+            android:textAllCaps="true"
             android:layout_marginTop="@dimen/margin_45dp"
             android:textColor="@color/gray"
             android:textSize="@dimen/text_size_12sp"
