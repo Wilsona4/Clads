@@ -33,12 +33,12 @@ class DeliveryAddressFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        //checking if the data has been entered
         val args = arguments
         if (args != null) {
             val addressFragmentArgs = DeliveryAddressFragmentArgs.fromBundle(args)
             // parse measurementArgs
             addressTextView = binding.deliveryAddressFragmentAddressTextView
-
             addressTextView.text = "${addressFragmentArgs.deliveryAddress!!.deliveryAddress}," +
                     " ${addressFragmentArgs.deliveryAddress.state}, ${addressFragmentArgs.deliveryAddress.city}, Nigeria"
         }
@@ -46,7 +46,6 @@ class DeliveryAddressFragment : Fragment() {
 
 
         addDeliveryAddressButton = binding.deliveryAddressFragmentAddButton
-
         addDeliveryAddressButton.setOnClickListener {
             findNavController().navigate(R.id.addAddressFragment)
         }

@@ -5,6 +5,7 @@
     android:id="@+id/measurement_recyclerview_item_layout"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
+    android:layout_marginEnd="@dimen/margin_5dp"
     android:layout_marginBottom="@dimen/margin_5dp"
     android:background="@drawable/custom_border">
 
@@ -31,6 +32,7 @@
         android:layout_marginRight="@dimen/margin_5dp"
         android:layout_marginLeft="@dimen/margin_5dp"
         android:src="@drawable/ic_delete"
+        android:padding="@dimen/margin_7dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="@+id/guideline4"
@@ -41,6 +43,6 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        app:layout_constraintGuide_percent="0.75" />
+        app:layout_constraintGuide_percent="0.82" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

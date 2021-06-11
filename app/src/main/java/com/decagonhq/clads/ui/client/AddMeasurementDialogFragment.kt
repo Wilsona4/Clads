@@ -33,6 +33,7 @@ class AddMeasurementDialogFragment : DialogFragment(){
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        //Adding new measurement
         addMeasurementButton = binding.addMeasurementFragmentAddMeasurementButton
         addMeasurementButton.setOnClickListener {
             val measurementName = binding.addAddressFragmentMeasurementNameEditText.text.toString()

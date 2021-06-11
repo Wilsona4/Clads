@@ -43,6 +43,8 @@
             android:contentDescription="@string/add_measurement"
             android:focusable="true"
             android:src="@drawable/fab_add_icon"
+            app:tint="@color/white"
+            android:backgroundTint="@color/deep_sky_blue"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent" />
 

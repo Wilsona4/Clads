@@ -1,30 +1,37 @@
 package com.decagonhq.clads.ui.client
 
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
+import androidx.core.os.bundleOf
 import androidx.fragment.app.DialogFragment
-import androidx.navigation.fragment.findNavController
-import com.decagonhq.clads.R
+import androidx.fragment.app.setFragmentResult
 import com.decagonhq.clads.databinding.EditMeasurementFragmentBinding
 import com.decagonhq.clads.ui.client.model.DressMeasurementModel
 import com.google.android.material.textfield.TextInputEditText
+import kotlin.properties.Delegates
 
 
-class EditMeasurementDialogFragment : DialogFragment() {
+class EditMeasurementDialogFragment(data: Bundle) : DialogFragment() {
 
     private var _binding: EditMeasurementFragmentBinding? = null
     private lateinit var editMeasurementButton: Button
-    private lateinit var measurementName: TextInputEditText
+    private lateinit var measurementName:  TextInputEditText
+    private lateinit var measurementNumber:TextInputEditText
+    val editData = data
+    private var position by Delegates.notNull<Int>()
+    private lateinit var editDataModel:DressMeasurementModel
+
     // This property is only valid between onCreateView and onDestroyView.
     private val binding get() = _binding!!
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setStyle(DialogFragment.STYLE_NO_TITLE, android.R.style.Theme_DeviceDefault_Light_Dialog_MinWidth)
+        position =  editData?.getInt("editData" )
+        editDataModel = editData?.getParcelable("editData")!!
     }
 
     override fun onCreateView(
@@ -38,14 +45,27 @@ class EditMeasurementDialogFragment : DialogFragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        measurementName = binding.editAddressFragmentMeasurementNameEditText
+        measurementNumber = binding.editMeasurementFragmentAddMeasureEditText
+        /*Attaching the data*/
+//        val editDataModel = editData["editData"]
+//        val position = editData["position"]
+        measurementName.setText(editDataModel.measurementName)
+        measurementNumber.setText(editDataModel.measurement.toString())
 
+
+        //Saving the changes for the measurement
         editMeasurementButton = binding.editMeasurementFragmentSaveButton
         editMeasurementButton.setOnClickListener {
             val measurementName = binding.editAddressFragmentMeasurementNameEditText.text.toString()
             val measurement = binding.editMeasurementFragmentAddMeasureEditText.text.toString().toBigDecimal()
-            val action = EditMeasurementDialogFragmentDirections
-                .actionEditMeasurementDialogFragmentToMeasurementsFragment2(DressMeasurementModel(measurementName, measurement))
-            findNavController().navigate(action)
+            val dataModel = DressMeasurementModel(measurementName, measurement)
+            var bundle = bundleOf(
+                "editedData" to dataModel,
+                "position" to position
+            )
+            setFragmentResult("keyClicked2",bundle)
+            dismiss()
         }
     }
 
