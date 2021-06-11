@@ -186,4 +186,12 @@
     <dimen name="height_30">30dp</dimen>
     <dimen name="height_35">35dp</dimen>
     <dimen name="height_40">40dp</dimen>
+    <dimen name="corner_radius_20dp">20dp</dimen>
+    <dimen name="fab_custom_size_30dp">30dp</dimen>
+    <dimen name="card_elevation_1dp">1dp</dimen>
+    <dimen name="padding_31dp">31dp</dimen>
+    <dimen name="height_2dp">2dp</dimen>
+    <dimen name="width_2dp">2dp</dimen>
+    <dimen name="layout_width_30dp">30dp</dimen>
+    <dimen name="layout_height_30dp">30dp</dimen>
 </resources>

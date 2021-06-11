@@ -1,5 +1,6 @@
 package com.decagonhq.clads.ui.auth
 
+import android.app.ProgressDialog
 import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -23,9 +24,11 @@ class SignUpOptionsFragment : Fragment() {
     private val binding get() = _binding!!
     private lateinit var emailSignUpButton: TextView
     private lateinit var googleSignUpButton: TextView
+    lateinit var progressDialog: ProgressDialog
     private lateinit var loginButton: TextView
     private lateinit var cladsGoogleSignInClient: GoogleSignInClient
     private var GOOGLE_SIGN_IN_REQ_CODE = 100
+
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -41,11 +44,13 @@ class SignUpOptionsFragment : Fragment() {
         emailSignUpButton = binding.signUpOptionsFragmentSignUpWithEmailButton
         googleSignUpButton = binding.signUpOptionsFragmentCladsSignUpWithGoogleButton
         loginButton = binding.signUpOptionsFragmentLoginTextView
+
         emailSignUpButton.setOnClickListener {
             findNavController().navigate(R.id.email_sign_up_fragment)
         }
         /*call the googleSignInClient method*/
         googleSignInClient()
+
         /*add a listener to the sign in button*/
         googleSignUpButton.setOnClickListener {
             signIn()
@@ -62,8 +67,10 @@ class SignUpOptionsFragment : Fragment() {
                 .requestIdToken(getString(R.string.default_web_client_id))
                 .requestEmail()
                 .build()
+
         cladsGoogleSignInClient = GoogleSignIn.getClient(requireContext(), googleSignInOptions)
     }
+
     /*launch the login screen*/
     private fun signIn() {
         cladsGoogleSignInClient.signOut()

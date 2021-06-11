@@ -9,7 +9,7 @@
         android:id="@+id/nav_home"
         android:name="com.decagonhq.clads.ui.profile.bottomnav.HomeFragment"
         android:label="@string/menu_home"
-        tools:layout="@layout/home_fragment" >
+        tools:layout="@layout/home_fragment">
         <action
             android:id="@+id/action_nav_home_to_editProfileFragment"
             app:destination="@id/editProfileFragment" />
@@ -26,11 +26,7 @@
         android:name="com.decagonhq.clads.ui.profile.bottomnav.MessagesFragment"
         android:label="@string/menu_messages"
         tools:layout="@layout/messages_fragment" />
-    <fragment
-        android:id="@+id/clientFragment"
-        android:name="com.decagonhq.clads.ui.client.ClientFragment"
-        android:label="@string/client"
-        tools:layout="@layout/client_fragment" />
+
     <fragment
         android:id="@+id/resourcesFragment"
         android:name="com.decagonhq.clads.ui.resource.ResourcesFragment"
@@ -56,4 +52,18 @@
         android:name="com.decagonhq.clads.ui.client.AddMeasurementFragment"
         android:label="@string/add_measurement"
         tools:layout="@layout/add_measurement_fragment" />
+
+    <fragment
+        android:id="@+id/clientFragment"
+        android:name="com.decagonhq.clads.ui.client.ClientFragment"
+        android:label="@string/client"
+        tools:layout="@layout/client_fragment">
+        <action
+            android:id="@+id/action_clientFragment_to_addClientFragment"
+            app:destination="@id/addClientFragment"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@android:anim/slide_in_left"
+            app:popExitAnim="@android:anim/slide_out_right" />
+    </fragment>
 </navigation>

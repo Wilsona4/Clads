@@ -8,7 +8,7 @@ import androidx.viewpager2.adapter.FragmentStateAdapter
 class AddClientPagerAdapter(fragmentManager: FragmentManager, lifecycle: Lifecycle) :
     FragmentStateAdapter(fragmentManager, lifecycle) {
 
-    private val numOfTabs: Int = 5
+    private val numOfTabs: Int = 3
 
     override fun getItemCount(): Int {
         return numOfTabs
@@ -19,8 +19,6 @@ class AddClientPagerAdapter(fragmentManager: FragmentManager, lifecycle: Lifecyc
             0 -> ClientAccountFragment()
             1 -> MeasurementsFragment()
             2 -> DeliveryAddressFragment()
-            3 -> NativeFragment()
-            4 -> EnglishFragment()
             else -> ClientAccountFragment()
         }
     }

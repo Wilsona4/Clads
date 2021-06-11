@@ -1,79 +1,41 @@
 {
   "project_info": {
-    "project_number": "780328952893",
-    "firebase_url": "https://develop-team-c-c-1622405535318-default-rtdb.firebaseio.com",
-    "project_id": "develop-team-c-c-1622405535318",
-    "storage_bucket": "develop-team-c-c-1622405535318.appspot.com"
+    "project_number": "525232674561",
+    "project_id": "clads-316316",
+    "storage_bucket": "clads-316316.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:780328952893:android:93fb91d821db9231a93654",
-        "android_client_info": {
-          "package_name": "com.decagon.android.sq007"
-        }
-      },
-      "oauth_client": [
-        {
-          "client_id": "780328952893-etlo7vjgn304bs95qatekdph8fncm9ce.apps.googleusercontent.com",
-          "client_type": 1,
-          "android_info": {
-            "package_name": "com.decagon.android.sq007",
-            "certificate_hash": "0b8955520f5b18080ffcbaf6da4216548c179c30"
-          }
-        },
-        {
-          "client_id": "780328952893-mg1ehqi8fko32p3pm3rnna7tqgpsfp61.apps.googleusercontent.com",
-          "client_type": 3
-        }
-      ],
-      "api_key": [
-        {
-          "current_key": "AIzaSyBrLwrKq1BaLYqKjG0RrygDN7qirhiDkbc"
-        }
-      ],
-      "services": {
-        "appinvite_service": {
-          "other_platform_oauth_client": [
-            {
-              "client_id": "780328952893-1bv4edf3d1696j0udstuilo4l77ftr3h.apps.googleusercontent.com",
-              "client_type": 3
-            }
-          ]
-        }
-      }
-    },
-    {
-      "client_info": {
-        "mobilesdk_app_id": "1:780328952893:android:365371e35b4a3be8a93654",
+        "mobilesdk_app_id": "1:525232674561:android:83bff9d72f7db3b5caed00",
         "android_client_info": {
           "package_name": "com.decagonhq.clads"
         }
       },
       "oauth_client": [
         {
-          "client_id": "780328952893-lifu2oqf93knpkhbdh8k3k83li73f31f.apps.googleusercontent.com",
+          "client_id": "525232674561-10iuvisduhg0ebrjgksg0cpd7mdlr0nj.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
             "package_name": "com.decagonhq.clads",
-            "certificate_hash": "0b8955520f5b18080ffcbaf6da4216548c179c30"
+            "certificate_hash": "8d99172d9525d435be4cfed734cd713a58162b9e"
           }
         },
         {
-          "client_id": "780328952893-mg1ehqi8fko32p3pm3rnna7tqgpsfp61.apps.googleusercontent.com",
+          "client_id": "525232674561-jqs92483fpb2j2dv6qustgik08rkkoiu.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyBrLwrKq1BaLYqKjG0RrygDN7qirhiDkbc"
+          "current_key": "AIzaSyCS234o2uL8UrV3-fntFl7zNLz4ssv7ks8"
         }
       ],
       "services": {
         "appinvite_service": {
           "other_platform_oauth_client": [
             {
-              "client_id": "780328952893-1bv4edf3d1696j0udstuilo4l77ftr3h.apps.googleusercontent.com",
+              "client_id": "525232674561-jqs92483fpb2j2dv6qustgik08rkkoiu.apps.googleusercontent.com",
               "client_type": 3
             }
           ]
