@@ -1,14 +1,390 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.core.widget.NestedScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
+    android:id="@+id/account_fragment_nested_view"
     android:layout_height="match_parent"
+    android:fillViewport="true"
     tools:context=".ui.profile.editprofile.AccountFragment">
 
-    <!-- TODO: Update blank fragment layout -->
-    <TextView
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:text="@string/hello_blank_fragment" />
+        android:backgroundTint="@color/email_confirmatory_background_color"
+        tools:context=".ui.profile.editprofile.AccountFragment">
 
-</FrameLayout>
+        <com.google.android.material.imageview.ShapeableImageView
+            android:id="@+id/account_fragment_edit_profile_icon_image_view"
+            android:layout_width="0dp"
+            android:layout_height="@dimen/layout_height"
+            android:layout_marginTop="@dimen/margin_34dp"
+            android:src="@drawable/edit_profile_icon"
+            app:layout_constraintDimensionRatio="w,1:1"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/account_fragment_change_picture_text_view"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/margin_4dp"
+            android:fontFamily="@font/poppins"
+            android:text="@string/tap_to_change_profile_picture"
+            android:textColor="@color/menu_text_color"
+            android:textSize="@dimen/text_size_9sp"
+            app:layout_constraintEnd_toEndOf="@+id/account_fragment_edit_profile_icon_image_view"
+            app:layout_constraintStart_toStartOf="@+id/account_fragment_edit_profile_icon_image_view"
+            app:layout_constraintTop_toBottomOf="@id/account_fragment_edit_profile_icon_image_view"
+            tools:layout_editor_absoluteY="166dp" />
+
+        <View
+            android:id="@+id/account_fragment_view"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_marginTop="@dimen/margin_18dp"
+            android:background="@android:color/darker_gray"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/account_fragment_change_picture_text_view" />
+
+        <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/account_fragment_first_name_text_view"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/margin_24dp"
+            android:fontFamily="@font/poppins"
+            android:text="First Name"
+            android:textColor="@color/navy_blue"
+            android:textSize="@dimen/text_size_12sp"
+            app:layout_constraintBaseline_toBaselineOf="@+id/account_fragment_first_name_value_text_view"
+            app:layout_constraintStart_toStartOf="parent" />
+
+        <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/account_fragment_first_name_value_text_view"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/margin_28dp"
+            android:layout_marginEnd="@dimen/margin_23dp"
+            android:fontFamily="@font/poppins"
+            android:text="@string/ijeoma"
+            android:textColor="@color/navy_blue"
+            android:textSize="@dimen/text_size_12sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/account_fragment_view" />
+
+        <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/account_fragment_last_name_text_view"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/margin_24dp"
+            android:fontFamily="@font/poppins"
+            android:text="Last Name"
+            android:textColor="@color/navy_blue"
+            android:textSize="@dimen/text_size_12sp"
+            app:layout_constraintBaseline_toBaselineOf="@+id/account_fragment_last_name_value_text_view"
+            app:layout_constraintStart_toStartOf="parent" />
+
+        <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/account_fragment_last_name_value_text_view"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/margin_27dp"
+            android:layout_marginEnd="@dimen/margin_23dp"
+            android:fontFamily="@font/poppins"
+            android:text="@string/ibukun"
+            android:textColor="@color/navy_blue"
+            android:textSize="@dimen/text_size_12sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/account_fragment_first_name_value_text_view" />
+
+
+        <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/account_fragment_other_name_text_view"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/margin_24dp"
+            android:fontFamily="@font/poppins"
+            android:text="@string/other_name"
+            android:textColor="@color/navy_blue"
+            android:textSize="@dimen/text_size_12sp"
+            app:layout_constraintBaseline_toBaselineOf="@+id/account_fragment_other_name_value_text_view"
+            app:layout_constraintStart_toStartOf="parent" />
+
+        <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/account_fragment_other_name_value_text_view"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/margin_30dp"
+            android:layout_marginEnd="@dimen/margin_23dp"
+            android:fontFamily="@font/poppins"
+            android:text="@string/babangida"
+            android:textColor="@color/navy_blue"
+            android:textSize="@dimen/text_size_12sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/account_fragment_last_name_value_text_view" />
+
+
+        <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/account_fragment_gender_text_view"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/margin_24dp"
+            android:fontFamily="@font/poppins"
+            android:text="@string/gender"
+            android:textColor="@color/navy_blue"
+            android:textSize="@dimen/text_size_12sp"
+            app:layout_constraintBaseline_toBaselineOf="@+id/account_fragment_gender_value_text_view"
+            app:layout_constraintStart_toStartOf="parent" />
+
+        <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/account_fragment_gender_value_text_view"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/margin_30dp"
+            android:layout_marginEnd="@dimen/margin_23dp"
+            android:fontFamily="@font/poppins"
+            android:text="@string/female"
+            android:textColor="@color/navy_blue"
+            android:textSize="@dimen/text_size_12sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/account_fragment_other_name_value_text_view" />
+
+
+        <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/account_fragment_workshop_address_text_view"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/margin_24dp"
+            android:fontFamily="@font/poppins"
+            android:text="@string/workshop_address"
+            android:textColor="@color/navy_blue"
+            android:textSize="@dimen/text_size_12sp"
+            app:layout_constraintBaseline_toBaselineOf="@+id/account_fragment_workshop_address_value_text_view"
+            app:layout_constraintStart_toStartOf="parent" />
+
+        <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/account_fragment_workshop_address_value_text_view"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/margin_30dp"
+            android:layout_marginEnd="@dimen/margin_23dp"
+            android:fontFamily="@font/poppins"
+            android:textColor="@color/navy_blue"
+            android:textSize="@dimen/text_size_12sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/account_fragment_gender_value_text_view" />
+
+        <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/account_fragment_showroom_address_text_view"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/margin_24dp"
+            android:fontFamily="@font/poppins"
+            android:text="@string/showroom_address"
+            android:textColor="@color/navy_blue"
+            android:textSize="@dimen/text_size_12sp"
+            app:layout_constraintBaseline_toBaselineOf="@+id/account_fragment_showroom_address_value_text_view"
+            app:layout_constraintStart_toStartOf="parent" />
+
+        <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/account_fragment_showroom_address_value_text_view"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/margin_55dp"
+            android:layout_marginEnd="@dimen/margin_23dp"
+            android:fontFamily="@font/poppins"
+            android:textColor="@color/navy_blue"
+            android:textSize="@dimen/text_size_12sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/account_fragment_workshop_address_value_text_view" />
+
+
+        <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/account_fragment_number_of_employee_apprentice_text_view"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/margin_24dp"
+            android:fontFamily="@font/poppins"
+            android:text="@string/number_of_employees_apprentice"
+            android:textColor="@color/navy_blue"
+            android:textSize="@dimen/text_size_12sp"
+            app:layout_constraintBaseline_toBaselineOf="@+id/account_fragment_number_of_employee_apprentice_value_text_view"
+            app:layout_constraintStart_toStartOf="parent" />
+
+        <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/account_fragment_number_of_employee_apprentice_value_text_view"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/margin_55dp"
+            android:layout_marginEnd="@dimen/margin_23dp"
+            android:fontFamily="@font/poppins"
+            android:textColor="@color/navy_blue"
+            android:text="@string/_12"
+            android:textSize="@dimen/text_size_12sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/account_fragment_showroom_address_value_text_view" />
+
+
+        <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/account_fragment_legal_status_text_view"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/margin_24dp"
+            android:fontFamily="@font/poppins"
+            android:text="@string/legal_status"
+            android:textColor="@color/navy_blue"
+            android:textSize="@dimen/text_size_12sp"
+            app:layout_constraintBaseline_toBaselineOf="@+id/account_fragment_legal_status_value_text_view"
+            app:layout_constraintStart_toStartOf="parent" />
+
+        <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/account_fragment_legal_status_value_text_view"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/margin_30dp"
+            android:layout_marginEnd="@dimen/margin_23dp"
+            android:fontFamily="@font/poppins"
+            android:textColor="@color/navy_blue"
+            android:text="@string/individual"
+            android:textSize="@dimen/text_size_12sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/account_fragment_number_of_employee_apprentice_value_text_view" />
+
+        <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/account_fragment_union_membership_text_view"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/poppins"
+            android:layout_marginStart="@dimen/margin_24dp"
+            android:text="@string/union_membership"
+            android:layout_marginTop="@dimen/margin_45dp"
+            android:textColor="@color/gray"
+            android:textSize="@dimen/text_size_12sp"
+            app:layout_constraintEnd_toEndOf="@+id/account_fragment_legal_status_text_view"
+            app:layout_constraintStart_toStartOf="@+id/account_fragment_legal_status_text_view"
+            app:layout_constraintTop_toBottomOf="@+id/account_fragment_legal_status_text_view" />
+
+        <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/account_fragment_name_of_union_text_view"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/margin_24dp"
+            android:fontFamily="@font/poppins"
+            android:text="@string/name_of_union"
+            android:textColor="@color/navy_blue"
+            android:textSize="@dimen/text_size_12sp"
+            app:layout_constraintBaseline_toBaselineOf="@+id/account_fragment_name_of_union_value_text_view"
+            app:layout_constraintStart_toStartOf="parent" />
+
+        <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/account_fragment_name_of_union_value_text_view"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/margin_20dp"
+            android:layout_marginEnd="@dimen/margin_23dp"
+            android:fontFamily="@font/poppins"
+            android:textColor="@color/navy_blue"
+            android:textSize="@dimen/text_size_12sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/account_fragment_union_membership_text_view" />
+
+
+        <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/account_fragment_ward_text_view"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/margin_24dp"
+            android:fontFamily="@font/poppins"
+            android:text="@string/ward"
+            android:textColor="@color/navy_blue"
+            android:textSize="@dimen/text_size_12sp"
+            app:layout_constraintBaseline_toBaselineOf="@+id/account_fragment_ward_value_text_view"
+            app:layout_constraintStart_toStartOf="parent" />
+
+        <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/account_fragment_ward_value_text_view"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/margin_30dp"
+            android:layout_marginEnd="@dimen/margin_23dp"
+            android:fontFamily="@font/poppins"
+            android:textColor="@color/navy_blue"
+            android:textSize="@dimen/text_size_12sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/account_fragment_name_of_union_value_text_view" />
+
+        <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/account_fragment_local_govt_area_text_view"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/margin_24dp"
+            android:fontFamily="@font/poppins"
+            android:text="@string/local_govt_area"
+            android:textColor="@color/navy_blue"
+            android:textSize="@dimen/text_size_12sp"
+            app:layout_constraintBaseline_toBaselineOf="@+id/account_fragment_local_govt_area_value_text_view"
+            app:layout_constraintStart_toStartOf="parent" />
+
+        <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/account_fragment_local_govt_area_value_text_view"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/margin_30dp"
+            android:layout_marginEnd="@dimen/margin_23dp"
+            android:fontFamily="@font/poppins"
+            android:textColor="@color/navy_blue"
+            android:textSize="@dimen/text_size_12sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/account_fragment_ward_value_text_view" />
+
+        <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/account_fragment_state_text_view"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/margin_24dp"
+            android:fontFamily="@font/poppins"
+            android:text="@string/state"
+            android:textColor="@color/navy_blue"
+            android:textSize="@dimen/text_size_12sp"
+            app:layout_constraintBaseline_toBaselineOf="@+id/account_fragment_state_value_text_view"
+            app:layout_constraintStart_toStartOf="parent" />
+
+        <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/account_fragment_state_value_text_view"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/margin_30dp"
+            android:layout_marginEnd="@dimen/margin_23dp"
+            android:fontFamily="@font/poppins"
+            android:textColor="@color/navy_blue"
+            android:textSize="@dimen/text_size_12sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/account_fragment_local_govt_area_value_text_view" />
+
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/account_fragment_save_changes_button"
+            android:layout_width="0dp"
+            android:layout_height="@dimen/height_40"
+            android:padding="@dimen/padding_0dp"
+            android:layout_marginHorizontal="@dimen/margin_25dp"
+            android:fontFamily="@font/poppins_medium"
+            android:text="@string/save_changes"
+            android:layout_marginTop="@dimen/margin_54dp"
+            android:layout_marginBottom="@dimen/margin_40dp"
+            android:textSize="@dimen/text_size_12sp"
+            android:textColor="@color/white"
+            android:paddingVertical="@dimen/padding_10dp"
+            app:cornerRadius="@dimen/corner_radius_5dp"
+            android:background="@color/deep_sky_blue"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias=".5"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/account_fragment_state_text_view" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</androidx.core.widget.NestedScrollView>
