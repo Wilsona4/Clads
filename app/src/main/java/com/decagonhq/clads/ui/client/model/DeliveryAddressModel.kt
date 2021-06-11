@@ -5,7 +5,7 @@ import kotlinx.android.parcel.Parcelize
 
 @Parcelize
 data class DeliveryAddressModel(
-    val deliveryAddress:String,
+    val deliveryAddress: String,
     val city: String,
-    val state:String
-):Parcelable
+    val state: String
+) : Parcelable

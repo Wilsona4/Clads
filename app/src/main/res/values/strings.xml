@@ -158,4 +158,25 @@
         <item>Zamfara</item>
         <item>FCT</item>
     </string-array>
+<!-- String extractions -->
+    <string name="tag">Dialog tag</string>
+    <string name="request_key_keyClicked">keyClicked</string>
+    <string name="key_bundleKey">bundleKey</string>
+    <string name="request_key_keyClicked2">keyClicked2</string>
+    <string name="key_editedData">editedData</string>
+    <string name="key_position">position</string>
+    <string name="delete_measurement">Delete measurement!</string>
+    <string name="are_you_sure">Are you sure ?</string>
+    <string name="do_you_want_to_delete_measurement">Do you want delete the measurement ?</string>
+    <string name="dialog_alert_confirmation_yes">Yes</string>
+    <string name="dialog_alert_confirmation_cancle">Cancle</string>
+
+<!--  Temporary string used for dummy array -->
+    <string name="arm">Arm</string>
+    <string name="leg">Leg</string>
+    <string name="neck">Neck</string>
+    <string name="waist">Waist</string>
+    <string name="sholder">Sholder</string>
+    <string name="elbow">Elbow</string>
+    
 </resources>

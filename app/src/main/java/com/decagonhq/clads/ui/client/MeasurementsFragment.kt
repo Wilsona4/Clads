@@ -1,14 +1,17 @@
 package com.decagonhq.clads.ui.client
 
+import android.app.AlertDialog
+import android.content.DialogInterface
+import android.graphics.Color
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
-import android.widget.Toast
 import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.StaggeredGridLayoutManager
+import com.decagonhq.clads.R
 import com.decagonhq.clads.databinding.MeasurementsFragmentBinding
 import com.decagonhq.clads.ui.client.adapter.AddMeasurementAdapter
 import com.decagonhq.clads.ui.client.model.DressMeasurementModel
@@ -23,7 +26,7 @@ class MeasurementsFragment : Fragment(), RecyclerClickListener {
     // This property is only valid between onCreateView and onDestroyView.
     private val binding get() = _binding!!
     private lateinit var addMeasurementFab: FloatingActionButton
-    private lateinit var display:TextView
+    private lateinit var display: TextView
     private lateinit var myAdapter: AddMeasurementAdapter
     private var editPosition by Delegates.notNull<Int>()
     override fun onCreateView(
@@ -39,53 +42,51 @@ class MeasurementsFragment : Fragment(), RecyclerClickListener {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        //Temporary list
-        val currentList : MutableList<DressMeasurementModel> = mutableListOf(
-            DressMeasurementModel("Arm jjklkj ", BigDecimal(23)),
-            DressMeasurementModel("Leg", BigDecimal(34)),
-            DressMeasurementModel("Neck", BigDecimal(15)),
-            DressMeasurementModel("Ankle faajj", BigDecimal(10)),
-            DressMeasurementModel("Waist", BigDecimal(24)),
-            DressMeasurementModel("Sholder", BigDecimal(13)))
-
+        // Temporary list
+        val currentList: MutableList<DressMeasurementModel> = mutableListOf(
+            DressMeasurementModel(getString(R.string.arm), BigDecimal(23)),
+            DressMeasurementModel(getString(R.string.leg), BigDecimal(34)),
+            DressMeasurementModel(getString(R.string.neck), BigDecimal(15)),
+            DressMeasurementModel(getString(R.string.waist), BigDecimal(10)),
+            DressMeasurementModel(getString(R.string.sholder), BigDecimal(24)),
+            DressMeasurementModel(getString(R.string.elbow), BigDecimal(13))
+        )
 
         /*Open dialog fragment*/
         display = binding.measurementsFragmentTestingTextView
         addMeasurementFab = binding.clientMeasurementFragmentAddMeasurementFab
         addMeasurementFab.setOnClickListener {
-            AddMeasurementDialogFragment().show(childFragmentManager, "Dialog tag")
+            AddMeasurementDialogFragment().show(childFragmentManager, getString(R.string.tag))
         }
 
-
-        //Adding new measurement
+        // Adding new measurement
         val args = arguments
         if (args != null) {
             val measurementFragmentArgs = MeasurementsFragmentArgs.fromBundle(args)
             // parse measurementArgs
-           currentList.add(0, measurementFragmentArgs.dressMeasurement)
+            currentList.add(0, measurementFragmentArgs.dressMeasurement)
         }
 
-        //Attaching the recyclerview
+        // Attaching the recyclerview
         val recyclerView = binding.measurementsFragmentRecyclerView
-        myAdapter = AddMeasurementAdapter(currentList,this@MeasurementsFragment, this@MeasurementsFragment)
+        myAdapter = AddMeasurementAdapter(currentList, this@MeasurementsFragment, this@MeasurementsFragment)
         recyclerView.adapter = myAdapter
         recyclerView.layoutManager = StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL)
 
-        childFragmentManager.setFragmentResultListener("keyClicked", requireActivity()) { key, bundle ->
-            val editTextString = bundle.getParcelable<DressMeasurementModel>("bundleKey")
+        childFragmentManager.setFragmentResultListener(getString(R.string.request_key_keyClicked), requireActivity()) { key, bundle ->
+            val editTextString = bundle.getParcelable<DressMeasurementModel>(getString(R.string.key_bundleKey))
             // Do something with the string
             currentList.add(0, editTextString!!)
             myAdapter.notifyDataSetChanged()
         }
 
-        childFragmentManager.setFragmentResultListener("keyClicked2", requireActivity()) { key, bundle ->
-            val editTextString = bundle.getParcelable<DressMeasurementModel>("editedData")
-            val position = bundle.getInt("position")
+        childFragmentManager.setFragmentResultListener(getString(R.string.request_key_keyClicked2), requireActivity()) { key, bundle ->
+            val editTextString = bundle.getParcelable<DressMeasurementModel>(getString(R.string.key_editedData))
+            val position = bundle.getInt(getString(R.string.key_position))
             // Do something with the string
             currentList.add(position, editTextString!!)
             myAdapter.notifyDataSetChanged()
         }
-
     }
 
     override fun onDestroyView() {
@@ -96,22 +97,34 @@ class MeasurementsFragment : Fragment(), RecyclerClickListener {
     override fun onItemClickToEdit(position: Int, currentList: MutableList<DressMeasurementModel>) {
         val data = DressMeasurementModel(currentList[position].measurementName, currentList[position].measurement)
         val bundle = bundleOf(
-            "editData" to data,
-            "position" to position
+            getString(R.string.key_editedData) to data,
+            getString(R.string.key_position) to position
         )
-        EditMeasurementDialogFragment(bundle).show(childFragmentManager, "Dialog tag")
+        EditMeasurementDialogFragment(bundle).show(childFragmentManager, getString(R.string.tag))
     }
 
     override fun onItemClickToDelete(position: Int, currentList: MutableList<DressMeasurementModel>) {
-        Toast.makeText(requireContext(), "You clicked $position", Toast.LENGTH_SHORT).show()
+        val alertDialog: AlertDialog.Builder = AlertDialog.Builder(requireContext())
+        alertDialog.setTitle(getString(R.string.delete_measurement)) // for set Title
+        alertDialog.setMessage(getString(R.string.are_you_sure) + " \n " + getString(R.string.do_you_want_to_delete_measurement)) // for Message
+        alertDialog.setIcon(R.drawable.ic_baseline_delete_forever_24) // for alert icon
+        alertDialog.setPositiveButton(getText(R.string.dialog_alert_confirmation_yes)) { dialog, id ->
+            // set your desired action here.
+            currentList.remove(DressMeasurementModel(currentList[position].measurementName, currentList[position].measurement))
+            myAdapter.notifyDataSetChanged()
+            dialog.dismiss()
+        }
+        alertDialog.setNegativeButton(getText(R.string.dialog_alert_confirmation_cancle)) { dialog, id ->
+            // set your desired action here.
+            dialog.cancel()
+        }
+        val alert = alertDialog.create()
+        alert.setCanceledOnTouchOutside(false)
+        alert.show()
+        val negativeButton = alert.getButton(DialogInterface.BUTTON_NEGATIVE)
+        negativeButton.setTextColor(Color.RED)
+
+        val positiveButton = alert.getButton(DialogInterface.BUTTON_POSITIVE)
+        positiveButton.setTextColor(Color.BLUE)
     }
-
 }
-
-
-
-
-
-
-
-

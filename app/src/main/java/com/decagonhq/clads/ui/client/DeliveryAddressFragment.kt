@@ -8,7 +8,6 @@ import android.widget.Button
 import android.widget.TextView
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
-import androidx.navigation.fragment.navArgs
 import com.decagonhq.clads.R
 import com.decagonhq.clads.databinding.DeliveryAddressFragmentBinding
 
@@ -33,17 +32,15 @@ class DeliveryAddressFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        //checking if the data has been entered
+        // checking if the data has been entered
         val args = arguments
         if (args != null) {
             val addressFragmentArgs = DeliveryAddressFragmentArgs.fromBundle(args)
             // parse measurementArgs
             addressTextView = binding.deliveryAddressFragmentAddressTextView
             addressTextView.text = "${addressFragmentArgs.deliveryAddress!!.deliveryAddress}," +
-                    " ${addressFragmentArgs.deliveryAddress.state}, ${addressFragmentArgs.deliveryAddress.city}, Nigeria"
+                " ${addressFragmentArgs.deliveryAddress.state}, ${addressFragmentArgs.deliveryAddress.city}, Nigeria"
         }
-
-
 
         addDeliveryAddressButton = binding.deliveryAddressFragmentAddButton
         addDeliveryAddressButton.setOnClickListener {

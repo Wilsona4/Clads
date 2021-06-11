@@ -8,10 +8,11 @@ import android.widget.Button
 import androidx.core.os.bundleOf
 import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.setFragmentResult
+import com.decagonhq.clads.R
 import com.decagonhq.clads.databinding.AddMeasurementDialogFragmentBinding
 import com.decagonhq.clads.ui.client.model.DressMeasurementModel
 
-class AddMeasurementDialogFragment : DialogFragment(){
+class AddMeasurementDialogFragment : DialogFragment() {
     private var _binding: AddMeasurementDialogFragmentBinding? = null
     private lateinit var addMeasurementButton: Button
     // This property is only valid between onCreateView and onDestroyView.
@@ -33,15 +34,14 @@ class AddMeasurementDialogFragment : DialogFragment(){
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        //Adding new measurement
+        // Adding new measurement
         addMeasurementButton = binding.addMeasurementFragmentAddMeasurementButton
         addMeasurementButton.setOnClickListener {
             val measurementName = binding.addAddressFragmentMeasurementNameEditText.text.toString()
             val measurement = binding.addMeasurementFragmentAddMeasureEditText.text.toString().toBigDecimal()
             val bundle = DressMeasurementModel(measurementName, measurement)
-            setFragmentResult("keyClicked", bundleOf("bundleKey" to bundle))
+            setFragmentResult(getString(R.string.request_key_keyClicked), bundleOf(getString(R.string.key_bundleKey) to bundle))
             dismiss()
-
         }
     }
 

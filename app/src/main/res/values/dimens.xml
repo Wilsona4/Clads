@@ -145,4 +145,8 @@
     <dimen name="height_100dp">100dp</dimen>
     <dimen name="height_50dp">50dp</dimen>
     <dimen name="height_55dp">55dp</dimen>
+    <dimen name="margin_79dp">79dp</dimen>
+    <dimen name="margin_56dp">56dp</dimen>
+    <dimen name="margin_42dp">42dp</dimen>
+    <item name="letter_spacing_0_1" type="dimen" format="float">0.1</item>
 </resources>

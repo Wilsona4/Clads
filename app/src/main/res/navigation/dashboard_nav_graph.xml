@@ -93,7 +93,7 @@
         android:id="@+id/editMeasurementDialogFragment"
         android:name="com.decagonhq.clads.ui.client.EditMeasurementDialogFragment"
         android:label="edit_measurement_fragment"
-        tools:layout="@layout/edit_measurement_fragment" >
+        tools:layout="@layout/edit_measurement_dialog_fragment" >
         <action
             android:id="@+id/action_editMeasurementDialogFragment_to_measurementsFragment2"
             app:destination="@id/measurementsFragment" />
