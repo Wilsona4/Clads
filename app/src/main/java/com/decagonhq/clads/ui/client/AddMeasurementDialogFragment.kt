@@ -11,6 +11,8 @@ import androidx.fragment.app.setFragmentResult
 import com.decagonhq.clads.R
 import com.decagonhq.clads.databinding.AddMeasurementDialogFragmentBinding
 import com.decagonhq.clads.ui.client.model.DressMeasurementModel
+import com.decagonhq.clads.util.errorSnack
+import com.google.android.material.snackbar.Snackbar
 
 class AddMeasurementDialogFragment : DialogFragment() {
     private var _binding: AddMeasurementDialogFragmentBinding? = null
@@ -37,11 +39,18 @@ class AddMeasurementDialogFragment : DialogFragment() {
         // Adding new measurement
         addMeasurementButton = binding.addMeasurementFragmentAddMeasurementButton
         addMeasurementButton.setOnClickListener {
-            val measurementName = binding.addAddressFragmentMeasurementNameEditText.text.toString()
-            val measurement = binding.addMeasurementFragmentAddMeasureEditText.text.toString().toBigDecimal()
-            val bundle = DressMeasurementModel(measurementName, measurement)
-            setFragmentResult(getString(R.string.request_key_keyClicked), bundleOf(getString(R.string.key_bundleKey) to bundle))
-            dismiss()
+            val measurementName = binding.addAddressFragmentMeasurementNameEditText.text
+            val measurement = binding.addMeasurementFragmentAddMeasureEditText.text
+
+            if (measurementName!!.isEmpty()) {
+                binding.addAddressFragmentMeasurementNameEditTextLayout.errorSnack(getString(R.string.enter_name_validation), Snackbar.LENGTH_LONG)
+            } else if (measurement.toString().isEmpty()) {
+                binding.addMeasurementFragmentAddMeasurementEditTextLayout.errorSnack(getString(R.string.enter_measurement_validation), Snackbar.LENGTH_LONG)
+            } else {
+                val bundle = DressMeasurementModel(measurementName.toString(), measurement.toString().toBigDecimal())
+                setFragmentResult(getString(R.string.request_key_keyClicked), bundleOf(getString(R.string.key_bundleKey) to bundle))
+                dismiss()
+            }
         }
     }
 

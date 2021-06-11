@@ -33,6 +33,7 @@ class DeliveryAddressFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         // checking if the data has been entered
+
         val args = arguments
         if (args != null) {
             val addressFragmentArgs = DeliveryAddressFragmentArgs.fromBundle(args)

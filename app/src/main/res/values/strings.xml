@@ -178,5 +178,11 @@
     <string name="waist">Waist</string>
     <string name="sholder">Sholder</string>
     <string name="elbow">Elbow</string>
-    
+
+<!-- Validation strings -->
+    <string name="enter_the_delivery_address_validation">Please, enter the delivery address</string>
+    <string name="enter_city_validation">Please, enter a city</string>
+    <string name="enter_state_validation">Please, select a state</string>
+    <string name="enter_name_validation">Please, enter name</string>
+    <string name="enter_measurement_validation">Please, enter the measurement</string>
 </resources>

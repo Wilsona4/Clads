@@ -11,6 +11,8 @@ import androidx.fragment.app.setFragmentResult
 import com.decagonhq.clads.R
 import com.decagonhq.clads.databinding.EditMeasurementDialogFragmentBinding
 import com.decagonhq.clads.ui.client.model.DressMeasurementModel
+import com.decagonhq.clads.util.errorSnack
+import com.google.android.material.snackbar.Snackbar
 import com.google.android.material.textfield.TextInputEditText
 import kotlin.properties.Delegates
 
@@ -57,15 +59,22 @@ class EditMeasurementDialogFragment(data: Bundle) : DialogFragment() {
         // Saving the changes for the measurement
         editMeasurementButton = binding.editMeasurementFragmentSaveButton
         editMeasurementButton.setOnClickListener {
-            val measurementName = binding.editAddressFragmentMeasurementNameEditText.text.toString()
-            val measurement = binding.editMeasurementFragmentAddMeasureEditText.text.toString().toBigDecimal()
-            val dataModel = DressMeasurementModel(measurementName, measurement)
-            var bundle = bundleOf(
-                getString(R.string.key_editedData) to dataModel,
-                getString(R.string.key_position) to position
-            )
-            setFragmentResult(getString(R.string.request_key_keyClicked2), bundle)
-            dismiss()
+            val measurementName = binding.editAddressFragmentMeasurementNameEditText.text
+            val measurement = binding.editMeasurementFragmentAddMeasureEditText.text
+
+            if (measurementName!!.isEmpty()) {
+                binding.editAddressFragmentMeasurementNameEditTextLayout.errorSnack(getString(R.string.enter_name_validation), Snackbar.LENGTH_LONG)
+            } else if (measurement.toString().isEmpty()) {
+                binding.editMeasurementFragmentAddMeasurementEditTextLayout.errorSnack(getString(R.string.enter_measurement_validation), Snackbar.LENGTH_LONG)
+            } else {
+                val dataModel = DressMeasurementModel(measurementName.toString(), measurement.toString().toBigDecimal())
+                var bundle = bundleOf(
+                    getString(R.string.key_editedData) to dataModel,
+                    getString(R.string.key_position) to position
+                )
+                setFragmentResult(getString(R.string.request_key_keyClicked2), bundle)
+                dismiss()
+            }
         }
     }
 
