@@ -39,12 +39,15 @@ class HomeFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         // val chartView =binding.aaChartView
-        clientsRecyclerView = binding.homeFragmentClientListRecyclerView
-        populateClient()
-        clientsAdapter = HomeFragmentClientsRecyclerAdapter(clientList)
-        clientsRecyclerView.layoutManager =
-            LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, false)
-        clientsRecyclerView.adapter = clientsAdapter
+
+        binding.apply {
+            homeFragmentClientListRecyclerView.apply {
+                populateClient()
+                adapter = HomeFragmentClientsRecyclerAdapter(clientList)
+                layoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, false)
+                setHasFixedSize(true)
+            }
+        }
 
         chartData()
     }
