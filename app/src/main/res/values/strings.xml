@@ -103,4 +103,6 @@
     <string name="native_measurement">Native Measurement</string>
     <string name="english_measurement">English Measurement</string>
     <string name="add_measurement">Add Measurement</string>
+    <string name="hi_ijeoma">Hi, Ijeoma</string>
+    <string name="close_icon">CLose Icon</string>
 </resources>
