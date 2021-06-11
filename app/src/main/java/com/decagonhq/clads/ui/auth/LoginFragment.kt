@@ -98,6 +98,7 @@ class LoginFragment : Fragment() {
 //                    findNavController().navigate(R.id.action_loginFragment_to_dashboardFragment)
                     val intent = Intent(requireContext(), DashboardActivity::class.java)
                     startActivity(intent)
+                    activity?.finish()
                 }
             }
         }

@@ -7,22 +7,77 @@
     tools:context=".ui.profile.DashboardActivity">
 
     <com.google.android.material.appbar.AppBarLayout
+        android:id="@+id/appBarLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:theme="@style/Theme.Clads.AppBarOverlay">
 
         <androidx.appcompat.widget.Toolbar
-            android:id="@+id/toolbar"
+            android:id="@+id/dashboard_activity_toolbar"
             android:layout_width="match_parent"
-            android:layout_height="?attr/actionBarSize"
-            android:background="?attr/colorPrimary"
-            app:popupTheme="@style/Theme.Clads.PopupOverlay"/>
+            android:layout_height="wrap_content"
+            android:background="@color/white">
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <de.hdodenhof.circleimageview.CircleImageView
+                    android:id="@+id/dashboard_activity_toolbar_profile_image_view"
+                    android:layout_width="@dimen/margin_25dp"
+                    android:layout_height="@dimen/margin_25dp"
+                    android:layout_marginTop="@dimen/margin_8dp"
+                    android:src="@drawable/nav_drawer_profile_avatar"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <TextView
+                    android:id="@+id/dashboard_activity_toolbar_hi_ijeoma_text_view"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/margin_25dp"
+                    android:layout_marginTop="@dimen/margin_8dp"
+                    android:fontFamily="@font/poppins_bold"
+                    android:text="@string/hi_ijeoma"
+                    android:textColor="@color/toolbar_text_color"
+                    android:textSize="@dimen/text_size_16sp"
+                    app:layout_constraintStart_toEndOf="@+id/dashboard_activity_toolbar_profile_image_view"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <ImageView
+                    android:id="@+id/dashboard_activity_toolbar_notification_image_view"
+                    android:layout_width="@dimen/margin_25dp"
+                    android:layout_height="@dimen/margin_25dp"
+                    android:layout_marginTop="@dimen/margin_8dp"
+                    android:layout_marginEnd="@dimen/margin_33dp"
+                    android:contentDescription="@string/menu_messages"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:srcCompat="@drawable/bottom_nav_notification_icon" />
+
+                <TextView
+                    android:id="@+id/dashboard_activity_toolbar_fragment_name_text_view"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/margin_4dp"
+                    android:fontFamily="@font/poppins_bold"
+                    android:text="@string/app_name"
+                    android:textColor="@color/navy_blue"
+                    android:textSize="@dimen/text_size_20sp"
+                    android:visibility="gone"
+                    app:layout_anchorGravity="center"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/dashboard_activity_toolbar_profile_image_view" />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+        </androidx.appcompat.widget.Toolbar>
 
     </com.google.android.material.appbar.AppBarLayout>
 
     <include
         android:id="@+id/content_dashboard"
         layout="@layout/content_dashboard" />
-
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

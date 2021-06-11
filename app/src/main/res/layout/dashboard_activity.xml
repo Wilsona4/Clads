@@ -23,7 +23,7 @@
         app:headerLayout="@layout/nav_header_dashboard"
         app:itemIconTint="@color/navy_blue"
         app:itemTextColor="@color/menu_text_color"
-        app:menu="@menu/dashboard_activity_drawer" >
+        app:menu="@menu/dashboard_activity_drawer">
 
         <TextView
             android:id="@+id/nav_drawer_app_version_text_view"
@@ -33,6 +33,7 @@
             android:layout_marginEnd="@dimen/margin_20dp"
             android:layout_marginBottom="@dimen/margin_33dp"
             android:text="@string/version_1_0" />
+
     </com.google.android.material.navigation.NavigationView>
 
 

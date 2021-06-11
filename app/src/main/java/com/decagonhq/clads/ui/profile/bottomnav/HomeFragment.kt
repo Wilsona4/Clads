@@ -19,6 +19,7 @@ import com.github.mikephil.charting.data.LineDataSet
 class HomeFragment : Fragment() {
 
     private var _binding: HomeFragmentBinding? = null
+
     private lateinit var clientList: ArrayList<ClientsListModel>
     private lateinit var clientsAdapter: HomeFragmentClientsRecyclerAdapter
     private lateinit var clientsRecyclerView: RecyclerView
@@ -44,7 +45,8 @@ class HomeFragment : Fragment() {
             homeFragmentClientListRecyclerView.apply {
                 populateClient()
                 adapter = HomeFragmentClientsRecyclerAdapter(clientList)
-                layoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, false)
+                layoutManager =
+                    LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, false)
                 setHasFixedSize(true)
             }
         }

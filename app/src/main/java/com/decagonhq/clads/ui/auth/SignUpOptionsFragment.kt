@@ -29,7 +29,11 @@ class SignUpOptionsFragment : Fragment() {
     private lateinit var cladsGoogleSignInClient: GoogleSignInClient
     private var GOOGLE_SIGN_IN_REQ_CODE = 100
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
         /*Inflate the layout for this fragment*/
         _binding = SignUpOptionsFragmentBinding.inflate(inflater, container, false)
         return binding.root
@@ -44,14 +48,6 @@ class SignUpOptionsFragment : Fragment() {
         emailSignUpButton.setOnClickListener {
             findNavController().navigate(R.id.email_sign_up_fragment)
         }
-
-        /*call the googleSignInClient method*/
-        googleSignInClient()
-
-        emailSignUpButton.setOnClickListener {
-            findNavController().navigate(R.id.email_sign_up_fragment)
-        }
-
         /*call the googleSignInClient method*/
         googleSignInClient()
 
@@ -81,7 +77,6 @@ class SignUpOptionsFragment : Fragment() {
         val signInIntent = cladsGoogleSignInClient.signInIntent
         startActivityForResult(signInIntent, GOOGLE_SIGN_IN_REQ_CODE)
     }
-
     /*gets the result of successful authentication*/
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
@@ -90,7 +85,6 @@ class SignUpOptionsFragment : Fragment() {
             handleSignUpResult(task)
         }
     }
-
     /*handles the result of successful signUp with google*/
     private fun handleSignUpResult(completedTask: Task<GoogleSignInAccount>) {
         try {
@@ -101,14 +95,12 @@ class SignUpOptionsFragment : Fragment() {
             Toast.makeText(requireContext(), "Cancelled", Toast.LENGTH_SHORT).show()
         }
     }
-
     /*load the emailSignUpFragment*/
     private fun loadEmailSignUpFragment(account: GoogleSignInAccount?) {
         if (account != null) {
             findNavController().navigate(R.id.email_sign_up_fragment)
         }
     }
-
     /*remove the binding from the view to prevent memory leak*/
     override fun onDestroyView() {
         super.onDestroyView()

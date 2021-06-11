@@ -26,5 +26,5 @@
     <color name="mint">#DCF5D4</color>
     <color name="dark_ash">#4A4A4A</color>
     <color name="chart_blue">#0066F5</color>
-
+    <color name="toolbar_text_color">#393939</color>
 </resources>
