@@ -174,5 +174,4 @@
         <item name="android:layout_width">wrap_content</item>
         <item name="android:layout_height">wrap_content</item>
     </style>
->>>>>>> f79f837e2908e1f5d7931a49734becf346c5f8b9
 </resources>
