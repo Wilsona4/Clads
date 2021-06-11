@@ -50,9 +50,6 @@ class DashboardActivity : AppCompatActivity() {
         binding = DashboardActivityBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        bottomNavigationView =
-            binding.appBarDashboard.contentDashboard.dashboardActivityBottomNavigationView
-
         setSupportActionBar(binding.appBarDashboard.dashboardActivityToolbar)
 
         /*Set Status bar Color*/
