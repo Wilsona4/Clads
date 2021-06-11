@@ -107,6 +107,9 @@ class LoginFragment : Fragment() {
             findNavController().navigate(R.id.forgot_password_fragment)
         }
 
+        /*implement the googleSignInClient method*/
+        googleSignInClient()
+
         googleSignInButton.setOnClickListener {
             signIn()
         }
@@ -157,7 +160,8 @@ class LoginFragment : Fragment() {
     /*open the dashboard fragment if account was selected*/
     private fun loadDashBoardFragment(account: GoogleSignInAccount?) {
         if (account != null) {
-            findNavController().navigate(R.id.dashboard_fragment)
+            val intent = Intent(requireContext(), DashboardActivity::class.java)
+            startActivity(intent)
         }
     }
 

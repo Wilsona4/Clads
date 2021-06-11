@@ -4,10 +4,6 @@
     tools:showIn="navigation_view">
 
     <group android:checkableBehavior="single">
-<!--        <item-->
-<!--            android:id="@+id/editProfileFragment"-->
-<!--            android:icon="@drawable/edit_profile_icon"-->
-<!--            android:title="@string/edit_profile"/>-->
         <item
             android:id="@+id/clientFragment"
             android:icon="@drawable/nav_drawer_clients_icon"

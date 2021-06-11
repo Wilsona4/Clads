@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/home_fragment_card_details_constraint_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="@dimen/margin_22dp"
+        android:background="@drawable/message_fragment_card_item_background"
+        android:paddingStart="@dimen/padding_20dp"
+        android:paddingEnd="@dimen/margin_23dp"
+        android:layout_marginBottom="@dimen/margin_5dp"
+        android:layout_marginTop="@dimen/margin_12dp"
+        android:elevation="@dimen/card_elevation_1dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <ImageView
+            android:id="@+id/messages_fragment_notification_image_view"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/notification_icon"
+            app:layout_constraintBottom_toTopOf="@+id/messages_fragment_lorem_ipsum_text_view"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/messages_fragment_client_name_text_view"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginVertical="@dimen/margin_20dp"
+            android:layout_marginStart="@dimen/margin_7dp"
+            android:fontFamily="@font/poppins"
+            android:text="@string/ola_machiavelli"
+            android:textColor="@color/dark_ash"
+            app:layout_constraintBottom_toTopOf="@+id/messages_fragment_lorem_ipsum_text_view"
+            app:layout_constraintStart_toEndOf="@+id/messages_fragment_notification_image_view"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <View
+            android:id="@+id/messages_fragment_dot_view"
+            android:layout_width="@dimen/margin_10dp"
+            android:layout_height="@dimen/margin_10dp"
+            android:layout_marginEnd="@dimen/margin_12dp"
+            android:background="@color/mint"
+            app:layout_constraintBottom_toTopOf="@+id/messages_fragment_lorem_ipsum_text_view"
+            app:layout_constraintEnd_toStartOf="@+id/messages_fragment_today_text_view"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.481" />
+
+        <TextView
+            android:id="@+id/messages_fragment_today_text_view"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/margin_4dp"
+            android:layout_marginEnd="@dimen/margin_16dp"
+            android:fontFamily="@font/poppins"
+            android:text="@string/today"
+            android:textColor="@color/black"
+            app:layout_constraintBottom_toTopOf="@+id/messages_fragment_lorem_ipsum_text_view"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/messages_fragment_lorem_ipsum_text_view"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/margin_42dp"
+            android:fontFamily="@font/poppins"
+            android:textColor="@color/dark_ash"
+            android:text="@string/lorem_ipsum"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/messages_fragment_today_text_view" />
+
+        <TextView
+            android:id="@+id/home_fragment_view_all_details_text_view"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/poppins"
+            android:text="@string/read_more"
+            android:layout_marginBottom="@dimen/margin_12dp"
+            android:layout_marginEnd="@dimen/margin_4dp"
+            android:textColor="@color/deep_sky_blue"
+            android:textSize="@dimen/text_size_8sp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/home_fragment_arrow_imageView" />
+
+        <ImageView
+            android:id="@+id/home_fragment_arrow_imageView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/margin_16dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="@+id/messages_fragment_lorem_ipsum_text_view"
+            app:srcCompat="@drawable/arrow_icon"
+            app:tint="@color/deep_sky_blue" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

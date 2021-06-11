@@ -141,4 +141,16 @@
     <dimen name="corner_radius_100dp">100dp</dimen>
     <dimen name="padding_56dp">56dp</dimen>
     <dimen name="padding_46dp">46dp</dimen>
+    <dimen name="corner_radius_20dp">20dp</dimen>
+    <dimen name="fab_custom_size_30dp">30dp</dimen>
+    <dimen name="margin_42dp">42dp</dimen>
+    <dimen name="card_elevation_1dp">1dp</dimen>
+    <dimen name="margin_38dp">38dp</dimen>
+    <dimen name="margin_36dp">36dp</dimen>
+    <dimen name="padding_31dp">31dp</dimen>
+    <dimen name="height_2dp">2dp</dimen>
+    <dimen name="width_2dp">2dp</dimen>
+    <dimen name="margin_31dp">31dp</dimen>
+    <dimen name="layout_width_30dp">30dp</dimen>
+    <dimen name="layout_height_30dp">30dp</dimen>
 </resources>

@@ -49,21 +49,21 @@
                     android:layout_height="@dimen/margin_25dp"
                     android:layout_marginTop="@dimen/margin_8dp"
                     android:layout_marginEnd="@dimen/margin_33dp"
+                    android:contentDescription="@string/menu_messages"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
-                    app:srcCompat="@drawable/bottom_nav_notification_icon"
-                    android:contentDescription="@string/menu_messages" />
+                    app:srcCompat="@drawable/bottom_nav_notification_icon" />
 
                 <TextView
                     android:id="@+id/dashboard_activity_toolbar_fragment_name_text_view"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/margin_4dp"
-                    android:text="@string/app_name"
-                    android:visibility="gone"
                     android:fontFamily="@font/poppins_bold"
+                    android:text="@string/app_name"
                     android:textColor="@color/navy_blue"
                     android:textSize="@dimen/text_size_20sp"
+                    android:visibility="gone"
                     app:layout_anchorGravity="center"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
@@ -78,7 +78,5 @@
     <include
         android:id="@+id/content_dashboard"
         layout="@layout/content_dashboard" />
-
-
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

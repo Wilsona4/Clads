@@ -1,10 +1,186 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.core.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:id="@+id/home_fragment_root_layout"
-    tools:context=".ui.profile.bottomnav.HomeFragment">
+    android:fillViewport="true">
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/home_fragment_root_layout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:descendantFocusability="beforeDescendants"
+        android:focusableInTouchMode="true"
+        tools:context=".ui.profile.bottomnav.HomeFragment">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/home_fragment_card_details_constraint_layout"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="@dimen/padding_31dp"
+            android:layout_marginTop="@dimen/margin_16dp"
+            android:background="@drawable/card_details_background"
+            android:elevation="@dimen/margin_10dp"
+            android:paddingStart="@dimen/padding_18dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+
+            <TextView
+                android:id="@+id/home_fragment_account_name_text_view"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/margin_25dp"
+                android:fontFamily="@font/poppins_bold"
+                android:text="@string/ijeoma_ibukun_babangida"
+                android:textColor="@color/white"
+                android:textSize="@dimen/text_size_14sp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/home_fragment_wallet_text_view"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/poppins"
+                android:text="@string/wallet"
+                android:textColor="@color/white"
+                android:textSize="@dimen/text_size_8sp"
+                app:layout_constraintStart_toStartOf="@+id/home_fragment_account_name_text_view"
+                app:layout_constraintTop_toBottomOf="@id/home_fragment_account_name_text_view" />
+
+            <TextView
+                android:id="@+id/home_fragment_account_balance_text_view"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/margin_11dp"
+                android:layout_marginBottom="@dimen/margin_20dp"
+                android:fontFamily="@font/poppins_bold"
+                android:text="@string/_23_481_000_00"
+                android:textColor="@color/white"
+                android:textSize="@dimen/text_size_12sp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="@+id/home_fragment_account_name_text_view"
+                app:layout_constraintTop_toBottomOf="@id/home_fragment_wallet_text_view" />
+
+            <ImageView
+                android:id="@+id/home_fragment_wallet_imageView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="@dimen/margin_20dp"
+                android:layout_marginTop="@dimen/margin_20dp"
+                android:src="@drawable/wallet_icon"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.968"
+                app:layout_constraintStart_toEndOf="@+id/home_fragment_account_name_text_view"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/home_fragment_view_all_details_text_view"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/margin_16dp"
+                android:layout_marginTop="@dimen/margin_36dp"
+                android:layout_marginBottom="@dimen/margin_16dp"
+                android:fontFamily="@font/poppins_medium"
+                android:text="@string/view_all_details"
+                android:textColor="@color/white"
+                android:textSize="@dimen/text_size_8sp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toStartOf="@+id/home_fragment_arrow_imageView"
+                app:layout_constraintHorizontal_bias="0.91"
+                app:layout_constraintStart_toEndOf="@+id/home_fragment_account_balance_text_view"
+                app:layout_constraintTop_toBottomOf="@+id/home_fragment_wallet_imageView" />
+
+            <ImageView
+                android:id="@+id/home_fragment_arrow_imageView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/margin_20dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="@+id/home_fragment_wallet_imageView"
+                app:srcCompat="@drawable/arrow_icon"
+                app:tint="@color/white" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/home_fragment_chat_constraint_layout"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="@dimen/margin_31dp"
+            android:layout_marginTop="@dimen/margin_36dp"
+            android:background="@drawable/home_fragment_chart_background"
+            android:elevation="@dimen/margin_10dp"
+            android:padding="@dimen/padding_8dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.737"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/home_fragment_card_details_constraint_layout"
+            tools:layout_editor_absoluteY="148dp">
+
+            <TextView
+                android:id="@+id/textView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="@dimen/padding_31dp"
+                android:layout_marginTop="4dp"
+                android:text="Clients"
+                android:textColor="@color/dark_ash"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <com.github.mikephil.charting.charts.LineChart
+                android:id="@+id/lineChart"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/margin_200dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/textView" />
+
+            <androidx.appcompat.widget.AppCompatSpinner
+                android:id="@+id/spinner1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="4dp"
+                android:layout_marginEnd="36dp"
+                android:backgroundTint="#ff0000"
+                android:overlapAnchor="false"
+                android:spinnerMode="dropdown"
+                app:layout_constraintBottom_toTopOf="@+id/lineChart"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <TextView
+            android:id="@+id/home_fragment_clients_text_view"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="@dimen/padding_31dp"
+            android:layout_marginTop="@dimen/margin_38dp"
+            android:fontFamily="@font/poppins_medium"
+            android:text="@string/clients"
+            android:textColor="@color/black"
+            android:textSize="@dimen/text_size_14sp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/home_fragment_chat_constraint_layout" />
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/home_fragment_client_list_recycler_view"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="@dimen/padding_31dp"
+            android:layout_marginTop="@dimen/margin_19dp"
+            android:layout_marginBottom="@dimen/margin_32dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/home_fragment_clients_text_view"
+            tools:listitem="@layout/clients_recycler_view_item" />
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</androidx.core.widget.NestedScrollView>
+
