@@ -66,7 +66,6 @@
             app:layout_constraintTop_toBottomOf="@+id/client_account_fragment_client_last_name_input_layout"
             app:prefixText="@string/all_phone_number">
 
-
             <EditText
                 android:id="@+id/client_account_fragment_client_phone_number_input"
                 style="@style/input_text_style"
@@ -142,51 +141,29 @@
 
         <TextView
             android:id="@+id/client_account_tab_gender_text_view"
-            style="@style/input_text_style"
+            android:textColor="@color/navy_blue"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/margin_15dp"
+            android:fontFamily="@font/poppins"
+            android:textSize="@dimen/text_size_13sp"
             android:layout_marginBottom="@dimen/margin_16dp"
             android:text="@string/all_gender"
             app:layout_constraintBottom_toBottomOf="@+id/client_fragment_account_tab_radioGroup"
             app:layout_constraintStart_toStartOf="@+id/client_account_fragment_email_address_input_layout" />
-
-        <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/client_account_fragment_delivery_address_input_layout"
-            style="@style/text_input_layout"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/margin_18dp"
-            app:layout_constraintEnd_toEndOf="@id/client_fragment_account_tab_radioGroup"
-            app:layout_constraintStart_toStartOf="@id/client_account_tab_gender_text_view"
-            app:layout_constraintTop_toBottomOf="@+id/client_account_tab_gender_text_view"
-            app:prefixText="@string/all_address">
-
-            <EditText
-                android:id="@+id/client_account_fragment_delivery_address_edit_text"
-                style="@style/input_text_style"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:fontFamily="@font/poppins"
-                android:hint="@string/all_address" />
-
-            <View
-                style="@style/client_divider_view_style"
-                android:layout_marginTop="@dimen/text_line_2dp" />
-
-        </com.google.android.material.textfield.TextInputLayout>
-
 
         <Button
             android:id="@+id/client_account_tab_next_button"
             style="@style/add_client_fragment_next_button"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:paddingVertical="@dimen/padding_6dp"
             android:backgroundTint="@color/deep_sky_blue"
             android:paddingHorizontal="@dimen/margin_16dp"
             android:text="@string/all_next"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toStartOf="@+id/client_account_fragment_delivery_address_input_layout"
-            app:layout_constraintTop_toBottomOf="@id/client_account_fragment_delivery_address_input_layout" />
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/client_account_tab_gender_text_view" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 </ScrollView>

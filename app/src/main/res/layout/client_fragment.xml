@@ -4,8 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/client_fragment_root_layout"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:fillViewport="true"
+    android:layout_height="match_parent"
     tools:context=".ui.client.ClientFragment">
 
 
@@ -32,9 +31,9 @@
         android:visibility="visible"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.39">
+        app:layout_constraintTop_toTopOf="parent">
 
         <LinearLayout
             android:id="@+id/client_home_emoji_male_female"
@@ -67,7 +66,6 @@
 
     </LinearLayout>
 
-
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/client_fragment_add_client_fab"
         android:layout_width="wrap_content"
@@ -88,10 +86,11 @@
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:visibility="visible"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/client_list_screen_title"
-        tools:itemCount="15"
+        tools:itemCount="0"
         tools:listitem="@layout/fragment_client_list_recycler_view_layout_look" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

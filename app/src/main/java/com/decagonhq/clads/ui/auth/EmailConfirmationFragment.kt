@@ -5,7 +5,9 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
+import com.decagonhq.clads.R
 import com.decagonhq.clads.databinding.EmailConfirmationFragmentBinding
 
 class EmailConfirmationFragment : Fragment() {
@@ -26,6 +28,9 @@ class EmailConfirmationFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         /*Navigate to Login Screen After Confirmation*/
+        binding.emailConfirmationFragmentVerifyEmailAddressButton.setOnClickListener {
+            findNavController().navigate(R.id.action_emailConfirmationFragment_to_loginFragment)
+        }
     }
 
     override fun onDestroyView() {
