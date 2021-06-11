@@ -56,7 +56,7 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/margin_24dp"
             android:fontFamily="@font/poppins"
-            android:text="First Name"
+            android:text="@string/first_name"
             android:textColor="@color/navy_blue"
             android:textSize="@dimen/text_size_12sp"
             app:layout_constraintBaseline_toBaselineOf="@+id/account_fragment_first_name_value_text_view"
@@ -81,7 +81,7 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/margin_24dp"
             android:fontFamily="@font/poppins"
-            android:text="Last Name"
+            android:text="@string/last_name"
             android:textColor="@color/navy_blue"
             android:textSize="@dimen/text_size_12sp"
             app:layout_constraintBaseline_toBaselineOf="@+id/account_fragment_last_name_value_text_view"
@@ -152,30 +152,97 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/account_fragment_other_name_value_text_view" />
 
-
         <com.google.android.material.textview.MaterialTextView
             android:id="@+id/account_fragment_workshop_address_text_view"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:fontFamily="@font/poppins_bold"
+            android:layout_marginStart="@dimen/margin_24dp"
+            android:text="@string/workshop_address"
+            android:layout_marginTop="@dimen/margin_45dp"
+            android:textColor="@color/gray"
+            android:textSize="@dimen/text_size_12sp"
+            app:layout_constraintEnd_toEndOf="@+id/account_fragment_gender_text_view"
+            app:layout_constraintStart_toStartOf="@+id/account_fragment_gender_text_view"
+            app:layout_constraintTop_toBottomOf="@+id/account_fragment_gender_text_view" />
+
+        <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/account_fragment_workshop_address_state_text_view"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/margin_24dp"
             android:fontFamily="@font/poppins"
-            android:text="@string/workshop_address"
+            android:text="@string/state"
             android:textColor="@color/navy_blue"
             android:textSize="@dimen/text_size_12sp"
-            app:layout_constraintBaseline_toBaselineOf="@+id/account_fragment_workshop_address_value_text_view"
+            app:layout_constraintBaseline_toBaselineOf="@+id/account_fragment_workshop_address_state_value_text_view"
             app:layout_constraintStart_toStartOf="parent" />
 
         <com.google.android.material.textview.MaterialTextView
-            android:id="@+id/account_fragment_workshop_address_value_text_view"
+            android:id="@+id/account_fragment_workshop_address_state_value_text_view"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/margin_20dp"
+            android:layout_marginEnd="@dimen/margin_23dp"
+            android:fontFamily="@font/poppins"
+            android:text="@string/lagos"
+            android:textColor="@color/navy_blue"
+            android:textSize="@dimen/text_size_12sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/account_fragment_workshop_address_text_view" />
+
+
+        <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/account_fragment_workshop_address_city_text_view"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/margin_24dp"
+            android:fontFamily="@font/poppins"
+            android:text="@string/city"
+            android:textColor="@color/navy_blue"
+            android:textSize="@dimen/text_size_12sp"
+            app:layout_constraintTop_toBottomOf="@+id/account_fragment_workshop_address_state_value_text_view"
+            app:layout_constraintBaseline_toBaselineOf="@+id/account_fragment_workshop_address_city_value_text_view"
+            app:layout_constraintStart_toStartOf="parent" />
+
+        <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/account_fragment_workshop_address_city_value_text_view"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/margin_30dp"
             android:layout_marginEnd="@dimen/margin_23dp"
             android:fontFamily="@font/poppins"
+            android:text="@string/lagos"
             android:textColor="@color/navy_blue"
             android:textSize="@dimen/text_size_12sp"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/account_fragment_gender_value_text_view" />
+            app:layout_constraintTop_toBottomOf="@+id/account_fragment_workshop_address_state_text_view" />
+
+        <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/account_fragment_workshop_address_street_text_view"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/margin_24dp"
+            android:fontFamily="@font/poppins"
+            android:text="@string/street"
+            android:textColor="@color/navy_blue"
+            android:textSize="@dimen/text_size_12sp"
+            app:layout_constraintBaseline_toBaselineOf="@+id/account_fragment_workshop_address_street_value_text_view"
+            app:layout_constraintStart_toStartOf="parent" />
+
+        <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/account_fragment_workshop_address_street_value_text_view"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/margin_30dp"
+            android:layout_marginEnd="@dimen/margin_23dp"
+            android:fontFamily="@font/poppins"
+            android:text="@string/no_7_decabon_way_lekki"
+            android:textColor="@color/navy_blue"
+            android:textSize="@dimen/text_size_12sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/account_fragment_workshop_address_city_text_view" />
+
 
         <com.google.android.material.textview.MaterialTextView
             android:id="@+id/account_fragment_showroom_address_text_view"
@@ -186,6 +253,7 @@
             android:text="@string/showroom_address"
             android:textColor="@color/navy_blue"
             android:textSize="@dimen/text_size_12sp"
+            app:layout_constraintTop_toBottomOf="@+id/account_fragment_workshop_address_street_text_view"
             app:layout_constraintBaseline_toBaselineOf="@+id/account_fragment_showroom_address_value_text_view"
             app:layout_constraintStart_toStartOf="parent" />
 
@@ -195,11 +263,12 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/margin_55dp"
             android:layout_marginEnd="@dimen/margin_23dp"
+            android:text="@string/no_23_oshodin_ilupeju"
             android:fontFamily="@font/poppins"
             android:textColor="@color/navy_blue"
             android:textSize="@dimen/text_size_12sp"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/account_fragment_workshop_address_value_text_view" />
+            app:layout_constraintTop_toBottomOf="@+id/account_fragment_workshop_address_street_value_text_view" />
 
 
         <com.google.android.material.textview.MaterialTextView
@@ -257,7 +326,7 @@
             android:id="@+id/account_fragment_union_membership_text_view"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:fontFamily="@font/poppins"
+            android:fontFamily="@font/poppins_bold"
             android:layout_marginStart="@dimen/margin_24dp"
             android:text="@string/union_membership"
             android:layout_marginTop="@dimen/margin_45dp"
@@ -285,6 +354,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/margin_20dp"
             android:layout_marginEnd="@dimen/margin_23dp"
+            android:text="@string/obioma_union"
             android:fontFamily="@font/poppins"
             android:textColor="@color/navy_blue"
             android:textSize="@dimen/text_size_12sp"
@@ -310,6 +380,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/margin_30dp"
             android:layout_marginEnd="@dimen/margin_23dp"
+            android:text="@string/ward_three"
             android:fontFamily="@font/poppins"
             android:textColor="@color/navy_blue"
             android:textSize="@dimen/text_size_12sp"
@@ -334,6 +405,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/margin_30dp"
             android:layout_marginEnd="@dimen/margin_23dp"
+            android:text="@string/eti_osa"
             android:fontFamily="@font/poppins"
             android:textColor="@color/navy_blue"
             android:textSize="@dimen/text_size_12sp"
@@ -358,6 +430,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/margin_30dp"
             android:layout_marginEnd="@dimen/margin_23dp"
+            android:text="@string/lagos"
             android:fontFamily="@font/poppins"
             android:textColor="@color/navy_blue"
             android:textSize="@dimen/text_size_12sp"

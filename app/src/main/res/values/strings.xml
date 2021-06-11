@@ -104,7 +104,6 @@
     <string name="name_of_union">Name of Union</string>
     <string name="ward">Ward</string>
     <string name="local_govt_area">Local Govt Area</string>
-    <string name="state">State</string>
     <string name="save_changes">Save Changes</string>
     <string name="yoruba_attires">Yoruba Attires</string>
     <string name="hausa_attires">Hausa Attires</string>
@@ -137,8 +136,6 @@
     <string name="weeks">Weeks</string>
     <string name="months">Months</string>
     <string name="add">Add</string>
-    <string name="street">Street</string>
-    <string name="city">City</string>
     <string name="male">Male</string>
     <string name="_6_100">6/100</string>
     <string name="cancel">CANCEL</string>
@@ -151,13 +148,31 @@
     <string name="lorem_ipsum">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua</string>
     <string name="read_more">Read More</string>
     <string name="today">Today</string>
-    <string name="lagos">Lagos</string>
     <string name="messages">Messages</string>
     <string name="channel_name">notification</string>
     <string name="channel_description">this is a notification channel</string>
     <string name="get_notification">get notification</string>
     <string name="hi_ijeoma">Hi, Ijeoma</string>
     <string name="close_icon">CLose Icon</string>
+    <string name="employee_number">Employee Number</string>
+    <string name="employe_number">Employee Number</string>
+    <string name="last_name">Last Name</string>
+    <string name="coporate">Coporate</string>
+    <string name="lga">LGA</string>
+    <string name="union_name">Union Name</string>
+    <string name="union_state">Union State</string>
+    <string name="workshop_city">WorkShop City</string>
+    <string name="workshop_state">workshop State</string>
+    <string name="workshop_street">WorkShop Street</string>
+    <string name="no_23_oshodin_ilupeju">No 23 oshodin, ilupeju</string>
+    <string name="obioma_union">Obioma Union</string>
+    <string name="ward_three">ward three</string>
+    <string name="eti_osa">Eti-osa</string>
+    <string name="state">State</string>
+    <string name="city">City</string>
+    <string name="lagos">Lagos</string>
+    <string name="street">Street</string>
+    <string name="no_7_decabon_way_lekki">No 7 Decabon way, lekki</string>
 
     <string-array name="account_category">
         <item>Tailor</item>

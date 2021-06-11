@@ -6,11 +6,11 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.DialogFragment
 import androidx.lifecycle.MutableLiveData
-import com.decagonhq.clads.databinding.AccountFirstNameDialogFragmentBinding
+import com.decagonhq.clads.databinding.AccountLastNameDialogFragmentBinding
 
-class AccountFirstNameDialogFragment : DialogFragment() {
+class AccountLastNameDialogFragment : DialogFragment() {
 
-    private var _binding: AccountFirstNameDialogFragmentBinding? = null
+    private var _binding: AccountLastNameDialogFragmentBinding? = null
     private val binding get() = _binding!!
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -24,26 +24,25 @@ class AccountFirstNameDialogFragment : DialogFragment() {
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
-        _binding = AccountFirstNameDialogFragmentBinding.inflate(inflater, container, false)
+        _binding = AccountLastNameDialogFragmentBinding.inflate(inflater, container, false)
         return binding.root
     }
 
-    var firstNameInput = MutableLiveData<String>()
+    var lastNameInput = MutableLiveData<String>()
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         // when the dialog cancel button isclicked
-        binding.accountFirstNameDialogFragmentCancelButton.setOnClickListener {
+        binding.accountLastNameDialogFragmentCancelButton.setOnClickListener {
             dismiss()
         }
         // when the dialog ok button is clicked
-        binding.accountFirstNameDialogFragmentOkButton.setOnClickListener {
+        binding.accountLastNameDialogFragmentOkButton.setOnClickListener {
 //            val selectedID = rootView.findViewById<RadioGroup>(R.id.account_gender_dialog_fragment_radio_group).checkedRadioButtonId
             val inputValue =
-                binding.accountFirstNameDialogFragmentFirstNameEditTextView.text.toString()
-
+                binding.accountLastNameDialogFragmentLastNameEditTextView.text.toString()
             if (inputValue.isNotEmpty()) {
-                firstNameInput.value = inputValue
+                lastNameInput.value = inputValue
             }
             dismiss()
         }

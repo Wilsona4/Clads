@@ -39,12 +39,15 @@ class SpecialtyDeliveryTimeDialogFragment : DialogFragment() {
         }
         binding.specialtyDeliveryTimeDialogFragmentOkButton.setOnClickListener {
             val inputNumber =
-                binding.specialtyFirstNameDialogFragmentFirstNameEditTextView.text.toString()
+                binding.specialtyDeliveryTimeDialogFragmentDeliveryTimeEditTextView.text.toString()
             val inputDurationInteger =
                 binding.specialtyDeliveryTimeDialogFragmentRadioGroup.checkedRadioButtonId
-            val durationValue = view.findViewById<RadioButton>(inputDurationInteger)
-            deliveryValueInNumber.value = inputNumber
-            deliveryDuration.value = durationValue.toString()
+            val durationValue = view.findViewById<RadioButton>(inputDurationInteger).text.toString()
+
+            if (inputNumber.isNotEmpty() && durationValue.isNotEmpty()) {
+                deliveryValueInNumber.value = inputNumber
+                deliveryDuration.value = durationValue
+            }
             dismiss()
         }
     }

@@ -20,7 +20,7 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/specialty_first_name_dialog_fragment_first_name_edit_text_input_layout"
+        android:id="@+id/specialty_delivery_time_dialog_fragment_delivery_time_edit_text_input_layout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginHorizontal="@dimen/margin_18dp"
@@ -33,7 +33,7 @@
         app:layout_constraintTop_toBottomOf="@+id/specialty_delivery_time_dialog_fragment_title_text_view">
 
         <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/specialty_first_name_dialog_fragment_first_name_edit_text_view"
+            android:id="@+id/specialty_delivery_time_dialog_fragment_delivery_time_edit_text_view"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:textColor="@color/navy_blue" />
@@ -50,7 +50,7 @@
         android:textAlignment="center"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/specialty_first_name_dialog_fragment_first_name_edit_text_input_layout">
+        app:layout_constraintTop_toBottomOf="@+id/specialty_delivery_time_dialog_fragment_delivery_time_edit_text_input_layout">
 
         <RadioButton
             android:id="@+id/specialty_delivery_time_dialog_fragment_days_radio_button"

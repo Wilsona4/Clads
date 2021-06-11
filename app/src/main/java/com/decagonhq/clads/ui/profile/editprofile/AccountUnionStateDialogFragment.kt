@@ -6,11 +6,11 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.DialogFragment
 import androidx.lifecycle.MutableLiveData
-import com.decagonhq.clads.databinding.AccountFirstNameDialogFragmentBinding
+import com.decagonhq.clads.databinding.AccountUnionStateDialogFragmentBinding
 
-class AccountFirstNameDialogFragment : DialogFragment() {
+class AccountUnionStateDialogFragment : DialogFragment() {
 
-    private var _binding: AccountFirstNameDialogFragmentBinding? = null
+    private var _binding: AccountUnionStateDialogFragmentBinding? = null
     private val binding get() = _binding!!
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -24,26 +24,25 @@ class AccountFirstNameDialogFragment : DialogFragment() {
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
-        _binding = AccountFirstNameDialogFragmentBinding.inflate(inflater, container, false)
+        _binding = AccountUnionStateDialogFragmentBinding.inflate(inflater, container, false)
         return binding.root
     }
 
-    var firstNameInput = MutableLiveData<String>()
+    var unionStateInput = MutableLiveData<String>()
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         // when the dialog cancel button isclicked
-        binding.accountFirstNameDialogFragmentCancelButton.setOnClickListener {
+        binding.accountUnionStateDialogFragmentCancelButton.setOnClickListener {
             dismiss()
         }
         // when the dialog ok button is clicked
-        binding.accountFirstNameDialogFragmentOkButton.setOnClickListener {
+        binding.accountUnionStateDialogFragmentOkButton.setOnClickListener {
 //            val selectedID = rootView.findViewById<RadioGroup>(R.id.account_gender_dialog_fragment_radio_group).checkedRadioButtonId
             val inputValue =
-                binding.accountFirstNameDialogFragmentFirstNameEditTextView.text.toString()
-
+                binding.accountUnionStateDialogFragmentUnionStateEditTextView.text.toString()
             if (inputValue.isNotEmpty()) {
-                firstNameInput.value = inputValue
+                unionStateInput.value = inputValue
             }
             dismiss()
         }

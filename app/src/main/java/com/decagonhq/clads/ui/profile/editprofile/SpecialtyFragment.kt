@@ -84,9 +84,24 @@ class SpecialtyFragment : Fragment() {
             val specialtyDeliveryTime = SpecialtyDeliveryTimeDialogFragment()
             specialtyDeliveryTime.show(
                 requireActivity().supportFragmentManager,
-                "add new obioma specialty"
+                "delivery time"
             )
-            val specialtyAddFragmentInput = specialtyDeliveryTime
+            val specialtyDeliveryDeliveryInputNumber = specialtyDeliveryTime.deliveryValueInNumber
+            val specialtyDeliveryTimeSelectedTime = specialtyDeliveryTime.deliveryDuration
+            // collect input values from dialog fragment and update the firstname text of user
+            specialtyDeliveryDeliveryInputNumber.observe(
+                viewLifecycleOwner,
+                { itOne ->
+                    specialtyDeliveryTimeSelectedTime.observe(
+                        viewLifecycleOwner,
+                        {
+                            itTwo ->
+
+                            binding.specialtyFragmentDeliveryLeadTimeValueTextView.text = itOne.toString() + " " + itTwo.toString()
+                        }
+                    )
+                }
+            )
         }
     }
 
