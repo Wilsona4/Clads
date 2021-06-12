@@ -130,12 +130,12 @@
             android:layout_marginTop="4dp"
             android:text="Clients"
             android:textColor="@color/dark_ash"
-            app:layout_constraintBottom_toTopOf="@+id/lineChart"
+            app:layout_constraintBottom_toTopOf="@+id/home_fragment_clients_line_chart"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
         <com.github.mikephil.charting.charts.LineChart
-            android:id="@+id/lineChart"
+            android:id="@+id/home_fragment_clients_line_chart"
             android:layout_width="match_parent"
             android:layout_height="@dimen/margin_200dp"
             app:layout_constraintBottom_toBottomOf="parent"
@@ -150,7 +150,7 @@
             android:backgroundTint="@color/spinner_drop_down"
             android:overlapAnchor="false"
             android:spinnerMode="dropdown"
-            app:layout_constraintBottom_toTopOf="@+id/lineChart"
+            app:layout_constraintBottom_toTopOf="@+id/home_fragment_clients_line_chart"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 

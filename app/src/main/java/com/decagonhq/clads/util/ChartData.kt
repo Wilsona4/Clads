@@ -1,19 +1,18 @@
 package com.decagonhq.clads.util
 
 import android.graphics.Color
+import android.view.View
 import com.decagonhq.clads.R
-import com.decagonhq.clads.databinding.HomeFragmentBinding
+import com.github.mikephil.charting.charts.LineChart
 import com.github.mikephil.charting.components.XAxis
 import com.github.mikephil.charting.data.Entry
 import com.github.mikephil.charting.data.LineData
 import com.github.mikephil.charting.data.LineDataSet
 
 object ChartData {
-    private var _binding: HomeFragmentBinding? = null
-    // This property is only valid between onCreateView and onDestroyView.
-    private val binding get() = _binding!!
-    private fun chartData() {
-        val chart = binding.lineChart
+
+    fun chartData(view: View) {
+        val chart =view.findViewById<LineChart>(R.id.home_fragment_clients_line_chart)
         val entries = ArrayList<String>()
 
         // initialise data for the xAxis
