@@ -23,6 +23,7 @@
     <color name="text_gray_text_field_color">#EEEEEE</color>
     <color name="text_indicator_gray">#EEEEEE</color>
     <color name="mtrl_textinput_default_box_stroke_color">#F2F2F2</color>
+    <color name="add_measurement_box_stroke_color">#ADBACD</color>
     <color name="mint">#DCF5D4</color>
     <color name="dark_ash">#4A4A4A</color>
     <color name="chart_blue">#0066F5</color>

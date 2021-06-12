@@ -185,6 +185,11 @@
     <dimen name="corner_radius_100dp">100dp</dimen>
     <dimen name="padding_56dp">56dp</dimen>
     <dimen name="padding_46dp">46dp</dimen>
+    <dimen name="height_28dp">28dp</dimen>
+    <dimen name="height_100dp">100dp</dimen>
+    <dimen name="height_50dp">50dp</dimen>
+    <dimen name="height_55dp">55dp</dimen>
+    <item name="letter_spacing_0_1" type="dimen" format="float">0.1</item>
 
     <dimen name="margin_24dp">24dp</dimen>
     <dimen name="margin_32dp">32dp</dimen>
@@ -192,7 +197,6 @@
     <dimen name="margin_15sp">15sp</dimen>
     <dimen name="margin_20sp">20sp</dimen>
     <dimen name="margin_30sp">30sp</dimen>
-   >
     <dimen name="margin_0dp">0dp</dimen>
     <dimen name="margin_1dp">1dp</dimen>
     <dimen name="layout_height_1dp">1dp</dimen>

@@ -49,9 +49,63 @@
         tools:layout="@layout/add_client_fragment" />
     <fragment
         android:id="@+id/addMeasurementFragment"
-        android:name="com.decagonhq.clads.ui.client.AddMeasurementFragment"
+        android:name="com.decagonhq.clads.ui.client.AddMeasurementDialogFragment"
         android:label="@string/add_measurement"
-        tools:layout="@layout/add_measurement_fragment" />
+        tools:layout="@layout/add_measurement_dialog_fragment" >
+        <action
+            android:id="@+id/action_addMeasurementFragment_to_measurementsFragment"
+            app:destination="@id/measurementsFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/measurementsFragment"
+        android:name="com.decagonhq.clads.ui.client.MeasurementsFragment"
+        android:label="measurements_fragment"
+        tools:layout="@layout/measurements_fragment" >
+        <argument
+            android:name="dress_measurement"
+            app:argType="com.decagonhq.clads.ui.client.model.DressMeasurementModel" />
+        <action
+            android:id="@+id/action_measurementsFragment_to_addMeasurementFragment"
+            app:destination="@id/addMeasurementFragment" />
+        <action
+            android:id="@+id/action_measurementsFragment_to_editMeasurementDialogFragment"
+            app:destination="@id/editMeasurementDialogFragment" />
+        <action
+            android:id="@+id/action_measurementsFragment_to_editMeasurementDialogFragment2"
+            app:destination="@id/editMeasurementDialogFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/deliveryAddressFragment"
+        android:name="com.decagonhq.clads.ui.client.DeliveryAddressFragment"
+        android:label="@string/add_client"
+        tools:layout="@layout/delivery_address_fragment" >
+        <argument
+            android:name="delivery_address"
+            app:argType="com.decagonhq.clads.ui.client.model.DeliveryAddressModel"
+            app:nullable="true"
+            android:defaultValue="@null"/>
+    </fragment>
+    <fragment
+        android:id="@+id/editMeasurementDialogFragment"
+        android:name="com.decagonhq.clads.ui.client.EditMeasurementDialogFragment"
+        android:label="edit_measurement_fragment"
+        tools:layout="@layout/edit_measurement_dialog_fragment" >
+        <action
+            android:id="@+id/action_editMeasurementDialogFragment_to_measurementsFragment2"
+            app:destination="@id/measurementsFragment" />
+        <argument
+            android:name="edit_measurement"
+            app:argType="com.decagonhq.clads.ui.client.model.DressMeasurementModel" />
+    </fragment>
+    <fragment
+        android:id="@+id/addAddressFragment"
+        android:name="com.decagonhq.clads.ui.client.AddAddressFragment"
+        android:label="@string/add_client"
+        tools:layout="@layout/add_address_fragment" >
+        <action
+            android:id="@+id/action_addAddressFragment_to_deliveryAddressFragment"
+            app:destination="@id/deliveryAddressFragment" />
+    </fragment>
 
     <fragment
         android:id="@+id/paymentMethodFragment"

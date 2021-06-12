@@ -86,6 +86,88 @@
     <string name="native_measurement">Native Measurement</string>
     <string name="english_measurement">English Measurement</string>
     <string name="add_measurement">Add Measurement</string>
+    <string name="add_measurement_fragment_name">Name</string>
+    <string name="add_measurement_fragment_add_measurement">Add measurement</string>
+    <string name="add_measurement_fragment_save_button">Save</string>
+    <string name="add_measurement_fragment_add_button">Add</string>
+    <string name="blank_text_view_item">Blank text view item</string>
+    <string name="add_delivery_address">Add Delivery Address</string>
+    <string name="delivery_address">Delivery Address</string>
+    <string name="enter_delivery_address">Enter Delivery Address</string>
+    <string name="delivery_address_city">City</string>
+    <string name="delivery_address_state">State</string>
+    <string name="there_are_no_delivery_address">There are no delivery address for this client</string>
+    <string name="add_address">Add address</string>
+    <string name="add_address_fragment">Add address</string>
+    <string name="edit_measurement">Edit measurement</string>
+
+    <string-array name="states">
+        <item>Abia</item>
+        <item>Adamawa</item>
+        <item>Akwa Ibom</item>
+        <item>Anambra</item>
+        <item>Bauchi</item>
+        <item>Bayelsa</item>
+        <item>Benue</item>
+        <item>Borno</item>
+        <item>Cross River</item>
+        <item>Delta</item>
+        <item>Ebonyi</item>
+        <item>Edo</item>
+        <item>Ekiti</item>
+        <item>Enugu</item>
+        <item>Gombe</item>
+        <item>Imo</item>
+        <item>Jigawa</item>
+        <item>Kaduna</item>
+        <item>Kano</item>
+        <item>Katsina</item>
+        <item>Kebbi</item>
+        <item>Kogi</item>
+        <item>Kwara</item>
+        <item>Lagos</item>
+        <item>Nassarawa</item>
+        <item>Niger</item>
+        <item>Ogun</item>
+        <item>Ondo</item>
+        <item>Osun</item>
+        <item>Oyo</item>
+        <item>Plateau</item>
+        <item>Rivers</item>
+        <item>Sokoto</item>
+        <item>Taraba</item>
+        <item>Yobe</item>
+        <item>Zamfara</item>
+        <item>FCT</item>
+    </string-array>
+<!-- String extractions -->
+    <string name="tag">Dialog tag</string>
+    <string name="request_key_keyClicked">keyClicked</string>
+    <string name="key_bundleKey">bundleKey</string>
+    <string name="request_key_keyClicked2">keyClicked2</string>
+    <string name="key_editedData">editedData</string>
+    <string name="key_position">position</string>
+    <string name="delete_measurement">Delete measurement!</string>
+    <string name="are_you_sure">Are you sure ?</string>
+    <string name="do_you_want_to_delete_measurement">Do you want delete the measurement ?</string>
+    <string name="dialog_alert_confirmation_yes">Yes</string>
+    <string name="dialog_alert_confirmation_cancle">Cancle</string>
+
+<!--  Temporary string used for dummy array -->
+    <string name="arm">Arm</string>
+    <string name="leg">Leg</string>
+    <string name="neck">Neck</string>
+    <string name="waist">Waist</string>
+    <string name="sholder">Sholder</string>
+    <string name="elbow">Elbow</string>
+
+<!-- Validation strings -->
+    <string name="enter_the_delivery_address_validation">Please, enter the delivery address</string>
+    <string name="enter_city_validation">Please, enter a city</string>
+    <string name="enter_state_validation">Please, select a state</string>
+    <string name="enter_name_validation">Please, enter name</string>
+    <string name="enter_measurement_validation">Please, enter the measurement</string>
+    <string name="there_are_no_measurements">There are no measurements for this client</string>
 
     <string name="payment_terms">Payment Terms</string>
     <string name="_100_deposit">100% Deposit</string>
