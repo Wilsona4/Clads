@@ -6,6 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.observe
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.decagonhq.clads.databinding.SpecialtyFragmentBinding
 import com.decagonhq.clads.util.Specialty
@@ -97,10 +98,10 @@ class SpecialtyFragment : Fragment() {
                 { itOne ->
                     profileManagementViewModel.deliveryDuration.observe(
                         viewLifecycleOwner,
-                        {
-                            itTwo ->
+                        { itTwo ->
 
-                            binding.specialtyFragmentDeliveryLeadTimeValueTextView.text = itOne.toString() + " " + itTwo.toString()
+                            binding.specialtyFragmentDeliveryLeadTimeValueTextView.text =
+                                itOne.toString() + " " + itTwo.toString()
                         }
                     )
                 }

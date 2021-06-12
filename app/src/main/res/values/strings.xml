@@ -86,6 +86,27 @@
     <string name="native_measurement">Native Measurement</string>
     <string name="english_measurement">English Measurement</string>
     <string name="add_measurement">Add Measurement</string>
+
+    <string name="payment_terms">Payment Terms</string>
+    <string name="_100_deposit">100% Deposit</string>
+    <string name="payment_options">Payment Options</string>
+    <string name="vcash_bank_deposit_naira_paystack">VCash, Bank Deposit(Naira),PayStack</string>
+    <string name="_50_deposit_and_50_balance_on_delivery">50% Deposit and 50% balance on delivery</string>
+    <string name="_0_deposit_and_100_balance_on_delivery">0% Deposit and 100% balance on delivery</string>
+    <string name="payoneer">Payoneer</string>
+    <string name="vcash">VCash</string>
+    <string name="cash">Cash</string>
+    <string name="add_payment_terms">Add Payment terms</string>
+    <string name="text">Text</string>
+    <string name="phone_number">Phone Number</string>
+    <string name="new_password">New Password</string>
+    <string name="old_password">Old Password</string>
+    <string name="bank_deposit_naira">Bank deposit (Naira)</string>
+    <string name="bank_deposit_usd_gpb_eur">Bank deposit (USD, GPB, Eur)</string>
+    <string name="verified_information">Verified Information</string>
+    <string name="_0700000000000">0700000000000</string>
+    <string name="password">Password</string>
+    <string name="change_password">Change Password</string>
     <string name="tap_to_change_profile_picture">Tap to change picture</string>
     <string name="first_name">First name</string>
     <string name="ijeoma">Ijeoma</string>
@@ -189,4 +210,5 @@
         <item name="android:layout_width">wrap_content</item>
         <item name="android:layout_height">wrap_content</item>
     </style>
+
 </resources>

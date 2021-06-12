@@ -6,6 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.observe
 import com.decagonhq.clads.databinding.AccountFragmentBinding
 import com.decagonhq.clads.viewmodels.ProfileManagementViewModel
 
@@ -227,11 +228,10 @@ class AccountFragment : Fragment() {
             )
             // collect input values from dialog fragment and update the lasyname text of user
             profileManagementViewModel.lastNameInputLiveData.observe(
-                viewLifecycleOwner,
-                {
-                    binding.accountFragmentLastNameValueTextView.text = it.toString()
-                }
-            )
+                viewLifecycleOwner
+            ) {
+                binding.accountFragmentLastNameValueTextView.text = it.toString()
+            }
         }
     }
 
@@ -297,11 +297,10 @@ class AccountFragment : Fragment() {
                 "Union State dialog fragment"
             )
             profileManagementViewModel.stateOfUnionLiveData.observe(
-                viewLifecycleOwner,
-                {
-                    binding.accountFragmentStateValueTextView.text = it.toString()
-                }
-            )
+                viewLifecycleOwner
+            ) {
+                binding.accountFragmentStateValueTextView.text = it.toString()
+            }
         }
     }
 
@@ -316,11 +315,10 @@ class AccountFragment : Fragment() {
             )
             // collect input values from dialog fragment and update the gender value of user
             profileManagementViewModel.genderInputLiveData.observe(
-                viewLifecycleOwner,
-                {
-                    binding.accountFragmentGenderValueTextView.text = it.toString()
-                }
-            )
+                viewLifecycleOwner
+            ) {
+                binding.accountFragmentGenderValueTextView.text = it.toString()
+            }
         }
     }
 
