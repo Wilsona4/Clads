@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/mobile_navigation"
-    app:startDestination="@+id/nav_home">
+    app:startDestination="@id/paymentMethodFragment">
 
     <fragment
         android:id="@+id/nav_home"
@@ -56,4 +56,9 @@
         android:name="com.decagonhq.clads.ui.client.AddMeasurementFragment"
         android:label="@string/add_measurement"
         tools:layout="@layout/add_measurement_fragment" />
+    <fragment
+        android:id="@+id/paymentMethodFragment"
+        android:name="com.decagonhq.clads.ui.profile.editprofile.PaymentMethodFragment"
+        android:label="payment_method_fragment"
+        tools:layout="@layout/payment_method_fragment" />
 </navigation>
