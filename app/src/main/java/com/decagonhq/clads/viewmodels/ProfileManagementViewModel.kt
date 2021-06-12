@@ -4,7 +4,6 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 
 class ProfileManagementViewModel : ViewModel() {
-
     val firstNameInputLiveData = MutableLiveData<String>()
     val lastNameInputLiveData = MutableLiveData<String>()
     val otherNameInputLiveData = MutableLiveData<String>()
@@ -20,7 +19,6 @@ class ProfileManagementViewModel : ViewModel() {
     val stateOfUnionLiveData = MutableLiveData<String>()
     val lgaOfUnionLiveData = MutableLiveData<String>()
     val obiomaTrainedLiveData = MutableLiveData<String>()
-
     var deliveryValueInNumber = MutableLiveData<String>()
     var deliveryDuration = MutableLiveData<String>()
 }

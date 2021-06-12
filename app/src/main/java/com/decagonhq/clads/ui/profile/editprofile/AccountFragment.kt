@@ -48,7 +48,7 @@ class AccountFragment : Fragment() {
         accountlegalStatusdialog()
     }
 
-    fun accountlegalStatusdialog() {
+    private fun accountlegalStatusdialog() {
         binding.accountFragmentLegalStatusValueTextView.setOnClickListener {
             val accountlegalStatusdialog = AccountLegalStatusDialogFragment()
             accountlegalStatusdialog.show(
@@ -64,8 +64,8 @@ class AccountFragment : Fragment() {
         }
     }
 
-    // Firsname Dialog
-    fun accountFirstNameEditDialog() {
+    // Firstname Dialog
+    private fun accountFirstNameEditDialog() {
         // when first name value is clicked
         binding.accountFragmentFirstNameValueTextView.setOnClickListener {
             val firstNameDialogFragment = AccountFirstNameDialogFragment()
@@ -86,7 +86,7 @@ class AccountFragment : Fragment() {
     }
 
     // Last Dialog
-    fun accountlastNameEditDialog() {
+    private fun accountlastNameEditDialog() {
         // when last name value is clicked
         binding.accountFragmentLastNameValueTextView.setOnClickListener {
             val lastNameDialogFragment = AccountLastNameDialogFragment()
@@ -105,7 +105,7 @@ class AccountFragment : Fragment() {
     }
 
     // Other name Dialog
-    fun accountOtherNameEditDialog() {
+    private fun accountOtherNameEditDialog() {
         // when othername name value is clicked
         binding.accountFragmentOtherNameValueTextView.setOnClickListener {
             val otherNameDialogFragment = AccountOtherNameDialogFragment()
@@ -124,7 +124,7 @@ class AccountFragment : Fragment() {
     }
 
     // Workshop state Dialog
-    fun accountWorkshopStateDialog() {
+    private fun accountWorkshopStateDialog() {
         // when acciunt shop name value is clicked
         binding.accountFragmentWorkshopAddressStateValueTextView.setOnClickListener {
             val accountWorkshopStateDialogFragment = AccountWorkshopStateDialogFragment()
@@ -143,7 +143,7 @@ class AccountFragment : Fragment() {
     }
 
     // Workshop state Dialog
-    fun accountWorkshopCityDialog() {
+    private fun accountWorkshopCityDialog() {
         // when workshopcity name value is clicked
         binding.accountFragmentWorkshopAddressCityValueTextView.setOnClickListener {
             val accountWorkshopCityDialogFragment = AccountWorkshopCityDialogFragment()
@@ -162,7 +162,7 @@ class AccountFragment : Fragment() {
     }
 
     // Workshop state Dialog
-    fun accountWorkshopStreetDialog() {
+    private fun accountWorkshopStreetDialog() {
         // when workshop name value is clicked
         binding.accountFragmentWorkshopAddressStreetValueTextView.setOnClickListener {
             val accountWorkshopStreetDialogFragment = AccountWorkshopStreetDialogFragment()
@@ -180,7 +180,7 @@ class AccountFragment : Fragment() {
         }
     }
 
-    fun accountShowRoomAddressDialog() {
+    private fun accountShowRoomAddressDialog() {
         // when showroom name value is clicked
         binding.accountFragmentShowroomAddressValueTextView.setOnClickListener {
             val accountShowroomAddressDialogFragment = AccountShowroomAddressDialogFragment()
@@ -198,7 +198,7 @@ class AccountFragment : Fragment() {
         }
     }
 
-    fun accountEmployeeNumberDialogFragment() {
+    private fun accountEmployeeNumberDialogFragment() {
         // when employee number name value is clicked
         binding.accountFragmentNumberOfEmployeeApprenticeValueTextView.setOnClickListener {
             val accountEmployeeNumberDialogFragment = AccountEmployeeNumberDialogFragment()
@@ -217,7 +217,7 @@ class AccountFragment : Fragment() {
         }
     }
 
-    fun accountLastNameDialogFragment() {
+    private fun accountLastNameDialogFragment() {
         // when last name value is clicked
         binding.accountFragmentLastNameValueTextView.setOnClickListener {
             val lastNameDialogFragment = AccountLastNameDialogFragment()
@@ -235,7 +235,7 @@ class AccountFragment : Fragment() {
         }
     }
 
-    fun accountUnionNameDialogFragment() {
+    private fun accountUnionNameDialogFragment() {
         // when union name value is clicked
         binding.accountFragmentNameOfUnionValueTextView.setOnClickListener {
             val accountUnionNameDialogFragment = AccountUnionNameDialogFragment()
@@ -253,7 +253,7 @@ class AccountFragment : Fragment() {
         }
     }
 
-    fun accountUnionWardDialogFragment() {
+    private fun accountUnionWardDialogFragment() {
         // when ward name value is clicked
         binding.accountFragmentWardValueTextView.setOnClickListener {
             val accountUnionWardDialogFragment = AccountUnionWardDialogFragment()
@@ -271,7 +271,7 @@ class AccountFragment : Fragment() {
         }
     }
 
-    fun accountUnionLGADialogFragment() {
+    private fun accountUnionLGADialogFragment() {
         // when lga name value is clicked
         binding.accountFragmentLocalGovtAreaValueTextView.setOnClickListener {
             val accountUnionLGADialogFragment = AccountUnionLGADialogFragment()
@@ -289,7 +289,7 @@ class AccountFragment : Fragment() {
         }
     }
 
-    fun accountUnionStateDialogFragment() {
+    private fun accountUnionStateDialogFragment() {
         binding.accountFragmentStateValueTextView.setOnClickListener {
             val accountUnionStateDialogFragment = AccountUnionStateDialogFragment()
             accountUnionStateDialogFragment.show(
@@ -306,7 +306,7 @@ class AccountFragment : Fragment() {
     }
 
     // Gender Dialog
-    fun accountGenderSelectDialog() {
+    private fun accountGenderSelectDialog() {
         // when gender value is clicked
         binding.accountFragmentGenderValueTextView.setOnClickListener {
             val genderDialogFragment = AccountGenderDialogFragment()

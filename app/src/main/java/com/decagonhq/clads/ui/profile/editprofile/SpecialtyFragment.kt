@@ -40,7 +40,7 @@ class SpecialtyFragment : Fragment() {
         addSpeialdelivaryTime()
     }
 
-    fun recyclerViewAdapterSetUp() {
+    private fun recyclerViewAdapterSetUp() {
         val recyclerView = binding.specialtyFragmentRecyclerView
         recyclerViewAdapter.populateList(list)
         recyclerView.adapter = recyclerViewAdapter
@@ -48,7 +48,7 @@ class SpecialtyFragment : Fragment() {
     }
 
     // Gender Dialog
-    fun changeIfObiomaIsTrainedDialog() {
+    private fun changeIfObiomaIsTrainedDialog() {
         // when isTrained value is clicked
         binding.specialtyFragmentObiomaTrainedAndCertifiedValueTextView.setOnClickListener {
             val obiomaTrainedFragment = SpecialtyObiomaTrainedDialogFragment()
@@ -67,7 +67,7 @@ class SpecialtyFragment : Fragment() {
         }
     }
 
-    fun addNewSpecialtyDialog() {
+    private fun addNewSpecialtyDialog() {
         binding.specialtyFragmentAddNewSpecialtyIcon.setOnClickListener {
             val specialtyAddFragment = SpecialtyAddSpecialtyDialogFragment()
             specialtyAddFragment.show(
@@ -84,7 +84,7 @@ class SpecialtyFragment : Fragment() {
         }
     }
 
-    fun addSpeialdelivaryTime() {
+    private fun addSpeialdelivaryTime() {
         binding.specialtyFragmentDeliveryLeadTimeValueTextView.setOnClickListener {
             val specialtyDeliveryTime = SpecialtyDeliveryTimeDialogFragment()
             specialtyDeliveryTime.show(
