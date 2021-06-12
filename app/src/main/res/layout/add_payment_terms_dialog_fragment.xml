@@ -27,7 +27,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginHorizontal="@dimen/margin_23dp"
-        android:layout_marginTop="@dimen/margin_46dp"
+        android:layout_marginTop="@dimen/margin_26dp"
         app:counterEnabled="true"
         app:counterMaxLength="100"
         app:layout_constraintEnd_toEndOf="@+id/add_payment_fragment_header_text_view"
@@ -35,11 +35,10 @@
         app:layout_constraintStart_toStartOf="@+id/add_payment_fragment_header_text_view"
         app:layout_constraintTop_toBottomOf="@+id/add_payment_fragment_header_text_view">
 
-        <com.google.android.material.textfield.TextInputEditText
+        <EditText
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@color/white"
-            android:hint="@string/add_payment_terms"
             android:maxLength="100"
             app:boxStrokeColor="@color/deep_sky_blue" />
     </com.google.android.material.textfield.TextInputLayout>
