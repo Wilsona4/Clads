@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    tools:context=".ui.profile.editprofile.SpecialtyObiomaTrainedDialogFragment">
+
+    <com.google.android.material.textview.MaterialTextView
+        android:id="@+id/specialty_obioma_trained_dialog_fragment_trained_and_certified_text_view"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/margin_18dp"
+        android:layout_marginTop="@dimen/margin_34dp"
+        android:fontFamily="@font/poppins_semibold"
+        android:text="@string/obioma_trained_and_certified"
+        android:textColor="@color/navy_blue"
+        android:textSize="@dimen/text_size_16sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <RadioGroup
+        android:id="@+id/specialty_obioma_trained_dialog_fragment_radio_group"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="@dimen/margin_18dp"
+        android:layout_marginTop="@dimen/margin_22dp"
+        android:checkedButton="@+id/account_gender_dialog_fragment_female_radio_button"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/specialty_obioma_trained_dialog_fragment_trained_and_certified_text_view">
+
+        <RadioButton
+            android:id="@+id/specialty_obioma_trained_dialog_fragment_yes_radio_button"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:buttonTint="@color/deep_sky_blue"
+            android:fontFamily="@font/poppins"
+            android:text="@string/yes"
+            android:textColor="@color/navy_blue"
+            android:textSize="@dimen/text_size_12sp" />
+
+        <RadioButton
+            android:id="@+id/specialty_obioma_trained_dialog_fragment_no_radio_button"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:buttonTint="@color/deep_sky_blue"
+            android:fontFamily="@font/poppins"
+            android:text="@string/no"
+            android:textColor="@color/navy_blue"
+            android:textSize="@dimen/text_size_12sp" />
+
+
+    </RadioGroup>
+
+    <TextView
+        android:id="@+id/specialty_obioma_trained_dialog_fragment_cancel_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="@dimen/margin_16dp"
+        android:backgroundTint="@android:color/white"
+        android:fontFamily="@font/poppins"
+        android:text="@string/cancel"
+        android:textColor="@color/navy_blue"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintBaseline_toBaselineOf="@+id/specialty_obioma_trained_dialog_fragment_ok_button"
+        app:layout_constraintEnd_toStartOf="@+id/specialty_obioma_trained_dialog_fragment_ok_button" />
+
+    <TextView
+        android:id="@+id/specialty_obioma_trained_dialog_fragment_ok_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="@dimen/margin_18dp"
+        android:layout_marginVertical="@dimen/margin_20dp"
+        android:backgroundTint="@android:color/white"
+        android:fontFamily="@font/poppins"
+        android:paddingHorizontal="@dimen/padding_20dp"
+        android:text="@string/ok"
+        android:textColor="@color/navy_blue"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/specialty_obioma_trained_dialog_fragment_radio_group" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

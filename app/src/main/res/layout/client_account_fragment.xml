@@ -8,6 +8,7 @@
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
+        android:paddingHorizontal="@dimen/padding_24dp"
         android:layout_height="wrap_content">
 
         <com.google.android.material.textfield.TextInputLayout
@@ -24,7 +25,7 @@
                 android:id="@+id/client_account_fragment_client_first_name_input"
                 style="@style/input_text_style"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:paddingLeft="@dimen/padding_0dp"                android:layout_height="wrap_content"
                 android:hint="@string/all_first_name" />
 
             <View
@@ -109,7 +110,6 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/margin_28dp"
-            android:layout_marginEnd="@dimen/margin_24dp"
             android:orientation="horizontal"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="1.0"
@@ -134,8 +134,8 @@
                 android:layout_height="match_parent"
                 android:buttonTint="@color/deep_sky_blue"
                 android:fontFamily="@font/poppins"
-                android:paddingStart="@dimen/margin_15dp"
-                android:paddingEnd="@dimen/margin_15dp"
+                android:paddingStart="@dimen/padding_15dp"
+                android:paddingEnd="@dimen/padding_0dp"
                 android:text="@string/all_female" />
         </RadioGroup>
 
@@ -144,7 +144,6 @@
             android:textColor="@color/navy_blue"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="@dimen/margin_15dp"
             android:fontFamily="@font/poppins"
             android:textSize="@dimen/text_size_13sp"
             android:layout_marginBottom="@dimen/margin_16dp"
