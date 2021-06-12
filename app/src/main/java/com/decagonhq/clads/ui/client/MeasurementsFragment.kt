@@ -16,6 +16,7 @@ import com.decagonhq.clads.R
 import com.decagonhq.clads.databinding.MeasurementsFragmentBinding
 import com.decagonhq.clads.ui.client.adapter.AddMeasurementAdapter
 import com.decagonhq.clads.ui.client.model.DressMeasurementModel
+import com.decagonhq.clads.util.ClientMeasurementData
 import com.decagonhq.clads.util.ClientMeasurementData.currentList
 import com.decagonhq.clads.util.RecyclerClickListener
 import com.google.android.material.floatingactionbutton.FloatingActionButton
@@ -41,7 +42,11 @@ class MeasurementsFragment : Fragment(), RecyclerClickListener {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        listMessageDisplay = binding.measurementsFragmentTestingTextView
+        addMeasurementFab = binding.clientMeasurementFragmentAddMeasurementFab
+        recyclerView = binding.measurementsFragmentRecyclerView
 
+        listMessageDisplay.visibility = View.VISIBLE
         /*Adding client measurement*/
         addClientMeasurement()
 
@@ -49,9 +54,6 @@ class MeasurementsFragment : Fragment(), RecyclerClickListener {
         editClientMeasurement()
 
         /*Open dialog fragment*/
-        listMessageDisplay = binding.measurementsFragmentTestingTextView
-        addMeasurementFab = binding.clientMeasurementFragmentAddMeasurementFab
-        recyclerView = binding.measurementsFragmentRecyclerView
 
         addMeasurementFab.setOnClickListener {
             AddMeasurementDialogFragment().show(childFragmentManager, getString(R.string.tag))
@@ -74,6 +76,7 @@ class MeasurementsFragment : Fragment(), RecyclerClickListener {
             val editTextString = bundle.getParcelable<DressMeasurementModel>(getString(R.string.key_bundleKey))
             // Do something with the string
             currentList.add(0, editTextString!!)
+            listMessageDisplay.visibility = View.GONE
             myAdapter.notifyDataSetChanged()
         }
     }
@@ -98,6 +101,9 @@ class MeasurementsFragment : Fragment(), RecyclerClickListener {
             // set your desired action here.
             currentList.remove(DressMeasurementModel(currentList[position].measurementName, currentList[position].measurement))
             myAdapter.notifyDataSetChanged()
+            if (ClientMeasurementData.currentList.isEmpty()) {
+                listMessageDisplay.visibility = View.VISIBLE
+            }
             dialog.dismiss()
         }
         alertDialog.setNegativeButton(getText(R.string.dialog_alert_confirmation_cancle)) { dialog, id ->
