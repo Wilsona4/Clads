@@ -56,22 +56,6 @@
     <string name="all_password_mismatch">Password Mismatch</string>
     <string name="all_select_account_type">Select Account Type</string>
     <string name="new_user_sign_up_for_free">New user? Sign Up for free</string>
-    <string-array name="account_category">
-        <item>Tailor</item>
-        <item>Weaver</item>
-        <item>Client</item>
-    </string-array>
-
-    <style name="match_parent_match_parent">
-        <item name="android:layout_width">match_parent</item>
-        <item name="android:layout_height">match_parent</item>
-    </style>
-
-    <style name="wrap_content_wrap_content">
-        <item name="android:layout_width">wrap_content</item>
-        <item name="android:layout_height">wrap_content</item>
-    </style>
-
     <string name="title_activity_dashboard">DashboardActivity</string>
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
@@ -79,7 +63,6 @@
     <string name="nav_header_subtitle">android.studio@android.com</string>
     <string name="nav_header_desc">Navigation header</string>
     <string name="action_settings">Settings</string>
-
     <string name="menu_home">Home</string>
     <string name="menu_gallery">Gallery</string>
     <string name="menu_slideshow">Slideshow</string>
@@ -103,20 +86,17 @@
     <string name="native_measurement">Native Measurement</string>
     <string name="english_measurement">English Measurement</string>
     <string name="add_measurement">Add Measurement</string>
+
     <string name="payment_terms">Payment Terms</string>
     <string name="_100_deposit">100% Deposit</string>
     <string name="payment_options">Payment Options</string>
-    <string name="save_changes">save changes</string>
     <string name="vcash_bank_deposit_naira_paystack">VCash, Bank Deposit(Naira),PayStack</string>
     <string name="_50_deposit_and_50_balance_on_delivery">50% Deposit and 50% balance on delivery</string>
     <string name="_0_deposit_and_100_balance_on_delivery">0% Deposit and 100% balance on delivery</string>
-    <string name="cancel">CANCEL</string>
-    <string name="ok">OK</string>
     <string name="payoneer">Payoneer</string>
     <string name="vcash">VCash</string>
     <string name="cash">Cash</string>
     <string name="add_payment_terms">Add Payment terms</string>
-    <string name="add">Add</string>
     <string name="text">Text</string>
     <string name="phone_number">Phone Number</string>
     <string name="new_password">New Password</string>
@@ -127,4 +107,108 @@
     <string name="_0700000000000">0700000000000</string>
     <string name="password">Password</string>
     <string name="change_password">Change Password</string>
+    <string name="tap_to_change_profile_picture">Tap to change picture</string>
+    <string name="first_name">First name</string>
+    <string name="ijeoma">Ijeoma</string>
+    <string name="ibukun">Ibukun</string>
+    <string name="other_name">Other Name</string>
+    <string name="babangida">Babangida</string>
+    <string name="gender">Gender</string>
+    <string name="female">Female</string>
+    <string name="workshop_address">Workshop Address</string>
+    <string name="showroom_address">Showroom Address</string>
+    <string name="number_of_employees_apprentice">Number of Employees/ Apprentice</string>
+    <string name="_12">12</string>
+    <string name="legal_status">Legal Status</string>
+    <string name="individual">Individual</string>
+    <string name="union_membership">Union Membership</string>
+    <string name="name_of_union">Name of Union</string>
+    <string name="ward">Ward</string>
+    <string name="local_govt_area">Local Govt Area</string>
+    <string name="save_changes">Save Changes</string>
+    <string name="yoruba_attires">Yoruba Attires</string>
+    <string name="hausa_attires">Hausa Attires</string>
+    <string name="senator">Senator</string>
+    <string name="embroidery">Embroidery</string>
+    <string name="african_fashion">African Fashion</string>
+    <string name="school_uniforms">School Uniforms</string>
+    <string name="military_and_paramilitary_uniforms">Military and Paramilitary Uniforms</string>
+    <string name="igbo_attires">Igbo Attires</string>
+    <string name="south_south_attires">South-South Attires</string>
+    <string name="kaftans">Kaftans</string>
+    <string name="contemporary">Contemporary</string>
+    <string name="western_fashion">Western Fashion</string>
+    <string name="caps">Caps</string>
+    <string name="gender_focus">Gender Focus</string>
+    <string name="kids">kids</string>
+    <string name="unisex">Unisex</string>
+    <string name="quality_assurance">Quality Assurance</string>
+    <string name="obioma_trained_and_certified">Obioma trained and Certified</string>
+    <string name="measurement_options">Measurement Options</string>
+    <string name="visit_us_for_your_measurement">Visit us for your Measurement</string>
+    <string name="will_accept_self_measurement">Will Accept self Measurement</string>
+    <string name="_2_weeks">2 Weeks</string>
+    <string name="yes">Yes</string>
+    <string name="no">No</string>
+    <string name="delivery_lead_time">Delivery Lead Time</string>
+    <string name="add_delivery_lead_time_name">Add Delivery Lead Time</string>
+    <string name="_2">2</string>
+    <string name="days">Days</string>
+    <string name="weeks">Weeks</string>
+    <string name="months">Months</string>
+    <string name="add">Add</string>
+    <string name="male">Male</string>
+    <string name="_6_100">6/100</string>
+    <string name="cancel">CANCEL</string>
+    <string name="ok">OK</string>
+    <string name="add_specialty">Add specialty</string>
+    <string name="view_all_details">View All Details</string>
+    <string name="wallet">Wallet</string>
+    <string name="_23_481_000_00">$ 23, 481,000.00</string>
+    <string name="ola_machiavelli">Ola Machiavelli</string>
+    <string name="lorem_ipsum">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua</string>
+    <string name="read_more">Read More</string>
+    <string name="today">Today</string>
+    <string name="messages">Messages</string>
+    <string name="channel_name">notification</string>
+    <string name="channel_description">this is a notification channel</string>
+    <string name="get_notification">get notification</string>
+    <string name="hi_ijeoma">Hi, Ijeoma</string>
+    <string name="close_icon">CLose Icon</string>
+    <string name="employee_number">Employee Number</string>
+    <string name="employe_number">Employee Number</string>
+    <string name="last_name">Last Name</string>
+    <string name="coporate">Coporate</string>
+    <string name="lga">LGA</string>
+    <string name="union_name">Union Name</string>
+    <string name="union_state">Union State</string>
+    <string name="workshop_city">WorkShop City</string>
+    <string name="workshop_state">workshop State</string>
+    <string name="workshop_street">WorkShop Street</string>
+    <string name="no_23_oshodin_ilupeju">No 23 oshodin, ilupeju</string>
+    <string name="obioma_union">Obioma Union</string>
+    <string name="ward_three">ward three</string>
+    <string name="eti_osa">Eti-osa</string>
+    <string name="state">State</string>
+    <string name="city">City</string>
+    <string name="lagos">Lagos</string>
+    <string name="street">Street</string>
+    <string name="no_7_decabon_way_lekki">No 7 Decabon way, lekki</string>
+
+    <string-array name="account_category">
+        <item>Tailor</item>
+        <item>Weaver</item>
+        <item>Client</item>
+    </string-array>
+
+    <style name="match_parent_match_parent">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">match_parent</item>
+    </style>
+
+    <style name="wrap_content_wrap_content">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+    </style>
+
 </resources>

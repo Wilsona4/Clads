@@ -1,14 +1,290 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+
+<androidx.core.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/specialty_fragment_nested_scroll_view"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:fillViewport="true"
     tools:context=".ui.profile.editprofile.SpecialtyFragment">
 
-    <!-- TODO: Update blank fragment layout -->
-    <TextView
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:text="@string/hello_blank_fragment" />
+        android:backgroundTint="@color/email_confirmatory_background_color">
 
-</FrameLayout>
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/specialty_fragment_recycler_view"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_constraintBottom_toTopOf="@+id/specialty_fragment_add_new_specialty_icon"
+            app:layout_constraintEnd_toEndOf="parent"
+            tools:listitem="@layout/specialty_fragment_recycler_item"
+            tools:itemCount="5"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <androidx.appcompat.widget.AppCompatImageButton
+            android:id="@+id/specialty_fragment_add_new_specialty_icon"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/margin_24dp"
+            android:layout_marginEnd="@dimen/margin_24dp"
+            android:background="@color/white"
+            android:src="@drawable/fab_add_new_specialty"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/specialty_fragment_recycler_view" />
+
+        <View
+            android:id="@+id/specialty_fragment_view"
+            android:layout_width="match_parent"
+            android:layout_height="2dp"
+            android:layout_marginTop="@dimen/margin_18dp"
+            android:background="@android:color/darker_gray"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/specialty_fragment_add_new_specialty_icon" />
+
+        <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/specialty_fragment_gender_focus_text_view"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/margin_26dp"
+            android:layout_marginTop="@dimen/margin_15dp"
+            android:fontFamily="@font/poppins_semibold"
+            android:text="@string/gender_focus"
+            android:textColor="@color/navy_blue"
+            android:textSize="@dimen/text_size_13sp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/specialty_fragment_view" />
+
+        <com.google.android.material.checkbox.MaterialCheckBox
+            android:id="@+id/specialty_fragment_male_check_box"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/margin_16dp"
+            android:layout_marginTop="@dimen/margin_12dp"
+            android:buttonTint="@color/deep_sky_blue"
+            android:checked="true"
+            android:text="@string/male"
+            app:layout_constraintEnd_toStartOf="@+id/specialty_fragment_female_check_box"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/specialty_fragment_gender_focus_text_view" />
+
+        <com.google.android.material.checkbox.MaterialCheckBox
+            android:id="@+id/specialty_fragment_female_check_box"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:buttonTint="@color/deep_sky_blue"
+            android:checked="true"
+            android:text="@string/female"
+            app:layout_constraintBaseline_toBaselineOf="@+id/specialty_fragment_male_check_box"
+            app:layout_constraintEnd_toStartOf="@+id/specialty_fragment_kids_check_box"
+            app:layout_constraintStart_toEndOf="@+id/specialty_fragment_male_check_box" />
+
+        <com.google.android.material.checkbox.MaterialCheckBox
+            android:id="@+id/specialty_fragment_kids_check_box"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:buttonTint="@color/deep_sky_blue"
+            android:text="@string/kids"
+            app:layout_constraintBaseline_toBaselineOf="@+id/specialty_fragment_female_check_box"
+            app:layout_constraintEnd_toStartOf="@+id/specialty_fragment_unisex_check_box"
+            app:layout_constraintStart_toEndOf="@+id/specialty_fragment_female_check_box" />
+
+
+        <com.google.android.material.checkbox.MaterialCheckBox
+            android:id="@+id/specialty_fragment_unisex_check_box"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="@dimen/margin_12dp"
+            android:buttonTint="@color/deep_sky_blue"
+            android:text="@string/unisex"
+            app:layout_constraintBaseline_toBaselineOf="@+id/specialty_fragment_kids_check_box"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/specialty_fragment_kids_check_box" />
+
+
+        <View
+            android:id="@+id/specialty_fragment_view2"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_marginTop="@dimen/margin_19dp"
+            android:background="@android:color/darker_gray"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/specialty_fragment_unisex_check_box" />
+
+
+        <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/specialty_fragment_quality_assurance_text_view"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/margin_26dp"
+            android:layout_marginTop="@dimen/margin_15dp"
+            android:fontFamily="@font/poppins_semibold"
+            android:text="@string/quality_assurance"
+            android:textColor="@color/navy_blue"
+            android:textSize="@dimen/text_size_13sp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/specialty_fragment_view2" />
+
+
+        <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/specialty_fragment_obioma_trained_and_certified_text_view"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/margin_24dp"
+            android:fontFamily="@font/poppins"
+            android:text="@string/obioma_trained_and_certified"
+            android:textColor="@color/menu_text_color"
+            android:textSize="@dimen/text_size_12sp"
+            app:layout_constraintBaseline_toBaselineOf="@+id/specialty_fragment_obioma_trained_and_certified_value_text_view"
+            app:layout_constraintStart_toStartOf="parent" />
+
+        <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/specialty_fragment_obioma_trained_and_certified_value_text_view"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/margin_12dp"
+            android:layout_marginEnd="@dimen/margin_18dp"
+            android:fontFamily="@font/poppins"
+            android:padding="@dimen/padding_4dp"
+            android:text="@string/yes"
+            android:textColor="@color/menu_text_color"
+            android:textSize="@dimen/text_size_13sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/specialty_fragment_quality_assurance_text_view" />
+
+        <View
+            android:id="@+id/specialty_fragment_view3"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_marginTop="@dimen/margin_18dp"
+            android:background="@android:color/darker_gray"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/specialty_fragment_obioma_trained_and_certified_text_view" />
+
+        <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/specialty_fragment_measurement_options_text_view"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/margin_26dp"
+            android:layout_marginTop="@dimen/margin_15dp"
+            android:fontFamily="@font/poppins_bold"
+            android:text="@string/measurement_options"
+            android:textColor="@color/navy_blue"
+            android:textSize="@dimen/text_size_13sp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/specialty_fragment_view3" />
+
+
+        <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/specialty_fragment_visit_us_for_your_measurement_text_view"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/margin_26dp"
+            android:layout_marginTop="@dimen/margin_8dp"
+            android:fontFamily="@font/poppins"
+            android:text="@string/visit_us_for_your_measurement"
+            android:textColor="@color/menu_text_color"
+            android:textSize="@dimen/text_size_12sp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/specialty_fragment_measurement_options_text_view" />
+
+        <com.google.android.material.checkbox.MaterialCheckBox
+            android:id="@+id/specialty_fragment_visit_us_for_your_measurement_value_check_box"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="@dimen/margin_24dp"
+            android:buttonTint="@color/deep_sky_blue"
+            android:checked="true"
+            android:fontFamily="@font/poppins"
+            android:textColor="@color/menu_text_color"
+            android:textSize="@dimen/text_size_12sp"
+            app:layout_constraintBaseline_toBaselineOf="@+id/specialty_fragment_visit_us_for_your_measurement_text_view"
+            app:layout_constraintEnd_toEndOf="parent" />
+
+
+        <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/specialty_fragment_will_accept_self_measurement_text_view"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/margin_20dp"
+            android:fontFamily="@font/poppins"
+            android:text="@string/will_accept_self_measurement"
+            android:textColor="@color/menu_text_color"
+            android:textSize="@dimen/text_size_12sp"
+            app:layout_constraintStart_toStartOf="@+id/specialty_fragment_visit_us_for_your_measurement_text_view"
+            app:layout_constraintTop_toBottomOf="@+id/specialty_fragment_visit_us_for_your_measurement_text_view" />
+
+        <com.google.android.material.checkbox.MaterialCheckBox
+            android:id="@+id/specialty_fragment_will_accept_self_measurement_value_check_box"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="@dimen/margin_24dp"
+            android:buttonTint="@color/deep_sky_blue"
+            android:fontFamily="@font/poppins"
+            android:textColor="@color/menu_text_color"
+            android:textSize="@dimen/text_size_12sp"
+            app:layout_constraintBaseline_toBaselineOf="@+id/specialty_fragment_will_accept_self_measurement_text_view"
+            app:layout_constraintEnd_toEndOf="parent" />
+
+        <View
+            android:id="@+id/specialty_fragment_view4"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_marginTop="@dimen/margin_18dp"
+            android:background="@android:color/darker_gray"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/specialty_fragment_will_accept_self_measurement_value_check_box" />
+
+
+        <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/specialty_fragment_delivery_lead_time_text_view"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/margin_27dp"
+            android:layout_marginTop="@dimen/margin_20dp"
+            android:fontFamily="@font/poppins_semibold"
+            android:text="@string/delivery_lead_time"
+            android:textColor="@color/navy_blue"
+            android:textSize="@dimen/text_size_12sp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/specialty_fragment_view4" />
+
+        <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/specialty_fragment_delivery_lead_time_value_text_view"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="@dimen/margin_18dp"
+            android:fontFamily="@font/poppins"
+            android:text="@string/_2_weeks"
+            android:textColor="@color/menu_text_color"
+            android:textSize="@dimen/text_size_13sp"
+            app:layout_constraintBaseline_toBaselineOf="@+id/specialty_fragment_delivery_lead_time_text_view"
+            app:layout_constraintEnd_toEndOf="parent" />
+
+        <com.google.android.material.button.MaterialButton
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="@dimen/margin_25dp"
+            android:layout_marginTop="@dimen/margin_34dp"
+            android:layout_marginBottom="@dimen/margin_34dp"
+            android:backgroundTint="@color/deep_sky_blue"
+            android:fontFamily="@font/poppins"
+            android:padding="@dimen/padding_8dp"
+            android:text="@string/save_changes"
+            android:textColor="@color/white"
+            android:textSize="@dimen/text_size_12sp"
+            app:cornerRadius="@dimen/corner_radius_5dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias=".5"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/specialty_fragment_delivery_lead_time_value_text_view" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</androidx.core.widget.NestedScrollView>
