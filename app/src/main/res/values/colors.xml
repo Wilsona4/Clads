@@ -15,6 +15,7 @@
     <color name="medium_gray">#DADADA</color>
     <color name="gray">#F2F2F2</color>
     <color name="gray_3">#828282</color>
+    <color name="spinner_drop_down">#C4C4C4</color>
     <color name="menu_text_color">#506992</color>
     <color name="light_gray">#FAFAFA</color>
     <color name="email_confirmatory_background_color">#E5E5E5</color>

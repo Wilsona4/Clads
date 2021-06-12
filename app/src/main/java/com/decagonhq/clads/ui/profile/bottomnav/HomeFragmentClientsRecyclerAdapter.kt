@@ -13,6 +13,7 @@ class HomeFragmentClientsRecyclerAdapter(private var clientList: ArrayList<Clien
         var clientName = binding.clientsRecyclerViewItemClientNameTextView
         var clientLocation = binding.clientsRecyclerViewItemLocationTextView
         var clientInitials = binding.clientsRecyclerViewItemInitialCircleImageView
+
     }
 
     /*inflate the views*/
