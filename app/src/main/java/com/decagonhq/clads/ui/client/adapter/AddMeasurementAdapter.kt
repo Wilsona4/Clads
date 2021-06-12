@@ -23,24 +23,18 @@ class AddMeasurementAdapter(
 //        Binding the data with the view
         fun bind(dressMeasurementModel: DressMeasurementModel) {
             display.text = "${dressMeasurementModel.measurementName} ${dressMeasurementModel.measurement}"
-
-//            var adapterPosition = adapterPosition
         }
     }
 
     // Creating view
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CardViewHolder {
-        val view = LayoutInflater.from(parent.context).inflate(
-            R.layout.measurement_fragment_recyclerview_items,
-            parent,
-            false
-        )
-
+        val view = LayoutInflater.from(parent.context).inflate(R.layout.measurement_fragment_recyclerview_items, parent, false)
         return CardViewHolder(view)
     }
-    // Binding the view
+    // Binding the view and attaching the listener
     override fun onBindViewHolder(holder: CardViewHolder, position: Int) {
         holder.bind(currentList[position])
+
         holder.display.setOnClickListener {
             listener1.onItemClickToEdit(holder.adapterPosition, currentList)
         }

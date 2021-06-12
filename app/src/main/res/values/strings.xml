@@ -185,4 +185,5 @@
     <string name="enter_state_validation">Please, select a state</string>
     <string name="enter_name_validation">Please, enter name</string>
     <string name="enter_measurement_validation">Please, enter the measurement</string>
+    <string name="there_are_no_measurements">There are no measurements for this client</string>
 </resources>

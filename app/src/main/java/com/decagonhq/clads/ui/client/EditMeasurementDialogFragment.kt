@@ -11,6 +11,7 @@ import androidx.fragment.app.setFragmentResult
 import com.decagonhq.clads.R
 import com.decagonhq.clads.databinding.EditMeasurementDialogFragmentBinding
 import com.decagonhq.clads.ui.client.model.DressMeasurementModel
+import com.decagonhq.clads.util.ClientMeasurementData
 import com.decagonhq.clads.util.errorSnack
 import com.google.android.material.snackbar.Snackbar
 import com.google.android.material.textfield.TextInputEditText
@@ -22,7 +23,7 @@ class EditMeasurementDialogFragment(data: Bundle) : DialogFragment() {
     private lateinit var editMeasurementButton: Button
     private lateinit var measurementName: TextInputEditText
     private lateinit var measurementNumber: TextInputEditText
-    val editData = data
+    private val editData = data
     private var position by Delegates.notNull<Int>()
     private lateinit var editDataModel: DressMeasurementModel
 
@@ -50,9 +51,8 @@ class EditMeasurementDialogFragment(data: Bundle) : DialogFragment() {
         super.onViewCreated(view, savedInstanceState)
         measurementName = binding.editAddressFragmentMeasurementNameEditText
         measurementNumber = binding.editMeasurementFragmentAddMeasureEditText
+
         /*Attaching the data*/
-//        val editDataModel = editData["editData"]
-//        val position = editData["position"]
         measurementName.setText(editDataModel.measurementName)
         measurementNumber.setText(editDataModel.measurement.toString())
 
@@ -67,12 +67,9 @@ class EditMeasurementDialogFragment(data: Bundle) : DialogFragment() {
             } else if (measurement.toString().isEmpty()) {
                 binding.editMeasurementFragmentAddMeasurementEditTextLayout.errorSnack(getString(R.string.enter_measurement_validation), Snackbar.LENGTH_LONG)
             } else {
-                val dataModel = DressMeasurementModel(measurementName.toString(), measurement.toString().toBigDecimal())
-                var bundle = bundleOf(
-                    getString(R.string.key_editedData) to dataModel,
-                    getString(R.string.key_position) to position
-                )
-                setFragmentResult(getString(R.string.request_key_keyClicked2), bundle)
+                val editedDataModel = DressMeasurementModel(measurementName.toString(), measurement.toString().toBigDecimal())
+                ClientMeasurementData.currentList[position] = editedDataModel
+                setFragmentResult(getString(R.string.request_key_keyClicked2), bundleOf(getString(R.string.key_editedData) to editedDataModel))
                 dismiss()
             }
         }
