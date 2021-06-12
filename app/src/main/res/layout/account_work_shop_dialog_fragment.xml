@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<!--//This layout is not curently in use but might be later-->
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/account_work_shop_dialog_fragment_root_layout"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <com.google.android.material.textview.MaterialTextView
+        android:id="@+id/account_work_shop_dialog_fragment_workshop_address_text_view"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/margin_18dp"
+        android:layout_marginTop="@dimen/margin_34dp"
+        android:fontFamily="@font/poppins_semibold"
+        android:text="@string/workshop_address"
+        android:textColor="@color/navy_blue"
+        android:textSize="@dimen/text_size_16sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/account_work_shop_dialog_fragment_street_edit_text"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="@dimen/margin_18dp"
+        android:layout_marginTop="@dimen/margin_8dp"
+        android:hint="@string/street"
+        app:boxBackgroundColor="@color/white"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/account_work_shop_dialog_fragment_workshop_address_text_view">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:textColor="@color/navy_blue" />
+    </com.google.android.material.textfield.TextInputLayout>
+
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/account_work_shop_dialog_fragment_city_edit_text"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="@dimen/margin_18dp"
+        android:layout_marginTop="@dimen/margin_8dp"
+        android:hint="@string/city"
+        app:boxBackgroundColor="@color/white"
+        app:layout_constraintStart_toStartOf="@+id/account_work_shop_dialog_fragment_street_edit_text"
+        app:layout_constraintTop_toBottomOf="@+id/account_work_shop_dialog_fragment_street_edit_text">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textColor="@color/navy_blue"/>
+    </com.google.android.material.textfield.TextInputLayout>
+
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/account_work_shop_dialog_fragment_state_edit_text"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="@dimen/margin_18dp"
+        android:layout_marginTop="@dimen/margin_8dp"
+        android:hint="@string/state"
+        app:boxBackgroundColor="@color/white"
+        app:layout_constraintStart_toStartOf="@+id/account_work_shop_dialog_fragment_city_edit_text"
+        app:layout_constraintTop_toBottomOf="@+id/account_work_shop_dialog_fragment_city_edit_text">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textColor="@color/navy_blue"/>
+
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <TextView
+        android:id="@+id/account_work_shop_dialog_fragment_cancel_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="@dimen/margin_16dp"
+        android:backgroundTint="@android:color/white"
+        android:fontFamily="@font/poppins"
+        android:text="@string/cancel"
+        android:textColor="@color/navy_blue"
+        app:layout_constraintBaseline_toBaselineOf="@+id/account_work_shop_dialog_fragment_ok_button"
+        app:layout_constraintEnd_toStartOf="@+id/account_work_shop_dialog_fragment_ok_button"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <TextView
+        android:id="@+id/account_work_shop_dialog_fragment_ok_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="@dimen/margin_18dp"
+        android:layout_marginVertical="@dimen/margin_20dp"
+        android:backgroundTint="@android:color/white"
+        android:fontFamily="@font/poppins"
+        android:paddingHorizontal="@dimen/padding_20dp"
+        android:text="@string/ok"
+        android:textColor="@color/navy_blue"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/account_work_shop_dialog_fragment_state_edit_text" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>
+
