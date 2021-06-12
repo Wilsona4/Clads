@@ -36,6 +36,7 @@
             android:id="@+id/account_employee_number_dialog_fragment_employee_number_edit_text_view"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:inputType="number"
             android:textColor="@color/navy_blue" />
     </com.google.android.material.textfield.TextInputLayout>
 
