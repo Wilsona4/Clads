@@ -5,13 +5,15 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.DialogFragment
-import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.ViewModelProvider
 import com.decagonhq.clads.databinding.AccountWorkshopStreetDialogFragmentBinding
+import com.decagonhq.clads.viewmodels.ProfileManagementViewModel
 
 class AccountWorkshopStreetDialogFragment : DialogFragment() {
 
     private var _binding: AccountWorkshopStreetDialogFragmentBinding? = null
     private val binding get() = _binding!!
+    private lateinit var profileManagementViewModel: ProfileManagementViewModel
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -25,10 +27,10 @@ class AccountWorkshopStreetDialogFragment : DialogFragment() {
     ): View? {
         // Inflate the layout for this fragment
         _binding = AccountWorkshopStreetDialogFragmentBinding.inflate(inflater, container, false)
+        profileManagementViewModel =
+            ViewModelProvider(requireActivity()).get(ProfileManagementViewModel::class.java)
         return binding.root
     }
-
-    var workshopStreetInput = MutableLiveData<String>()
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -42,7 +44,7 @@ class AccountWorkshopStreetDialogFragment : DialogFragment() {
             val inputValue =
                 binding.accountWorkshopStreetDialogFragmentWorkshopStreetEditTextView.text.toString()
             if (inputValue.isNotEmpty()) {
-                workshopStreetInput.value = inputValue
+                profileManagementViewModel.streetLiveData.value = inputValue
             }
             dismiss()
         }

@@ -6,14 +6,14 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.RadioButton
 import androidx.fragment.app.DialogFragment
-import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.ViewModelProvider
 import com.decagonhq.clads.databinding.SpecialtyObiomaTrainedDialogFragmentBinding
+import com.decagonhq.clads.viewmodels.ProfileManagementViewModel
 
 class SpecialtyObiomaTrainedDialogFragment : DialogFragment() {
     private var _binding: SpecialtyObiomaTrainedDialogFragmentBinding? = null
     private val binding get() = _binding!!
-
-    var obiomaTrainedInputData = MutableLiveData<String>()
+    private lateinit var profileManagementViewModel: ProfileManagementViewModel
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -27,6 +27,9 @@ class SpecialtyObiomaTrainedDialogFragment : DialogFragment() {
     ): View? {
         // Inflate the layout for this fragment
         _binding = SpecialtyObiomaTrainedDialogFragmentBinding.inflate(inflater, container, false)
+
+        profileManagementViewModel =
+            ViewModelProvider(requireActivity()).get(ProfileManagementViewModel::class.java)
         return binding.root
     }
 
@@ -42,7 +45,7 @@ class SpecialtyObiomaTrainedDialogFragment : DialogFragment() {
                     binding.specialtyObiomaTrainedDialogFragmentRadioGroup.checkedRadioButtonId
                 val radio = view.findViewById<RadioButton>(selectedID)
                 val radioResult = radio.text.toString()
-                obiomaTrainedInputData.value = radioResult
+                profileManagementViewModel.obiomaTrainedLiveData.value = radioResult
 
                 dismiss()
             }

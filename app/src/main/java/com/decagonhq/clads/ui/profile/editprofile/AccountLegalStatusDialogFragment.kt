@@ -6,13 +6,15 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.RadioButton
 import androidx.fragment.app.DialogFragment
-import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.ViewModelProvider
 import com.decagonhq.clads.databinding.AccountLegalStatusDialogFragmentBinding
+import com.decagonhq.clads.viewmodels.ProfileManagementViewModel
 
 class AccountLegalStatusDialogFragment : DialogFragment() {
 
     private var _binding: AccountLegalStatusDialogFragmentBinding? = null
     private val binding get() = _binding!!
+    private lateinit var profileManagementViewModel: ProfileManagementViewModel
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -26,10 +28,11 @@ class AccountLegalStatusDialogFragment : DialogFragment() {
     ): View? {
         // Inflate the layout for this fragment
         _binding = AccountLegalStatusDialogFragmentBinding.inflate(inflater, container, false)
+
+        profileManagementViewModel =
+            ViewModelProvider(requireActivity()).get(ProfileManagementViewModel::class.java)
         return binding.root
     }
-
-    var legalStatusInput = MutableLiveData<String>()
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -41,7 +44,7 @@ class AccountLegalStatusDialogFragment : DialogFragment() {
             val resultValue = view.findViewById<RadioButton>(selectedID).text.toString()
 
             if (resultValue.isNotEmpty()) {
-                legalStatusInput.value = resultValue
+                profileManagementViewModel.legalStatusLiveData.value = resultValue
             }
             dismiss()
         }

@@ -6,15 +6,14 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.RadioButton
 import androidx.fragment.app.DialogFragment
-import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.ViewModelProvider
 import com.decagonhq.clads.databinding.SpecialtyDeliveryTimeDialogFragmentBinding
+import com.decagonhq.clads.viewmodels.ProfileManagementViewModel
 
 class SpecialtyDeliveryTimeDialogFragment : DialogFragment() {
     private var _binding: SpecialtyDeliveryTimeDialogFragmentBinding? = null
     private val binding get() = _binding!!
-
-    var deliveryValueInNumber = MutableLiveData<String>()
-    var deliveryDuration = MutableLiveData<String>()
+    private lateinit var profileManagementViewModel: ProfileManagementViewModel
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -28,6 +27,9 @@ class SpecialtyDeliveryTimeDialogFragment : DialogFragment() {
     ): View? {
         // Inflate the layout for this fragment
         _binding = SpecialtyDeliveryTimeDialogFragmentBinding.inflate(inflater, container, false)
+
+        profileManagementViewModel =
+            ViewModelProvider(requireActivity()).get(ProfileManagementViewModel::class.java)
         return binding.root
     }
 
@@ -45,8 +47,8 @@ class SpecialtyDeliveryTimeDialogFragment : DialogFragment() {
             val durationValue = view.findViewById<RadioButton>(inputDurationInteger).text.toString()
 
             if (inputNumber.isNotEmpty() && durationValue.isNotEmpty()) {
-                deliveryValueInNumber.value = inputNumber
-                deliveryDuration.value = durationValue
+                profileManagementViewModel.deliveryValueInNumber.value = inputNumber
+                profileManagementViewModel.deliveryDuration.value = durationValue
             }
             dismiss()
         }

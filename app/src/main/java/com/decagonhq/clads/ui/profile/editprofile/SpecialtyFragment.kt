@@ -5,12 +5,15 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.decagonhq.clads.databinding.SpecialtyFragmentBinding
 import com.decagonhq.clads.util.Specialty
+import com.decagonhq.clads.viewmodels.ProfileManagementViewModel
 
 class SpecialtyFragment : Fragment() {
     private var _binding: SpecialtyFragmentBinding? = null
+    private lateinit var profileManagementViewModel: ProfileManagementViewModel
 
     private val recyclerViewAdapter by lazy { SpecialtyFragmentRecyclerAdapter() }
 
@@ -23,6 +26,9 @@ class SpecialtyFragment : Fragment() {
     ): View? {
         // Inflate the layout for this fragment
         _binding = SpecialtyFragmentBinding.inflate(inflater, container, false)
+
+        profileManagementViewModel =
+            ViewModelProvider(requireActivity()).get(ProfileManagementViewModel::class.java)
         return binding.root
     }
 
@@ -50,9 +56,8 @@ class SpecialtyFragment : Fragment() {
                 requireActivity().supportFragmentManager,
                 "Obioma Trained fragment"
             )
-            val obiomaTrainedFragmentInput = obiomaTrainedFragment.obiomaTrainedInputData
             // collect input values from dialog fragment and update the gender value of user
-            obiomaTrainedFragmentInput.observe(
+            profileManagementViewModel.obiomaTrainedLiveData.observe(
                 viewLifecycleOwner,
                 {
                     binding.specialtyFragmentObiomaTrainedAndCertifiedValueTextView.text =
@@ -86,13 +91,11 @@ class SpecialtyFragment : Fragment() {
                 requireActivity().supportFragmentManager,
                 "delivery time"
             )
-            val specialtyDeliveryDeliveryInputNumber = specialtyDeliveryTime.deliveryValueInNumber
-            val specialtyDeliveryTimeSelectedTime = specialtyDeliveryTime.deliveryDuration
             // collect input values from dialog fragment and update the firstname text of user
-            specialtyDeliveryDeliveryInputNumber.observe(
+            profileManagementViewModel.deliveryValueInNumber.observe(
                 viewLifecycleOwner,
                 { itOne ->
-                    specialtyDeliveryTimeSelectedTime.observe(
+                    profileManagementViewModel.deliveryDuration.observe(
                         viewLifecycleOwner,
                         {
                             itTwo ->

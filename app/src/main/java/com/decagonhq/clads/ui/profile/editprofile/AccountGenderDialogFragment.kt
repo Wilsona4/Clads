@@ -6,14 +6,14 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.RadioButton
 import androidx.fragment.app.DialogFragment
-import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.ViewModelProvider
 import com.decagonhq.clads.databinding.AccountGenderDialogFragmentBinding
+import com.decagonhq.clads.viewmodels.ProfileManagementViewModel
 
 class AccountGenderDialogFragment : DialogFragment() {
     private var _binding: AccountGenderDialogFragmentBinding? = null
     private val binding get() = _binding!!
-
-    var genderInputData = MutableLiveData<String>()
+    private lateinit var profileManagementViewModel: ProfileManagementViewModel
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -27,6 +27,8 @@ class AccountGenderDialogFragment : DialogFragment() {
     ): View? {
         // Inflate the layout for this fragment
         _binding = AccountGenderDialogFragmentBinding.inflate(inflater, container, false)
+        profileManagementViewModel =
+            ViewModelProvider(requireActivity()).get(ProfileManagementViewModel::class.java)
         return binding.root
     }
 
@@ -38,7 +40,8 @@ class AccountGenderDialogFragment : DialogFragment() {
         binding.accountGenderDialogFragmentOkButton.setOnClickListener {
             val selectedID = binding.accountGenderDialogFragmentRadioGroup.checkedRadioButtonId
             val resultValue = view.findViewById<RadioButton>(selectedID).text.toString()
-            genderInputData.value = resultValue
+
+            profileManagementViewModel.genderInputLiveData.value = resultValue
             dismiss()
         }
     }

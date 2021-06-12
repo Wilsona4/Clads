@@ -5,13 +5,15 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.DialogFragment
-import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.ViewModelProvider
 import com.decagonhq.clads.databinding.AccountUnionWardDialogFragmentBinding
+import com.decagonhq.clads.viewmodels.ProfileManagementViewModel
 
 class AccountUnionWardDialogFragment : DialogFragment() {
 
     private var _binding: AccountUnionWardDialogFragmentBinding? = null
     private val binding get() = _binding!!
+    private lateinit var profileManagementViewModel: ProfileManagementViewModel
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -25,10 +27,11 @@ class AccountUnionWardDialogFragment : DialogFragment() {
     ): View? {
         // Inflate the layout for this fragment
         _binding = AccountUnionWardDialogFragmentBinding.inflate(inflater, container, false)
+
+        profileManagementViewModel =
+            ViewModelProvider(requireActivity()).get(ProfileManagementViewModel::class.java)
         return binding.root
     }
-
-    var unionWardInput = MutableLiveData<String>()
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -42,7 +45,7 @@ class AccountUnionWardDialogFragment : DialogFragment() {
             val inputValue =
                 binding.accountUnionWardDialogFragmentUnionWardEditTextView.text.toString()
             if (inputValue.isNotEmpty()) {
-                unionWardInput.value = inputValue
+                profileManagementViewModel.wardOfUnionLiveData.value = inputValue
             }
             dismiss()
         }

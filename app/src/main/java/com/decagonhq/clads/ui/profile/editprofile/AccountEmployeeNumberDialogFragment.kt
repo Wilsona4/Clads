@@ -5,13 +5,15 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.DialogFragment
-import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.ViewModelProvider
 import com.decagonhq.clads.databinding.AccountEmployeeNumberDialogFragmentBinding
+import com.decagonhq.clads.viewmodels.ProfileManagementViewModel
 
 class AccountEmployeeNumberDialogFragment : DialogFragment() {
 
     private var _binding: AccountEmployeeNumberDialogFragmentBinding? = null
     private val binding get() = _binding!!
+    private lateinit var profileManagementViewModel: ProfileManagementViewModel
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -25,10 +27,11 @@ class AccountEmployeeNumberDialogFragment : DialogFragment() {
     ): View? {
         // Inflate the layout for this fragment
         _binding = AccountEmployeeNumberDialogFragmentBinding.inflate(inflater, container, false)
+
+        profileManagementViewModel =
+            ViewModelProvider(requireActivity()).get(ProfileManagementViewModel::class.java)
         return binding.root
     }
-
-    var numberOfEmployeeInput = MutableLiveData<String>()
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -41,7 +44,7 @@ class AccountEmployeeNumberDialogFragment : DialogFragment() {
             val inputValue =
                 binding.accountEmployeeNumberDialogFragmentEmployeeNumberEditTextView.text.toString()
             if (inputValue.isNotEmpty()) {
-                numberOfEmployeeInput.value = inputValue
+                profileManagementViewModel.numberOfEmployeeLiveData.value = inputValue
             }
             dismiss()
         }
