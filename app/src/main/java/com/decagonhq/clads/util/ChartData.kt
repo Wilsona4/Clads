@@ -12,7 +12,7 @@ import com.github.mikephil.charting.data.LineDataSet
 object ChartData {
 
     fun chartData(view: View) {
-        val chart =view.findViewById<LineChart>(R.id.home_fragment_clients_line_chart)
+        val chart = view.findViewById<LineChart>(R.id.home_fragment_clients_line_chart)
         val entries = ArrayList<String>()
 
         // initialise data for the xAxis
@@ -62,7 +62,7 @@ object ChartData {
         val data = LineData(entries, lineDataSet)
 
         chart.data = data
-        //chart.setBackgroundColor(resources.getColor(R.color.white))
+        // chart.setBackgroundColor(resources.getColor(R.color.white))
         chart.animateXY(3000, 3000)
         chart.setDescription(null)
         chart.setGridBackgroundColor(R.color.deep_sky_blue)
@@ -86,5 +86,4 @@ object ChartData {
         yAxis.textSize = 6f
         yAxis.mAxisMaximum = 100F
     }
-
 }

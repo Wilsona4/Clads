@@ -21,7 +21,6 @@ class HomeFragment : Fragment() {
     private lateinit var homeFragmentYearDropdown: AutoCompleteTextView
     private lateinit var clientList: ArrayList<ClientsListModel>
 
-
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -34,7 +33,6 @@ class HomeFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
 
         binding.apply {
             homeFragmentClientListRecyclerView.apply {
@@ -50,8 +48,7 @@ class HomeFragment : Fragment() {
 //        val adapter = ArrayAdapter(requireContext(), android.R.layout.simple_spinner_dropdown_item, items)
 //        yearSpinner.adapter = adapter
 //
-       chartData(view)
-
+        chartData(view)
     }
 
     override fun onResume() {
