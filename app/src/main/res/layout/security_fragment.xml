@@ -58,7 +58,7 @@
             android:layout_height="@dimen/layout_height_1dp"
             android:layout_marginBottom="@dimen/margin_8dp"
             android:layout_marginTop="@dimen/margin_29dp"
-            android:background="@color/gray_3"
+            android:background="@color/dark_gray"
             app:layout_constraintBottom_toTopOf="@+id/security_fragment_guideline"
             app:layout_constraintEnd_toEndOf="@+id/security_fragment_phone_number_input_text_view"
             app:layout_constraintHorizontal_bias="1.0"

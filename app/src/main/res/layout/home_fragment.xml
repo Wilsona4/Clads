@@ -56,7 +56,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/margin_11dp"
-                android:layout_marginBottom="@dimen/margin_20dp"
+                android:layout_marginBottom="@dimen/margin_28dp"
                 android:fontFamily="@font/poppins_bold"
                 android:text="@string/_23_481_000_00"
                 android:textColor="@color/white"
@@ -122,37 +122,50 @@
             tools:layout_editor_absoluteY="148dp">
 
             <TextView
-                android:id="@+id/textView"
+                android:id="@+id/home_fragment_chart_title_clients_text_view"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginHorizontal="@dimen/padding_31dp"
                 android:layout_marginTop="4dp"
-                android:text="Clients"
+                android:text="@string/clients"
                 android:textColor="@color/dark_ash"
+                app:layout_constraintBottom_toTopOf="@+id/home_fragment_clients_line_chart"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
             <com.github.mikephil.charting.charts.LineChart
-                android:id="@+id/lineChart"
+                android:id="@+id/home_fragment_clients_line_chart"
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/margin_200dp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/textView" />
+                app:layout_constraintStart_toStartOf="parent" />
 
-            <androidx.appcompat.widget.AppCompatSpinner
-                android:id="@+id/spinner1"
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/home_fragment_year_dropdown_text_layout"
+                style="@style/Widget.MaterialComponents.TextInputLayout.FilledBox.ExposedDropdownMenu"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="4dp"
-                android:layout_marginEnd="36dp"
-                android:backgroundTint="#ff0000"
-                android:overlapAnchor="false"
-                android:spinnerMode="dropdown"
-                app:layout_constraintBottom_toTopOf="@+id/lineChart"
+                android:fontFamily="@font/poppins"
+                app:boxBackgroundColor="@color/white"
+                app:endIconTint="@color/dark_ash"
+                app:boxStrokeColor="@color/white"
+                app:boxStrokeWidth="@dimen/margin_0dp"
+                app:layout_constraintBottom_toTopOf="@+id/home_fragment_clients_line_chart"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
+                app:layout_constraintTop_toTopOf="parent">
+
+                <AutoCompleteTextView
+                    android:id="@+id/home_fragment_year_dropdown_autocomplete_text_view"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:inputType="none"
+                    android:text="@string/_2020"
+                    android:textSize="@dimen/text_size_12sp"
+                    android:paddingVertical="@dimen/padding_18dp"
+                    android:textColor="@color/dark_ash" />
+            </com.google.android.material.textfield.TextInputLayout>
+
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 

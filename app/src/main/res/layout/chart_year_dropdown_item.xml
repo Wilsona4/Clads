@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<TextView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/chart_year_dropdown_item_text_view"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:backgroundTint="@color/account_category_dropdown_selected_item_color"
+    android:fontFamily="@font/poppins_medium"
+    android:paddingVertical="@dimen/padding_10dp"
+    android:paddingStart="@dimen/padding_16dp"
+    android:gravity="center"
+    android:text="@string/_2020"
+    android:textColor="@color/dark_ash"
+    android:textSize="@dimen/text_size_12sp"
+    app:layout_constraintEnd_toEndOf="parent"
+    app:layout_constraintStart_toStartOf="parent"
+    app:layout_constraintTop_toTopOf="parent" />

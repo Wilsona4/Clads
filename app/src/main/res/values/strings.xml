@@ -114,6 +114,16 @@
     <string name="add_address_fragment">Add address</string>
     <string name="edit_measurement">Edit measurement</string>
 
+    <string-array name="Year">
+        <item>2020</item>
+        <item>2021</item>
+        <item>2022</item>
+        <item>2023</item>
+        <item>2024</item>
+        <item>2025</item>
+        <item>2026</item>
+    </string-array>
+
     <string-array name="states">
         <item>Abia</item>
         <item>Adamawa</item>
@@ -270,6 +280,8 @@
     <string name="get_notification">get notification</string>
     <string name="hi_ijeoma">Hi, Ijeoma</string>
     <string name="close_icon">CLose Icon</string>
+
+
     <string name="employee_number">Employee Number</string>
     <string name="employe_number">Employee Number</string>
     <string name="last_name">Last Name</string>
@@ -289,6 +301,8 @@
     <string name="lagos">Lagos</string>
     <string name="street">Street</string>
     <string name="no_7_decabon_way_lekki">No 7 Decabon way, lekki</string>
+    <string name="_2020">2020</string>
+
 
     <string-array name="account_category">
         <item>Tailor</item>

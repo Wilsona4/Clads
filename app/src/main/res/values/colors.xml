@@ -14,7 +14,11 @@
     <color name="deep_gray">#7F92B4</color>
     <color name="medium_gray">#DADADA</color>
     <color name="gray">#F2F2F2</color>
-    <color name="gray_3">#C4C4C4</color>
+
+    <color name="dark_gray">#828282</color>
+    <color name="grey_100">#C4C4C4</color>
+
+
     <color name="menu_text_color">#506992</color>
     <color name="light_gray">#FAFAFA</color>
     <color name="email_confirmatory_background_color">#E5E5E5</color>
@@ -30,5 +34,4 @@
     <color name="dark_ash">#4A4A4A</color>
     <color name="chart_blue">#0066F5</color>
     <color name="toolbar_text_color">#393939</color>
-    <color name="grey_100">#c4c4c4</color>
 </resources>
