@@ -54,9 +54,8 @@ class MeasurementsFragment : Fragment(), RecyclerClickListener {
         editClientMeasurement()
 
         /*Open dialog fragment*/
-
         addMeasurementFab.setOnClickListener {
-            AddMeasurementDialogFragment().show(childFragmentManager, getString(R.string.tag))
+            AddMeasurementDialogFragment().show(childFragmentManager, MeasurementsFragment::class.simpleName)
         }
 
         myAdapter = AddMeasurementAdapter(currentList, this@MeasurementsFragment, this@MeasurementsFragment)
@@ -65,15 +64,15 @@ class MeasurementsFragment : Fragment(), RecyclerClickListener {
     }
 
     private fun editClientMeasurement() {
-        childFragmentManager.setFragmentResultListener(getString(R.string.request_key_keyClicked2), requireActivity()) { key, bundle ->
+        childFragmentManager.setFragmentResultListener(EDIT_MEASUREMENT_REQUEST_KEY, requireActivity()) { key, bundle ->
             myAdapter.notifyDataSetChanged()
         }
     }
 
     /*Adding client measurement*/
     private fun addClientMeasurement() {
-        childFragmentManager.setFragmentResultListener(getString(R.string.request_key_keyClicked), requireActivity()) { key, bundle ->
-            val editTextString = bundle.getParcelable<DressMeasurementModel>(getString(R.string.key_bundleKey))
+        childFragmentManager.setFragmentResultListener(ADD_MEASUREMENT_REQUEST_KEY, requireActivity()) { key, bundle ->
+            val editTextString = bundle.getParcelable<DressMeasurementModel>(ADD_MEASUREMENT_BUNDLE_KEY)
             // Do something with the string
             currentList.add(0, editTextString!!)
             listMessageDisplay.visibility = View.GONE
@@ -118,5 +117,13 @@ class MeasurementsFragment : Fragment(), RecyclerClickListener {
 
         val positiveButton = alert.getButton(DialogInterface.BUTTON_POSITIVE)
         positiveButton.setTextColor(Color.BLUE)
+    }
+
+    companion object {
+        const val ADD_MEASUREMENT_REQUEST_KEY = "ADD CLIENT MEASUREMENT REQUEST KEY"
+        const val ADD_MEASUREMENT_BUNDLE_KEY = "ADD CLIENT MEASUREMENT BUNDLE KEY"
+
+        const val EDIT_MEASUREMENT_REQUEST_KEY = "EDIT CLIENT MEASUREMENT REQUEST KEY"
+        const val EDIT_MEASUREMENT_BUNDLE_KEY = "EDIT CLIENT MEASUREMENT BUNDLE KEY"
     }
 }

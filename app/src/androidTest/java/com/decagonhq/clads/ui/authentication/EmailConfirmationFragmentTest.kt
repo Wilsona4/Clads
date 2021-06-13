@@ -1,4 +1,4 @@
-package com.decagonhq.clads.ui.auth
+package com.decagonhq.clads.ui.authentication
 
 import android.content.Context
 import androidx.fragment.app.testing.launchFragmentInContainer

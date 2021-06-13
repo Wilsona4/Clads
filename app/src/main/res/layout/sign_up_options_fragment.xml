@@ -7,7 +7,7 @@
     android:layout_height="match_parent"
     android:background="@color/deep_sky_blue"
     android:fillViewport="true"
-    tools:context=".ui.auth.SignUpOptionsFragment">
+    tools:context=".ui.authentication.SignUpOptionsFragment">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
