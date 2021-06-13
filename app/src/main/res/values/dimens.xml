@@ -185,6 +185,7 @@
     <dimen name="corner_radius_100dp">100dp</dimen>
     <dimen name="padding_56dp">56dp</dimen>
     <dimen name="padding_46dp">46dp</dimen>
+    <dimen name="text_line_2dp">2dp</dimen>
     <dimen name="height_28dp">28dp</dimen>
     <dimen name="height_100dp">100dp</dimen>
     <dimen name="height_50dp">50dp</dimen>

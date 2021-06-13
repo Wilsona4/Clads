@@ -58,6 +58,7 @@
             android:backgroundTint="@color/white"
             android:fontFamily="@font/roboto_medium"
             android:hint="@string/enter_delivery_address"
+            android:paddingStart="@dimen/padding_0dp"
             android:inputType="text"
             android:textColor="@color/menu_text_color"
             android:textCursorDrawable="@color/navy_blue"
@@ -88,6 +89,7 @@
             android:backgroundTint="@color/white"
             android:fontFamily="@font/roboto_medium"
             android:hint="@string/delivery_address_city"
+            android:paddingStart="@dimen/padding_0dp"
             android:inputType="text"
             android:textColor="@color/menu_text_color"
             android:textCursorDrawable="@color/navy_blue"
@@ -113,6 +115,7 @@
             android:layout_height="match_parent"
             android:paddingVertical="@dimen/padding_16dp"
             android:text="@string/state"
+            android:paddingStart="@dimen/padding_0dp"
             android:backgroundTint="@color/white"
             android:inputType="none" />
 

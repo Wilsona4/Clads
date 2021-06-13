@@ -6,6 +6,71 @@
         <item name="android:textAllCaps">false</item>
         <item name="fontFamily">@font/poppins_medium</item>
     </style>
+    <style name="text_input_layout">
+        <item name="boxBackgroundMode">none</item>
+        <item name="expandedHintEnabled">false</item>
+        <item name="boxStrokeColor">@color/text_input_line_grey</item>
+        <item name="hintEnabled">false</item>
+        <item name="prefixTextColor">@color/navy_blue</item>
+        <item name="prefixTextAppearance">@style/prefix_text_style</item>
+    </style>
+    <style name="prefix_text_style">
+        <item name="boxStrokeColor">@color/text_input_line_grey</item>
+        <item name="prefixTextColor">@color/navy_blue</item>
+        <item name="android:textSize">@dimen/text_size_13sp</item>
+        <item name="android:letterSpacing">0.1</item>
+        <item name="android:textColor">@color/menu_text_color</item>
+    </style>
+    <style name="input_text_style">
+        <item name="android:textAlignment">textEnd</item>
+        <item name="strokeColor">@color/text_input_line_grey</item>
+        <item name="prefixTextColor">@color/navy_blue</item>
+        <item name="android:textSize">@dimen/text_size_13sp</item>
+        <item name="android:letterSpacing">0.1</item>
+        <item name="android:textColor">#506992</item>
+        <item name="android:paddingStart">@dimen/padding_0dp</item>
+        <item name="android:paddingEnd">@dimen/padding_0dp</item>
+    </style>
+    <style name="client_divider_view_style">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">@dimen/text_line_2dp</item>
+        <item name="android:background">@color/text_input_line_grey</item>
+    </style>
+    <style name="add_client_fragment_next_button">
+        <item name="textAllCaps">false</item>
+        <item name="backgroundTint">@color/navy_blue</item>
+        <item name="android:layout_marginTop">@dimen/margin_40dp</item>
+        <item name="fontFamily">@font/poppins_bold</item>
+        <item name="android:layout_marginBottom">@dimen/margin_10dp</item>
+    </style>
+    <style name="radio_input_text_style">
+        <item name="android:textAlignment">textEnd</item>
+        <item name="strokeColor">@color/text_input_line_grey</item>
+        <item name="prefixTextColor">@color/navy_blue</item>
+        <item name="android:textSize">@dimen/text_size_13sp</item>
+        <item name="android:letterSpacing">0.1</item>
+        <item name="android:textColor">#506992</item>
+        <item name="android:buttonTint">@color/navy_blue</item>
+    </style>
+    <style name="client_list_names">
+        <item name="android:textSize">12sp</item>
+        <item name="android:letterSpacing">-0.03</item>
+        <item name="android:textColor">#4A4A4A</item>
+        <item name="fontFamily">@font/poppins</item>
+        <item name="android:layout_marginStart">8dp</item>
+    </style>
+    <style name="have_no_client_yet_text">
+        <item name="android:textSize">14sp</item>
+        <item name="android:letterSpacing">0.1</item>
+        <item name="android:textColor">@color/menu_text_color</item>
+        <item name="fontFamily">@font/poppins</item>
+    </style>
+    <style name="client_list_screen_header_title">
+        <item name="fontFamily">@font/poppins_bold</item>
+        <item name="android:textSize">20sp</item>
+        <item name="android:letterSpacing">0.1</item>
+        <item name="android:textColor">@color/navy_blue</item>
+    </style>
     <style name="TextInputLayoutStyle" parent="Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense">
         <item name="boxStrokeColor">@color/black</item>
         <item name="boxStrokeWidth">2dp</item>

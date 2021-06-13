@@ -63,6 +63,7 @@
             android:fontFamily="@font/roboto_medium"
             android:hint="@string/add_measurement_fragment_name"
             android:inputType="text"
+            android:paddingStart="@dimen/padding_0dp"
             android:textColor="@color/menu_text_color"
             android:textCursorDrawable="@color/navy_blue"
             android:textSize="@dimen/text_size_16sp" />
@@ -104,6 +105,7 @@
             android:backgroundTint="@color/white"
             android:fontFamily="@font/roboto_medium"
             android:hint="@string/add_measurement_fragment_add_measurement"
+            android:paddingStart="@dimen/padding_0dp"
             android:inputType="numberDecimal"
             android:textColor="@color/menu_text_color"
             android:textCursorDrawable="@color/navy_blue"

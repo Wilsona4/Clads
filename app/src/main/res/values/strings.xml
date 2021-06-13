@@ -86,6 +86,19 @@
     <string name="native_measurement">Native Measurement</string>
     <string name="english_measurement">English Measurement</string>
     <string name="add_measurement">Add Measurement</string>
+
+    <string name="all_first_initial">M</string>
+    <string name="all_last_initial">O</string>
+    <string name="all_male">Male</string>
+    <string name="all_female">Female</string>
+    <string name="all_gender">Gender</string>
+    <string name="all_next">Next</string>
+    <string name="all_phone_number">Phone Number</string>
+    <string name="enter_phone_number">Phone Number</string>
+    <string name="all_address">Address</string>
+    <string name="all_lagos">Lagos</string>
+    <string name="all_you_have_not_clients_yet">You have no clients yet</string>
+
     <string name="add_measurement_fragment_name">Name</string>
     <string name="add_measurement_fragment_add_measurement">Add measurement</string>
     <string name="add_measurement_fragment_save_button">Save</string>
