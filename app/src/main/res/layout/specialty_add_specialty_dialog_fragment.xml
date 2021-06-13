@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    tools:context=".ui.profile.editprofile.SpecialtyAddSpecialtyDialogFragment">
+
+    <com.google.android.material.textview.MaterialTextView
+        android:id="@+id/specialty_add_specialty_dialog_fragment_add_specialty_text_view"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/margin_20dp"
+        android:layout_marginTop="@dimen/margin_34dp"
+        android:fontFamily="@font/poppins_bold"
+        android:text="@string/add_specialty"
+        android:textColor="@color/navy_blue"
+        android:textSize="@dimen/text_size_16sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/specialty_add_specialty_dialog_fragment_add_specialty_text_input_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="@dimen/margin_18dp"
+        app:boxBackgroundColor="@color/white"
+        app:counterEnabled="true"
+        app:counterMaxLength="100"
+        app:helperText="@string/add_specialty"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/specialty_add_specialty_dialog_fragment_add_specialty_text_view">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/specialty_add_specialty_dialog_fragment_add_specialty_edit_text"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:inputType="text"
+            android:textColor="@color/navy_blue" />
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/specialty_add_specialty_dialog_fragment_add_button"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="@dimen/margin_25dp"
+        android:layout_marginTop="@dimen/margin_24dp"
+        android:layout_marginBottom="@dimen/margin_38dp"
+        android:backgroundTint="@color/deep_sky_blue"
+        android:fontFamily="@font/poppins_medium"
+        android:paddingVertical="@dimen/padding_10dp"
+        android:text="@string/add"
+        android:textColor="@color/white"
+        android:textSize="@dimen/text_size_12sp"
+        app:cornerRadius="@dimen/corner_radius_5dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/specialty_add_specialty_dialog_fragment_add_specialty_text_input_layout" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

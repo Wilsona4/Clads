@@ -1,14 +1,127 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:paddingHorizontal="@dimen/padding_20dp"
     tools:context=".ui.profile.editprofile.PaymentMethodFragment">
 
-    <!-- TODO: Update blank fragment layout -->
-    <TextView
+    <LinearLayout
+        android:id="@+id/payment_method_terms_linear_layout"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text="@string/hello_blank_fragment" />
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/margin_4dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
 
-</FrameLayout>
+
+        <TextView
+            android:id="@+id/payment_method_fragment_payment_terms_text_view"
+            android:layout_width="@dimen/margin_0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/margin_25dp"
+            android:layout_weight="1"
+            android:fontFamily="@font/poppins_medium"
+            android:text="@string/payment_terms"
+            android:textColor="@color/navy_blue"
+            android:textSize="@dimen/text_size_12sp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/payment_method_fragment_payment_terms_list_text_view"
+            android:layout_width="@dimen/margin_0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/margin_25dp"
+            android:layout_weight="1"
+            android:text="@string/_100_deposit"
+            android:textAlignment="textEnd"
+            android:textSize="@dimen/text_size_13sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+    </LinearLayout>
+
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/payment_method_fragment_fab"
+        android:layout_width="wrap_content"
+        android:layout_height="@dimen/margin_48dp"
+        android:layout_marginTop="@dimen/margin_44dp"
+        android:src="@drawable/payment_method_fragment_fab_plus_sign"
+        app:backgroundTint="@color/deep_sky_blue"
+        app:fabSize="mini"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/payment_method_terms_linear_layout"
+        app:tint="@color/white" />
+
+    <View
+        android:id="@+id/security_fragment_fine_line_view"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/margin_1dp"
+        android:layout_marginTop="@dimen/margin_15dp"
+        android:background="@color/dark_gray"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/payment_method_fragment_fab" />
+
+    <LinearLayout
+        android:id="@+id/payment_method_fragment_payment_options_list_text_view_container"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/margin_25dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/security_fragment_fine_line_view">
+
+        <TextView
+            android:id="@+id/payment_method_fragment_payment_option_text_view"
+            android:layout_width="@dimen/margin_0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:fontFamily="@font/poppins_medium"
+            android:text="@string/payment_options"
+            android:textColor="@color/navy_blue"
+            android:textSize="@dimen/text_size_12sp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/security_fragment_fine_line_view" />
+
+        <TextView
+            android:id="@+id/payment_method_fragment_payment_options_list_text_view"
+            android:layout_width="@dimen/margin_0dp"
+            android:layout_height="@dimen/margin_36dp"
+            android:layout_weight="1"
+            android:maxLines="4"
+            android:text="@string/vcash_bank_deposit_naira_paystack"
+            android:textAlignment="textEnd"
+            android:textSize="@dimen/text_size_13sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/security_fragment_fine_line_view" />
+    </LinearLayout>
+
+    <Button
+        android:id="@+id/payment_method_fragment_save_changes_button"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="4dp"
+        android:background="@drawable/sign_up_with_email_and_phone_number_buttons"
+        android:fontFamily="@font/poppins_bold"
+        android:text="@string/save_changes"
+        android:textSize="@dimen/text_size_12sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/guideline4" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guideline4"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintGuide_begin="314dp" />
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

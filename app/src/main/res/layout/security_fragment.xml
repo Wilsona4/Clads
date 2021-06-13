@@ -1,14 +1,151 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.core.widget.NestedScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:fillViewport="true"
     tools:context=".ui.profile.editprofile.SecurityFragment">
 
-    <!-- TODO: Update blank fragment layout -->
-    <TextView
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:text="@string/hello_blank_fragment" />
+        android:descendantFocusability="beforeDescendants"
+        android:focusableInTouchMode="true"
+        android:paddingHorizontal="@dimen/padding_24dp">
 
-</FrameLayout>
+        <TextView
+            android:id="@+id/security_fragment_verified_information_text_view"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/margin_16dp"
+            android:fontFamily="@font/poppins"
+            android:textSize="@dimen/text_size_11sp"
+            android:text="@string/verified_information"
+            android:textColor="@color/deep_sky_blue"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/security_fragment_phone_number_text_view"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/margin_13dp"
+            android:fontFamily="@font/poppins_medium"
+            android:text="@string/phone_number"
+            android:textColor="@color/navy_blue"
+            app:layout_constraintStart_toStartOf="@+id/security_fragment_verified_information_text_view"
+            app:layout_constraintTop_toBottomOf="@+id/security_fragment_verified_information_text_view" />
+
+
+        <TextView
+            android:id="@+id/security_fragment_phone_number_input_text_view"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/margin_23dp"
+            android:text="@string/_0700000000000"
+            android:textColor="@color/text_gray"
+            android:textSize="@dimen/text_size_13sp"
+            app:layout_constraintBottom_toTopOf="@+id/security_fragment_fine_line_view"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/security_fragment_phone_number_text_view"
+            app:layout_constraintVertical_bias="0.0" />
+
+        <View
+            android:id="@+id/security_fragment_fine_line_view"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/layout_height_1dp"
+            android:layout_marginBottom="@dimen/margin_8dp"
+            android:layout_marginTop="@dimen/margin_29dp"
+            android:background="@color/dark_gray"
+            app:layout_constraintBottom_toTopOf="@+id/security_fragment_guideline"
+            app:layout_constraintEnd_toEndOf="@+id/security_fragment_phone_number_input_text_view"
+            app:layout_constraintHorizontal_bias="1.0"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/security_fragment_phone_number_text_view"
+            app:layout_constraintVertical_bias="0" />
+
+        <TextView
+            android:id="@+id/security_fragment_password_text_view"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/margin_35dp"
+            android:fontFamily="@font/poppins_medium"
+            android:text="@string/password"
+            android:textSize="@dimen/text_size_11sp"
+            android:textColor="@color/deep_sky_blue"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/security_fragment_fine_line_view" />
+
+        <TextView
+            android:id="@+id/security_fragment_change_password_text_view"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/margin_20dp"
+            android:fontFamily="@font/poppins_medium"
+            android:text="@string/change_password"
+            android:textColor="@color/navy_blue"
+            android:textSize="@dimen/text_size_12sp"
+            app:layout_constraintStart_toStartOf="@+id/security_fragment_password_text_view"
+            app:layout_constraintTop_toBottomOf="@+id/security_fragment_password_text_view" />
+
+        <EditText
+            android:id="@+id/security_fragment_old_password_edit_text"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:fontFamily="@font/roboto"
+            android:backgroundTint="@color/grey_100"
+            android:hint="@string/old_password"
+            android:textCursorDrawable="@null"
+            android:inputType="numberPassword|textPassword"
+            android:paddingBottom="@dimen/padding_20dp"
+            android:textColor="@color/text_gray"
+            android:textSize="@dimen/text_size_16sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="@+id/security_fragment_new_password_edit_text"
+            app:layout_constraintTop_toTopOf="@+id/security_fragment_password_text_view" />
+
+        <EditText
+            android:id="@+id/security_fragment_new_password_edit_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="24dp"
+            android:fontFamily="@font/roboto"
+            android:hint="@string/new_password"
+            android:inputType="numberPassword|textPassword"
+            android:paddingEnd="50dp"
+            android:backgroundTint="@color/grey_100"
+            android:paddingBottom="@dimen/padding_20dp"
+            android:textCursorDrawable="@null"
+            android:textColor="@color/text_gray"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/security_fragment_old_password_edit_text" />
+
+        <Button
+            android:id="@+id/security_fragment_save_changes_button"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="48dp"
+            android:background="@drawable/sign_up_with_email_and_phone_number_buttons"
+            android:fontFamily="@font/poppins_bold"
+            android:text="@string/save_changes"
+            android:textSize="@dimen/text_size_12sp"
+            app:layout_constraintEnd_toEndOf="@+id/security_fragment_old_password_edit_text"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/security_fragment_new_password_edit_text" />
+
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/security_fragment_guideline"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintGuide_percent="0.18" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</androidx.core.widget.NestedScrollView>

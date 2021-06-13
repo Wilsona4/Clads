@@ -5,9 +5,10 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ArrayAdapter
-import android.widget.Spinner
+import android.widget.AutoCompleteTextView
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.decagonhq.clads.R
 import com.decagonhq.clads.databinding.HomeFragmentBinding
 import com.decagonhq.clads.util.ChartData.chartData
 import com.decagonhq.clads.util.ClientsListModel
@@ -17,7 +18,7 @@ class HomeFragment : Fragment() {
     private var _binding: HomeFragmentBinding? = null
     // This property is only valid between onCreateView and onDestroyView.
     private val binding get() = _binding!!
-    private lateinit var yearSpinner: Spinner
+    private lateinit var homeFragmentYearDropdown: AutoCompleteTextView
     private lateinit var clientList: ArrayList<ClientsListModel>
 
 
@@ -44,13 +45,21 @@ class HomeFragment : Fragment() {
                 setHasFixedSize(true)
             }
         }
-       yearSpinner = binding.homeFragmentYearDropdownSpinner
-        val items = arrayListOf(2020,2021,2022,2023,2016,2015,2014,2013,2012,2011,2010)
-        val adapter = ArrayAdapter(requireContext(), android.R.layout.simple_spinner_dropdown_item, items)
-        yearSpinner.adapter = adapter
+        homeFragmentYearDropdown = binding.homeFragmentYearDropdownAutocompleteTextView
+//        val items = arrayListOf(2020,2021,2022,2023,2016,2015,2014,2013,2012,2011,2010)
+//        val adapter = ArrayAdapter(requireContext(), android.R.layout.simple_spinner_dropdown_item, items)
+//        yearSpinner.adapter = adapter
+//
+       chartData(view)
 
-        chartData(view)
+    }
 
+    override fun onResume() {
+        super.onResume()
+        /*Set up Account Category Dropdown*/
+        val chartYear = resources.getStringArray(R.array.Year)
+        val accountCategoriesArrayAdapter = ArrayAdapter(requireContext(), R.layout.chart_year_dropdown_item, chartYear)
+        homeFragmentYearDropdown.setAdapter(accountCategoriesArrayAdapter)
     }
 
     // dummy data to populate the recycler view
