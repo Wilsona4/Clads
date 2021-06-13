@@ -150,6 +150,7 @@
                 app:boxBackgroundColor="@color/white"
                 app:endIconTint="@color/dark_ash"
                 app:boxStrokeColor="@color/white"
+                app:boxStrokeWidth="@dimen/margin_0dp"
                 app:layout_constraintBottom_toTopOf="@+id/home_fragment_clients_line_chart"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="parent">
