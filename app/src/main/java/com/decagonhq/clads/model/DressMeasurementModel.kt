@@ -1,4 +1,4 @@
-package com.decagonhq.clads.ui.client.model
+package com.decagonhq.clads.model
 
 import android.os.Parcelable
 import kotlinx.android.parcel.Parcelize

@@ -1,4 +1,4 @@
-package com.decagonhq.clads.ui.profile.bottomnav
+package com.decagonhq.clads.ui.profile.adapter
 
 import android.view.LayoutInflater
 import android.view.ViewGroup

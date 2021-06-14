@@ -11,7 +11,8 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.decagonhq.clads.R
 import com.decagonhq.clads.databinding.HomeFragmentBinding
 import com.decagonhq.clads.util.ChartData.chartData
-import com.decagonhq.clads.util.ClientsListModel
+import com.decagonhq.clads.model.ClientsListModel
+import com.decagonhq.clads.ui.profile.adapter.HomeFragmentClientsRecyclerAdapter
 
 class HomeFragment : Fragment() {
 
@@ -37,7 +38,10 @@ class HomeFragment : Fragment() {
         binding.apply {
             homeFragmentClientListRecyclerView.apply {
                 populateClient()
-                adapter = HomeFragmentClientsRecyclerAdapter(clientList)
+                adapter =
+                    HomeFragmentClientsRecyclerAdapter(
+                        clientList
+                    )
                 layoutManager =
                     LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, false)
                 setHasFixedSize(true)
@@ -63,11 +67,31 @@ class HomeFragment : Fragment() {
     private fun populateClient() {
         clientList = arrayListOf(
             ClientsListModel("Ruth", "Unoka", "Lagos"),
-            ClientsListModel("Ezekiel", "Olufemi", "Benin"),
-            ClientsListModel("Olufemi", "Ogundipe", "Abeokuta"),
-            ClientsListModel("Adebayo", "Kings", "Lagos"),
-            ClientsListModel("Abdul", "Salawu", "Benin"),
-            ClientsListModel("Hope", "Omoruyi", "Abeokuta")
+            ClientsListModel(
+                "Ezekiel",
+                "Olufemi",
+                "Benin"
+            ),
+            ClientsListModel(
+                "Olufemi",
+                "Ogundipe",
+                "Abeokuta"
+            ),
+            ClientsListModel(
+                "Adebayo",
+                "Kings",
+                "Lagos"
+            ),
+            ClientsListModel(
+                "Abdul",
+                "Salawu",
+                "Benin"
+            ),
+            ClientsListModel(
+                "Hope",
+                "Omoruyi",
+                "Abeokuta"
+            )
         )
     }
 
