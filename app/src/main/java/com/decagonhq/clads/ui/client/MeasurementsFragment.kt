@@ -95,7 +95,7 @@ class MeasurementsFragment : Fragment(), RecyclerClickListener {
     override fun onItemClickToDelete(position: Int, currentList: MutableList<DressMeasurementModel>) {
         val alertDialog: AlertDialog.Builder = AlertDialog.Builder(requireContext())
         alertDialog.setTitle(getString(R.string.delete_measurement)) // for set Title
-        alertDialog.setMessage(getString(R.string.are_you_sure) + " \n " + getString(R.string.do_you_want_to_delete_measurement)) // for Message
+        alertDialog.setMessage( getString(R.string.do_you_want_to_delete_measurement)) // for Message
         alertDialog.setIcon(R.drawable.ic_baseline_delete_forever_24) // for alert icon
         alertDialog.setPositiveButton(getText(R.string.dialog_alert_confirmation_yes)) { dialog, id ->
             // set your desired action here.
@@ -114,9 +114,9 @@ class MeasurementsFragment : Fragment(), RecyclerClickListener {
         alert.setCanceledOnTouchOutside(false)
         alert.show()
         val negativeButton = alert.getButton(DialogInterface.BUTTON_NEGATIVE)
-        negativeButton.setTextColor(Color.RED)
+        negativeButton.setTextColor(resources.getColor(R.color.navy_blue))
 
         val positiveButton = alert.getButton(DialogInterface.BUTTON_POSITIVE)
-        positiveButton.setTextColor(Color.BLUE)
+        positiveButton.setTextColor(resources.getColor(R.color.navy_blue))
     }
 }
