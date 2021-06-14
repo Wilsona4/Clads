@@ -35,7 +35,7 @@ class AccountEmployeeNumberDialogFragment : DialogFragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        // when the dialog cancel button isclicked
+        // when the dialog cancel button is clicked
         binding.accountEmployeeNumberDialogFragmentCancelButton.setOnClickListener {
             dismiss()
         }
