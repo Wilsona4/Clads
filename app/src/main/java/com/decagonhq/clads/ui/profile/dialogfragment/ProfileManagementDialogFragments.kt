@@ -10,12 +10,7 @@ import androidx.core.widget.doOnTextChanged
 import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.setFragmentResult
 import com.decagonhq.clads.R
-import com.decagonhq.clads.databinding.AccountEmployeeNumberDialogFragmentBinding
-import com.decagonhq.clads.databinding.AccountFirstNameDialogFragmentBinding
-import com.decagonhq.clads.databinding.AccountGenderDialogFragmentBinding
-import com.decagonhq.clads.databinding.AccountLastNameDialogFragmentBinding
-import com.decagonhq.clads.databinding.AccountOtherNameDialogFragmentBinding
-import com.decagonhq.clads.databinding.AccountWorkshopStateDialogFragmentBinding
+import com.decagonhq.clads.databinding.*
 import com.decagonhq.clads.ui.profile.editprofile.AccountFragment.Companion.ACCOUNT_EMPLOYEE_BUNDLE_KEY
 import com.decagonhq.clads.ui.profile.editprofile.AccountFragment.Companion.ACCOUNT_EMPLOYEE_REQUEST_KEY
 import com.decagonhq.clads.ui.profile.editprofile.AccountFragment.Companion.ACCOUNT_FIRST_NAME_BUNDLE_KEY
@@ -26,14 +21,29 @@ import com.decagonhq.clads.ui.profile.editprofile.AccountFragment.Companion.ACCO
 import com.decagonhq.clads.ui.profile.editprofile.AccountFragment.Companion.ACCOUNT_LAST_NAME_REQUEST_KEY
 import com.decagonhq.clads.ui.profile.editprofile.AccountFragment.Companion.ACCOUNT_OTHER_NAME_BUNDLE_KEY
 import com.decagonhq.clads.ui.profile.editprofile.AccountFragment.Companion.ACCOUNT_OTHER_NAME_REQUEST_KEY
+import com.decagonhq.clads.ui.profile.editprofile.AccountFragment.Companion.ACCOUNT_SHOWROOM_ADDRESS_BUNDLE_KEY
+import com.decagonhq.clads.ui.profile.editprofile.AccountFragment.Companion.ACCOUNT_SHOWROOM_ADDRESS_REQUEST_KEY
+import com.decagonhq.clads.ui.profile.editprofile.AccountFragment.Companion.ACCOUNT_UNION_NAME_BUNDLE_KEY
+import com.decagonhq.clads.ui.profile.editprofile.AccountFragment.Companion.ACCOUNT_UNION_NAME_REQUEST_KEY
+import com.decagonhq.clads.ui.profile.editprofile.AccountFragment.Companion.ACCOUNT_UNION_WARD_BUNDLE_KEY
+import com.decagonhq.clads.ui.profile.editprofile.AccountFragment.Companion.ACCOUNT_UNION_WARD_REQUEST_KEY
+import com.decagonhq.clads.ui.profile.editprofile.AccountFragment.Companion.ACCOUNT_WORKSHOP_CITY_BUNDLE_KEY
+import com.decagonhq.clads.ui.profile.editprofile.AccountFragment.Companion.ACCOUNT_WORKSHOP_CITY_REQUEST_KEY
 import com.decagonhq.clads.ui.profile.editprofile.AccountFragment.Companion.ACCOUNT_WORKSHOP_STATE_BUNDLE_KEY
 import com.decagonhq.clads.ui.profile.editprofile.AccountFragment.Companion.ACCOUNT_WORKSHOP_STATE_REQUEST_KEY
+import com.decagonhq.clads.ui.profile.editprofile.AccountFragment.Companion.ACCOUNT_WORKSHOP_STREET_BUNDLE_KEY
+import com.decagonhq.clads.ui.profile.editprofile.AccountFragment.Companion.ACCOUNT_WORKSHOP_STREET_REQUEST_KEY
 import com.decagonhq.clads.ui.profile.editprofile.AccountFragment.Companion.CURRENT_ACCOUNT_EMPLOYEE_BUNDLE_KEY
 import com.decagonhq.clads.ui.profile.editprofile.AccountFragment.Companion.CURRENT_ACCOUNT_FIRST_NAME_BUNDLE_KEY
 import com.decagonhq.clads.ui.profile.editprofile.AccountFragment.Companion.CURRENT_ACCOUNT_GENDER_BUNDLE_KEY
 import com.decagonhq.clads.ui.profile.editprofile.AccountFragment.Companion.CURRENT_ACCOUNT_LAST_NAME_BUNDLE_KEY
 import com.decagonhq.clads.ui.profile.editprofile.AccountFragment.Companion.CURRENT_ACCOUNT_OTHER_NAME_BUNDLE_KEY
+import com.decagonhq.clads.ui.profile.editprofile.AccountFragment.Companion.CURRENT_ACCOUNT_SHOWROOM_ADDRESS_BUNDLE_KEY
+import com.decagonhq.clads.ui.profile.editprofile.AccountFragment.Companion.CURRENT_ACCOUNT_UNION_NAME_BUNDLE_KEY
+import com.decagonhq.clads.ui.profile.editprofile.AccountFragment.Companion.CURRENT_ACCOUNT_UNION_WARD_BUNDLE_KEY
+import com.decagonhq.clads.ui.profile.editprofile.AccountFragment.Companion.CURRENT_ACCOUNT_WORKSHOP_CITY_BUNDLE_KEY
 import com.decagonhq.clads.ui.profile.editprofile.AccountFragment.Companion.CURRENT_ACCOUNT_WORKSHOP_STATE_BUNDLE_KEY
+import com.decagonhq.clads.ui.profile.editprofile.AccountFragment.Companion.CURRENT_ACCOUNT_WORKSHOP_STREET_BUNDLE_KEY
 
 class ProfileManagementDialogFragments(
     private var dialogLayoutId: Int,
@@ -383,6 +393,317 @@ class ProfileManagementDialogFragments(
                         }
                         else -> {
                             binding.accountWorkshopStateDialogFragmentWorkshopStateEditTextInputLayout.error =
+                                null
+                        }
+                    }
+                }
+            }
+            R.layout.account_workshop_city_dialog_fragment -> {
+                /*Initialise binding*/
+                val binding = AccountWorkshopCityDialogFragmentBinding.bind(view)
+                val cityEditText =
+                    binding.accountWorkshopCityDialogFragmentWorkshopCityEditTextView
+                val okButton = binding.accountWorkshopCityDialogFragmentOkButton
+                val cancelButton = binding.accountWorkshopCityDialogFragmentCancelButton
+
+                val retrievedArgs =
+                    bundle?.getString(CURRENT_ACCOUNT_WORKSHOP_CITY_BUNDLE_KEY)
+
+                /*Attaching the data*/
+                cityEditText.setText(retrievedArgs)
+
+                /*when the dialog ok button is clicked*/
+                okButton.setOnClickListener {
+                    val inputValue =
+                        cityEditText.text.toString()
+
+                    when {
+                        inputValue.isEmpty() -> {
+                            binding.accountWorkshopCityDialogFragmentWorkshopCityEditTextInputLayout.error =
+                                getString(
+                                    R.string.required
+                                )
+                            binding.accountWorkshopCityDialogFragmentWorkshopCityEditTextInputLayout.errorIconDrawable =
+                                null
+                        }
+                        else -> {
+                            setFragmentResult(
+                                ACCOUNT_WORKSHOP_CITY_REQUEST_KEY,
+                                bundleOf(
+                                    ACCOUNT_WORKSHOP_CITY_BUNDLE_KEY to inputValue
+                                )
+                            )
+                            dismiss()
+                        }
+                    }
+                }
+                /*when the dialog cancel button is clicked*/
+                cancelButton.setOnClickListener {
+                    dismiss()
+                }
+
+                /*Validate Dialog Fields onTextChange*/
+                cityEditText.doOnTextChanged { _, _, _, _ ->
+                    when {
+                        cityEditText.text!!.trim().isEmpty() -> {
+                            binding.accountWorkshopCityDialogFragmentWorkshopCityEditTextInputLayout.error =
+                                getString(
+                                    R.string.required
+                                )
+                            binding.accountWorkshopCityDialogFragmentWorkshopCityEditTextInputLayout.errorIconDrawable =
+                                null
+                        }
+                        else -> {
+                            binding.accountWorkshopCityDialogFragmentWorkshopCityEditTextInputLayout.error =
+                                null
+                        }
+                    }
+                }
+            }
+            R.layout.account_workshop_street_dialog_fragment -> {
+                /*Initialise binding*/
+                val binding = AccountWorkshopStreetDialogFragmentBinding.bind(view)
+                val streetEditText =
+                    binding.accountWorkshopStreetDialogFragmentWorkshopStreetEditTextView
+                val okButton = binding.accountWorkshopStreetDialogFragmentOkButton
+                val cancelButton = binding.accountWorkshopStreetDialogFragmentCancelButton
+
+                val retrievedArgs =
+                    bundle?.getString(CURRENT_ACCOUNT_WORKSHOP_STREET_BUNDLE_KEY)
+
+                /*Attaching the data*/
+                streetEditText.setText(retrievedArgs)
+
+                /*when the dialog ok button is clicked*/
+                okButton.setOnClickListener {
+                    val inputValue =
+                        streetEditText.text.toString()
+
+                    when {
+                        inputValue.isEmpty() -> {
+                            binding.accountWorkshopStreetDialogFragmentWorkshopStreetEditTextInputLayout.error =
+                                getString(
+                                    R.string.required
+                                )
+                            binding.accountWorkshopStreetDialogFragmentWorkshopStreetEditTextInputLayout.errorIconDrawable =
+                                null
+                        }
+                        else -> {
+                            setFragmentResult(
+                                ACCOUNT_WORKSHOP_STREET_REQUEST_KEY,
+                                bundleOf(
+                                    ACCOUNT_WORKSHOP_STREET_BUNDLE_KEY to inputValue
+                                )
+                            )
+                            dismiss()
+                        }
+                    }
+                }
+                /*when the dialog cancel button is clicked*/
+                cancelButton.setOnClickListener {
+                    dismiss()
+                }
+
+                /*Validate Dialog Fields onTextChange*/
+                streetEditText.doOnTextChanged { _, _, _, _ ->
+                    when {
+                        streetEditText.text!!.trim().isEmpty() -> {
+                            binding.accountWorkshopStreetDialogFragmentWorkshopStreetEditTextInputLayout.error =
+                                getString(
+                                    R.string.required
+                                )
+                            binding.accountWorkshopStreetDialogFragmentWorkshopStreetEditTextInputLayout.errorIconDrawable =
+                                null
+                        }
+                        else -> {
+                            binding.accountWorkshopStreetDialogFragmentWorkshopStreetEditTextInputLayout.error =
+                                null
+                        }
+                    }
+                }
+            }
+            R.layout.account_showroom_address_dialog_fragment -> {
+                /*Initialise binding*/
+                val binding = AccountShowroomAddressDialogFragmentBinding.bind(view)
+                val showroomAddressEditText =
+                    binding.accountShowroomAddressDialogFragmentShowroomAddressEditTextView
+                val okButton = binding.accountShowroomAddressDialogFragmentOkButton
+                val cancelButton = binding.accountShowroomAddressDialogFragmentCancelButton
+
+                val retrievedArgs =
+                    bundle?.getString(CURRENT_ACCOUNT_SHOWROOM_ADDRESS_BUNDLE_KEY)
+
+                /*Attaching the data*/
+                showroomAddressEditText.setText(retrievedArgs)
+
+                /*when the dialog ok button is clicked*/
+                okButton.setOnClickListener {
+                    val inputValue =
+                        showroomAddressEditText.text.toString()
+
+                    when {
+                        inputValue.isEmpty() -> {
+                            binding.accountShowroomAddressDialogFragmentShowroomAddressEditTextInputLayout.error =
+                                getString(
+                                    R.string.required
+                                )
+                            binding.accountShowroomAddressDialogFragmentShowroomAddressEditTextInputLayout.errorIconDrawable =
+                                null
+                        }
+                        else -> {
+                            setFragmentResult(
+                                ACCOUNT_SHOWROOM_ADDRESS_REQUEST_KEY,
+                                bundleOf(
+                                    ACCOUNT_SHOWROOM_ADDRESS_BUNDLE_KEY to inputValue
+                                )
+                            )
+                            dismiss()
+                        }
+                    }
+                }
+                /*when the dialog cancel button is clicked*/
+                cancelButton.setOnClickListener {
+                    dismiss()
+                }
+
+                /*Validate Dialog Fields onTextChange*/
+                showroomAddressEditText.doOnTextChanged { _, _, _, _ ->
+                    when {
+                        showroomAddressEditText.text!!.trim().isEmpty() -> {
+                            binding.accountShowroomAddressDialogFragmentShowroomAddressEditTextInputLayout.error =
+                                getString(
+                                    R.string.required
+                                )
+                            binding.accountShowroomAddressDialogFragmentShowroomAddressEditTextInputLayout.errorIconDrawable =
+                                null
+                        }
+                        else -> {
+                            binding.accountShowroomAddressDialogFragmentShowroomAddressEditTextInputLayout.error =
+                                null
+                        }
+                    }
+                }
+            }
+            R.layout.account_union_name_dialog_fragment -> {
+                /*Initialise binding*/
+                val binding = AccountUnionNameDialogFragmentBinding.bind(view)
+                val unionNameEditText =
+                    binding.accountUnionNameDialogFragmentUnionNameEditTextView
+                val okButton = binding.accountUnionNameDialogFragmentOkButton
+                val cancelButton = binding.accountUnionNameDialogFragmentCancelButton
+
+                val retrievedArgs =
+                    bundle?.getString(CURRENT_ACCOUNT_UNION_NAME_BUNDLE_KEY)
+
+                /*Attaching the data*/
+                unionNameEditText.setText(retrievedArgs)
+
+                /*when the dialog ok button is clicked*/
+                okButton.setOnClickListener {
+                    val inputValue =
+                        unionNameEditText.text.toString()
+
+                    when {
+                        inputValue.isEmpty() -> {
+                            binding.accountUnionNameDialogFragmentUnionNameEditTextInputLayout.error =
+                                getString(
+                                    R.string.required
+                                )
+                            binding.accountUnionNameDialogFragmentUnionNameEditTextInputLayout.errorIconDrawable =
+                                null
+                        }
+                        else -> {
+                            setFragmentResult(
+                                ACCOUNT_UNION_NAME_REQUEST_KEY,
+                                bundleOf(
+                                    ACCOUNT_UNION_NAME_BUNDLE_KEY to inputValue
+                                )
+                            )
+                            dismiss()
+                        }
+                    }
+                }
+                /*when the dialog cancel button is clicked*/
+                cancelButton.setOnClickListener {
+                    dismiss()
+                }
+
+                /*Validate Dialog Fields onTextChange*/
+                unionNameEditText.doOnTextChanged { _, _, _, _ ->
+                    when {
+                        unionNameEditText.text!!.trim().isEmpty() -> {
+                            binding.accountUnionNameDialogFragmentUnionNameEditTextInputLayout.error =
+                                getString(
+                                    R.string.required
+                                )
+                            binding.accountUnionNameDialogFragmentUnionNameEditTextInputLayout.errorIconDrawable =
+                                null
+                        }
+                        else -> {
+                            binding.accountUnionNameDialogFragmentUnionNameEditTextInputLayout.error =
+                                null
+                        }
+                    }
+                }
+            }
+
+            R.layout.account_union_ward_dialog_fragment -> {
+                /*Initialise binding*/
+                val binding = AccountUnionWardDialogFragmentBinding.bind(view)
+                val unionWardEditText =
+                    binding.accountUnionWardDialogFragmentUnionWardEditTextView
+                val okButton = binding.accountUnionWardDialogFragmentOkButton
+                val cancelButton = binding.accountUnionWardDialogFragmentCancelButton
+
+                val retrievedArgs =
+                    bundle?.getString(CURRENT_ACCOUNT_UNION_WARD_BUNDLE_KEY)
+
+                /*Attaching the data*/
+                unionWardEditText.setText(retrievedArgs)
+
+                /*when the dialog ok button is clicked*/
+                okButton.setOnClickListener {
+                    val inputValue =
+                        unionWardEditText.text.toString()
+
+                    when {
+                        inputValue.isEmpty() -> {
+                            binding.accountUnionWardDialogFragmentUnionWardEditTextInputLayout.error =
+                                getString(
+                                    R.string.required
+                                )
+                            binding.accountUnionWardDialogFragmentUnionWardEditTextInputLayout.errorIconDrawable =
+                                null
+                        }
+                        else -> {
+                            setFragmentResult(
+                                ACCOUNT_UNION_WARD_REQUEST_KEY,
+                                bundleOf(
+                                    ACCOUNT_UNION_WARD_BUNDLE_KEY to inputValue
+                                )
+                            )
+                            dismiss()
+                        }
+                    }
+                }
+                /*when the dialog cancel button is clicked*/
+                cancelButton.setOnClickListener {
+                    dismiss()
+                }
+
+                /*Validate Dialog Fields onTextChange*/
+                unionWardEditText.doOnTextChanged { _, _, _, _ ->
+                    when {
+                        unionWardEditText.text!!.trim().isEmpty() -> {
+                            binding.accountUnionWardDialogFragmentUnionWardEditTextInputLayout.error =
+                                getString(
+                                    R.string.required
+                                )
+                            binding.accountUnionWardDialogFragmentUnionWardEditTextInputLayout.errorIconDrawable =
+                                null
+                        }
+                        else -> {
+                            binding.accountUnionWardDialogFragmentUnionWardEditTextInputLayout.error =
                                 null
                         }
                     }

@@ -157,56 +157,65 @@ class AccountFragment : Fragment() {
 
     // Workshop state Dialog
     private fun accountWorkshopCityDialog() {
-        // when workshopcity name value is clicked
+        // when city value is clicked
+        childFragmentManager.setFragmentResultListener(
+            ACCOUNT_WORKSHOP_CITY_REQUEST_KEY,
+            requireActivity()
+        ) { key, bundle ->
+            // collect input values from dialog fragment and update the city text of user
+            val workshopCity = bundle.getString(ACCOUNT_WORKSHOP_CITY_BUNDLE_KEY)
+            binding.accountFragmentWorkshopAddressCityValueTextView.text = workshopCity
+        }
+
+        // when city is clicked
         binding.accountFragmentWorkshopAddressCityValueTextView.setOnClickListener {
-            val accountWorkshopCityDialogFragment = AccountWorkshopCityDialogFragment()
-            accountWorkshopCityDialogFragment.show(
-                requireActivity().supportFragmentManager,
-                "Workshop city dialog fragment"
-            )
-            // collect input values from dialog fragment and update the workshopcity text of user
-            profileManagementViewModel.cityLiveData.observe(
-                viewLifecycleOwner,
-                {
-                    binding.accountFragmentWorkshopAddressCityValueTextView.text = it.toString()
-                }
+            val currentCity = binding.accountFragmentWorkshopAddressCityValueTextView.text.toString()
+            val bundle = bundleOf(CURRENT_ACCOUNT_WORKSHOP_CITY_BUNDLE_KEY to currentCity)
+            createProfileDialogFragment(R.layout.account_workshop_city_dialog_fragment, bundle).show(
+                childFragmentManager, AccountFragment::class.java.simpleName
             )
         }
     }
 
-    // Workshop state Dialog
+    // Workshop street Dialog
     private fun accountWorkshopStreetDialog() {
-        // when workshop name value is clicked
+        // when street value is clicked
+        childFragmentManager.setFragmentResultListener(
+            ACCOUNT_WORKSHOP_STREET_REQUEST_KEY,
+            requireActivity()
+        ) { key, bundle ->
+            // collect input values from dialog fragment and update the street text of user
+            val workshopStreet = bundle.getString(ACCOUNT_WORKSHOP_STREET_BUNDLE_KEY)
+            binding.accountFragmentWorkshopAddressStreetValueTextView.text = workshopStreet
+        }
+
+        // when street value is clicked
         binding.accountFragmentWorkshopAddressStreetValueTextView.setOnClickListener {
-            val accountWorkshopStreetDialogFragment = AccountWorkshopStreetDialogFragment()
-            accountWorkshopStreetDialogFragment.show(
-                requireActivity().supportFragmentManager,
-                "Workshop street dialog fragment"
-            )
-            // collect input values from dialog fragment and update the workshop text of user
-            profileManagementViewModel.streetLiveData.observe(
-                viewLifecycleOwner,
-                {
-                    binding.accountFragmentWorkshopAddressStreetValueTextView.text = it.toString()
-                }
+            val currentStreet = binding.accountFragmentWorkshopAddressStreetValueTextView.text.toString()
+            val bundle = bundleOf(CURRENT_ACCOUNT_WORKSHOP_STREET_BUNDLE_KEY to currentStreet)
+            createProfileDialogFragment(R.layout.account_workshop_street_dialog_fragment, bundle).show(
+                childFragmentManager, AccountFragment::class.java.simpleName
             )
         }
     }
 
     private fun accountShowRoomAddressDialog() {
         // when showroom name value is clicked
+        childFragmentManager.setFragmentResultListener(
+            ACCOUNT_SHOWROOM_ADDRESS_REQUEST_KEY,
+            requireActivity()
+        ) { key, bundle ->
+            // collect input values from dialog fragment and update the showroom address text of user
+            val showroomAddress = bundle.getString(ACCOUNT_SHOWROOM_ADDRESS_BUNDLE_KEY)
+            binding.accountFragmentShowroomAddressValueTextView.text = showroomAddress
+        }
+
+        // when showroom address is clicked
         binding.accountFragmentShowroomAddressValueTextView.setOnClickListener {
-            val accountShowroomAddressDialogFragment = AccountShowroomAddressDialogFragment()
-            accountShowroomAddressDialogFragment.show(
-                requireActivity().supportFragmentManager,
-                "ShowRoom Address dialog fragment"
-            )
-            // collect input values from dialog fragment and update the showroom text of user
-            profileManagementViewModel.showroomAddressLiveData.observe(
-                viewLifecycleOwner,
-                {
-                    binding.accountFragmentShowroomAddressValueTextView.text = it.toString()
-                }
+            val currentShowroomAddress = binding.accountFragmentShowroomAddressValueTextView.text.toString()
+            val bundle = bundleOf(CURRENT_ACCOUNT_SHOWROOM_ADDRESS_BUNDLE_KEY to currentShowroomAddress)
+            createProfileDialogFragment(R.layout.account_showroom_address_dialog_fragment, bundle).show(
+                childFragmentManager, AccountFragment::class.java.simpleName
             )
         }
     }
@@ -238,36 +247,52 @@ class AccountFragment : Fragment() {
 
     private fun accountUnionNameDialogFragment() {
         // when union name value is clicked
-        binding.accountFragmentNameOfUnionValueTextView.setOnClickListener {
-            val accountUnionNameDialogFragment = AccountUnionNameDialogFragment()
-            accountUnionNameDialogFragment.show(
-                requireActivity().supportFragmentManager,
-                "Union Name dialog fragment"
-            )
+        childFragmentManager.setFragmentResultListener(
+            ACCOUNT_UNION_NAME_REQUEST_KEY,
+            requireActivity()
+        ) { key, bundle ->
             // collect input values from dialog fragment and update the union name text of user
-            profileManagementViewModel.nameOfUnionLiveData.observe(
-                viewLifecycleOwner,
-                {
-                    binding.accountFragmentNameOfUnionValueTextView.text = it.toString()
-                }
+            val unionName = bundle.getString(ACCOUNT_UNION_NAME_BUNDLE_KEY)
+            binding.accountFragmentNameOfUnionValueTextView.text = unionName
+        }
+
+        // when union name value is clicked
+        binding.accountFragmentNameOfUnionValueTextView.setOnClickListener {
+            val currentUnionName =
+                binding.accountFragmentNameOfUnionValueTextView.text.toString()
+            val bundle = bundleOf(CURRENT_ACCOUNT_UNION_NAME_BUNDLE_KEY to currentUnionName)
+            createProfileDialogFragment(
+                R.layout.account_union_name_dialog_fragment,
+                bundle
+            ).show(
+                childFragmentManager,
+                AccountFragment::class.java.simpleName
             )
         }
     }
 
     private fun accountUnionWardDialogFragment() {
         // when ward name value is clicked
+        childFragmentManager.setFragmentResultListener(
+            ACCOUNT_UNION_WARD_REQUEST_KEY,
+            requireActivity()
+        ) { key, bundle ->
+            // collect input values from dialog fragment and update the union name text of user
+            val unionWard = bundle.getString(ACCOUNT_UNION_WARD_BUNDLE_KEY)
+            binding.accountFragmentWardValueTextView.text = unionWard
+        }
+
+        // when employee number name value is clicked
         binding.accountFragmentWardValueTextView.setOnClickListener {
-            val accountUnionWardDialogFragment = AccountUnionWardDialogFragment()
-            accountUnionWardDialogFragment.show(
-                requireActivity().supportFragmentManager,
-                "Union Ward dialog fragment"
-            )
-            // collect input values from dialog fragment and update the ward text of user
-            profileManagementViewModel.wardOfUnionLiveData.observe(
-                viewLifecycleOwner,
-                {
-                    binding.accountFragmentWardValueTextView.text = it.toString()
-                }
+            val currentUnionWard =
+                binding.accountFragmentWardValueTextView.text.toString()
+            val bundle = bundleOf(CURRENT_ACCOUNT_UNION_WARD_BUNDLE_KEY to currentUnionWard)
+            createProfileDialogFragment(
+                R.layout.account_union_ward_dialog_fragment,
+                bundle
+            ).show(
+                childFragmentManager,
+                AccountFragment::class.java.simpleName
             )
         }
     }
@@ -356,5 +381,30 @@ class AccountFragment : Fragment() {
         const val ACCOUNT_WORKSHOP_STATE_REQUEST_KEY = "ACCOUNT WORKSHOP STATE REQUEST KEY"
         const val ACCOUNT_WORKSHOP_STATE_BUNDLE_KEY = "ACCOUNT WORKSHOP STATE BUNDLE KEY"
         const val CURRENT_ACCOUNT_WORKSHOP_STATE_BUNDLE_KEY = "CURRENT ACCOUNT WORKSHOP STATE BUNDLE KEY"
+
+        const val ACCOUNT_WORKSHOP_CITY_REQUEST_KEY = "ACCOUNT WORKSHOP CITY REQUEST KEY"
+        const val ACCOUNT_WORKSHOP_CITY_BUNDLE_KEY = "ACCOUNT WORKSHOP CITY BUNDLE KEY"
+        const val CURRENT_ACCOUNT_WORKSHOP_CITY_BUNDLE_KEY = "CURRENT ACCOUNT WORKSHOP CITY BUNDLE KEY"
+
+        const val ACCOUNT_WORKSHOP_STREET_REQUEST_KEY = "ACCOUNT WORKSHOP STREET REQUEST KEY"
+        const val ACCOUNT_WORKSHOP_STREET_BUNDLE_KEY = "ACCOUNT WORKSHOP STREET BUNDLE KEY"
+        const val CURRENT_ACCOUNT_WORKSHOP_STREET_BUNDLE_KEY = "CURRENT ACCOUNT WORKSHOP STREET BUNDLE KEY"
+
+        const val ACCOUNT_SHOWROOM_ADDRESS_REQUEST_KEY = "ACCOUNT SHOWROOM ADDRESS REQUEST KEY"
+        const val ACCOUNT_SHOWROOM_ADDRESS_BUNDLE_KEY = "ACCOUNT SHOWROOM ADDRESS BUNDLE KEY"
+        const val CURRENT_ACCOUNT_SHOWROOM_ADDRESS_BUNDLE_KEY = "CURRENT ACCOUNT SHOWROOM ADDRESS BUNDLE KEY"
+
+        const val ACCOUNT_UNION_NAME_REQUEST_KEY = "ACCOUNT UNION NAME REQUEST KEY"
+        const val ACCOUNT_UNION_NAME_BUNDLE_KEY = "ACCOUNT UNION NAME BUNDLE KEY"
+        const val CURRENT_ACCOUNT_UNION_NAME_BUNDLE_KEY = "CURRENT ACCOUNT UNION NAME BUNDLE KEY"
+
+        const val ACCOUNT_UNION_STATE_REQUEST_KEY = "ACCOUNT UNION STATE REQUEST KEY"
+        const val ACCOUNT_UNION_STATE_BUNDLE_KEY = "ACCOUNT UNION STATE BUNDLE KEY"
+        const val CURRENT_ACCOUNT_STATE_NAME_BUNDLE_KEY = "CURRENT ACCOUNT UNION STATE BUNDLE KEY"
+
+        const val ACCOUNT_UNION_WARD_REQUEST_KEY = "ACCOUNT UNION WARD REQUEST KEY"
+        const val ACCOUNT_UNION_WARD_BUNDLE_KEY = "ACCOUNT UNION WARD BUNDLE KEY"
+        const val CURRENT_ACCOUNT_UNION_WARD_BUNDLE_KEY = "CURRENT ACCOUNT UNION WARD BUNDLE KEY"
+
     }
 }
