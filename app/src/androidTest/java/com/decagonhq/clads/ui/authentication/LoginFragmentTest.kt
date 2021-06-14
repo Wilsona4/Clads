@@ -1,4 +1,4 @@
-package com.decagonhq.clads.ui.auth
+package com.decagonhq.clads.ui.authentication
 
 import androidx.fragment.app.testing.launchFragmentInContainer
 import androidx.navigation.NavController
@@ -12,8 +12,8 @@ import androidx.test.espresso.matcher.ViewMatchers.isDisplayed
 import androidx.test.espresso.matcher.ViewMatchers.withId
 import androidx.test.internal.runner.junit4.AndroidJUnit4ClassRunner
 import com.decagonhq.clads.R
-import com.decagonhq.clads.ui.auth.EmailSignUpFragmentTest.Companion.EMAIL
-import com.decagonhq.clads.ui.auth.EmailSignUpFragmentTest.Companion.PASSWORD
+import com.decagonhq.clads.ui.authentication.EmailSignUpFragmentTest.Companion.EMAIL
+import com.decagonhq.clads.ui.authentication.EmailSignUpFragmentTest.Companion.PASSWORD
 import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith

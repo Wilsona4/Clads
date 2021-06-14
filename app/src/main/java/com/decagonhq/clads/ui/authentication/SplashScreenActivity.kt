@@ -1,4 +1,4 @@
-package com.decagonhq.clads.ui.auth
+package com.decagonhq.clads.ui.authentication
 
 import android.content.Intent
 import android.os.Bundle

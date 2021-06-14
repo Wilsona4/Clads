@@ -1,4 +1,4 @@
-package com.decagonhq.clads.ui.auth
+package com.decagonhq.clads.ui.authentication
 
 import android.app.ProgressDialog
 import android.content.Intent

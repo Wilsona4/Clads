@@ -6,7 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/deep_sky_blue"
-    tools:context=".ui.auth.LandingScreenFragment">
+    tools:context=".ui.authentication.LandingScreenFragment">
 
     <ImageView
         android:id="@+id/landing_screen_fragment_logo_image_view"

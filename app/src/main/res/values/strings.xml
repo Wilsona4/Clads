@@ -302,6 +302,7 @@
     <string name="street">Street</string>
     <string name="no_7_decabon_way_lekki">No 7 Decabon way, lekki</string>
     <string name="_2020">2020</string>
+    <string name="required">Required</string>
 
 
     <string-array name="account_category">
