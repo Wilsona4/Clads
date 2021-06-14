@@ -10,7 +10,6 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.observe
 import com.decagonhq.clads.R
 import com.decagonhq.clads.databinding.AccountFragmentBinding
-import com.decagonhq.clads.ui.profile.dialogfragment.ProfileManagementDialogFragments
 import com.decagonhq.clads.ui.profile.dialogfragment.ProfileManagementDialogFragments.Companion.createProfileDialogFragment
 import com.decagonhq.clads.viewmodels.ProfileManagementViewModel
 
@@ -49,7 +48,7 @@ class AccountFragment : Fragment() {
         accountWorkshopCityDialog()
         accountWorkshopStateDialog()
         accountOtherNameEditDialog()
-        accountlastNameEditDialog()
+//        accountlastNameEditDialog()
         accountlegalStatusdialog()
     }
 
@@ -72,65 +71,91 @@ class AccountFragment : Fragment() {
     // Firstname Dialog
     private fun accountFirstNameEditDialog() {
         // when first name value is clicked
-        binding.accountFragmentFirstNameValueTextView.setOnClickListener {
-            val firstNameDialogFragment = AccountFirstNameDialogFragment()
-
-            firstNameDialogFragment.show(
-                requireActivity().supportFragmentManager,
-                "firstName dialog fragment"
-            )
+        childFragmentManager.setFragmentResultListener(
+            ACCOUNT_FIRST_NAME_REQUEST_KEY,
+            requireActivity()
+        ) { key, bundle ->
             // collect input values from dialog fragment and update the firstname text of user
-            profileManagementViewModel.firstNameInputLiveData
-                .observe(
-                    viewLifecycleOwner,
-                    {
-                        binding.accountFragmentFirstNameValueTextView.text = it.toString()
-                    }
-                )
+            val firstName = bundle.getString(ACCOUNT_FIRST_NAME_BUNDLE_KEY)
+            binding.accountFragmentFirstNameValueTextView.text = firstName
+        }
+
+        // when employee number name value is clicked
+        binding.accountFragmentFirstNameValueTextView.setOnClickListener {
+            val currentFirstName = binding.accountFragmentFirstNameValueTextView.text.toString()
+            val bundle = bundleOf(CURRENT_ACCOUNT_FIRST_NAME_BUNDLE_KEY to currentFirstName)
+            createProfileDialogFragment(R.layout.account_first_name_dialog_fragment, bundle).show(
+                childFragmentManager, getString(R.string.frstname_dialog_fragment)
+            )
         }
     }
 
     // Last Dialog
-    private fun accountlastNameEditDialog() {
+//    private fun accountlastNameEditDialog() {
+//        // when last name value is clicked
+//        binding.accountFragmentLastNameValueTextView.setOnClickListener {
+//            val lastNameDialogFragment = AccountLastNameDialogFragment()
+//            lastNameDialogFragment.show(
+//                requireActivity().supportFragmentManager,
+//                "Lastname dialog fragment"
+//            )
+//            // collect input values from dialog fragment and update the lastname text of user
+//            profileManagementViewModel.lastNameInputLiveData.observe(
+//                viewLifecycleOwner,
+//                {
+//                    binding.accountFragmentLastNameValueTextView.text = it.toString()
+//                }
+//            )
+//        }
+//    }
+
+    private fun accountLastNameDialogFragment() {
         // when last name value is clicked
+        childFragmentManager.setFragmentResultListener(
+            ACCOUNT_LAST_NAME_REQUEST_KEY,
+            requireActivity()
+        ) { key, bundle ->
+            // collect input values from dialog fragment and update the firstname text of user
+            val lastName = bundle.getString(ACCOUNT_LAST_NAME_BUNDLE_KEY)
+            binding.accountFragmentLastNameValueTextView.text = lastName
+        }
+
+        // when last Name name value is clicked
         binding.accountFragmentLastNameValueTextView.setOnClickListener {
-            val lastNameDialogFragment = AccountLastNameDialogFragment()
-            lastNameDialogFragment.show(
-                requireActivity().supportFragmentManager,
-                "Lastname dialog fragment"
-            )
-            // collect input values from dialog fragment and update the lastname text of user
-            profileManagementViewModel.lastNameInputLiveData.observe(
-                viewLifecycleOwner,
-                {
-                    binding.accountFragmentLastNameValueTextView.text = it.toString()
-                }
+            val currentLastName = binding.accountFragmentLastNameValueTextView.text.toString()
+            val bundle = bundleOf(CURRENT_ACCOUNT_LAST_NAME_BUNDLE_KEY to currentLastName)
+            createProfileDialogFragment(R.layout.account_last_name_dialog_fragment, bundle).show(
+                childFragmentManager, AccountFragment::class.java.simpleName
             )
         }
     }
 
+
     // Other name Dialog
     private fun accountOtherNameEditDialog() {
-        // when othername name value is clicked
+        // when other name name value is clicked
+        childFragmentManager.setFragmentResultListener(
+            ACCOUNT_OTHER_NAME_REQUEST_KEY,
+            requireActivity()
+        ) { key, bundle ->
+            // collect input values from dialog fragment and update the otherName text of user
+            val otherName = bundle.getString(ACCOUNT_OTHER_NAME_BUNDLE_KEY)
+            binding.accountFragmentOtherNameValueTextView.text = otherName
+        }
+
+        // when last Name name value is clicked
         binding.accountFragmentOtherNameValueTextView.setOnClickListener {
-            val otherNameDialogFragment = AccountOtherNameDialogFragment()
-            otherNameDialogFragment.show(
-                requireActivity().supportFragmentManager,
-                "Other name dialog fragment"
-            )
-            // collect input values from dialog fragment and update the othername text of user
-            profileManagementViewModel.otherNameInputLiveData.observe(
-                viewLifecycleOwner,
-                {
-                    binding.accountFragmentOtherNameValueTextView.text = it.toString()
-                }
+            val currentOtherName = binding.accountFragmentOtherNameValueTextView.text.toString()
+            val bundle = bundleOf(CURRENT_ACCOUNT_OTHER_NAME_BUNDLE_KEY to currentOtherName)
+            createProfileDialogFragment(R.layout.account_other_name_dialog_fragment, bundle).show(
+                childFragmentManager, AccountFragment::class.java.simpleName
             )
         }
     }
 
     // Workshop state Dialog
     private fun accountWorkshopStateDialog() {
-        // when acciunt shop name value is clicked
+        // when account shop name value is clicked
         binding.accountFragmentWorkshopAddressStateValueTextView.setOnClickListener {
             val accountWorkshopStateDialogFragment = AccountWorkshopStateDialogFragment()
             accountWorkshopStateDialogFragment.show(
@@ -215,29 +240,16 @@ class AccountFragment : Fragment() {
 
         // when employee number name value is clicked
         binding.accountFragmentNumberOfEmployeeApprenticeValueTextView.setOnClickListener {
-            val currentEmployeeNumber = binding.accountFragmentNumberOfEmployeeApprenticeValueTextView.text.toString()
+            val currentEmployeeNumber =
+                binding.accountFragmentNumberOfEmployeeApprenticeValueTextView.text.toString()
             val bundle = bundleOf(CURRENT_ACCOUNT_EMPLOYEE_BUNDLE_KEY to currentEmployeeNumber)
-            createProfileDialogFragment(R.layout.account_employee_number_dialog_fragment, bundle).show(
+            createProfileDialogFragment(
+                R.layout.account_employee_number_dialog_fragment,
+                bundle
+            ).show(
                 childFragmentManager,
                 getString(R.string.tag_employee_number_dialog_fragment)
             )
-        }
-    }
-
-    private fun accountLastNameDialogFragment() {
-        // when last name value is clicked
-        binding.accountFragmentLastNameValueTextView.setOnClickListener {
-            val lastNameDialogFragment = AccountLastNameDialogFragment()
-            lastNameDialogFragment.show(
-                requireActivity().supportFragmentManager,
-                "Legal status dialog fragment"
-            )
-            // collect input values from dialog fragment and update the lasyname text of user
-            profileManagementViewModel.lastNameInputLiveData.observe(
-                viewLifecycleOwner
-            ) {
-                binding.accountFragmentLastNameValueTextView.text = it.toString()
-            }
         }
     }
 
@@ -338,10 +350,16 @@ class AccountFragment : Fragment() {
         const val ACCOUNT_EMPLOYEE_BUNDLE_KEY = "ACCOUNT EMPLOYEE BUNDLE KEY"
         const val CURRENT_ACCOUNT_EMPLOYEE_BUNDLE_KEY = "CURRENT ACCOUNT EMPLOYEE BUNDLE KEY"
 
-        const val EDIT_MEASUREMENT_BUNDLE_KEY = "EDIT CLIENT MEASUREMENT BUNDLE KEY"
-        const val EDIT_MEASUREMENT_BUNDLE_POSITION = "EDIT CLIENT MEASUREMENT BUNDLE POSITION"
+        const val ACCOUNT_FIRST_NAME_REQUEST_KEY = "ACCOUNT FIRST NAME REQUEST KEY"
+        const val ACCOUNT_FIRST_NAME_BUNDLE_KEY = "ACCOUNT FIRST NAME BUNDLE KEY"
+        const val CURRENT_ACCOUNT_FIRST_NAME_BUNDLE_KEY = "CURRENT ACCOUNT FIRST NAME BUNDLE KEY"
 
-        const val EDITED_MEASUREMENT_REQUEST_KEY = "EDITED CLIENT MEASUREMENT REQUEST KEY"
-        const val EDITED_MEASUREMENT_BUNDLE_KEY = "EDITED CLIENT MEASUREMENT BUNDLE KEY"
+        const val ACCOUNT_LAST_NAME_REQUEST_KEY = "ACCOUNT LAST NAME REQUEST KEY"
+        const val ACCOUNT_LAST_NAME_BUNDLE_KEY = "ACCOUNT LAST NAME BUNDLE KEY"
+        const val CURRENT_ACCOUNT_LAST_NAME_BUNDLE_KEY = "CURRENT ACCOUNT LAST NAME BUNDLE KEY"
+
+        const val ACCOUNT_OTHER_NAME_REQUEST_KEY = "ACCOUNT OTHER NAME REQUEST KEY"
+        const val ACCOUNT_OTHER_NAME_BUNDLE_KEY = "ACCOUNT OTHER NAME BUNDLE KEY"
+        const val CURRENT_ACCOUNT_OTHER_NAME_BUNDLE_KEY = "CURRENT ACCOUNT OTHER NAME BUNDLE KEY"
     }
 }
