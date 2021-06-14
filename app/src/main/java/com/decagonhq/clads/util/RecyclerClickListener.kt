@@ -1,6 +1,6 @@
 package com.decagonhq.clads.util
 
-import com.decagonhq.clads.ui.client.model.DressMeasurementModel
+import com.decagonhq.clads.model.DressMeasurementModel
 
 interface RecyclerClickListener {
     fun onItemClickToEdit(position: Int, currentList: MutableList<DressMeasurementModel>)

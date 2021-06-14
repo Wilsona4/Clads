@@ -15,7 +15,7 @@ import com.decagonhq.clads.R
 import com.decagonhq.clads.databinding.MeasurementsFragmentBinding
 import com.decagonhq.clads.ui.client.dialogfragment.ClientManagementDialogFragments.Companion.createClientDialogFragment
 import com.decagonhq.clads.ui.client.adapter.AddMeasurementAdapter
-import com.decagonhq.clads.ui.client.model.DressMeasurementModel
+import com.decagonhq.clads.model.DressMeasurementModel
 import com.decagonhq.clads.util.ClientMeasurementData
 import com.decagonhq.clads.util.ClientMeasurementData.currentList
 import com.decagonhq.clads.util.RecyclerClickListener

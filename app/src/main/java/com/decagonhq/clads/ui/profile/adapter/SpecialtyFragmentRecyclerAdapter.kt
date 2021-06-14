@@ -4,12 +4,12 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.decagonhq.clads.databinding.SpecialtyFragmentRecyclerItemBinding
-import com.decagonhq.clads.util.Specialty
+import com.decagonhq.clads.model.SpecialtyModel
 
 class SpecialtyFragmentRecyclerAdapter :
     RecyclerView.Adapter<SpecialtyFragmentRecyclerAdapter.SpecialtyViewHolder>() {
 
-    private var specialtyList = arrayListOf<Specialty>()
+    private var specialtyList = arrayListOf<SpecialtyModel>()
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): SpecialtyViewHolder {
         val viewBinding = SpecialtyFragmentRecyclerItemBinding
@@ -29,13 +29,13 @@ class SpecialtyFragmentRecyclerAdapter :
     class SpecialtyViewHolder(private val itemBinding: SpecialtyFragmentRecyclerItemBinding) :
         RecyclerView.ViewHolder(itemBinding.root) {
 
-        fun bind(specialty: Specialty) = with(itemBinding) {
-            specialtyFragmentYorubaAttiresCheckBox.text = specialty.specialtyName
-            specialtyFragmentYorubaAttiresCheckBox.isChecked = specialty.checked
+        fun bind(specialtyModel: SpecialtyModel) = with(itemBinding) {
+            specialtyFragmentYorubaAttiresCheckBox.text = specialtyModel.specialtyName
+            specialtyFragmentYorubaAttiresCheckBox.isChecked = specialtyModel.checked
         }
     }
 
-    fun populateList(list: ArrayList<Specialty>) {
+    fun populateList(list: ArrayList<SpecialtyModel>) {
         this.specialtyList = list
         notifyDataSetChanged()
     }

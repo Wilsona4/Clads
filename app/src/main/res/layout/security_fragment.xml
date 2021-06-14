@@ -38,13 +38,16 @@
             app:layout_constraintTop_toBottomOf="@+id/security_fragment_verified_information_text_view" />
 
 
-        <TextView
+        <EditText
             android:id="@+id/security_fragment_phone_number_input_text_view"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginBottom="@dimen/margin_23dp"
-            android:text="@string/_0700000000000"
+            android:hint="@string/_0700000000000"
+            android:backgroundTint="@color/grey_100"
+            android:background="@null"
             android:textColor="@color/text_gray"
+            android:paddingBottom="@dimen/padding_20dp"
             android:textSize="@dimen/text_size_13sp"
             app:layout_constraintBottom_toTopOf="@+id/security_fragment_fine_line_view"
             app:layout_constraintEnd_toEndOf="parent"
@@ -93,7 +96,7 @@
             android:id="@+id/security_fragment_old_password_edit_text"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
+            android:layout_marginTop="@dimen/margin_16dp"
             android:backgroundTint="@color/grey_100"
             android:fontFamily="@font/roboto"
             android:hint="@string/old_password"
@@ -110,15 +113,16 @@
             android:id="@+id/security_fragment_new_password_edit_text"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="24dp"
+            android:layout_marginTop="@dimen/margin_24dp"
             android:backgroundTint="@color/grey_100"
             android:fontFamily="@font/roboto"
             android:hint="@string/new_password"
             android:inputType="numberPassword|textPassword"
-            android:paddingEnd="50dp"
+            android:paddingEnd="@dimen/margin_50dp"
             android:paddingBottom="@dimen/padding_20dp"
             android:textColor="@color/text_gray"
             android:textCursorDrawable="@null"
+            android:textSize="@dimen/text_size_16sp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/security_fragment_old_password_edit_text" />
 
@@ -126,7 +130,7 @@
             android:id="@+id/security_fragment_save_changes_button"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="48dp"
+            android:layout_marginTop="@dimen/margin_48dp"
             android:fontFamily="@font/poppins_bold"
             android:paddingVertical="@dimen/padding_6dp"
             android:text="@string/save_changes"

@@ -90,25 +90,6 @@ class AccountFragment : Fragment() {
         }
     }
 
-    // Last Dialog
-//    private fun accountlastNameEditDialog() {
-//        // when last name value is clicked
-//        binding.accountFragmentLastNameValueTextView.setOnClickListener {
-//            val lastNameDialogFragment = AccountLastNameDialogFragment()
-//            lastNameDialogFragment.show(
-//                requireActivity().supportFragmentManager,
-//                "Lastname dialog fragment"
-//            )
-//            // collect input values from dialog fragment and update the lastname text of user
-//            profileManagementViewModel.lastNameInputLiveData.observe(
-//                viewLifecycleOwner,
-//                {
-//                    binding.accountFragmentLastNameValueTextView.text = it.toString()
-//                }
-//            )
-//        }
-//    }
-
     private fun accountLastNameDialogFragment() {
         // when last name value is clicked
         childFragmentManager.setFragmentResultListener(
@@ -156,18 +137,21 @@ class AccountFragment : Fragment() {
     // Workshop state Dialog
     private fun accountWorkshopStateDialog() {
         // when account shop name value is clicked
+        childFragmentManager.setFragmentResultListener(
+            ACCOUNT_WORKSHOP_STATE_REQUEST_KEY,
+            requireActivity()
+        ) { key, bundle ->
+            // collect input values from dialog fragment and update the state text of user
+            val workshopState = bundle.getString(ACCOUNT_WORKSHOP_STATE_BUNDLE_KEY)
+            binding.accountFragmentWorkshopAddressStateValueTextView.text = workshopState
+        }
+
+        // when state value is clicked
         binding.accountFragmentWorkshopAddressStateValueTextView.setOnClickListener {
-            val accountWorkshopStateDialogFragment = AccountWorkshopStateDialogFragment()
-            accountWorkshopStateDialogFragment.show(
-                requireActivity().supportFragmentManager,
-                "Work shop state dialog fragment"
-            )
-            // collect input values from dialog fragment and update the accountshop text of user
-            profileManagementViewModel.stateLiveData.observe(
-                viewLifecycleOwner,
-                {
-                    binding.accountFragmentWorkshopAddressStateValueTextView.text = it.toString()
-                }
+            val currentState = binding.accountFragmentWorkshopAddressStateValueTextView.text.toString()
+            val bundle = bundleOf(CURRENT_ACCOUNT_WORKSHOP_STATE_BUNDLE_KEY to currentState)
+            createProfileDialogFragment(R.layout.account_workshop_state_dialog_fragment, bundle).show(
+                childFragmentManager, AccountFragment::class.java.simpleName
             )
         }
     }
@@ -325,18 +309,22 @@ class AccountFragment : Fragment() {
     // Gender Dialog
     private fun accountGenderSelectDialog() {
         // when gender value is clicked
+        childFragmentManager.setFragmentResultListener(
+            ACCOUNT_GENDER_REQUEST_KEY,
+            requireActivity()
+        ) { key, bundle ->
+            // collect input values from dialog fragment and update the text of user
+            val gender = bundle.getString(ACCOUNT_GENDER_BUNDLE_KEY)
+            binding.accountFragmentGenderValueTextView.text = gender
+        }
+
+        // when employee number name value is clicked
         binding.accountFragmentGenderValueTextView.setOnClickListener {
-            val genderDialogFragment = AccountGenderDialogFragment()
-            genderDialogFragment.show(
-                requireActivity().supportFragmentManager,
-                "gender dialog fragment"
+            val currentGender = binding.accountFragmentGenderValueTextView.text.toString()
+            val bundle = bundleOf(CURRENT_ACCOUNT_GENDER_BUNDLE_KEY to currentGender)
+            createProfileDialogFragment(R.layout.account_gender_dialog_fragment, bundle).show(
+                childFragmentManager, AccountFragment::class.java.simpleName
             )
-            // collect input values from dialog fragment and update the gender value of user
-            profileManagementViewModel.genderInputLiveData.observe(
-                viewLifecycleOwner
-            ) {
-                binding.accountFragmentGenderValueTextView.text = it.toString()
-            }
         }
     }
 
@@ -361,5 +349,13 @@ class AccountFragment : Fragment() {
         const val ACCOUNT_OTHER_NAME_REQUEST_KEY = "ACCOUNT OTHER NAME REQUEST KEY"
         const val ACCOUNT_OTHER_NAME_BUNDLE_KEY = "ACCOUNT OTHER NAME BUNDLE KEY"
         const val CURRENT_ACCOUNT_OTHER_NAME_BUNDLE_KEY = "CURRENT ACCOUNT OTHER NAME BUNDLE KEY"
+
+        const val ACCOUNT_GENDER_REQUEST_KEY = "ACCOUNT GENDER REQUEST KEY"
+        const val ACCOUNT_GENDER_BUNDLE_KEY = "ACCOUNT GENDER BUNDLE KEY"
+        const val CURRENT_ACCOUNT_GENDER_BUNDLE_KEY = "CURRENT ACCOUNT GENDER BUNDLE KEY"
+
+        const val ACCOUNT_WORKSHOP_STATE_REQUEST_KEY = "ACCOUNT WORKSHOP STATE REQUEST KEY"
+        const val ACCOUNT_WORKSHOP_STATE_BUNDLE_KEY = "ACCOUNT WORKSHOP STATE BUNDLE KEY"
+        const val CURRENT_ACCOUNT_WORKSHOP_STATE_BUNDLE_KEY = "CURRENT ACCOUNT WORKSHOP STATE BUNDLE KEY"
     }
 }

@@ -4,27 +4,31 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.RadioButton
 import androidx.core.os.bundleOf
 import androidx.core.widget.doOnTextChanged
 import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.setFragmentResult
 import com.decagonhq.clads.R
-import com.decagonhq.clads.databinding.AccountEmployeeNumberDialogFragmentBinding
-import com.decagonhq.clads.databinding.AccountFirstNameDialogFragmentBinding
-import com.decagonhq.clads.databinding.AccountLastNameDialogFragmentBinding
-import com.decagonhq.clads.databinding.AccountOtherNameDialogFragmentBinding
+import com.decagonhq.clads.databinding.*
 import com.decagonhq.clads.ui.profile.editprofile.AccountFragment.Companion.ACCOUNT_EMPLOYEE_BUNDLE_KEY
 import com.decagonhq.clads.ui.profile.editprofile.AccountFragment.Companion.ACCOUNT_EMPLOYEE_REQUEST_KEY
 import com.decagonhq.clads.ui.profile.editprofile.AccountFragment.Companion.ACCOUNT_FIRST_NAME_BUNDLE_KEY
 import com.decagonhq.clads.ui.profile.editprofile.AccountFragment.Companion.ACCOUNT_FIRST_NAME_REQUEST_KEY
+import com.decagonhq.clads.ui.profile.editprofile.AccountFragment.Companion.ACCOUNT_GENDER_BUNDLE_KEY
+import com.decagonhq.clads.ui.profile.editprofile.AccountFragment.Companion.ACCOUNT_GENDER_REQUEST_KEY
 import com.decagonhq.clads.ui.profile.editprofile.AccountFragment.Companion.ACCOUNT_LAST_NAME_BUNDLE_KEY
 import com.decagonhq.clads.ui.profile.editprofile.AccountFragment.Companion.ACCOUNT_LAST_NAME_REQUEST_KEY
 import com.decagonhq.clads.ui.profile.editprofile.AccountFragment.Companion.ACCOUNT_OTHER_NAME_BUNDLE_KEY
 import com.decagonhq.clads.ui.profile.editprofile.AccountFragment.Companion.ACCOUNT_OTHER_NAME_REQUEST_KEY
+import com.decagonhq.clads.ui.profile.editprofile.AccountFragment.Companion.ACCOUNT_WORKSHOP_STATE_BUNDLE_KEY
+import com.decagonhq.clads.ui.profile.editprofile.AccountFragment.Companion.ACCOUNT_WORKSHOP_STATE_REQUEST_KEY
 import com.decagonhq.clads.ui.profile.editprofile.AccountFragment.Companion.CURRENT_ACCOUNT_EMPLOYEE_BUNDLE_KEY
 import com.decagonhq.clads.ui.profile.editprofile.AccountFragment.Companion.CURRENT_ACCOUNT_FIRST_NAME_BUNDLE_KEY
+import com.decagonhq.clads.ui.profile.editprofile.AccountFragment.Companion.CURRENT_ACCOUNT_GENDER_BUNDLE_KEY
 import com.decagonhq.clads.ui.profile.editprofile.AccountFragment.Companion.CURRENT_ACCOUNT_LAST_NAME_BUNDLE_KEY
 import com.decagonhq.clads.ui.profile.editprofile.AccountFragment.Companion.CURRENT_ACCOUNT_OTHER_NAME_BUNDLE_KEY
+import com.decagonhq.clads.ui.profile.editprofile.AccountFragment.Companion.CURRENT_ACCOUNT_WORKSHOP_STATE_BUNDLE_KEY
 
 class ProfileManagementDialogFragments(
     private var dialogLayoutId: Int,
@@ -272,6 +276,104 @@ class ProfileManagementDialogFragments(
                 /*when the dialog cancel button is clicked*/
                 cancelButton.setOnClickListener {
                     dismiss()
+                }
+            }
+            R.layout.account_gender_dialog_fragment -> {
+
+                /*Initialise binding*/
+                val binding = AccountGenderDialogFragmentBinding.bind(view)
+
+                val okButton = binding.accountGenderDialogFragmentOkButton
+                val cancelButton = binding.accountGenderDialogFragmentCancelButton
+                val radioGroup = binding.accountGenderDialogFragmentRadioGroup
+
+                val retrievedArgs =
+                    bundle?.getString(CURRENT_ACCOUNT_GENDER_BUNDLE_KEY)
+
+                /*Attaching the data*/
+                if (retrievedArgs == "Male") {
+                    radioGroup.check(R.id.account_gender_dialog_fragment_male_radio_button)
+                } else {
+                    radioGroup.check(R.id.account_gender_dialog_fragment_female_radio_button)
+                }
+
+                /*when the dialog ok button is clicked*/
+                okButton.setOnClickListener {
+                    val selectedID = radioGroup.checkedRadioButtonId
+                    val inputValue =
+                        view.findViewById<RadioButton>(selectedID).text.toString()
+
+                    setFragmentResult(
+                        ACCOUNT_GENDER_REQUEST_KEY, bundleOf(
+                            ACCOUNT_GENDER_BUNDLE_KEY to inputValue
+                        )
+                    )
+                    dismiss()
+                }
+                /*when the dialog cancel button is clicked*/
+                cancelButton.setOnClickListener {
+                    dismiss()
+                }
+            }
+            R.layout.account_workshop_state_dialog_fragment -> {
+                /*Initialise binding*/
+                val binding = AccountWorkshopStateDialogFragmentBinding.bind(view)
+                val stateEditText =
+                    binding.accountWorkshopStateDialogFragmentWorkshopStateEditTextView
+                val okButton = binding.accountWorkshopStateDialogFragmentOkButton
+                val cancelButton = binding.accountWorkshopStateDialogFragmentCancelButton
+
+                val retrievedArgs =
+                    bundle?.getString(CURRENT_ACCOUNT_WORKSHOP_STATE_BUNDLE_KEY)
+
+                /*Attaching the data*/
+                stateEditText.setText(retrievedArgs)
+
+                /*when the dialog ok button is clicked*/
+                okButton.setOnClickListener {
+                    val inputValue =
+                        stateEditText.text.toString()
+
+                    when {
+                        inputValue.isEmpty() -> {
+                            binding.accountWorkshopStateDialogFragmentWorkshopStateEditTextInputLayout.error =
+                                getString(
+                                    R.string.required
+                                )
+                            binding.accountWorkshopStateDialogFragmentWorkshopStateEditTextInputLayout.errorIconDrawable =
+                                null
+                        }
+                        else -> {
+                            setFragmentResult(
+                                ACCOUNT_WORKSHOP_STATE_REQUEST_KEY, bundleOf(
+                                    ACCOUNT_WORKSHOP_STATE_BUNDLE_KEY to inputValue
+                                )
+                            )
+                            dismiss()
+                        }
+                    }
+                }
+                /*when the dialog cancel button is clicked*/
+                cancelButton.setOnClickListener {
+                    dismiss()
+                }
+
+                /*Validate Dialog Fields onTextChange*/
+                stateEditText.doOnTextChanged { _, _, _, _ ->
+                    when {
+                        stateEditText.text!!.trim().isEmpty() -> {
+                            binding.accountWorkshopStateDialogFragmentWorkshopStateEditTextInputLayout.error =
+                                getString(
+                                    R.string.required
+                                )
+                            binding.accountWorkshopStateDialogFragmentWorkshopStateEditTextInputLayout.errorIconDrawable =
+                                null
+                        }
+                        else -> {
+                            binding.accountWorkshopStateDialogFragmentWorkshopStateEditTextInputLayout.error =
+                                null
+                        }
+                    }
                 }
             }
         }

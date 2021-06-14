@@ -8,7 +8,7 @@ import com.decagonhq.clads.R
 import org.junit.Before
 import org.junit.Test
 
-class SpecialtyFragmentTest {
+class SpecialtyModelFragmentTest {
 
     @Before
     fun setUp() {

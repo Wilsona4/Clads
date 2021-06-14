@@ -10,7 +10,7 @@ import androidx.lifecycle.observe
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.decagonhq.clads.databinding.SpecialtyFragmentBinding
 import com.decagonhq.clads.ui.profile.adapter.SpecialtyFragmentRecyclerAdapter
-import com.decagonhq.clads.util.Specialty
+import com.decagonhq.clads.model.SpecialtyModel
 import com.decagonhq.clads.viewmodels.ProfileManagementViewModel
 
 class SpecialtyFragment : Fragment() {
@@ -80,7 +80,7 @@ class SpecialtyFragment : Fragment() {
             specialtyAddFragment.specialtyInput.observe(
                 viewLifecycleOwner,
                 {
-                    list.add(Specialty(it.toString(), false))
+                    list.add(SpecialtyModel(it.toString(), false))
                 }
             )
         }
@@ -111,19 +111,19 @@ class SpecialtyFragment : Fragment() {
     }
 
     var list = arrayListOf(
-        Specialty("Yoruba Attire", false),
-        Specialty("Hausa Attires", false),
-        Specialty("Senator", false),
-        Specialty("Embroidery", false),
-        Specialty("Africa Fashion", false),
-        Specialty("School Uniform", false),
-        Specialty("Militery and Paramiltery Uniforms", false),
-        Specialty("Igbo Attire", false),
-        Specialty("South-south attire", false),
-        Specialty("Kaftans", false),
-        Specialty("Contemporary", false),
-        Specialty("Western Fashion", false),
-        Specialty("Caps", false)
+        SpecialtyModel("Yoruba Attire", false),
+        SpecialtyModel("Hausa Attires", false),
+        SpecialtyModel("Senator", false),
+        SpecialtyModel("Embroidery", false),
+        SpecialtyModel("Africa Fashion", false),
+        SpecialtyModel("School Uniform", false),
+        SpecialtyModel("Militery and Paramiltery Uniforms", false),
+        SpecialtyModel("Igbo Attire", false),
+        SpecialtyModel("South-south attire", false),
+        SpecialtyModel("Kaftans", false),
+        SpecialtyModel("Contemporary", false),
+        SpecialtyModel("Western Fashion", false),
+        SpecialtyModel("Caps", false)
     )
 
     override fun onDestroyView() {

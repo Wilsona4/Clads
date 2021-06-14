@@ -17,7 +17,7 @@ import com.decagonhq.clads.ui.client.MeasurementsFragment.Companion.EDITED_MEASU
 import com.decagonhq.clads.ui.client.MeasurementsFragment.Companion.EDITED_MEASUREMENT_REQUEST_KEY
 import com.decagonhq.clads.ui.client.MeasurementsFragment.Companion.EDIT_MEASUREMENT_BUNDLE_KEY
 import com.decagonhq.clads.ui.client.MeasurementsFragment.Companion.EDIT_MEASUREMENT_BUNDLE_POSITION
-import com.decagonhq.clads.ui.client.model.DressMeasurementModel
+import com.decagonhq.clads.model.DressMeasurementModel
 import com.decagonhq.clads.util.ClientMeasurementData
 
 class ClientManagementDialogFragments(
@@ -74,10 +74,11 @@ class ClientManagementDialogFragments(
                             return@setOnClickListener
                         }
                         else -> {
-                            val bundle = DressMeasurementModel(
-                                measurementName.toString(),
-                                measurement.toString().toBigDecimal()
-                            )
+                            val bundle =
+                                DressMeasurementModel(
+                                    measurementName.toString(),
+                                    measurement.toString().toBigDecimal()
+                                )
                             setFragmentResult(
                                 ADD_MEASUREMENT_REQUEST_KEY,
                                 bundleOf(ADD_MEASUREMENT_BUNDLE_KEY to bundle)
@@ -156,10 +157,11 @@ class ClientManagementDialogFragments(
                                 null
                         }
                         else -> {
-                            val editedDataModel = DressMeasurementModel(
-                                measurementName.toString(),
-                                measurement.toString().toBigDecimal()
-                            )
+                            val editedDataModel =
+                                DressMeasurementModel(
+                                    measurementName.toString(),
+                                    measurement.toString().toBigDecimal()
+                                )
                             ClientMeasurementData.currentList[itemPosition!!] = editedDataModel
                             setFragmentResult(
                                 EDITED_MEASUREMENT_REQUEST_KEY, bundleOf(

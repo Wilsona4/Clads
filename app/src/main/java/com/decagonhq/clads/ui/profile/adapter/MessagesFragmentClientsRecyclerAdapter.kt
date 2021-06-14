@@ -1,10 +1,10 @@
-package com.decagonhq.clads.ui.profile.bottomnav
+package com.decagonhq.clads.ui.profile.adapter
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.decagonhq.clads.databinding.MessagesRecyclerViewItemBinding
-import com.decagonhq.clads.util.MessagesNotificationModel
+import com.decagonhq.clads.model.MessagesNotificationModel
 
 class MessagesFragmentClientsRecyclerAdapter(private var messageNotificationList: ArrayList<MessagesNotificationModel>) : RecyclerView.Adapter<MessagesFragmentClientsRecyclerAdapter.ViewHolder>() {
     inner class ViewHolder(val binding: MessagesRecyclerViewItemBinding) : RecyclerView.ViewHolder(binding.root) {
