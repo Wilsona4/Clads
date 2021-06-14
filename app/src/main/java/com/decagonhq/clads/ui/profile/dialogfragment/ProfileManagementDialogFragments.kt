@@ -10,7 +10,12 @@ import androidx.core.widget.doOnTextChanged
 import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.setFragmentResult
 import com.decagonhq.clads.R
-import com.decagonhq.clads.databinding.*
+import com.decagonhq.clads.databinding.AccountEmployeeNumberDialogFragmentBinding
+import com.decagonhq.clads.databinding.AccountFirstNameDialogFragmentBinding
+import com.decagonhq.clads.databinding.AccountGenderDialogFragmentBinding
+import com.decagonhq.clads.databinding.AccountLastNameDialogFragmentBinding
+import com.decagonhq.clads.databinding.AccountOtherNameDialogFragmentBinding
+import com.decagonhq.clads.databinding.AccountWorkshopStateDialogFragmentBinding
 import com.decagonhq.clads.ui.profile.editprofile.AccountFragment.Companion.ACCOUNT_EMPLOYEE_BUNDLE_KEY
 import com.decagonhq.clads.ui.profile.editprofile.AccountFragment.Companion.ACCOUNT_EMPLOYEE_REQUEST_KEY
 import com.decagonhq.clads.ui.profile.editprofile.AccountFragment.Companion.ACCOUNT_FIRST_NAME_BUNDLE_KEY
@@ -82,7 +87,8 @@ class ProfileManagementDialogFragments(
                         }
                         else -> {
                             setFragmentResult(
-                                ACCOUNT_EMPLOYEE_REQUEST_KEY, bundleOf(
+                                ACCOUNT_EMPLOYEE_REQUEST_KEY,
+                                bundleOf(
                                     ACCOUNT_EMPLOYEE_BUNDLE_KEY to inputValue
                                 )
                             )
@@ -143,7 +149,8 @@ class ProfileManagementDialogFragments(
                         }
                         else -> {
                             setFragmentResult(
-                                ACCOUNT_FIRST_NAME_REQUEST_KEY, bundleOf(
+                                ACCOUNT_FIRST_NAME_REQUEST_KEY,
+                                bundleOf(
                                     ACCOUNT_FIRST_NAME_BUNDLE_KEY to inputValue
                                 )
                             )
@@ -204,7 +211,8 @@ class ProfileManagementDialogFragments(
                         }
                         else -> {
                             setFragmentResult(
-                                ACCOUNT_LAST_NAME_REQUEST_KEY, bundleOf(
+                                ACCOUNT_LAST_NAME_REQUEST_KEY,
+                                bundleOf(
                                     ACCOUNT_LAST_NAME_BUNDLE_KEY to inputValue
                                 )
                             )
@@ -257,7 +265,8 @@ class ProfileManagementDialogFragments(
                     when {
                         inputValue.isEmpty() -> {
                             setFragmentResult(
-                                ACCOUNT_OTHER_NAME_REQUEST_KEY, bundleOf(
+                                ACCOUNT_OTHER_NAME_REQUEST_KEY,
+                                bundleOf(
                                     ACCOUNT_OTHER_NAME_BUNDLE_KEY to null
                                 )
                             )
@@ -265,7 +274,8 @@ class ProfileManagementDialogFragments(
                         }
                         else -> {
                             setFragmentResult(
-                                ACCOUNT_OTHER_NAME_REQUEST_KEY, bundleOf(
+                                ACCOUNT_OTHER_NAME_REQUEST_KEY,
+                                bundleOf(
                                     ACCOUNT_OTHER_NAME_BUNDLE_KEY to inputValue
                                 )
                             )
@@ -304,7 +314,8 @@ class ProfileManagementDialogFragments(
                         view.findViewById<RadioButton>(selectedID).text.toString()
 
                     setFragmentResult(
-                        ACCOUNT_GENDER_REQUEST_KEY, bundleOf(
+                        ACCOUNT_GENDER_REQUEST_KEY,
+                        bundleOf(
                             ACCOUNT_GENDER_BUNDLE_KEY to inputValue
                         )
                     )
@@ -345,7 +356,8 @@ class ProfileManagementDialogFragments(
                         }
                         else -> {
                             setFragmentResult(
-                                ACCOUNT_WORKSHOP_STATE_REQUEST_KEY, bundleOf(
+                                ACCOUNT_WORKSHOP_STATE_REQUEST_KEY,
+                                bundleOf(
                                     ACCOUNT_WORKSHOP_STATE_BUNDLE_KEY to inputValue
                                 )
                             )

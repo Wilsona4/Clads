@@ -111,7 +111,6 @@ class AccountFragment : Fragment() {
         }
     }
 
-
     // Other name Dialog
     private fun accountOtherNameEditDialog() {
         // when other name name value is clicked
