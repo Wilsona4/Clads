@@ -47,7 +47,7 @@
             android:hint="@string/enter_delivery_address"
             android:inputType="text"
             android:paddingStart="@dimen/padding_0dp"
-            android:textColor="@color/menu_text_color"
+            android:textColor="@color/navy_blue"
             android:textCursorDrawable="@color/navy_blue"
             android:textSize="@dimen/text_size_16sp" />
     </com.google.android.material.textfield.TextInputLayout>
@@ -78,7 +78,7 @@
             android:hint="@string/delivery_address_city"
             android:inputType="text"
             android:paddingStart="@dimen/padding_0dp"
-            android:textColor="@color/menu_text_color"
+            android:textColor="@color/navy_blue"
             android:textCursorDrawable="@color/navy_blue"
             android:textSize="@dimen/text_size_16sp" />
     </com.google.android.material.textfield.TextInputLayout>
@@ -101,10 +101,11 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:backgroundTint="@color/white"
+            android:fontFamily="@font/roboto_medium"
             android:inputType="none"
             android:paddingVertical="@dimen/padding_16dp"
             android:paddingStart="@dimen/padding_0dp"
-            android:textColor="@color/dark_gray"
+            android:textColor="@color/navy_blue"
             android:text="@string/state" />
 
     </com.google.android.material.textfield.TextInputLayout>

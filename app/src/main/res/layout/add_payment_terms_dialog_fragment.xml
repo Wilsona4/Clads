@@ -27,9 +27,9 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginHorizontal="@dimen/margin_23dp"
-        android:layout_marginTop="@dimen/margin_26dp"
         app:counterEnabled="true"
         app:counterMaxLength="100"
+        app:helperText="@string/add_payment_terms"
         app:layout_constraintEnd_toEndOf="@+id/add_payment_fragment_header_text_view"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="@+id/add_payment_fragment_header_text_view"
@@ -50,10 +50,14 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginHorizontal="@dimen/margin_23dp"
+        android:layout_marginVertical="@dimen/margin_24dp"
         android:text="@string/add"
         android:textAllCaps="false"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="@+id/add_payment_fragment_edit_text"
+        app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="@+id/add_payment_fragment_header_text_view"
-        app:layout_constraintTop_toBottomOf="@+id/add_payment_fragment_edit_text" />
+        app:layout_constraintTop_toBottomOf="@+id/add_payment_fragment_edit_text"
+        app:layout_constraintVertical_bias="0.0" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

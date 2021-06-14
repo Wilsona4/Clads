@@ -304,7 +304,7 @@
 
         <com.google.android.material.textview.MaterialTextView
             android:id="@+id/account_fragment_number_of_employee_apprentice_text_view"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/margin_24dp"
             android:fontFamily="@font/poppins"
@@ -312,6 +312,7 @@
             android:textColor="@color/navy_blue"
             android:textSize="@dimen/text_size_12sp"
             app:layout_constraintBaseline_toBaselineOf="@+id/account_fragment_number_of_employee_apprentice_value_text_view"
+            app:layout_constraintEnd_toStartOf="@+id/account_fragment_guideline"
             app:layout_constraintStart_toStartOf="parent" />
 
         <com.google.android.material.textview.MaterialTextView
@@ -520,7 +521,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            app:layout_constraintGuide_percent="0.57" />
+            app:layout_constraintGuide_percent="0.45" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 
 </androidx.core.widget.NestedScrollView>

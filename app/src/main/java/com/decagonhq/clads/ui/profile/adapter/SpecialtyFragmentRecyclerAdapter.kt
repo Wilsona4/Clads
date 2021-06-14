@@ -1,4 +1,4 @@
-package com.decagonhq.clads.ui.profile.editprofile
+package com.decagonhq.clads.ui.profile.adapter
 
 import android.view.LayoutInflater
 import android.view.ViewGroup

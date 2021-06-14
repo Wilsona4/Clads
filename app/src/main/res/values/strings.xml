@@ -172,9 +172,9 @@
     <string name="key_position">position</string>
     <string name="delete_measurement">Delete measurement!</string>
     <string name="are_you_sure">Are you sure ?</string>
-    <string name="do_you_want_to_delete_measurement">Do you want delete the measurement ?</string>
+    <string name="do_you_want_to_delete_measurement">Do you want to delete the measurement ?</string>
     <string name="dialog_alert_confirmation_yes">Yes</string>
-    <string name="dialog_alert_confirmation_cancle">Cancle</string>
+    <string name="dialog_alert_confirmation_cancle">Cancel</string>
 
 <!--  Temporary string used for dummy array -->
     <string name="arm">Arm</string>
@@ -201,7 +201,7 @@
     <string name="payoneer">Payoneer</string>
     <string name="vcash">VCash</string>
     <string name="cash">Cash</string>
-    <string name="add_payment_terms">Add Payment terms</string>
+    <string name="add_payment_terms">Add Payment Terms</string>
     <string name="text">Text</string>
     <string name="phone_number">Phone Number</string>
     <string name="new_password">New Password</string>
