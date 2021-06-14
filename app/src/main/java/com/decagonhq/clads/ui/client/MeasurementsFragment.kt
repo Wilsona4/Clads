@@ -4,16 +4,19 @@ import android.app.AlertDialog
 import android.content.DialogInterface
 import android.graphics.Color
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.setFragmentResult
 import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.StaggeredGridLayoutManager
 import com.decagonhq.clads.R
 import com.decagonhq.clads.databinding.MeasurementsFragmentBinding
+import com.decagonhq.clads.ui.client.ClientManagementDialogFragments.Companion.createClientDialogFragment
 import com.decagonhq.clads.ui.client.adapter.AddMeasurementAdapter
 import com.decagonhq.clads.ui.client.model.DressMeasurementModel
 import com.decagonhq.clads.util.ClientMeasurementData
@@ -55,7 +58,10 @@ class MeasurementsFragment : Fragment(), RecyclerClickListener {
 
         /*Open dialog fragment*/
         addMeasurementFab.setOnClickListener {
-            AddMeasurementDialogFragment().show(childFragmentManager, MeasurementsFragment::class.simpleName)
+            createClientDialogFragment(R.layout.add_measurement_dialog_fragment)
+                .show(childFragmentManager, MeasurementsFragment::class.simpleName)
+
+//            AddMeasurementDialogFragment().show(childFragmentManager, MeasurementsFragment::class.simpleName)
         }
 
         myAdapter = AddMeasurementAdapter(currentList, this@MeasurementsFragment, this@MeasurementsFragment)
@@ -64,7 +70,7 @@ class MeasurementsFragment : Fragment(), RecyclerClickListener {
     }
 
     private fun editClientMeasurement() {
-        childFragmentManager.setFragmentResultListener(EDIT_MEASUREMENT_REQUEST_KEY, requireActivity()) { key, bundle ->
+        childFragmentManager.setFragmentResultListener(EDITED_MEASUREMENT_REQUEST_KEY, requireActivity()) { key, bundle ->
             myAdapter.notifyDataSetChanged()
         }
     }
@@ -80,15 +86,12 @@ class MeasurementsFragment : Fragment(), RecyclerClickListener {
         }
     }
 
-    override fun onDestroyView() {
-        super.onDestroyView()
-        _binding = null
-    }
-
     override fun onItemClickToEdit(position: Int, currentList: MutableList<DressMeasurementModel>) {
         val data = DressMeasurementModel(currentList[position].measurementName, currentList[position].measurement)
-        val bundle = bundleOf(getString(R.string.key_editedData) to data, getString(R.string.key_position) to position)
-        EditMeasurementDialogFragment(bundle).show(childFragmentManager, getString(R.string.tag))
+        val bundle = bundleOf(EDIT_MEASUREMENT_BUNDLE_KEY to data, EDIT_MEASUREMENT_BUNDLE_POSITION to position)
+
+        createClientDialogFragment(R.layout.edit_measurement_dialog_fragment, bundle)
+            .show(childFragmentManager, MeasurementsFragment::class.simpleName)
     }
 
     override fun onItemClickToDelete(position: Int, currentList: MutableList<DressMeasurementModel>) {
@@ -119,11 +122,20 @@ class MeasurementsFragment : Fragment(), RecyclerClickListener {
         positiveButton.setTextColor(Color.BLUE)
     }
 
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
+    }
+
     companion object {
         const val ADD_MEASUREMENT_REQUEST_KEY = "ADD CLIENT MEASUREMENT REQUEST KEY"
         const val ADD_MEASUREMENT_BUNDLE_KEY = "ADD CLIENT MEASUREMENT BUNDLE KEY"
 
         const val EDIT_MEASUREMENT_REQUEST_KEY = "EDIT CLIENT MEASUREMENT REQUEST KEY"
         const val EDIT_MEASUREMENT_BUNDLE_KEY = "EDIT CLIENT MEASUREMENT BUNDLE KEY"
+        const val EDIT_MEASUREMENT_BUNDLE_POSITION = "EDIT CLIENT MEASUREMENT BUNDLE POSITION"
+
+        const val EDITED_MEASUREMENT_REQUEST_KEY = "EDITED CLIENT MEASUREMENT REQUEST KEY"
+        const val EDITED_MEASUREMENT_BUNDLE_KEY = "EDITED CLIENT MEASUREMENT BUNDLE KEY"
     }
 }
