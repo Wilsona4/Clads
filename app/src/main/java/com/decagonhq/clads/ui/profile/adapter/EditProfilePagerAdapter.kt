@@ -1,9 +1,13 @@
-package com.decagonhq.clads.ui.profile.editprofile
+package com.decagonhq.clads.ui.profile.adapter
 
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import androidx.lifecycle.Lifecycle
 import androidx.viewpager2.adapter.FragmentStateAdapter
+import com.decagonhq.clads.ui.profile.editprofile.AccountFragment
+import com.decagonhq.clads.ui.profile.editprofile.PaymentMethodFragment
+import com.decagonhq.clads.ui.profile.editprofile.SecurityFragment
+import com.decagonhq.clads.ui.profile.editprofile.SpecialtyFragment
 
 class EditProfilePagerAdapter(fragmentManager: FragmentManager, lifecycle: Lifecycle) :
     FragmentStateAdapter(fragmentManager, lifecycle) {

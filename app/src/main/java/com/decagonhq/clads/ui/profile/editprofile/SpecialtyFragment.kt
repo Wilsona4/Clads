@@ -9,6 +9,7 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.observe
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.decagonhq.clads.databinding.SpecialtyFragmentBinding
+import com.decagonhq.clads.ui.profile.adapter.SpecialtyFragmentRecyclerAdapter
 import com.decagonhq.clads.util.Specialty
 import com.decagonhq.clads.viewmodels.ProfileManagementViewModel
 

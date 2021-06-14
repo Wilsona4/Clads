@@ -1,4 +1,4 @@
-package com.decagonhq.clads.ui.client
+package com.decagonhq.clads.ui.client.dialogfragment
 
 import android.os.Bundle
 import android.view.LayoutInflater

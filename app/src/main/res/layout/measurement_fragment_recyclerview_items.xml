@@ -11,7 +11,7 @@
 
     <TextView
         android:id="@+id/measurement_recyclerview_item"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="@dimen/margin_5dp"
         android:layout_marginEnd="@dimen/margin_5dp"

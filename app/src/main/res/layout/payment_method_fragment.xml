@@ -93,9 +93,9 @@
         <TextView
             android:id="@+id/payment_method_fragment_payment_options_list_text_view"
             android:layout_width="@dimen/margin_0dp"
-            android:layout_height="@dimen/margin_36dp"
+            android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:maxLines="4"
+            android:maxLines="6"
             android:text="@string/vcash_bank_deposit_naira_paystack"
             android:textAlignment="textEnd"
             android:textSize="@dimen/text_size_13sp"
@@ -108,10 +108,9 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="4dp"
-        android:background="@drawable/sign_up_with_email_and_phone_number_buttons"
         android:fontFamily="@font/poppins_bold"
         android:text="@string/save_changes"
-        android:textSize="@dimen/text_size_12sp"
+        android:paddingVertical="@dimen/padding_6dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="@+id/guideline4" />

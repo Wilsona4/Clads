@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.core.widget.NestedScrollView
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.core.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -21,9 +20,9 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/margin_16dp"
             android:fontFamily="@font/poppins"
-            android:textSize="@dimen/text_size_11sp"
             android:text="@string/verified_information"
             android:textColor="@color/deep_sky_blue"
+            android:textSize="@dimen/text_size_11sp"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
@@ -56,8 +55,8 @@
             android:id="@+id/security_fragment_fine_line_view"
             android:layout_width="match_parent"
             android:layout_height="@dimen/layout_height_1dp"
-            android:layout_marginBottom="@dimen/margin_8dp"
             android:layout_marginTop="@dimen/margin_29dp"
+            android:layout_marginBottom="@dimen/margin_8dp"
             android:background="@color/dark_gray"
             app:layout_constraintBottom_toTopOf="@+id/security_fragment_guideline"
             app:layout_constraintEnd_toEndOf="@+id/security_fragment_phone_number_input_text_view"
@@ -73,8 +72,8 @@
             android:layout_marginTop="@dimen/margin_35dp"
             android:fontFamily="@font/poppins_medium"
             android:text="@string/password"
-            android:textSize="@dimen/text_size_11sp"
             android:textColor="@color/deep_sky_blue"
+            android:textSize="@dimen/text_size_11sp"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/security_fragment_fine_line_view" />
 
@@ -95,13 +94,13 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
-            android:fontFamily="@font/roboto"
             android:backgroundTint="@color/grey_100"
+            android:fontFamily="@font/roboto"
             android:hint="@string/old_password"
-            android:textCursorDrawable="@null"
             android:inputType="numberPassword|textPassword"
             android:paddingBottom="@dimen/padding_20dp"
             android:textColor="@color/text_gray"
+            android:textCursorDrawable="@null"
             android:textSize="@dimen/text_size_16sp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="@+id/security_fragment_new_password_edit_text"
@@ -112,14 +111,14 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="24dp"
+            android:backgroundTint="@color/grey_100"
             android:fontFamily="@font/roboto"
             android:hint="@string/new_password"
             android:inputType="numberPassword|textPassword"
             android:paddingEnd="50dp"
-            android:backgroundTint="@color/grey_100"
             android:paddingBottom="@dimen/padding_20dp"
-            android:textCursorDrawable="@null"
             android:textColor="@color/text_gray"
+            android:textCursorDrawable="@null"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/security_fragment_old_password_edit_text" />
 
@@ -128,8 +127,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="48dp"
-            android:background="@drawable/sign_up_with_email_and_phone_number_buttons"
             android:fontFamily="@font/poppins_bold"
+            android:paddingVertical="@dimen/padding_6dp"
             android:text="@string/save_changes"
             android:textSize="@dimen/text_size_12sp"
             app:layout_constraintEnd_toEndOf="@+id/security_fragment_old_password_edit_text"
@@ -142,9 +141,9 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
-            app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintGuide_percent="0.18" />
+            app:layout_constraintGuide_percent="0.18"
+            app:layout_constraintStart_toStartOf="parent" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
