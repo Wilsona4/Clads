@@ -40,7 +40,7 @@ class DeliveryAddressFragment : Fragment() {
             // parse measurementArgs
             addressTextView = binding.deliveryAddressFragmentAddressTextView
             addressTextView.text = "${addressFragmentArgs.deliveryAddress!!.deliveryAddress}," +
-                " ${addressFragmentArgs.deliveryAddress.state}, ${addressFragmentArgs.deliveryAddress.city}, Nigeria"
+                " ${addressFragmentArgs.deliveryAddress!!.state}, ${addressFragmentArgs.deliveryAddress!!.city}, Nigeria"
         }
 
         addDeliveryAddressButton = binding.deliveryAddressFragmentAddButton

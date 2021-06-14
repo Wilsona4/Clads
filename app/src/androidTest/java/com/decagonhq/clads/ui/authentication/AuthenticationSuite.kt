@@ -1,4 +1,4 @@
-package com.decagonhq.clads.ui.auth
+package com.decagonhq.clads.ui.authentication
 
 import org.junit.runner.RunWith
 import org.junit.runners.Suite

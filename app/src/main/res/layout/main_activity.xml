@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:id="@+id/main_activity_root_layout"
-    tools:context=".ui.auth.MainActivity">
+    tools:context=".ui.authentication.MainActivity">
 
     <androidx.fragment.app.FragmentContainerView
         android:id="@+id/main_activity_fragment_container_view"

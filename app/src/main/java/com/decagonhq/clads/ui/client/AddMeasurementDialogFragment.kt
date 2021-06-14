@@ -16,9 +16,10 @@ import com.google.android.material.snackbar.Snackbar
 
 class AddMeasurementDialogFragment : DialogFragment() {
     private var _binding: AddMeasurementDialogFragmentBinding? = null
-    private lateinit var addMeasurementButton: Button
     // This property is only valid between onCreateView and onDestroyView.
     private val binding get() = _binding!!
+
+    private lateinit var addMeasurementButton: Button
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

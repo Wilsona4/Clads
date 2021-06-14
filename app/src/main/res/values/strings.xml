@@ -110,7 +110,7 @@
     <string name="delivery_address_city">City</string>
     <string name="delivery_address_state">State</string>
     <string name="there_are_no_delivery_address">There are no delivery address for this client</string>
-    <string name="add_address">Add address</string>
+    <string name="add_address">Add Address</string>
     <string name="add_address_fragment">Add address</string>
     <string name="edit_measurement">Edit measurement</string>
 
@@ -195,7 +195,7 @@
     <string name="payment_terms">Payment Terms</string>
     <string name="_100_deposit">100% Deposit</string>
     <string name="payment_options">Payment Options</string>
-    <string name="vcash_bank_deposit_naira_paystack">VCash, Bank Deposit(Naira),PayStack</string>
+    <string name="vcash_bank_deposit_naira_paystack">VCash, Bank Deposit (Naira),PayStack</string>
     <string name="_50_deposit_and_50_balance_on_delivery">50% Deposit and 50% balance on delivery</string>
     <string name="_0_deposit_and_100_balance_on_delivery">0% Deposit and 100% balance on delivery</string>
     <string name="payoneer">Payoneer</string>
@@ -302,6 +302,7 @@
     <string name="street">Street</string>
     <string name="no_7_decabon_way_lekki">No 7 Decabon way, lekki</string>
     <string name="_2020">2020</string>
+    <string name="required">Required</string>
 
 
     <string-array name="account_category">
