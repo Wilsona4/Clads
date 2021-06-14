@@ -4,10 +4,14 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.observe
+import com.decagonhq.clads.R
 import com.decagonhq.clads.databinding.AccountFragmentBinding
+import com.decagonhq.clads.ui.profile.dialogfragment.ProfileManagementDialogFragments
+import com.decagonhq.clads.ui.profile.dialogfragment.ProfileManagementDialogFragments.Companion.createProfileDialogFragment
 import com.decagonhq.clads.viewmodels.ProfileManagementViewModel
 
 class AccountFragment : Fragment() {
@@ -200,20 +204,22 @@ class AccountFragment : Fragment() {
     }
 
     private fun accountEmployeeNumberDialogFragment() {
+        childFragmentManager.setFragmentResultListener(
+            ACCOUNT_EMPLOYEE_REQUEST_KEY,
+            requireActivity()
+        ) { key, bundle ->
+            // collect input values from dialog fragment and update the employee number text of user
+            val employeeNumber = bundle.getString(ACCOUNT_EMPLOYEE_BUNDLE_KEY)
+            binding.accountFragmentNumberOfEmployeeApprenticeValueTextView.text = employeeNumber
+        }
+
         // when employee number name value is clicked
         binding.accountFragmentNumberOfEmployeeApprenticeValueTextView.setOnClickListener {
-            val accountEmployeeNumberDialogFragment = AccountEmployeeNumberDialogFragment()
-            accountEmployeeNumberDialogFragment.show(
-                requireActivity().supportFragmentManager,
-                "Employer Number dialog fragment"
-            )
-            // collect input values from dialog fragment and update the employee number text of user
-            profileManagementViewModel.numberOfEmployeeLiveData.observe(
-                viewLifecycleOwner,
-                {
-                    binding.accountFragmentNumberOfEmployeeApprenticeValueTextView.text =
-                        it.toString()
-                }
+            val currentEmployeeNumber = binding.accountFragmentNumberOfEmployeeApprenticeValueTextView.text.toString()
+            val bundle = bundleOf(CURRENT_ACCOUNT_EMPLOYEE_BUNDLE_KEY to currentEmployeeNumber)
+            createProfileDialogFragment(R.layout.account_employee_number_dialog_fragment, bundle).show(
+                childFragmentManager,
+                getString(R.string.tag_employee_number_dialog_fragment)
             )
         }
     }
@@ -325,5 +331,17 @@ class AccountFragment : Fragment() {
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
+    }
+
+    companion object {
+        const val ACCOUNT_EMPLOYEE_REQUEST_KEY = "ACCOUNT EMPLOYEE REQUEST KEY"
+        const val ACCOUNT_EMPLOYEE_BUNDLE_KEY = "ACCOUNT EMPLOYEE BUNDLE KEY"
+        const val CURRENT_ACCOUNT_EMPLOYEE_BUNDLE_KEY = "CURRENT ACCOUNT EMPLOYEE BUNDLE KEY"
+
+        const val EDIT_MEASUREMENT_BUNDLE_KEY = "EDIT CLIENT MEASUREMENT BUNDLE KEY"
+        const val EDIT_MEASUREMENT_BUNDLE_POSITION = "EDIT CLIENT MEASUREMENT BUNDLE POSITION"
+
+        const val EDITED_MEASUREMENT_REQUEST_KEY = "EDITED CLIENT MEASUREMENT REQUEST KEY"
+        const val EDITED_MEASUREMENT_BUNDLE_KEY = "EDITED CLIENT MEASUREMENT BUNDLE KEY"
     }
 }
