@@ -502,7 +502,7 @@
             android:layout_marginHorizontal="@dimen/margin_25dp"
             android:layout_marginTop="@dimen/margin_54dp"
             android:layout_marginBottom="@dimen/margin_40dp"
-            android:background="@color/deep_sky_blue"
+            android:backgroundTint="@color/deep_sky_blue"
             android:fontFamily="@font/poppins_medium"
             android:padding="@dimen/padding_0dp"
             android:paddingVertical="@dimen/padding_10dp"
