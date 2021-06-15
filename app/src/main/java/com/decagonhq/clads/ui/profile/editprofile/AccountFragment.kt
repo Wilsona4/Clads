@@ -48,7 +48,6 @@ class AccountFragment : Fragment() {
         accountWorkshopCityDialog()
         accountWorkshopStateDialog()
         accountOtherNameEditDialog()
-//        accountlastNameEditDialog()
         accountlegalStatusdialog()
     }
 

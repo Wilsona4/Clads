@@ -14,6 +14,7 @@ import com.decagonhq.clads.databinding.SpecialtyFragmentBinding
 import com.decagonhq.clads.model.SpecialtyModel
 import com.decagonhq.clads.ui.profile.adapter.SpecialtyFragmentRecyclerAdapter
 import com.decagonhq.clads.ui.profile.dialogfragment.ProfileManagementDialogFragments
+import com.decagonhq.clads.ui.profile.dialogfragment.ProfileManagementDialogFragments.Companion.createProfileDialogFragment
 import com.decagonhq.clads.viewmodels.ProfileManagementViewModel
 
 class SpecialtyFragment : Fragment() {
@@ -54,20 +55,27 @@ class SpecialtyFragment : Fragment() {
 
     // Gender Dialog
     private fun changeIfObiomaIsTrainedDialog() {
-        // when isTrained value is clicked
+        // when delivery time value is clicked
+        childFragmentManager.setFragmentResultListener(
+            SPECIAL_OBIOMA_TRAINED_REQUEST_KEY,
+            requireActivity()
+        ) { key, bundle ->
+            // collect input values from dialog fragment and update the union name text of user
+            val obiomaTrainedValue = bundle.getString(SPECIAL_OBIOMA_TRAINED_BUNDLE_KEY)
+            binding.specialtyFragmentObiomaTrainedAndCertifiedValueTextView.text = obiomaTrainedValue
+        }
+
+        // when delivery time value is clicked
         binding.specialtyFragmentObiomaTrainedAndCertifiedValueTextView.setOnClickListener {
-            val obiomaTrainedFragment = SpecialtyObiomaTrainedDialogFragment()
-            obiomaTrainedFragment.show(
-                requireActivity().supportFragmentManager,
-                "Obioma Trained fragment"
-            )
-            // collect input values from dialog fragment and update the gender value of user
-            profileManagementViewModel.obiomaTrainedLiveData.observe(
-                viewLifecycleOwner,
-                {
-                    binding.specialtyFragmentObiomaTrainedAndCertifiedValueTextView.text =
-                        it.toString()
-                }
+            val currentObiomaTrainedValue =
+                binding.specialtyFragmentObiomaTrainedAndCertifiedValueTextView.text.toString()
+            val bundle = bundleOf(CURRENT_SPECIAL_OBIOMA_TRAINED_BUNDLE_KEY to currentObiomaTrainedValue)
+            createProfileDialogFragment(
+                R.layout.specialty_obioma_trained_dialog_fragment,
+                bundle
+            ).show(
+                childFragmentManager,
+                SpecialtyFragment::class.java.simpleName
             )
         }
     }
@@ -77,7 +85,7 @@ class SpecialtyFragment : Fragment() {
             val specialtyAddFragment = SpecialtyAddSpecialtyDialogFragment()
             specialtyAddFragment.show(
                 requireActivity().supportFragmentManager,
-                "add new obioma specialty"
+                SpecialtyFragment::class.java.simpleName
             )
             // add the input "new specialty" to the list for recycler view usage
             specialtyAddFragment.specialtyInput.observe(
@@ -105,12 +113,12 @@ class SpecialtyFragment : Fragment() {
             val currentDeliveryTime =
                 binding.specialtyFragmentDeliveryLeadTimeValueTextView.text.toString()
             val bundle = bundleOf(CURRENT_SPECIAL_DELIVERY_TIME_BUNDLE_KEY to currentDeliveryTime)
-            ProfileManagementDialogFragments.createProfileDialogFragment(
+            createProfileDialogFragment(
                 R.layout.specialty_delivery_time_dialog_fragment,
                 bundle
             ).show(
                 childFragmentManager,
-                AccountFragment::class.java.simpleName
+                SpecialtyFragment::class.java.simpleName
             )
         }
     }
@@ -141,6 +149,10 @@ class SpecialtyFragment : Fragment() {
         const val SPECIAL_DELIVERY_TIME_REQUEST_KEY = "SPECIAL DELIVERY TIME REQUEST KEY"
         const val SPECIAL_DELIVERY_TIME_BUNDLE_KEY = "SPECIAL DELIVERY TIME BUNDLE KEY"
         const val CURRENT_SPECIAL_DELIVERY_TIME_BUNDLE_KEY = "CURRENT SPECIAL DELIVERY TIME BUNDLE KEY"
-        const val CURRENT_SPECIAL_DELIVERY_RADIO_KEY = "CURRENT SPECIAL DELIVERY RADIO KEY"
+
+        const val SPECIAL_OBIOMA_TRAINED_REQUEST_KEY = "SPECIAL OBIOMA TRAINED REQUEST KEY"
+        const val SPECIAL_OBIOMA_TRAINED_BUNDLE_KEY = "SPECIAL OBIOMA TRAINED BUNDLE KEY"
+        const val CURRENT_SPECIAL_OBIOMA_TRAINED_BUNDLE_KEY = "CURRENT SPECIAL OBIOMA TRAINED BUNDLE KEY"
+
     }
-    }
+}

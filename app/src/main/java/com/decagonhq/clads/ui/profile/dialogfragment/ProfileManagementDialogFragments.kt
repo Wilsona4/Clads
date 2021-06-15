@@ -53,10 +53,12 @@ import com.decagonhq.clads.ui.profile.editprofile.AccountFragment.Companion.CURR
 import com.decagonhq.clads.ui.profile.editprofile.AccountFragment.Companion.CURRENT_ACCOUNT_WORKSHOP_CITY_BUNDLE_KEY
 import com.decagonhq.clads.ui.profile.editprofile.AccountFragment.Companion.CURRENT_ACCOUNT_WORKSHOP_STATE_BUNDLE_KEY
 import com.decagonhq.clads.ui.profile.editprofile.AccountFragment.Companion.CURRENT_ACCOUNT_WORKSHOP_STREET_BUNDLE_KEY
-import com.decagonhq.clads.ui.profile.editprofile.SpecialtyFragment.Companion.CURRENT_SPECIAL_DELIVERY_RADIO_KEY
 import com.decagonhq.clads.ui.profile.editprofile.SpecialtyFragment.Companion.CURRENT_SPECIAL_DELIVERY_TIME_BUNDLE_KEY
+import com.decagonhq.clads.ui.profile.editprofile.SpecialtyFragment.Companion.CURRENT_SPECIAL_OBIOMA_TRAINED_BUNDLE_KEY
 import com.decagonhq.clads.ui.profile.editprofile.SpecialtyFragment.Companion.SPECIAL_DELIVERY_TIME_BUNDLE_KEY
 import com.decagonhq.clads.ui.profile.editprofile.SpecialtyFragment.Companion.SPECIAL_DELIVERY_TIME_REQUEST_KEY
+import com.decagonhq.clads.ui.profile.editprofile.SpecialtyFragment.Companion.SPECIAL_OBIOMA_TRAINED_BUNDLE_KEY
+import com.decagonhq.clads.ui.profile.editprofile.SpecialtyFragment.Companion.SPECIAL_OBIOMA_TRAINED_REQUEST_KEY
 
 class ProfileManagementDialogFragments(
     private var dialogLayoutId: Int,
@@ -967,6 +969,45 @@ class ProfileManagementDialogFragments(
                     }
                 }
             }
+            R.layout.specialty_obioma_trained_dialog_fragment -> {
+
+                /*Initialise binding*/
+                val binding = SpecialtyObiomaTrainedDialogFragmentBinding.bind(view)
+
+                val okButton = binding.specialtyObiomaTrainedDialogFragmentOkButton
+                val cancelButton = binding.specialtyObiomaTrainedDialogFragmentCancelButton
+                val radioGroup = binding.specialtyObiomaTrainedDialogFragmentRadioGroup
+
+                val retrievedArgs =
+                    bundle?.getString(CURRENT_SPECIAL_OBIOMA_TRAINED_BUNDLE_KEY)
+
+                /*Attaching the data*/
+                if (retrievedArgs == "Yes") {
+                    radioGroup.check(R.id.specialty_obioma_trained_dialog_fragment_yes_radio_button)
+                } else {
+                    radioGroup.check(R.id.specialty_obioma_trained_dialog_fragment_no_radio_button)
+                }
+
+                /*when the dialog ok button is clicked*/
+                okButton.setOnClickListener {
+                    val selectedID = radioGroup.checkedRadioButtonId
+                    val inputValue =
+                        view.findViewById<RadioButton>(selectedID).text.toString()
+
+                    setFragmentResult(
+                        SPECIAL_OBIOMA_TRAINED_REQUEST_KEY,
+                        bundleOf(
+                            SPECIAL_OBIOMA_TRAINED_BUNDLE_KEY to inputValue
+                        )
+                    )
+                    dismiss()
+                }
+                /*when the dialog cancel button is clicked*/
+                cancelButton.setOnClickListener {
+                    dismiss()
+                }
+            }
+
         }
     }
 
