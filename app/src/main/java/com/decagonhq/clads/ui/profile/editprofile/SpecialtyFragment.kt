@@ -136,11 +136,10 @@ class SpecialtyFragment : Fragment() {
         _binding = null
     }
 
-
     companion object {
         const val SPECIAL_DELIVERY_TIME_REQUEST_KEY = "SPECIAL DELIVERY TIME REQUEST KEY"
         const val SPECIAL_DELIVERY_TIME_BUNDLE_KEY = "SPECIAL DELIVERY TIME BUNDLE KEY"
         const val CURRENT_SPECIAL_DELIVERY_TIME_BUNDLE_KEY = "CURRENT SPECIAL DELIVERY TIME BUNDLE KEY"
         const val CURRENT_SPECIAL_DELIVERY_RADIO_KEY = "CURRENT SPECIAL DELIVERY RADIO KEY"
     }
-    }
+}

@@ -7,7 +7,6 @@ import android.view.ViewGroup
 import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
-import androidx.lifecycle.observe
 import com.decagonhq.clads.R
 import com.decagonhq.clads.databinding.AccountFragmentBinding
 import com.decagonhq.clads.ui.profile.dialogfragment.ProfileManagementDialogFragments.Companion.createProfileDialogFragment
@@ -68,7 +67,8 @@ class AccountFragment : Fragment() {
             val currentLegalStatus = binding.accountFragmentLegalStatusValueTextView.text.toString()
             val bundle = bundleOf(CURRENT_ACCOUNT_LEGAL_STATUS_BUNDLE_KEY to currentLegalStatus)
             createProfileDialogFragment(R.layout.account_legal_status_dialog_fragment, bundle).show(
-                childFragmentManager, AccountFragment::class.java.simpleName)
+                childFragmentManager, AccountFragment::class.java.simpleName
+            )
         }
     }
 
@@ -436,6 +436,5 @@ class AccountFragment : Fragment() {
         const val ACCOUNT_LEGAL_STATUS_REQUEST_KEY = "ACCOUNT LEGAL STATUS REQUEST KEY"
         const val ACCOUNT_LEGAL_STATUS_BUNDLE_KEY = "ACCOUNT LEGAL STATUS BUNDLE KEY"
         const val CURRENT_ACCOUNT_LEGAL_STATUS_BUNDLE_KEY = "CURRENT ACCOUNT LEGAL STATUS BUNDLE KEY"
-
     }
 }
