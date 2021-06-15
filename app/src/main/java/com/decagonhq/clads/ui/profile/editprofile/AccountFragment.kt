@@ -53,18 +53,22 @@ class AccountFragment : Fragment() {
     }
 
     private fun accountlegalStatusdialog() {
+
+        childFragmentManager.setFragmentResultListener(
+            ACCOUNT_LEGAL_STATUS_REQUEST_KEY,
+            requireActivity()
+        ) { key, bundle ->
+            // collect input values from dialog fragment and update the firstname text of user
+            val legalStatus = bundle.getString(ACCOUNT_LEGAL_STATUS_BUNDLE_KEY)
+            binding.accountFragmentLegalStatusValueTextView.text = legalStatus
+        }
+
+        // when employee number name value is clicked
         binding.accountFragmentLegalStatusValueTextView.setOnClickListener {
-            val accountlegalStatusdialog = AccountLegalStatusDialogFragment()
-            accountlegalStatusdialog.show(
-                requireActivity().supportFragmentManager,
-                "legal status fragment"
-            )
-            profileManagementViewModel.legalStatusLiveData.observe(
-                viewLifecycleOwner,
-                {
-                    binding.accountFragmentLegalStatusValueTextView.text = it.toString()
-                }
-            )
+            val currentLegalStatus = binding.accountFragmentLegalStatusValueTextView.text.toString()
+            val bundle = bundleOf(CURRENT_ACCOUNT_LEGAL_STATUS_BUNDLE_KEY to currentLegalStatus)
+            createProfileDialogFragment(R.layout.account_legal_status_dialog_fragment, bundle).show(
+                childFragmentManager, AccountFragment::class.java.simpleName)
         }
     }
 
@@ -282,7 +286,7 @@ class AccountFragment : Fragment() {
             binding.accountFragmentWardValueTextView.text = unionWard
         }
 
-        // when employee number name value is clicked
+        // when union ward value is clicked
         binding.accountFragmentWardValueTextView.setOnClickListener {
             val currentUnionWard =
                 binding.accountFragmentWardValueTextView.text.toString()
@@ -299,34 +303,53 @@ class AccountFragment : Fragment() {
 
     private fun accountUnionLGADialogFragment() {
         // when lga name value is clicked
+        childFragmentManager.setFragmentResultListener(
+            ACCOUNT_UNION_LGA_REQUEST_KEY,
+            requireActivity()
+        ) { key, bundle ->
+            // collect input values from dialog fragment and update the union lga text of user
+            val unionLga = bundle.getString(ACCOUNT_UNION_LGA_BUNDLE_KEY)
+            binding.accountFragmentLocalGovtAreaValueTextView.text = unionLga
+        }
+
+        // when lga value is clicked
         binding.accountFragmentLocalGovtAreaValueTextView.setOnClickListener {
-            val accountUnionLGADialogFragment = AccountUnionLGADialogFragment()
-            accountUnionLGADialogFragment.show(
-                requireActivity().supportFragmentManager,
-                "Union LGA dialog fragment"
-            )
-            // collect input values from dialog fragment and update the lgs text of user
-            profileManagementViewModel.lgaOfUnionLiveData.observe(
-                viewLifecycleOwner,
-                {
-                    binding.accountFragmentLocalGovtAreaValueTextView.text = it.toString()
-                }
+            val currentUnionState =
+                binding.accountFragmentLocalGovtAreaValueTextView.text.toString()
+            val bundle = bundleOf(CURRENT_ACCOUNT_UNION_LGA_BUNDLE_KEY to currentUnionState)
+            createProfileDialogFragment(
+                R.layout.account_union_lga_dialog_fragment,
+                bundle
+            ).show(
+                childFragmentManager,
+                AccountFragment::class.java.simpleName
             )
         }
     }
 
     private fun accountUnionStateDialogFragment() {
+        // when state name value is clicked
+        childFragmentManager.setFragmentResultListener(
+            ACCOUNT_UNION_STATE_REQUEST_KEY,
+            requireActivity()
+        ) { key, bundle ->
+            // collect input values from dialog fragment and update the union name text of user
+            val unionState = bundle.getString(ACCOUNT_UNION_STATE_BUNDLE_KEY)
+            binding.accountFragmentStateValueTextView.text = unionState
+        }
+
+        // when state value is clicked
         binding.accountFragmentStateValueTextView.setOnClickListener {
-            val accountUnionStateDialogFragment = AccountUnionStateDialogFragment()
-            accountUnionStateDialogFragment.show(
-                requireActivity().supportFragmentManager,
-                "Union State dialog fragment"
+            val currentUnionState =
+                binding.accountFragmentStateValueTextView.text.toString()
+            val bundle = bundleOf(CURRENT_ACCOUNT_STATE_NAME_BUNDLE_KEY to currentUnionState)
+            createProfileDialogFragment(
+                R.layout.account_union_state_dialog_fragment,
+                bundle
+            ).show(
+                childFragmentManager,
+                AccountFragment::class.java.simpleName
             )
-            profileManagementViewModel.stateOfUnionLiveData.observe(
-                viewLifecycleOwner
-            ) {
-                binding.accountFragmentStateValueTextView.text = it.toString()
-            }
         }
     }
 
@@ -405,6 +428,14 @@ class AccountFragment : Fragment() {
         const val ACCOUNT_UNION_WARD_REQUEST_KEY = "ACCOUNT UNION WARD REQUEST KEY"
         const val ACCOUNT_UNION_WARD_BUNDLE_KEY = "ACCOUNT UNION WARD BUNDLE KEY"
         const val CURRENT_ACCOUNT_UNION_WARD_BUNDLE_KEY = "CURRENT ACCOUNT UNION WARD BUNDLE KEY"
+
+        const val ACCOUNT_UNION_LGA_REQUEST_KEY = "ACCOUNT UNION LGA REQUEST KEY"
+        const val ACCOUNT_UNION_LGA_BUNDLE_KEY = "ACCOUNT UNION LGA BUNDLE KEY"
+        const val CURRENT_ACCOUNT_UNION_LGA_BUNDLE_KEY = "CURRENT ACCOUNT UNION LGA BUNDLE KEY"
+
+        const val ACCOUNT_LEGAL_STATUS_REQUEST_KEY = "ACCOUNT LEGAL STATUS REQUEST KEY"
+        const val ACCOUNT_LEGAL_STATUS_BUNDLE_KEY = "ACCOUNT LEGAL STATUS BUNDLE KEY"
+        const val CURRENT_ACCOUNT_LEGAL_STATUS_BUNDLE_KEY = "CURRENT ACCOUNT LEGAL STATUS BUNDLE KEY"
 
     }
 }

@@ -4,13 +4,16 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.observe
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.decagonhq.clads.R
 import com.decagonhq.clads.databinding.SpecialtyFragmentBinding
 import com.decagonhq.clads.model.SpecialtyModel
 import com.decagonhq.clads.ui.profile.adapter.SpecialtyFragmentRecyclerAdapter
+import com.decagonhq.clads.ui.profile.dialogfragment.ProfileManagementDialogFragments
 import com.decagonhq.clads.viewmodels.ProfileManagementViewModel
 
 class SpecialtyFragment : Fragment() {
@@ -39,7 +42,7 @@ class SpecialtyFragment : Fragment() {
         recyclerViewAdapterSetUp()
         changeIfObiomaIsTrainedDialog()
         addNewSpecialtyDialog()
-        addSpeialdelivaryTime()
+        addSpecialDeliveryTime()
     }
 
     private fun recyclerViewAdapterSetUp() {
@@ -86,26 +89,28 @@ class SpecialtyFragment : Fragment() {
         }
     }
 
-    private fun addSpeialdelivaryTime() {
-        binding.specialtyFragmentDeliveryLeadTimeValueTextView.setOnClickListener {
-            val specialtyDeliveryTime = SpecialtyDeliveryTimeDialogFragment()
-            specialtyDeliveryTime.show(
-                requireActivity().supportFragmentManager,
-                "delivery time"
-            )
-            // collect input values from dialog fragment and update the firstname text of user
-            profileManagementViewModel.deliveryValueInNumber.observe(
-                viewLifecycleOwner,
-                { itOne ->
-                    profileManagementViewModel.deliveryDuration.observe(
-                        viewLifecycleOwner,
-                        { itTwo ->
+    private fun addSpecialDeliveryTime() {
+        // when delivery time value is clicked
+        childFragmentManager.setFragmentResultListener(
+            SPECIAL_DELIVERY_TIME_REQUEST_KEY,
+            requireActivity()
+        ) { key, bundle ->
+            // collect input values from dialog fragment and update the union name text of user
+            val specialtyDeliveryTime = bundle.getString(SPECIAL_DELIVERY_TIME_BUNDLE_KEY)
+            binding.specialtyFragmentDeliveryLeadTimeValueTextView.text = specialtyDeliveryTime
+        }
 
-                            binding.specialtyFragmentDeliveryLeadTimeValueTextView.text =
-                                itOne.toString() + " " + itTwo.toString()
-                        }
-                    )
-                }
+        // when delivery time value is clicked
+        binding.specialtyFragmentDeliveryLeadTimeValueTextView.setOnClickListener {
+            val currentDeliveryTime =
+                binding.specialtyFragmentDeliveryLeadTimeValueTextView.text.toString()
+            val bundle = bundleOf(CURRENT_SPECIAL_DELIVERY_TIME_BUNDLE_KEY to currentDeliveryTime)
+            ProfileManagementDialogFragments.createProfileDialogFragment(
+                R.layout.specialty_delivery_time_dialog_fragment,
+                bundle
+            ).show(
+                childFragmentManager,
+                AccountFragment::class.java.simpleName
             )
         }
     }
@@ -130,4 +135,12 @@ class SpecialtyFragment : Fragment() {
         super.onDestroyView()
         _binding = null
     }
-}
+
+
+    companion object {
+        const val SPECIAL_DELIVERY_TIME_REQUEST_KEY = "SPECIAL DELIVERY TIME REQUEST KEY"
+        const val SPECIAL_DELIVERY_TIME_BUNDLE_KEY = "SPECIAL DELIVERY TIME BUNDLE KEY"
+        const val CURRENT_SPECIAL_DELIVERY_TIME_BUNDLE_KEY = "CURRENT SPECIAL DELIVERY TIME BUNDLE KEY"
+        const val CURRENT_SPECIAL_DELIVERY_RADIO_KEY = "CURRENT SPECIAL DELIVERY RADIO KEY"
+    }
+    }

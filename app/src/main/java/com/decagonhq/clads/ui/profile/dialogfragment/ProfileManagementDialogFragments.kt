@@ -19,12 +19,18 @@ import com.decagonhq.clads.ui.profile.editprofile.AccountFragment.Companion.ACCO
 import com.decagonhq.clads.ui.profile.editprofile.AccountFragment.Companion.ACCOUNT_GENDER_REQUEST_KEY
 import com.decagonhq.clads.ui.profile.editprofile.AccountFragment.Companion.ACCOUNT_LAST_NAME_BUNDLE_KEY
 import com.decagonhq.clads.ui.profile.editprofile.AccountFragment.Companion.ACCOUNT_LAST_NAME_REQUEST_KEY
+import com.decagonhq.clads.ui.profile.editprofile.AccountFragment.Companion.ACCOUNT_LEGAL_STATUS_BUNDLE_KEY
+import com.decagonhq.clads.ui.profile.editprofile.AccountFragment.Companion.ACCOUNT_LEGAL_STATUS_REQUEST_KEY
 import com.decagonhq.clads.ui.profile.editprofile.AccountFragment.Companion.ACCOUNT_OTHER_NAME_BUNDLE_KEY
 import com.decagonhq.clads.ui.profile.editprofile.AccountFragment.Companion.ACCOUNT_OTHER_NAME_REQUEST_KEY
 import com.decagonhq.clads.ui.profile.editprofile.AccountFragment.Companion.ACCOUNT_SHOWROOM_ADDRESS_BUNDLE_KEY
 import com.decagonhq.clads.ui.profile.editprofile.AccountFragment.Companion.ACCOUNT_SHOWROOM_ADDRESS_REQUEST_KEY
+import com.decagonhq.clads.ui.profile.editprofile.AccountFragment.Companion.ACCOUNT_UNION_LGA_BUNDLE_KEY
+import com.decagonhq.clads.ui.profile.editprofile.AccountFragment.Companion.ACCOUNT_UNION_LGA_REQUEST_KEY
 import com.decagonhq.clads.ui.profile.editprofile.AccountFragment.Companion.ACCOUNT_UNION_NAME_BUNDLE_KEY
 import com.decagonhq.clads.ui.profile.editprofile.AccountFragment.Companion.ACCOUNT_UNION_NAME_REQUEST_KEY
+import com.decagonhq.clads.ui.profile.editprofile.AccountFragment.Companion.ACCOUNT_UNION_STATE_BUNDLE_KEY
+import com.decagonhq.clads.ui.profile.editprofile.AccountFragment.Companion.ACCOUNT_UNION_STATE_REQUEST_KEY
 import com.decagonhq.clads.ui.profile.editprofile.AccountFragment.Companion.ACCOUNT_UNION_WARD_BUNDLE_KEY
 import com.decagonhq.clads.ui.profile.editprofile.AccountFragment.Companion.ACCOUNT_UNION_WARD_REQUEST_KEY
 import com.decagonhq.clads.ui.profile.editprofile.AccountFragment.Companion.ACCOUNT_WORKSHOP_CITY_BUNDLE_KEY
@@ -37,13 +43,20 @@ import com.decagonhq.clads.ui.profile.editprofile.AccountFragment.Companion.CURR
 import com.decagonhq.clads.ui.profile.editprofile.AccountFragment.Companion.CURRENT_ACCOUNT_FIRST_NAME_BUNDLE_KEY
 import com.decagonhq.clads.ui.profile.editprofile.AccountFragment.Companion.CURRENT_ACCOUNT_GENDER_BUNDLE_KEY
 import com.decagonhq.clads.ui.profile.editprofile.AccountFragment.Companion.CURRENT_ACCOUNT_LAST_NAME_BUNDLE_KEY
+import com.decagonhq.clads.ui.profile.editprofile.AccountFragment.Companion.CURRENT_ACCOUNT_LEGAL_STATUS_BUNDLE_KEY
 import com.decagonhq.clads.ui.profile.editprofile.AccountFragment.Companion.CURRENT_ACCOUNT_OTHER_NAME_BUNDLE_KEY
 import com.decagonhq.clads.ui.profile.editprofile.AccountFragment.Companion.CURRENT_ACCOUNT_SHOWROOM_ADDRESS_BUNDLE_KEY
+import com.decagonhq.clads.ui.profile.editprofile.AccountFragment.Companion.CURRENT_ACCOUNT_STATE_NAME_BUNDLE_KEY
+import com.decagonhq.clads.ui.profile.editprofile.AccountFragment.Companion.CURRENT_ACCOUNT_UNION_LGA_BUNDLE_KEY
 import com.decagonhq.clads.ui.profile.editprofile.AccountFragment.Companion.CURRENT_ACCOUNT_UNION_NAME_BUNDLE_KEY
 import com.decagonhq.clads.ui.profile.editprofile.AccountFragment.Companion.CURRENT_ACCOUNT_UNION_WARD_BUNDLE_KEY
 import com.decagonhq.clads.ui.profile.editprofile.AccountFragment.Companion.CURRENT_ACCOUNT_WORKSHOP_CITY_BUNDLE_KEY
 import com.decagonhq.clads.ui.profile.editprofile.AccountFragment.Companion.CURRENT_ACCOUNT_WORKSHOP_STATE_BUNDLE_KEY
 import com.decagonhq.clads.ui.profile.editprofile.AccountFragment.Companion.CURRENT_ACCOUNT_WORKSHOP_STREET_BUNDLE_KEY
+import com.decagonhq.clads.ui.profile.editprofile.SpecialtyFragment.Companion.CURRENT_SPECIAL_DELIVERY_RADIO_KEY
+import com.decagonhq.clads.ui.profile.editprofile.SpecialtyFragment.Companion.CURRENT_SPECIAL_DELIVERY_TIME_BUNDLE_KEY
+import com.decagonhq.clads.ui.profile.editprofile.SpecialtyFragment.Companion.SPECIAL_DELIVERY_TIME_BUNDLE_KEY
+import com.decagonhq.clads.ui.profile.editprofile.SpecialtyFragment.Companion.SPECIAL_DELIVERY_TIME_REQUEST_KEY
 
 class ProfileManagementDialogFragments(
     private var dialogLayoutId: Int,
@@ -646,7 +659,6 @@ class ProfileManagementDialogFragments(
                     }
                 }
             }
-
             R.layout.account_union_ward_dialog_fragment -> {
                 /*Initialise binding*/
                 val binding = AccountUnionWardDialogFragmentBinding.bind(view)
@@ -704,6 +716,252 @@ class ProfileManagementDialogFragments(
                         }
                         else -> {
                             binding.accountUnionWardDialogFragmentUnionWardEditTextInputLayout.error =
+                                null
+                        }
+                    }
+                }
+            }
+            R.layout.account_union_state_dialog_fragment -> {
+                /*Initialise binding*/
+                val binding = AccountUnionStateDialogFragmentBinding.bind(view)
+                val unionStateEditText =
+                    binding.accountUnionStateDialogFragmentUnionStateEditTextView
+                val okButton = binding.accountUnionStateDialogFragmentOkButton
+                val cancelButton = binding.accountUnionStateDialogFragmentCancelButton
+
+                val retrievedArgs =
+                    bundle?.getString(CURRENT_ACCOUNT_STATE_NAME_BUNDLE_KEY)
+
+                /*Attaching the data*/
+                unionStateEditText.setText(retrievedArgs)
+
+                /*when the dialog ok button is clicked*/
+                okButton.setOnClickListener {
+                    val inputValue =
+                        unionStateEditText.text.toString()
+
+                    when {
+                        inputValue.isEmpty() -> {
+                            binding.accountUnionStateDialogFragmentUnionStateEditTextInputLayout.error =
+                                getString(
+                                    R.string.required
+                                )
+                            binding.accountUnionStateDialogFragmentUnionStateEditTextInputLayout.errorIconDrawable =
+                                null
+                        }
+                        else -> {
+                            setFragmentResult(
+                                ACCOUNT_UNION_STATE_REQUEST_KEY,
+                                bundleOf(
+                                    ACCOUNT_UNION_STATE_BUNDLE_KEY to inputValue
+                                )
+                            )
+                            dismiss()
+                        }
+                    }
+                }
+                /*when the dialog cancel button is clicked*/
+                cancelButton.setOnClickListener {
+                    dismiss()
+                }
+
+                /*Validate Dialog Fields onTextChange*/
+                unionStateEditText.doOnTextChanged { _, _, _, _ ->
+                    when {
+                        unionStateEditText.text!!.trim().isEmpty() -> {
+                            binding.accountUnionStateDialogFragmentUnionStateEditTextInputLayout.error =
+                                getString(
+                                    R.string.required
+                                )
+                            binding.accountUnionStateDialogFragmentUnionStateEditTextInputLayout.errorIconDrawable =
+                                null
+                        }
+                        else -> {
+                            binding.accountUnionStateDialogFragmentUnionStateEditTextInputLayout.error =
+                                null
+                        }
+                    }
+                }
+            }
+            R.layout.account_union_lga_dialog_fragment -> {
+                /*Initialise binding*/
+                val binding = AccountUnionLgaDialogFragmentBinding.bind(view)
+                val unionLgaEditText =
+                    binding.accountUnionLgaDialogFragmentUnionLgaEditTextView
+                val okButton = binding.accountUnionLgaDialogFragmentOkButton
+                val cancelButton = binding.accountUnionLgaDialogFragmentCancelButton
+
+                val retrievedArgs =
+                    bundle?.getString(CURRENT_ACCOUNT_UNION_LGA_BUNDLE_KEY)
+
+                /*Attaching the data*/
+                unionLgaEditText.setText(retrievedArgs)
+
+                /*when the dialog ok button is clicked*/
+                okButton.setOnClickListener {
+                    val inputValue =
+                        unionLgaEditText.text.toString()
+
+                    when {
+                        inputValue.isEmpty() -> {
+                            binding.accountUnionLgaDialogFragmentUnionLgaEditTextInputLayout.error =
+                                getString(
+                                    R.string.required
+                                )
+                            binding.accountUnionLgaDialogFragmentUnionLgaEditTextInputLayout.errorIconDrawable =
+                                null
+                        }
+                        else -> {
+                            setFragmentResult(
+                                ACCOUNT_UNION_LGA_REQUEST_KEY,
+                                bundleOf(
+                                    ACCOUNT_UNION_LGA_BUNDLE_KEY to inputValue
+                                )
+                            )
+                            dismiss()
+                        }
+                    }
+                }
+                /*when the dialog cancel button is clicked*/
+                cancelButton.setOnClickListener {
+                    dismiss()
+                }
+
+                /*Validate Dialog Fields onTextChange*/
+                unionLgaEditText.doOnTextChanged { _, _, _, _ ->
+                    when {
+                        unionLgaEditText.text!!.trim().isEmpty() -> {
+                            binding.accountUnionLgaDialogFragmentUnionLgaEditTextInputLayout.error =
+                                getString(
+                                    R.string.required
+                                )
+                            binding.accountUnionLgaDialogFragmentUnionLgaEditTextInputLayout.errorIconDrawable =
+                                null
+                        }
+                        else -> {
+                            binding.accountUnionLgaDialogFragmentUnionLgaEditTextInputLayout.error =
+                                null
+                        }
+                    }
+                }
+            }
+            R.layout.account_legal_status_dialog_fragment -> {
+
+                /*Initialise binding*/
+                val binding = AccountLegalStatusDialogFragmentBinding.bind(view)
+
+                val okButton = binding.accountLegalStatusDialogFragmentOkButton
+                val cancelButton = binding.accountLegalStatusDialogFragmentCancelButton
+                val radioGroup = binding.accountLegalStatusDialogFragmentRadioGroup
+
+                val retrievedArgs =
+                    bundle?.getString(CURRENT_ACCOUNT_LEGAL_STATUS_BUNDLE_KEY)
+
+                /*Attaching the data*/
+                if (retrievedArgs == "Individual") {
+                    radioGroup.check(R.id.account_legal_status_dialog_fragment_individual_radio_button)
+                } else {
+                    radioGroup.check(R.id.account_legal_status_dialog_fragment_coporate_radio_button)
+                }
+
+                /*when the dialog ok button is clicked*/
+                okButton.setOnClickListener {
+                    val selectedID = radioGroup.checkedRadioButtonId
+                    val inputValue =
+                        view.findViewById<RadioButton>(selectedID).text.toString()
+
+                    setFragmentResult(
+                        ACCOUNT_LEGAL_STATUS_REQUEST_KEY,
+                        bundleOf(
+                            ACCOUNT_LEGAL_STATUS_BUNDLE_KEY to inputValue
+                        )
+                    )
+                    dismiss()
+                }
+                /*when the dialog cancel button is clicked*/
+                cancelButton.setOnClickListener {
+                    dismiss()
+                }
+            }
+            R.layout.specialty_delivery_time_dialog_fragment -> {
+                /*Initialise binding*/
+                val binding = SpecialtyDeliveryTimeDialogFragmentBinding.bind(view)
+                val deliveryTimeEditText =
+                    binding.specialtyDeliveryTimeDialogFragmentDeliveryTimeEditTextView
+                val okButton = binding.specialtyDeliveryTimeDialogFragmentOkButton
+                val cancelButton = binding.specialtyDeliveryTimeDialogFragmentCancelButton
+                val radioGroup = binding.specialtyDeliveryTimeDialogFragmentRadioGroup
+
+                val retrievedArgs =
+                    bundle?.getString(CURRENT_SPECIAL_DELIVERY_TIME_BUNDLE_KEY)
+
+                val retrievedList = retrievedArgs?.split("\\s".toRegex(), 2)
+
+                val retrievedInt = retrievedList?.get(0)?.trim()
+                val retrievedTime = retrievedList?.get(1)?.trim()
+
+                /*Attaching the data*/
+                when (retrievedTime) {
+                    getString(R.string.days) -> {
+                        radioGroup.check(R.id.specialty_delivery_time_dialog_fragment_days_radio_button)
+                    }
+                    getString(R.string.weeks) -> {
+                        radioGroup.check(R.id.specialty_delivery_time_dialog_fragment_weeks_radio_button)
+                    }
+                    else -> {
+                        radioGroup.check(R.id.specialty_delivery_time_dialog_fragment_months_radio_button)
+                    }
+                }
+
+                /*Attaching the data*/
+                deliveryTimeEditText.setText(retrievedInt)
+
+                /*when the dialog ok button is clicked*/
+                okButton.setOnClickListener {
+                    val selectedID = radioGroup.checkedRadioButtonId
+                    val inputRadioValue = view.findViewById<RadioButton>(selectedID).text.toString()
+                    val inputTextValue =
+                        deliveryTimeEditText.text.toString()
+                    val result = "$inputTextValue $inputRadioValue"
+
+                    when {
+                        inputTextValue.isEmpty() -> {
+                            binding.specialtyDeliveryTimeDialogFragmentDeliveryTimeEditTextInputLayout.error =
+                                getString(
+                                    R.string.required
+                                )
+                            binding.specialtyDeliveryTimeDialogFragmentDeliveryTimeEditTextInputLayout.errorIconDrawable =
+                                null
+                        }
+                        else -> {
+                            setFragmentResult(
+                                SPECIAL_DELIVERY_TIME_REQUEST_KEY,
+                                bundleOf(
+                                    SPECIAL_DELIVERY_TIME_BUNDLE_KEY to result
+                                )
+                            )
+                            dismiss()
+                        }
+                    }
+                }
+                /*when the dialog cancel button is clicked*/
+                cancelButton.setOnClickListener {
+                    dismiss()
+                }
+
+                /*Validate Dialog Fields onTextChange*/
+                deliveryTimeEditText.doOnTextChanged { _, _, _, _ ->
+                    when {
+                        deliveryTimeEditText.text!!.trim().toString().isEmpty() -> {
+                            binding.specialtyDeliveryTimeDialogFragmentDeliveryTimeEditTextInputLayout.error =
+                                getString(
+                                    R.string.required
+                                )
+                            binding.specialtyDeliveryTimeDialogFragmentDeliveryTimeEditTextInputLayout.errorIconDrawable =
+                                null
+                        }
+                        else -> {
+                            binding.specialtyDeliveryTimeDialogFragmentDeliveryTimeEditTextInputLayout.error =
                                 null
                         }
                     }
