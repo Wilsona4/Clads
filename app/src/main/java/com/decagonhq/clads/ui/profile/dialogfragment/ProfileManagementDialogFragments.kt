@@ -53,6 +53,8 @@ import com.decagonhq.clads.ui.profile.editprofile.AccountFragment.Companion.CURR
 import com.decagonhq.clads.ui.profile.editprofile.AccountFragment.Companion.CURRENT_ACCOUNT_WORKSHOP_CITY_BUNDLE_KEY
 import com.decagonhq.clads.ui.profile.editprofile.AccountFragment.Companion.CURRENT_ACCOUNT_WORKSHOP_STATE_BUNDLE_KEY
 import com.decagonhq.clads.ui.profile.editprofile.AccountFragment.Companion.CURRENT_ACCOUNT_WORKSHOP_STREET_BUNDLE_KEY
+import com.decagonhq.clads.ui.profile.editprofile.SpecialtyFragment.Companion.ADD_SPECIALTY_BUNDLE_KEY
+import com.decagonhq.clads.ui.profile.editprofile.SpecialtyFragment.Companion.ADD_SPECIALTY_REQUEST_KEY
 import com.decagonhq.clads.ui.profile.editprofile.SpecialtyFragment.Companion.CURRENT_SPECIAL_DELIVERY_TIME_BUNDLE_KEY
 import com.decagonhq.clads.ui.profile.editprofile.SpecialtyFragment.Companion.CURRENT_SPECIAL_OBIOMA_TRAINED_BUNDLE_KEY
 import com.decagonhq.clads.ui.profile.editprofile.SpecialtyFragment.Companion.SPECIAL_DELIVERY_TIME_BUNDLE_KEY
@@ -1007,7 +1009,57 @@ class ProfileManagementDialogFragments(
                     dismiss()
                 }
             }
+            R.layout.specialty_add_specialty_dialog_fragment -> {
+                /*Initialise binding*/
+                val binding = SpecialtyAddSpecialtyDialogFragmentBinding.bind(view)
+                val addSpecialtyEditText =
+                    binding.specialtyAddSpecialtyDialogFragmentAddSpecialtyEditText
+                val addButton = binding.specialtyAddSpecialtyDialogFragmentAddButton
 
+                /*when the dialog ok button is clicked*/
+                addButton.setOnClickListener {
+                    val inputValue =
+                        addSpecialtyEditText.text.toString()
+
+                    when {
+                        inputValue.isEmpty() -> {
+                            binding.specialtyAddSpecialtyDialogFragmentAddSpecialtyTextInputLayout.error =
+                                getString(
+                                    R.string.required
+                                )
+                            binding.specialtyAddSpecialtyDialogFragmentAddSpecialtyTextInputLayout.errorIconDrawable =
+                                null
+                        }
+                        else -> {
+                            setFragmentResult(
+                                ADD_SPECIALTY_REQUEST_KEY,
+                                bundleOf(
+                                    ADD_SPECIALTY_BUNDLE_KEY to inputValue
+                                )
+                            )
+                            dismiss()
+                        }
+                    }
+                }
+
+                /*Validate Dialog Fields onTextChange*/
+                addSpecialtyEditText.doOnTextChanged { _, _, _, _ ->
+                    when {
+                        addSpecialtyEditText.text!!.trim().isEmpty() -> {
+                            binding.specialtyAddSpecialtyDialogFragmentAddSpecialtyTextInputLayout.error =
+                                getString(
+                                    R.string.required
+                                )
+                            binding.specialtyAddSpecialtyDialogFragmentAddSpecialtyTextInputLayout.errorIconDrawable =
+                                null
+                        }
+                        else -> {
+                            binding.specialtyAddSpecialtyDialogFragmentAddSpecialtyTextInputLayout.error =
+                                null
+                        }
+                    }
+                }
+            }
         }
     }
 
