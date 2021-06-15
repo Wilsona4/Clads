@@ -81,11 +81,10 @@ class SpecialtyFragment : Fragment() {
             )
             // add the input "new specialty" to the list for recycler view usage
             specialtyAddFragment.specialtyInput.observe(
-                viewLifecycleOwner,
-                {
-                    list.add(SpecialtyModel(it.toString(), false))
-                }
-            )
+                viewLifecycleOwner
+            ) {
+                list.add(SpecialtyModel(it.toString(), false))
+            }
         }
     }
 
