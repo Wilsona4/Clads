@@ -27,7 +27,7 @@ class SpecialtyFragment : Fragment() {
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         // Inflate the layout for this fragment
         _binding = SpecialtyFragmentBinding.inflate(inflater, container, false)
 
