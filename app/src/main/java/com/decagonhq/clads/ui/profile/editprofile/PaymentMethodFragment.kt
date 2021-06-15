@@ -43,11 +43,15 @@ class PaymentMethodFragment : Fragment() {
     ): View? {
         // Inflate the layout for this fragment
         _binding = PaymentMethodFragmentBinding.inflate(inflater, container, false)
+        return binding.root
+    }
 
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
         // fake payment terms
         val availablePaymentTerms = arrayListOf("100% Deposit", "50% Deposit and 50% balance on delivery", "0% Deposit and 100% balance on delivery")
 
-        // creating an instance of my alert dialog builder 
+        // creating an instance of my alert dialog builder
         addPaymentTermsDialogBinding = AddPaymentTermsDialogFragmentBinding.inflate(layoutInflater)
 
         // getting reference with the payment options textView
@@ -141,21 +145,19 @@ class PaymentMethodFragment : Fragment() {
                 if (selectedPaymentOptions.isEmpty()) {
                     selectedPaymentOptions.add("Bank deposit (Naira)")
                 }
-                // updating the payment options TextView 
+                // updating the payment options TextView
                 paymentOptionsList.text = selectedPaymentOptions.joinToString(
                     separator = ", ",
                     limit = 3,
                     truncated = "..."
                 )
             }
-            // Setting the Negative button for the payment options dialog builder            
+            // Setting the Negative button for the payment options dialog builder
             paymentOptionsDialogBuilder.setNegativeButton(
                 R.string.cancel
             ) { _: DialogInterface, _: Int -> }
             paymentOptionsDialogBuilder.create().show()
         }
-
-        return binding.root
     }
 
     override fun onDestroyView() {

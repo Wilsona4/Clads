@@ -10,12 +10,14 @@ import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.decagonhq.clads.R
 import com.decagonhq.clads.databinding.HomeFragmentBinding
+import com.decagonhq.clads.model.ClientsListModel
+import com.decagonhq.clads.ui.profile.adapter.HomeFragmentClientsRecyclerAdapter
 import com.decagonhq.clads.util.ChartData.chartData
-import com.decagonhq.clads.util.ClientsListModel
 
 class HomeFragment : Fragment() {
 
     private var _binding: HomeFragmentBinding? = null
+
     // This property is only valid between onCreateView and onDestroyView.
     private val binding get() = _binding!!
     private lateinit var homeFragmentYearDropdown: AutoCompleteTextView
@@ -37,7 +39,10 @@ class HomeFragment : Fragment() {
         binding.apply {
             homeFragmentClientListRecyclerView.apply {
                 populateClient()
-                adapter = HomeFragmentClientsRecyclerAdapter(clientList)
+                adapter =
+                    HomeFragmentClientsRecyclerAdapter(
+                        clientList
+                    )
                 layoutManager =
                     LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, false)
                 setHasFixedSize(true)
@@ -55,7 +60,8 @@ class HomeFragment : Fragment() {
         super.onResume()
         /*Set up Account Category Dropdown*/
         val chartYear = resources.getStringArray(R.array.Year)
-        val accountCategoriesArrayAdapter = ArrayAdapter(requireContext(), R.layout.chart_year_dropdown_item, chartYear)
+        val accountCategoriesArrayAdapter =
+            ArrayAdapter(requireContext(), R.layout.chart_year_dropdown_item, chartYear)
         homeFragmentYearDropdown.setAdapter(accountCategoriesArrayAdapter)
     }
 
@@ -63,11 +69,31 @@ class HomeFragment : Fragment() {
     private fun populateClient() {
         clientList = arrayListOf(
             ClientsListModel("Ruth", "Unoka", "Lagos"),
-            ClientsListModel("Ezekiel", "Olufemi", "Benin"),
-            ClientsListModel("Olufemi", "Ogundipe", "Abeokuta"),
-            ClientsListModel("Adebayo", "Kings", "Lagos"),
-            ClientsListModel("Abdul", "Salawu", "Benin"),
-            ClientsListModel("Hope", "Omoruyi", "Abeokuta")
+            ClientsListModel(
+                "Ezekiel",
+                "Olufemi",
+                "Benin"
+            ),
+            ClientsListModel(
+                "Olufemi",
+                "Ogundipe",
+                "Abeokuta"
+            ),
+            ClientsListModel(
+                "Adebayo",
+                "Kings",
+                "Lagos"
+            ),
+            ClientsListModel(
+                "Abdul",
+                "Salawu",
+                "Benin"
+            ),
+            ClientsListModel(
+                "Hope",
+                "Omoruyi",
+                "Abeokuta"
+            )
         )
     }
 

@@ -23,20 +23,6 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <TextView
-        android:id="@+id/add_measurement_fragment_name_text_view"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="@dimen/margin_26dp"
-        android:layout_marginTop="@dimen/margin_24dp"
-        android:fontFamily="@font/poppins"
-        android:text="@string/add_measurement_fragment_name"
-        android:textColor="@color/navy_blue"
-        android:textSize="@dimen/text_size_16sp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/add_address_measurement_dialog_fragment_top_bar_text_view" />
-
-
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/add_address_fragment_measurement_name_edit_text_layout"
         style="@style/Widget.MaterialComponents.TextInputLayout.FilledBox.Dense"
@@ -50,10 +36,11 @@
         app:counterOverflowTextAppearance="@color/red"
         app:counterOverflowTextColor="@color/red"
         app:hintEnabled="false"
+        app:helperText="@string/add_measurement_fragment_name"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.542"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/add_measurement_fragment_name_text_view">
+        app:layout_constraintTop_toBottomOf="@+id/add_address_measurement_dialog_fragment_top_bar_text_view">
 
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/add_address_fragment_measurement_name_edit_text"
@@ -61,26 +48,12 @@
             android:layout_height="wrap_content"
             android:backgroundTint="@color/white"
             android:fontFamily="@font/roboto_medium"
-            android:hint="@string/add_measurement_fragment_name"
             android:inputType="text"
             android:paddingStart="@dimen/padding_0dp"
             android:textColor="@color/menu_text_color"
             android:textCursorDrawable="@color/navy_blue"
             android:textSize="@dimen/text_size_16sp" />
     </com.google.android.material.textfield.TextInputLayout>
-
-    <TextView
-        android:id="@+id/add_measurement_fragment_add_measurement_text_view"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="@dimen/margin_26dp"
-        android:layout_marginTop="@dimen/margin_18dp"
-        android:fontFamily="@font/poppins"
-        android:text="@string/add_measurement"
-        android:textColor="@color/navy_blue"
-        android:textSize="@dimen/text_size_16sp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/add_address_fragment_measurement_name_edit_text_layout" />
 
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/add_measurement_fragment_add_measurement_edit_text_layout"
@@ -93,10 +66,11 @@
         app:counterOverflowTextAppearance="@color/red"
         app:counterOverflowTextColor="@color/red"
         app:hintEnabled="false"
+        app:helperText="@string/add_measurement_fragment_add_measurement"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.542"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/add_measurement_fragment_add_measurement_text_view">
+        app:layout_constraintTop_toBottomOf="@+id/add_address_fragment_measurement_name_edit_text_layout">
 
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/add_measurement_fragment_add_measure_edit_text"
@@ -104,7 +78,6 @@
             android:layout_height="wrap_content"
             android:backgroundTint="@color/white"
             android:fontFamily="@font/roboto_medium"
-            android:hint="@string/add_measurement_fragment_add_measurement"
             android:paddingStart="@dimen/padding_0dp"
             android:inputType="numberDecimal"
             android:textColor="@color/menu_text_color"
