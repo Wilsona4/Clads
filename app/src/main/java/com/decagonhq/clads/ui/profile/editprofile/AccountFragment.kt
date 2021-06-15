@@ -20,7 +20,7 @@ class AccountFragment : Fragment() {
     private val binding get() = _binding!!
     override fun onCreateView(
         inflater: LayoutInflater,
-        container: ViewGroup?,
+     0   container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
