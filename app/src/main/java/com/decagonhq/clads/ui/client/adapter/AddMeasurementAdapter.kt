@@ -7,7 +7,7 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.decagonhq.clads.R
-import com.decagonhq.clads.ui.client.model.DressMeasurementModel
+import com.decagonhq.clads.model.DressMeasurementModel
 import com.decagonhq.clads.util.RecyclerClickListener
 
 class AddMeasurementAdapter(

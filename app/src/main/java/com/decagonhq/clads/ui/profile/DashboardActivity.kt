@@ -201,13 +201,13 @@ class DashboardActivity : AppCompatActivity() {
                         toolbarNotificationIcon.visibility = View.GONE
                         toolbarFragmentName.visibility = View.VISIBLE
                     }
-                    R.id.addMeasurementFragment -> {
-                        bottomNavigationView.visibility = View.GONE
-                        toolbarProfilePicture.visibility = View.INVISIBLE
-                        toolbarUserName.visibility = View.INVISIBLE
-                        toolbarNotificationIcon.visibility = View.GONE
-                        toolbarFragmentName.visibility = View.VISIBLE
-                    }
+//                    R.id.addMeasurementFragment -> {
+//                        bottomNavigationView.visibility = View.GONE
+//                        toolbarProfilePicture.visibility = View.INVISIBLE
+//                        toolbarUserName.visibility = View.INVISIBLE
+//                        toolbarNotificationIcon.visibility = View.GONE
+//                        toolbarFragmentName.visibility = View.VISIBLE
+//                    }
                     R.id.nav_messages -> {
                         bottomNavigationView.visibility = View.VISIBLE
                         toolbarProfilePicture.visibility = View.INVISIBLE
