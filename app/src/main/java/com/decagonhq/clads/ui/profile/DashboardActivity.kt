@@ -217,8 +217,15 @@ class DashboardActivity : AppCompatActivity() {
                     }
                     R.id.nav_media -> {
                         bottomNavigationView.visibility = View.VISIBLE
-                        toolbarProfilePicture.visibility = View.INVISIBLE
-                        toolbarUserName.visibility = View.INVISIBLE
+                        toolbarProfilePicture.visibility = View.GONE
+                        toolbarUserName.visibility = View.GONE
+                        toolbarNotificationIcon.visibility = View.GONE
+                        toolbarFragmentName.visibility = View.VISIBLE
+                    }
+                    R.id.mediaFragmentRecyclerViewItemClicked -> {
+                        bottomNavigationView.visibility = View.GONE
+                        toolbarProfilePicture.visibility = View.GONE
+                        toolbarUserName.visibility = View.GONE
                         toolbarNotificationIcon.visibility = View.GONE
                         toolbarFragmentName.visibility = View.VISIBLE
                     }

@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_marginTop="@dimen/margin_50dp"
+    android:layout_height="wrap_content">
+
+    <ImageView
+        android:id="@+id/media_fragment_photo_recycler_view_item_populated_photo_image_view"
+        android:layout_width="151dp"
+        android:layout_height="171dp"
+        android:src="@drawable/elegant_suit_photo"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/media_fragment_photo_recycler_view_item_populated_title_image_view"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="9dp"
+       android:textColor="@color/black"
+        android:fontFamily="@font/poppins"
+        android:letterSpacing="0.2"
+        android:maxLines="2"
+        android:text="Elegant suite for men"
+        android:textSize="@dimen/text_size_13sp"
+        app:layout_constraintEnd_toEndOf="@+id/guideline6"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/media_fragment_photo_recycler_view_item_populated_photo_image_view" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guideline6"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_begin="151dp" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

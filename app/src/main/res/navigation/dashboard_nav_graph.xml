@@ -18,7 +18,7 @@
     <fragment
         android:id="@+id/nav_media"
         android:name="com.decagonhq.clads.ui.profile.bottomnav.MediaFragment"
-        android:label="@string/menu_media"
+        android:label="Photo Gallery"
         tools:layout="@layout/media_fragment" />
 
     <fragment
@@ -98,5 +98,10 @@
             app:popEnterAnim="@android:anim/slide_in_left"
             app:popExitAnim="@android:anim/slide_out_right" />
     </fragment>
+    <fragment
+        android:id="@+id/mediaFragmentRecyclerViewItemClicked"
+        android:name="com.decagonhq.clads.ui.profile.bottomnav.MediaFragmentRecyclerViewItemClicked"
+        android:label="Elegant suit for men"
+        tools:layout="@layout/media_fragment_recycler_view_item_clicked" />
 
 </navigation>

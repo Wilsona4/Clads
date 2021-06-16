@@ -2,9 +2,66 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/media_fragment_root_layout"
+    android:padding="@dimen/padding_20dp"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:id="@+id/media_fragment_root_layout"
     tools:context=".ui.profile.bottomnav.MediaFragment">
+
+    <ImageView
+        android:id="@+id/media_fragment_photo_icon_image_View"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/gallery_icon"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.498"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/media_fragment_guideline" />
+
+    <TextView
+        android:id="@+id/media_fragment_you_have_no_photo_in_gallery_text_view"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/roboto"
+        android:letterSpacing="0.06"
+        android:text="@string/you_have_no_photo_in_your_gallery"
+        android:textSize="@dimen/text_size_12sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginTop="@dimen/margin_19dp"
+        app:layout_constraintHorizontal_bias="0.497"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/media_fragment_photo_icon_image_View" />
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/media_fragment_add_photo_fab"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="@dimen/margin_20dp"
+        android:layout_marginBottom="@dimen/margin_28dp"
+        android:backgroundTint="@color/deep_sky_blue"
+        android:clickable="true"
+        android:contentDescription="@string/add_client"
+        android:focusable="true"
+        android:src="@drawable/fab_add_icon"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:tint="@color/white" />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/media_fragment_photo_recycler_view"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:listitem="@layout/media_fragment_photo_recycler_view_item"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/media_fragment_guideline"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintGuide_percent="0.28" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

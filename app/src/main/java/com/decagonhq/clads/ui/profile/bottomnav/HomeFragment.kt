@@ -49,10 +49,6 @@ class HomeFragment : Fragment() {
             }
         }
         homeFragmentYearDropdown = binding.homeFragmentYearDropdownAutocompleteTextView
-//        val items = arrayListOf(2020,2021,2022,2023,2016,2015,2014,2013,2012,2011,2010)
-//        val adapter = ArrayAdapter(requireContext(), android.R.layout.simple_spinner_dropdown_item, items)
-//        yearSpinner.adapter = adapter
-//
         chartData(view)
     }
 
