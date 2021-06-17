@@ -2,9 +2,10 @@ package com.decagonhq.clads.di
 
 import android.content.Context
 import androidx.room.Room
-import com.decagonhq.clads.local.CladsDatabase
-import com.decagonhq.clads.local.ClientDao
-import com.decagonhq.clads.local.UserDao
+import com.decagonhq.clads.data.local.CladsDatabase
+import com.decagonhq.clads.data.local.ClientDao
+import com.decagonhq.clads.data.local.UserDao
+import com.decagonhq.clads.data.local.post.PostDao
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -38,5 +39,11 @@ object LocalModule {
     @Provides
     fun providesUserDAO(cladsDatabase: CladsDatabase): UserDao {
         return cladsDatabase.userDao()
+    }
+
+    @Singleton
+    @Provides
+    fun providesPostDao(cladsDatabase: CladsDatabase): PostDao {
+        return cladsDatabase.postDao()
     }
 }

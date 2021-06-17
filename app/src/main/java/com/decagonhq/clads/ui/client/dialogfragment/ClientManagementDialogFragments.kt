@@ -9,9 +9,9 @@ import androidx.core.widget.doOnTextChanged
 import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.setFragmentResult
 import com.decagonhq.clads.R
+import com.decagonhq.clads.data.domain.DressMeasurementModel
 import com.decagonhq.clads.databinding.AddMeasurementDialogFragmentBinding
 import com.decagonhq.clads.databinding.EditMeasurementDialogFragmentBinding
-import com.decagonhq.clads.model.DressMeasurementModel
 import com.decagonhq.clads.ui.client.MeasurementsFragment.Companion.ADD_MEASUREMENT_BUNDLE_KEY
 import com.decagonhq.clads.ui.client.MeasurementsFragment.Companion.ADD_MEASUREMENT_REQUEST_KEY
 import com.decagonhq.clads.ui.client.MeasurementsFragment.Companion.EDITED_MEASUREMENT_BUNDLE_KEY

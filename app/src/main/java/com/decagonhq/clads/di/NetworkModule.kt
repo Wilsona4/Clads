@@ -1,6 +1,6 @@
 package com.decagonhq.clads.di
 
-import com.decagonhq.clads.remote.ApiService
+import com.decagonhq.clads.data.remote.ApiService
 import com.decagonhq.clads.util.Constants.BASE_URL
 import dagger.Module
 import dagger.Provides
