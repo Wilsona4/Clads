@@ -5,7 +5,6 @@ import androidx.room.Room
 import com.decagonhq.clads.data.local.CladsDatabase
 import com.decagonhq.clads.data.local.ClientDao
 import com.decagonhq.clads.data.local.UserDao
-import com.decagonhq.clads.data.local.post.PostDao
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -39,11 +38,5 @@ object LocalModule {
     @Provides
     fun providesUserDAO(cladsDatabase: CladsDatabase): UserDao {
         return cladsDatabase.userDao()
-    }
-
-    @Singleton
-    @Provides
-    fun providesPostDao(cladsDatabase: CladsDatabase): PostDao {
-        return cladsDatabase.postDao()
     }
 }

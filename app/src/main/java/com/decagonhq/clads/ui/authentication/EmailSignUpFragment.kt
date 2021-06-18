@@ -152,7 +152,7 @@ class EmailSignUpFragment : Fragment() {
                             when (it) {
                                 is Resource.Success -> {
                                     val successResponse = it.value.payload
-                                    findNavController().navigate(R.id.email_confirmation_fragment)
+                                    findNavController().navigate(R.id.action_emailSignUpFragment_to_emailConfirmationFragment)
                                 }
                                 is Resource.Error -> {
                                     Toast.makeText(
