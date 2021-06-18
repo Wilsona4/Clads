@@ -3,8 +3,8 @@ package com.decagonhq.clads.ui.profile.adapter
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
+import com.decagonhq.clads.data.domain.SpecialtyModel
 import com.decagonhq.clads.databinding.SpecialtyFragmentRecyclerItemBinding
-import com.decagonhq.clads.model.SpecialtyModel
 
 class SpecialtyFragmentRecyclerAdapter :
     RecyclerView.Adapter<SpecialtyFragmentRecyclerAdapter.SpecialtyViewHolder>() {

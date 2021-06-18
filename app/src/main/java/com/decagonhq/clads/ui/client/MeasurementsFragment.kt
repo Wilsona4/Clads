@@ -12,13 +12,13 @@ import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.StaggeredGridLayoutManager
 import com.decagonhq.clads.R
+import com.decagonhq.clads.data.domain.DressMeasurementModel
 import com.decagonhq.clads.databinding.MeasurementsFragmentBinding
-import com.decagonhq.clads.model.DressMeasurementModel
 import com.decagonhq.clads.ui.client.adapter.AddMeasurementAdapter
+import com.decagonhq.clads.ui.client.adapter.RecyclerClickListener
 import com.decagonhq.clads.ui.client.dialogfragment.ClientManagementDialogFragments.Companion.createClientDialogFragment
 import com.decagonhq.clads.util.ClientMeasurementData
 import com.decagonhq.clads.util.ClientMeasurementData.currentList
-import com.decagonhq.clads.util.RecyclerClickListener
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 
 class MeasurementsFragment : Fragment(), RecyclerClickListener {

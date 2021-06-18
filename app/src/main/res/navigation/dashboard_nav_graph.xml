@@ -51,11 +51,11 @@
     <fragment
         android:id="@+id/measurementsFragment"
         android:name="com.decagonhq.clads.ui.client.MeasurementsFragment"
-        android:label="measurements_fragment"
+        android:label="@string/measurements"
         tools:layout="@layout/measurements_fragment" >
         <argument
             android:name="dress_measurement"
-            app:argType="com.decagonhq.clads.model.DressMeasurementModel" />
+            app:argType="com.decagonhq.clads.data.domain.DressMeasurementModel" />
     </fragment>
     <fragment
         android:id="@+id/deliveryAddressFragment"
@@ -64,7 +64,7 @@
         tools:layout="@layout/delivery_address_fragment" >
         <argument
             android:name="delivery_address"
-            app:argType="com.decagonhq.clads.model.DeliveryAddressModel"
+            app:argType="com.decagonhq.clads.data.domain.DeliveryAddressModel"
             app:nullable="true"
             android:defaultValue="@null"/>
     </fragment>
@@ -82,7 +82,7 @@
     <fragment
         android:id="@+id/paymentMethodFragment"
         android:name="com.decagonhq.clads.ui.profile.editprofile.PaymentMethodFragment"
-        android:label="payment_method_fragment"
+        android:label="@string/payment_method"
         tools:layout="@layout/payment_method_fragment" />
 
     <fragment
