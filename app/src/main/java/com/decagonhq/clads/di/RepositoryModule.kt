@@ -20,7 +20,7 @@ object RepositoryModule {
     fun providesAuthRepository(
         apiService: ApiService,
         userRegDTOMapper: UserRegDTOMapper,
-        loginCredentialsDTOMapper: LoginCredentialsDTOMapper
+        loginCredentialsDTOMapper: LoginCredentialsDTOMapper,
     ): AuthRepository {
         return AuthRepositoryImpl(apiService, userRegDTOMapper, loginCredentialsDTOMapper)
     }

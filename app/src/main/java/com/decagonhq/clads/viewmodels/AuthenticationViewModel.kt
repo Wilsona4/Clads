@@ -6,6 +6,8 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.decagonhq.clads.data.domain.login.EmailLoginSuccessResponse
 import com.decagonhq.clads.data.domain.login.LoginCredentials
+import com.decagonhq.clads.data.domain.profileimage.UserProfileImage
+import com.decagonhq.clads.data.domain.profileimage.UserProfileImageResponse
 import com.decagonhq.clads.data.domain.registration.UserRegSuccessResponse
 import com.decagonhq.clads.data.domain.registration.UserRegistration
 import com.decagonhq.clads.repository.AuthRepository
@@ -13,6 +15,7 @@ import com.decagonhq.clads.util.Resource
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
+import okhttp3.MultipartBody
 import javax.inject.Inject
 
 @HiltViewModel
@@ -25,6 +28,9 @@ class AuthenticationViewModel @Inject constructor(
 
     private var _loginUser = MutableLiveData<Resource<EmailLoginSuccessResponse>>()
     val loginUser: LiveData<Resource<EmailLoginSuccessResponse>> get() = _loginUser
+
+    private var _userProfileImage = MutableLiveData<Resource<UserProfileImageResponse>>()
+    val userProfileImage: LiveData<Resource<UserProfileImageResponse>> get() = _userProfileImage
 
     fun registerUser(user: UserRegistration) {
         viewModelScope.launch {
@@ -40,6 +46,15 @@ class AuthenticationViewModel @Inject constructor(
             val response = authRepository.loginUser(loginCredentials)
             response.collect {
                 _loginUser.value = it
+            }
+        }
+    }
+
+    fun userProfileImage(userProfileImage: MultipartBody.Part){
+        viewModelScope.launch {
+            val response = authRepository.userProfileImage(userProfileImage)
+            response.collect{
+                _userProfileImage.value = it
             }
         }
     }

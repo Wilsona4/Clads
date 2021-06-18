@@ -25,6 +25,8 @@ class AccountFragment : Fragment() {
     private var _binding: AccountFragmentBinding? = null
     private var selectedImage: Uri? = null
 
+//    private val viewModel:
+
     // This property is only valid between onCreateView and onDestroyView.
     private val binding get() = _binding!!
     override fun onCreateView(
@@ -122,6 +124,9 @@ class AccountFragment : Fragment() {
         if (resultCode == Activity.RESULT_OK && requestCode == REQUEST_CODE_IMAGE_PICKER) {
             selectedImage = data?.data!!
             binding.accountFragmentEditProfileIconImageView.setImageURI(selectedImage)
+
+            /*Upload Image*/
+
         }
     }
 
