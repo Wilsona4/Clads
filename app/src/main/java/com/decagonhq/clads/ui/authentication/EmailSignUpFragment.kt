@@ -7,24 +7,34 @@ import android.view.ViewGroup
 import android.widget.ArrayAdapter
 import android.widget.AutoCompleteTextView
 import android.widget.TextView
+import android.widget.Toast
 import androidx.core.widget.doOnTextChanged
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
+import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
 import com.decagonhq.clads.R
+import com.decagonhq.clads.data.domain.registration.UserRegistration
 import com.decagonhq.clads.databinding.EmailSignUpFragmentBinding
+import com.decagonhq.clads.util.Resource
 import com.decagonhq.clads.util.ValidationObject.validateAccountCategory
 import com.decagonhq.clads.util.ValidationObject.validateEmail
 import com.decagonhq.clads.util.ValidationObject.validatePasswordMismatch
+import com.decagonhq.clads.viewmodels.AuthenticationViewModel
 import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.auth.api.signin.GoogleSignInClient
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions
 import com.google.android.material.button.MaterialButton
 import com.google.android.material.textfield.TextInputEditText
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class EmailSignUpFragment : Fragment() {
     private lateinit var cladsGoogleSignInClient: GoogleSignInClient
     private var _binding: EmailSignUpFragmentBinding? = null
     private val binding get() = _binding!!
+
+    val viewModel: AuthenticationViewModel by viewModels()
 
     private lateinit var firstNameEditText: TextInputEditText
     private lateinit var lastNameEditText: TextInputEditText
@@ -120,9 +130,48 @@ class EmailSignUpFragment : Fragment() {
                     return@setOnClickListener
                 }
                 else -> {
-                    if (validateSignUpFieldsOnTextChange()) {
-                        findNavController().navigate(R.id.email_confirmation_fragment)
-                    }
+//                    if (validateSignUpFieldsOnTextChange()) {
+                    val newRegisteredUser = UserRegistration(
+                        firstName = firstName,
+                        lastName = lastName,
+                        email = email,
+                        phoneNumber = getString(R.string.phone),
+                        category = accountCategory,
+                        role = accountCategory,
+                        password = password,
+                        deliveryAddress = getString(R.string.null_all),
+                        gender = getString(R.string.male),
+                        country = getString(R.string.nigeria),
+                        thumbnail = getString(R.string.null_all)
+                    )
+                    viewModel.registerUser(newRegisteredUser)
+
+                    viewModel.userRegData.observe(
+                        viewLifecycleOwner,
+                        Observer {
+                            when (it) {
+                                is Resource.Success -> {
+                                    val successResponse = it.value.payload
+                                    findNavController().navigate(R.id.action_emailSignUpFragment_to_emailConfirmationFragment)
+                                }
+                                is Resource.Error -> {
+                                    Toast.makeText(
+                                        requireContext(),
+                                        "Error: ${it.errorCode} = ${it.errorBody}",
+                                        Toast.LENGTH_SHORT
+                                    ).show()
+                                }
+                                is Resource.Loading -> {
+                                    Toast.makeText(
+                                        requireContext(),
+                                        "Loading",
+                                        Toast.LENGTH_SHORT
+                                    ).show()
+                                }
+                            }
+                        }
+                    )
+//                    }
                 }
             }
         }

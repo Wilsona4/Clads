@@ -3,7 +3,6 @@ package com.decagonhq.clads.ui.profile.editprofile
 import android.Manifest
 import android.app.Activity
 import android.content.Intent
-import android.content.RestrictionsManager.RESULT_ERROR
 import android.content.pm.PackageManager
 import android.net.Uri
 import android.os.Build
@@ -18,15 +17,12 @@ import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.ViewModelProvider
 import com.decagonhq.clads.R
 import com.decagonhq.clads.databinding.AccountFragmentBinding
 import com.decagonhq.clads.ui.profile.dialogfragment.ProfileManagementDialogFragments.Companion.createProfileDialogFragment
-import com.decagonhq.clads.viewmodels.ProfileManagementViewModel
 
 class AccountFragment : Fragment() {
     private var _binding: AccountFragmentBinding? = null
-    private lateinit var profileManagementViewModel: ProfileManagementViewModel
     private var selectedImage: Uri? = null
 
     // This property is only valid between onCreateView and onDestroyView.
@@ -38,10 +34,6 @@ class AccountFragment : Fragment() {
     ): View? {
         // Inflate the layout for this fragment
         _binding = AccountFragmentBinding.inflate(inflater, container, false)
-
-        profileManagementViewModel =
-            ViewModelProvider(requireActivity()).get(ProfileManagementViewModel::class.java)
-
         return binding.root
     }
 

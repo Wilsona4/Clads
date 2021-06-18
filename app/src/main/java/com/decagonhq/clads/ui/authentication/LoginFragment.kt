@@ -15,15 +15,22 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
 import android.widget.TextView
+import android.widget.Toast
 import androidx.core.content.res.ResourcesCompat
+import androidx.core.os.persistableBundleOf
 import androidx.core.widget.doOnTextChanged
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
+import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
 import com.decagonhq.clads.R
+import com.decagonhq.clads.data.domain.login.LoginCredentials
 import com.decagonhq.clads.databinding.LoginFragmentBinding
 import com.decagonhq.clads.ui.profile.DashboardActivity
 import com.decagonhq.clads.util.CustomTypefaceSpan
+import com.decagonhq.clads.util.Resource
 import com.decagonhq.clads.util.ValidationObject.validateEmail
+import com.decagonhq.clads.viewmodels.AuthenticationViewModel
 import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount
 import com.google.android.gms.auth.api.signin.GoogleSignInClient
@@ -31,7 +38,9 @@ import com.google.android.gms.auth.api.signin.GoogleSignInOptions
 import com.google.android.gms.common.api.ApiException
 import com.google.android.gms.tasks.Task
 import com.google.android.material.textfield.TextInputEditText
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class LoginFragment : Fragment() {
     // Binding
     private var _binding: LoginFragmentBinding? = null
@@ -44,6 +53,8 @@ class LoginFragment : Fragment() {
     private lateinit var googleSignInButton: Button
     private lateinit var cladsSignInClient: GoogleSignInClient
     private var GOOGLE_SIGNIN_RQ_CODE = 100
+
+    val viewModel: AuthenticationViewModel by viewModels()
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -95,10 +106,33 @@ class LoginFragment : Fragment() {
                     return@setOnClickListener
                 }
                 else -> {
-//                    findNavController().navigate(R.id.action_loginFragment_to_dashboardFragment)
-                    val intent = Intent(requireContext(), DashboardActivity::class.java)
-                    startActivity(intent)
-                    activity?.finish()
+
+                    val loginCredentials = LoginCredentials(emailEditText.text.toString(), passwordEditText.text.toString())
+                    viewModel.loginUser(loginCredentials)
+                    viewModel.loginUser.observe(viewLifecycleOwner, Observer {
+                        when (it) {
+                            is Resource.Success -> {
+                                val successResponse = it.value.payload
+                                val intent = Intent(requireContext(), DashboardActivity::class.java)
+                                startActivity(intent)
+                                activity?.finish()
+                            }
+                            is Resource.Error -> {
+                                Toast.makeText(
+                                    requireContext(),
+                                    "Error: ${it.errorCode} = ${it.errorBody}",
+                                    Toast.LENGTH_SHORT
+                                ).show()
+                            }
+                            is Resource.Loading -> {
+                                Toast.makeText(
+                                    requireContext(),
+                                    "Loading",
+                                    Toast.LENGTH_SHORT
+                                ).show()
+                            }
+                        }
+                    })
                 }
             }
         }

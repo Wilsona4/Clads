@@ -10,8 +10,8 @@ import android.widget.Button
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import com.decagonhq.clads.R
+import com.decagonhq.clads.data.domain.DeliveryAddressModel
 import com.decagonhq.clads.databinding.AddAddressFragmentBinding
-import com.decagonhq.clads.model.DeliveryAddressModel
 import com.decagonhq.clads.util.errorSnack
 import com.google.android.material.snackbar.Snackbar
 import com.google.android.material.textfield.TextInputEditText
