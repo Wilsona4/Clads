@@ -4,7 +4,7 @@ import com.decagonhq.clads.data.domain.login.LoginCredentials
 import com.decagonhq.clads.util.DomainMapper
 import javax.inject.Inject
 
-class LoginCredentialsDTOMapper @Inject constructor(): DomainMapper<LoginCredentialsDTO, LoginCredentials> {
+class LoginCredentialsDTOMapper @Inject constructor() : DomainMapper<LoginCredentialsDTO, LoginCredentials> {
     override fun mapToDomainModel(model: LoginCredentialsDTO): LoginCredentials {
         return LoginCredentials(
             email = model.email,

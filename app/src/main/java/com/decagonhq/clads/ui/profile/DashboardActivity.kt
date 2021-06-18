@@ -27,7 +27,9 @@ import com.decagonhq.clads.databinding.DashboardActivityBinding
 import com.decagonhq.clads.ui.profile.bottomnav.MessagesFragment
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.android.material.navigation.NavigationView
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class DashboardActivity : AppCompatActivity() {
 
     private lateinit var appBarConfiguration: AppBarConfiguration

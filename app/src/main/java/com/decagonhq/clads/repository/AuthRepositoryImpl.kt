@@ -2,11 +2,12 @@ package com.decagonhq.clads.repository
 
 import com.decagonhq.clads.data.domain.login.EmailLoginSuccessResponse
 import com.decagonhq.clads.data.domain.login.LoginCredentials
-import com.decagonhq.clads.data.domain.profileimage.UserProfileImage
 import com.decagonhq.clads.data.domain.profileimage.UserProfileImageResponse
 import com.decagonhq.clads.data.domain.registration.UserRegSuccessResponse
 import com.decagonhq.clads.data.domain.registration.UserRegistration
-import com.decagonhq.clads.data.remote.*
+import com.decagonhq.clads.data.remote.ApiService
+import com.decagonhq.clads.data.remote.LoginCredentialsDTOMapper
+import com.decagonhq.clads.data.remote.UserRegDTOMapper
 import com.decagonhq.clads.util.Resource
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
@@ -45,4 +46,3 @@ class AuthRepositoryImpl constructor(
             )
         }
 }
-

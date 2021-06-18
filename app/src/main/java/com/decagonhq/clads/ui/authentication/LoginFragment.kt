@@ -17,7 +17,6 @@ import android.widget.Button
 import android.widget.TextView
 import android.widget.Toast
 import androidx.core.content.res.ResourcesCompat
-import androidx.core.os.persistableBundleOf
 import androidx.core.widget.doOnTextChanged
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
@@ -109,30 +108,33 @@ class LoginFragment : Fragment() {
 
                     val loginCredentials = LoginCredentials(emailEditText.text.toString(), passwordEditText.text.toString())
                     viewModel.loginUser(loginCredentials)
-                    viewModel.loginUser.observe(viewLifecycleOwner, Observer {
-                        when (it) {
-                            is Resource.Success -> {
-                                val successResponse = it.value.payload
-                                val intent = Intent(requireContext(), DashboardActivity::class.java)
-                                startActivity(intent)
-                                activity?.finish()
-                            }
-                            is Resource.Error -> {
-                                Toast.makeText(
-                                    requireContext(),
-                                    "Error: ${it.errorCode} = ${it.errorBody}",
-                                    Toast.LENGTH_SHORT
-                                ).show()
-                            }
-                            is Resource.Loading -> {
-                                Toast.makeText(
-                                    requireContext(),
-                                    "Loading",
-                                    Toast.LENGTH_SHORT
-                                ).show()
+                    viewModel.loginUser.observe(
+                        viewLifecycleOwner,
+                        Observer {
+                            when (it) {
+                                is Resource.Success -> {
+                                    val successResponse = it.value.payload
+                                    val intent = Intent(requireContext(), DashboardActivity::class.java)
+                                    startActivity(intent)
+                                    activity?.finish()
+                                }
+                                is Resource.Error -> {
+                                    Toast.makeText(
+                                        requireContext(),
+                                        "Error: ${it.errorCode} = ${it.errorBody}",
+                                        Toast.LENGTH_SHORT
+                                    ).show()
+                                }
+                                is Resource.Loading -> {
+                                    Toast.makeText(
+                                        requireContext(),
+                                        "Loading",
+                                        Toast.LENGTH_SHORT
+                                    ).show()
+                                }
                             }
                         }
-                    })
+                    )
                 }
             }
         }
@@ -194,6 +196,7 @@ class LoginFragment : Fragment() {
     /*open the dashboard fragment if account was selected*/
     private fun loadDashBoardFragment(account: GoogleSignInAccount?) {
         if (account != null) {
+
             val intent = Intent(requireContext(), DashboardActivity::class.java)
             startActivity(intent)
         }

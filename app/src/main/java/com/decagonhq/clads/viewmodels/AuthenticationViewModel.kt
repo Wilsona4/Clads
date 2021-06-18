@@ -6,7 +6,6 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.decagonhq.clads.data.domain.login.EmailLoginSuccessResponse
 import com.decagonhq.clads.data.domain.login.LoginCredentials
-import com.decagonhq.clads.data.domain.profileimage.UserProfileImage
 import com.decagonhq.clads.data.domain.profileimage.UserProfileImageResponse
 import com.decagonhq.clads.data.domain.registration.UserRegSuccessResponse
 import com.decagonhq.clads.data.domain.registration.UserRegistration
@@ -50,10 +49,10 @@ class AuthenticationViewModel @Inject constructor(
         }
     }
 
-    fun userProfileImage(userProfileImage: MultipartBody.Part){
+    fun userProfileImage(userProfileImage: MultipartBody.Part) {
         viewModelScope.launch {
             val response = authRepository.userProfileImage(userProfileImage)
-            response.collect{
+            response.collect {
                 _userProfileImage.value = it
             }
         }

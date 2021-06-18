@@ -2,30 +2,47 @@ package com.decagonhq.clads.ui.profile.editprofile
 
 import android.Manifest
 import android.app.Activity
+import android.content.ContentResolver
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.net.Uri
 import android.os.Build
 import android.os.Bundle
 import android.provider.MediaStore
+import android.provider.OpenableColumns
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.core.app.ActivityCompat
+import androidx.core.content.ContentResolverCompat.query
 import androidx.core.content.ContextCompat
 import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
+import androidx.lifecycle.Observer
 import com.decagonhq.clads.R
 import com.decagonhq.clads.databinding.AccountFragmentBinding
 import com.decagonhq.clads.ui.profile.dialogfragment.ProfileManagementDialogFragments.Companion.createProfileDialogFragment
+import com.decagonhq.clads.util.FileUtil
+import com.decagonhq.clads.util.Resource
+import com.decagonhq.clads.util.errorSnack
+import com.decagonhq.clads.viewmodels.AuthenticationViewModel
+import com.google.android.material.snackbar.Snackbar
+import dagger.hilt.android.AndroidEntryPoint
+import okhttp3.MediaType.Companion.toMediaTypeOrNull
+import okhttp3.MultipartBody
+import okhttp3.RequestBody.Companion.asRequestBody
+import java.io.File
 
+@AndroidEntryPoint
 class AccountFragment : Fragment() {
     private var _binding: AccountFragmentBinding? = null
     private var selectedImage: Uri? = null
 
-//    private val viewModel:
+    val viewModel: AuthenticationViewModel by viewModels()
 
     // This property is only valid between onCreateView and onDestroyView.
     private val binding get() = _binding!!
@@ -62,7 +79,6 @@ class AccountFragment : Fragment() {
             Manifest.permission.READ_EXTERNAL_STORAGE.checkForPermission(NAME, READ_IMAGE_STORAGE)
         }
     }
-
 
     private fun String.checkForPermission(name: String, requestCode: Int) {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
@@ -118,16 +134,59 @@ class AccountFragment : Fragment() {
         dialog.show()
     }
 
-    //function to attach the selected image to the image view
+    // function to attach the selected image to the image view
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
         if (resultCode == Activity.RESULT_OK && requestCode == REQUEST_CODE_IMAGE_PICKER) {
             selectedImage = data?.data!!
             binding.accountFragmentEditProfileIconImageView.setImageURI(selectedImage)
 
-            /*Upload Image*/
-
+            /*Upload image*/
+            // Getting the file name
+//            val file = File(FileUtil.getPath(selectedImage!!, requireContext()))
+//            // Getting the file part
+//            val requestBody = file.asRequestBody("image/jpg".toMediaTypeOrNull())
+//            val multiPartBody = MultipartBody.Part.createFormData("file", file.name, requestBody)
+//
+//            viewModel.userProfileImage(multiPartBody)
+//            viewModel.loginUser.observe(
+//                viewLifecycleOwner,
+//                Observer {
+//                    when (it) {
+//                        is Resource.Success -> {
+//                            binding.accountFragmentEditProfileIconImageView.errorSnack(
+//                                "Image Uploaded successively",
+//                                Snackbar.LENGTH_LONG
+//                            )
+//                            Log.d("RecourceReport", "onActivityResult:$it ")
+//                        }
+//                        is Resource.Error -> {
+//                            binding.accountFragmentEditProfileIconImageView.errorSnack(
+//                                "Image Uploaded successively",
+//                                Snackbar.LENGTH_LONG
+//                            )
+//                        }
+//                        is Resource.Loading -> {
+//                            binding.accountFragmentEditProfileIconImageView.errorSnack(
+//                                "Image upload in progress",
+//                                Snackbar.LENGTH_LONG
+//                            )
+//                        }
+//                    }
+//                }
+//            )
         }
+    }
+
+    // function to get the name of the file
+    private fun getFileName(uri: Uri, contentResolver: ContentResolver): String {
+        var name = ""
+        val cursor = query(contentResolver, uri, null, null, null, null, null)
+        cursor?.use {
+            it.moveToFirst()
+            name = cursor.getString(it.getColumnIndex(OpenableColumns.DISPLAY_NAME))
+        }
+        return name
     }
 
     /*Select Image*/
