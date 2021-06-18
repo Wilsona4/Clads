@@ -9,10 +9,13 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageView
+import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
+import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.NavHostFragment.findNavController
 import androidx.navigation.fragment.findNavController
@@ -22,17 +25,19 @@ import com.decagonhq.clads.databinding.MediaFragmentBinding
 import com.decagonhq.clads.model.PhotoGalleryModel
 import com.decagonhq.clads.ui.profile.adapter.PhotoGalleryRecyclerAdapter
 import com.decagonhq.clads.util.photosProviders
+import com.decagonhq.clads.util.showView
 
 
-class MediaFragment : Fragment(){
+class MediaFragment : Fragment() {
 
 
     private var _binding: MediaFragmentBinding? = null
 
-
     // This property is only valid between onCreateView and onDestroyView.
     private val binding get() = _binding!!
     private lateinit var photoGalleryRecyclerAdapter: PhotoGalleryRecyclerAdapter
+    private lateinit var noPhotoImageView: ImageView
+    private lateinit var noPhotoTextView: TextView
     var imageUri: Uri? = null
 
     override fun onCreateView(
@@ -48,50 +53,69 @@ class MediaFragment : Fragment(){
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        imageUri?.let { initRecyclerView(it) }
-//
-//        val photoGalleryModel = PhotoGalleryModel(
-//            "content://media/external/images/media/256827".toUri()
-//            ,
-//            "Ifeyinwa"
-//        )
-//
-//        photoList = arrayListOf(
-//            photoGalleryModel
-//        )
-//
-//        photoGalleryRecyclerAdapter =
-//            PhotoGalleryRecyclerAdapter(photoList, this@MediaFragment)
-//        photoGalleryRecyclerView.layoutManager =
-//            GridLayoutManager(requireContext(), 2)
-//        photoGalleryRecyclerView.adapter = photoGalleryRecyclerAdapter
-//        photoGalleryRecyclerAdapter.notifyDataSetChanged()
+        noPhotoImageView = binding.mediaFragmentPhotoIconImageView
+        noPhotoTextView = binding.mediaFragmentYouHaveNoPhotoInGalleryTextView
 
+        binding.apply {
 
+            mediaFragmentPhotoRecyclerView.apply {
+                photoGalleryRecyclerAdapter =
+                    PhotoGalleryRecyclerAdapter(photosProviders /*this@MediaFragment*/)
+                adapter = photoGalleryRecyclerAdapter
+                layoutManager = GridLayoutManager(requireContext(), GRID_SIZE)
+                photoGalleryRecyclerAdapter.notifyDataSetChanged()
+            }
+
+            if (photosProviders.isEmpty()) {
+                noPhotoImageView.visibility = View.VISIBLE
+                noPhotoTextView.visibility = View.VISIBLE
+                mediaFragmentPhotoRecyclerView.visibility = View.GONE
+            } else {
+                noPhotoImageView.visibility = View.INVISIBLE
+                noPhotoTextView.visibility = View.INVISIBLE
+                mediaFragmentPhotoRecyclerView.visibility = View.VISIBLE
+
+            }
+        }
+
+        /*add onclick listener to the fab to ask for permission and open gallery intent*/
         binding.mediaFragmentAddPhotoFab.setOnClickListener {
             if (checkPermission()) {
-                getPickImageIntent()
+                uploadImageFromGallery()
             } else {
-                requestPermission()
+                requestPermission(
+                    Manifest.permission.READ_EXTERNAL_STORAGE,
+                    "Read External Storage",
+                    REQUEST_CODE
+                )
             }
         }
     }
 
-    /** Check for user permission to access phone camera **/
+    /* Check for user permission to read external storage*/
     private fun checkPermission(): Boolean {
         return (ContextCompat.checkSelfPermission(
             requireContext(), Manifest.permission.READ_EXTERNAL_STORAGE
-        ) == PackageManager.PERMISSION_GRANTED )
+        ) == PackageManager.PERMISSION_GRANTED)
     }
 
-    /** requestPermission for user permission to access phone camera **/
-    private fun requestPermission() {
-        ActivityCompat.requestPermissions(
-            requireActivity(), arrayOf(
-                Manifest.permission.READ_EXTERNAL_STORAGE
-            ),
-            REQUEST_CODE
-        )
+    /* requestPermission for user permission to read external storage*/
+    private fun requestPermission(permission: String, name: String, requestCode: Int) {
+        when {
+            shouldShowRequestPermissionRationale(permission) -> showDialog(
+                permission,
+                name,
+                requestCode
+            )
+            else ->
+
+                ActivityCompat.requestPermissions(
+                    requireActivity(), arrayOf(
+                        Manifest.permission.READ_EXTERNAL_STORAGE
+                    ),
+                    REQUEST_CODE
+                )
+        }
     }
 
     private fun uploadImageFromGallery() {
@@ -113,33 +137,35 @@ class MediaFragment : Fragment(){
         super.onActivityResult(requestCode, resultCode, data)
         if (resultCode == RESULT_OK && requestCode == REQUEST_CODE) {
 
+            //get image from gallery and add to a list
             imageUri = data?.data!!
+            val photoGalleryModel = PhotoGalleryModel(
+                imageUri!!,
+                TEMP_LABEL
+            )
+            photosProviders.add(photoGalleryModel)
 
-          initRecyclerView(imageUri!!)
-        }
-    }
 
-    private fun initRecyclerView(uri: Uri) {
+            if (photosProviders.isEmpty()) {
 
-        val photoGalleryModel = PhotoGalleryModel(
-            uri,
-            TEMP_LABEL
-        )
-        photosProviders.add(photoGalleryModel)
+                showView(noPhotoImageView)
+                showView(noPhotoTextView)
 
-        binding.apply {
+                binding.mediaFragmentPhotoRecyclerView.visibility = View.GONE
+            } else {
+                noPhotoImageView.visibility = View.INVISIBLE
+                noPhotoTextView.visibility = View.INVISIBLE
 
-            mediaFragmentPhotoRecyclerView.apply {
-                photoGalleryRecyclerAdapter = PhotoGalleryRecyclerAdapter(photosProviders /*this@MediaFragment*/)
-                adapter = photoGalleryRecyclerAdapter
-                layoutManager = GridLayoutManager(requireContext(), GRID_SIZE)
+                binding.mediaFragmentPhotoRecyclerView.visibility = View.VISIBLE
+
                 photoGalleryRecyclerAdapter.notifyDataSetChanged()
+
             }
         }
     }
 
 
-    /** On request permission result grant user permission or show a permission denied message **/
+    /* On request permission result grant user permission or show a permission denied message */
     override fun onRequestPermissionsResult(
         requestCode: Int,
         permissions: Array<out String>,
@@ -150,7 +176,7 @@ class MediaFragment : Fragment(){
                 if ((grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED)
                     && grantResults[1] == PackageManager.PERMISSION_GRANTED
                 ) {
-                    getPickImageIntent()
+                    uploadImageFromGallery()
                 } else {
                     Toast.makeText(requireContext(), "Permission Denied", Toast.LENGTH_SHORT).show()
                 }
@@ -162,7 +188,7 @@ class MediaFragment : Fragment(){
         }
     }
 
-    // build the permission and show the permission dialog
+    /* build the permission and show the permission dialog*/
     private fun showDialog(permission: String, name: String, requestCode: Int) {
         val builder = AlertDialog.Builder(requireActivity())
 
@@ -195,7 +221,6 @@ class MediaFragment : Fragment(){
 //    }
 
 
-
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
@@ -204,7 +229,7 @@ class MediaFragment : Fragment(){
     companion object {
         private const val REQUEST_CODE = 100
         private const val GRID_SIZE = 2
-        private const val TEMP_LABEL = "Ifeyinwa"
+        private const val TEMP_LABEL = "Image"
     }
 
 
