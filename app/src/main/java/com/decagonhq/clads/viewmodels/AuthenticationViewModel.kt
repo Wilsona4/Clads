@@ -1,5 +1,6 @@
 package com.decagonhq.clads.viewmodels
 
+import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -22,11 +23,20 @@ class AuthenticationViewModel @Inject constructor(
     val userRegData: LiveData<Resource<UserRegSuccessResponse>> get() = _userRegData
 
     fun registerUser(user: UserRegistration) {
+
+        Log.d("VIEWMODEL", "WORKING")
+
         viewModelScope.launch {
             val response = authRepository.registerUser(user)
             response.collect {
                 _userRegData.value = it
             }
+        }
+    }
+
+    fun registerUsers(user: UserRegistration) {
+        viewModelScope.launch {
+            _userRegData.value = authRepository.registerUsers(user)
         }
     }
 }

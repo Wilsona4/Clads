@@ -15,8 +15,15 @@ class AuthRepositoryImpl constructor(
 
     override suspend fun registerUser(user: UserRegistration): Flow<Resource<UserRegSuccessResponse>> =
         flow {
-            safeApiCall {
-                apiService.registerUser(userRegDTOMapper.mapFromDomainModel(user))
-            }
+            emit(
+                safeApiCall {
+                    apiService.registerUser(userRegDTOMapper.mapFromDomainModel(user))
+                }
+            )
+        }
+
+    override suspend fun registerUsers(user: UserRegistration) =
+        safeApiCall {
+            apiService.registerUser(userRegDTOMapper.mapFromDomainModel(user))
         }
 }

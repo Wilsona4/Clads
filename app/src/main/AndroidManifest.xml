@@ -15,14 +15,19 @@
         <activity
             android:name=".ui.profile.DashboardActivity"
             android:label="@string/title_activity_dashboard"
-            android:theme="@style/Theme.Clads.NoActionBar"></activity>
+            android:theme="@style/Theme.Clads.NoActionBar" />
         <activity
             android:name=".ui.authentication.SplashScreenActivity"
             android:theme="@style/SplashTheme">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
+
+                <data android:host="unique/url"
+                    android:scheme="http"/>
+
+                <data android:host="unique/url"
+                    android:scheme="https"/>
             </intent-filter>
         </activity>
         <activity android:name=".ui.authentication.MainActivity" />
