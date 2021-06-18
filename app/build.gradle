@@ -54,7 +54,7 @@ dependencies {
     implementation 'androidx.legacy:legacy-support-v4:1.0.0'
     implementation 'com.google.firebase:firebase-auth:21.0.1'
     implementation 'com.google.firebase:firebase-auth:21.0.1'
-    implementation 'androidx.room:room-runtime:2.3.0'
+    implementation "androidx.room:room-runtime:$versions.hilt_version"
     testImplementation 'junit:junit:4.13.2'
     androidTestImplementation 'androidx.test.ext:junit:1.1.2'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.3.0'
@@ -88,7 +88,7 @@ dependencies {
 
     //Dagger-hilt
     implementation "com.google.dagger:hilt-android:$versions.hilt_version"
-    annotationProcessor 'androidx.room:room-compiler:2.3.0'
+    annotationProcessor "androidx.room:room-compiler:$versions.room_version"
     kapt "com.google.dagger:hilt-android-compiler:$versions.hilt_version"
     implementation "androidx.hilt:hilt-lifecycle-viewmodel:$versions.hilt_life_cycle_version"
     kapt "androidx.hilt:hilt-compiler:$versions.hilt_compiler_version"

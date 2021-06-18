@@ -56,7 +56,7 @@
             app:destination="@id/dashboard_fragment" />
         <deepLink
             android:id="@+id/emailConfirmationDeepLink"
-            app:uri="https://clads-service.herokuapp.com/api/v1/login_fragment" />
+            app:uri="https://clads-service.herokuapp.com/api/v1/confirm" />
     </fragment>
     <fragment
         android:id="@+id/reset_password_fragment"
