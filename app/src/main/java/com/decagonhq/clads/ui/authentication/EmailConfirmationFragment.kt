@@ -26,7 +26,7 @@ class EmailConfirmationFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         /*Navigate to Login Screen After Confirmation*/
         binding.emailConfirmationFragmentVerifyEmailAddressButton.setOnClickListener {
-            val intent = Intent(Intent.ACTION_MAIN).apply{
+            val intent = Intent(Intent.ACTION_MAIN).apply {
                 addCategory(Intent.CATEGORY_APP_EMAIL)
             }
             startActivity(intent)
