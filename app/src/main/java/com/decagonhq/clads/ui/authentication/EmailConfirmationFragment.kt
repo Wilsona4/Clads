@@ -1,7 +1,6 @@
 package com.decagonhq.clads.ui.authentication
 
 import android.content.Intent
-import android.net.Uri
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -27,9 +26,8 @@ class EmailConfirmationFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         /*Navigate to Login Screen After Confirmation*/
         binding.emailConfirmationFragmentVerifyEmailAddressButton.setOnClickListener {
-            val intent = Intent(Intent.ACTION_SENDTO).apply {
-                type = "text/plain"
-                data = Uri.parse("mailto:")
+            val intent = Intent(Intent.ACTION_MAIN).apply{
+                addCategory(Intent.CATEGORY_APP_EMAIL)
             }
             startActivity(intent)
         }
