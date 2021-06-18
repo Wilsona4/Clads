@@ -21,9 +21,4 @@ class AuthRepositoryImpl constructor(
                 }
             )
         }
-
-    override suspend fun registerUsers(user: UserRegistration) =
-        safeApiCall {
-            apiService.registerUser(userRegDTOMapper.mapFromDomainModel(user))
-        }
 }

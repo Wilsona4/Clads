@@ -77,8 +77,6 @@ class EmailSignUpFragment : Fragment() {
                 when (it) {
                     is Resource.Success -> {
                         val successResponse = it.value.payload
-                        Toast.makeText(requireContext(), successResponse, Toast.LENGTH_SHORT).show()
-
                         findNavController().navigate(R.id.action_emailSignUpFragment_to_emailConfirmationFragment)
                     }
                     is Resource.Error -> {
@@ -158,23 +156,24 @@ class EmailSignUpFragment : Fragment() {
                     return@setOnClickListener
                 }
                 else -> {
-//                    if (validateSignUpFieldsOnTextChange()) {
-                    val newRegisteredUser = UserRegistration(
-                        firstName = firstName,
-                        lastName = lastName,
-                        email = email,
-                        phoneNumber = getString(R.string.phone),
-                        category = accountCategory,
-                        role = getString(R.string.tailor),
-                        password = password,
-                        deliveryAddress = getString(R.string.null_all),
-                        gender = getString(R.string.male),
-                        country = getString(R.string.nigeria),
-                        thumbnail = getString(R.string.null_all)
-                    )
-                    viewModel.registerUser(newRegisteredUser)
-
-//                    }
+                    if (validateSignUpFieldsOnTextChange()) {
+                        val newRegisteredUser = UserRegistration(
+                            firstName = firstName,
+                            lastName = lastName,
+                            email = email,
+                            phoneNumber = getString(R.string.phone),
+                            category = accountCategory,
+                            role = getString(R.string.tailor),
+                            password = password,
+                            deliveryAddress = getString(R.string.null_all),
+                            gender = getString(R.string.male),
+                            country = getString(R.string.nigeria),
+                            thumbnail = getString(R.string.null_all)
+                        )
+                        viewModel.registerUser(newRegisteredUser)
+                    } else {
+                        return@setOnClickListener
+                    }
                 }
             }
         }

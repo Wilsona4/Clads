@@ -7,5 +7,4 @@ import kotlinx.coroutines.flow.Flow
 
 interface AuthRepository {
     suspend fun registerUser(user: UserRegistration): Flow<Resource<UserRegSuccessResponse>>
-    suspend fun registerUsers(user: UserRegistration): Resource<UserRegSuccessResponse>
 }
