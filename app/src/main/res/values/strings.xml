@@ -309,6 +309,7 @@
     <string name="media_share">Share</string>
     <string name="media_edit">Edit</string>
     <string name="media_delete">Delete</string>
+    <string name="send_to">SEND</string>
 
 
     <string-array name="account_category">

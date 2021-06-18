@@ -3,7 +3,6 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/media_fragment_root_layout"
-    android:padding="@dimen/padding_20dp"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".ui.profile.bottomnav.MediaFragment">
@@ -51,8 +50,11 @@
         android:id="@+id/media_fragment_photo_recycler_view"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:layout_marginStart="@dimen/margin_17dp"
         tools:listitem="@layout/media_fragment_photo_recycler_view_item"
         app:layout_constraintBottom_toBottomOf="parent"
+        app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
+        app:spanCount="2"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />

@@ -19,7 +19,11 @@
         android:id="@+id/nav_media"
         android:name="com.decagonhq.clads.ui.profile.bottomnav.MediaFragment"
         android:label="Photo Gallery"
-        tools:layout="@layout/media_fragment" />
+        tools:layout="@layout/media_fragment" >
+        <action
+            android:id="@+id/action_nav_media_to_mediaFragmentRecyclerViewItemClicked2"
+            app:destination="@id/mediaFragmentRecyclerViewItemClicked" />
+    </fragment>
 
     <fragment
         android:id="@+id/nav_messages"
@@ -102,6 +106,8 @@
         android:id="@+id/mediaFragmentRecyclerViewItemClicked"
         android:name="com.decagonhq.clads.ui.profile.bottomnav.MediaFragmentRecyclerViewItemClicked"
         android:label="Elegant suit for men"
-        tools:layout="@layout/media_fragment_recycler_view_item_clicked" />
+        tools:layout="@layout/media_fragment_recycler_view_item_clicked" >
+        <argument android:name="imageUri" />
+    </fragment>
 
 </navigation>
