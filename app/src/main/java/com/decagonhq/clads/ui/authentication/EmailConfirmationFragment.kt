@@ -1,12 +1,12 @@
 package com.decagonhq.clads.ui.authentication
 
+import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
-import androidx.navigation.fragment.findNavController
-import com.decagonhq.clads.R
 import com.decagonhq.clads.databinding.EmailConfirmationFragmentBinding
 
 class EmailConfirmationFragment : Fragment() {
@@ -27,7 +27,11 @@ class EmailConfirmationFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         /*Navigate to Login Screen After Confirmation*/
         binding.emailConfirmationFragmentVerifyEmailAddressButton.setOnClickListener {
-            findNavController().navigate(R.id.action_emailConfirmationFragment_to_loginFragment)
+            val intent = Intent(Intent.ACTION_SENDTO).apply {
+                type = "text/plain"
+                data = Uri.parse("mailto:")
+            }
+            startActivity(intent)
         }
     }
 
