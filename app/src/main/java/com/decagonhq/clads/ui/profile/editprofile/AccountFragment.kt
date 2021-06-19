@@ -168,15 +168,15 @@ class AccountFragment : Fragment() {
     }
 
     // function to get the name of the file
-    private fun getFileName(uri: Uri, contentResolver: ContentResolver): String {
-        var name = "TO BE REMOVED STRING"
-        val cursor = query(contentResolver, uri, null, null, null, null, null)
-        cursor?.use {
-            it.moveToFirst()
-            name = cursor.getString(it.getColumnIndex(OpenableColumns.DISPLAY_NAME))
-        }
-        return name
-    }
+//    private fun getFileName(uri: Uri, contentResolver: ContentResolver): String {
+//        var name = "TO BE REMOVED STRING"
+//        val cursor = query(contentResolver, uri, null, null, null, null, null)
+//        cursor?.use {
+//            it.moveToFirst()
+//            name = cursor.getString(it.getColumnIndex(OpenableColumns.DISPLAY_NAME))
+//        }
+//        return name
+//    }
 
     /*Select Image*/
     private fun openImageChooser() {
