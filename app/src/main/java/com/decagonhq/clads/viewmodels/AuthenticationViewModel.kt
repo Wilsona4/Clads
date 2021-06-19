@@ -55,14 +55,23 @@ class AuthenticationViewModel @Inject constructor(
         }
     }
 
-    fun loginUserWithGoogle(auth: String, userRole: UserRole) {
+    fun loginUserWithGoogle(userRole: UserRole) {
         viewModelScope.launch {
-            val response = authRepository.loginUserWithGoogle(auth, userRole)
+            val response = authRepository.loginUserWithGoogle(userRole)
             response.collect {
                 _loginUserWithGoogle.value = it
             }
         }
     }
+
+//    fun loginUserWithGoogle(auth: String, userRole: UserRole) {
+//        viewModelScope.launch {
+//            val response = authRepository.loginUserWithGoogle(auth, userRole)
+//            response.collect {
+//                _loginUserWithGoogle.value = it
+//            }
+//        }
+//    }
 
     fun userProfileImage(userProfileImage: MultipartBody.Part) {
         viewModelScope.launch {

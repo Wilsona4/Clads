@@ -10,7 +10,6 @@ import android.text.Spanned
 import android.text.method.LinkMovementMethod
 import android.text.style.ClickableSpan
 import android.text.style.ForegroundColorSpan
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -61,7 +60,8 @@ class LoginFragment : Fragment() {
 
     val viewModel: AuthenticationViewModel by viewModels()
 
-    @Inject lateinit var sessionManager: SessionManager
+    @Inject
+    lateinit var sessionManager: SessionManager
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -114,7 +114,10 @@ class LoginFragment : Fragment() {
                 }
                 else -> {
 
-                    val loginCredentials = LoginCredentials(emailEditText.text.toString(), passwordEditText.text.toString())
+                    val loginCredentials = LoginCredentials(
+                        emailEditText.text.toString(),
+                        passwordEditText.text.toString()
+                    )
                     viewModel.loginUser(loginCredentials)
                     viewModel.loginUser.observe(
                         viewLifecycleOwner,
@@ -123,7 +126,8 @@ class LoginFragment : Fragment() {
                                 is Resource.Success -> {
                                     val successResponse = it.value.payload
                                     sessionManager.saveToSharedPref(TOKEN, successResponse)
-                                    val intent = Intent(requireContext(), DashboardActivity::class.java)
+                                    val intent =
+                                        Intent(requireContext(), DashboardActivity::class.java)
                                     startActivity(intent)
                                     activity?.finish()
                                 }
@@ -205,12 +209,16 @@ class LoginFragment : Fragment() {
     /*open the dashboard fragment if account was selected*/
     private fun loadDashBoardFragment(account: GoogleSignInAccount?) {
         if (account != null) {
-//            Toast.makeText(requireContext(), "this is ${account.idToken}", Toast.LENGTH_SHORT).show()
 
-            Log.d("ACCOUNT_TOKEN", "loadDashBoardFragment: ${account.idToken}")
-            Log.d("ACCOUNT_AUTH", "loadDashBoardFragment: ${account.serverAuthCode}")
+            account.idToken.let {
+                if (it != null) {
+                    sessionManager.saveToSharedPref(TOKEN, it)
+                }
+            }
 
-            viewModel.loginUserWithGoogle("Bearer${account.idToken!!}", UserRole(getString(R.string.tailor)))
+            viewModel.loginUserWithGoogle(
+                UserRole(getString(R.string.tailor))
+            )
 
             viewModel.loginUserWithGoogle.observe(
                 viewLifecycleOwner,
@@ -218,8 +226,12 @@ class LoginFragment : Fragment() {
                     when (it) {
                         is Resource.Success -> {
                             val successResponse = it.value.payload
-                            Log.d("RetrofitResponse", "loadDashBoardFragment: ${it.value.message}")
+
+                            Timber.d("${account.idToken}")
+                            Timber.d("$successResponse")
+
                             sessionManager.saveToSharedPref(TOKEN, successResponse)
+
                             val intent = Intent(requireContext(), DashboardActivity::class.java)
 
                             startActivity(intent)
@@ -231,9 +243,6 @@ class LoginFragment : Fragment() {
                                 "Error: ${it.errorCode} = ${it.errorBody}",
                                 Toast.LENGTH_SHORT
                             ).show()
-                            Timber.d("${it.errorCode} ${it.errorBody}")
-                            Log.d("ERROR__MESSAGE", "loadDashBoardFragment: ${it.errorBody}")
-//                        Log.d(TAG, "loadDashBoardFragment: ")
                         }
                         is Resource.Loading -> {
                             Toast.makeText(
@@ -245,9 +254,6 @@ class LoginFragment : Fragment() {
                     }
                 }
             )
-//
-//            val intent = Intent(requireContext(), DashboardActivity::class.java)
-//            startActivity(intent)
         }
     }
 

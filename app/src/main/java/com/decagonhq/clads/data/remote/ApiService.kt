@@ -7,7 +7,6 @@ import com.decagonhq.clads.data.domain.profileimage.UserProfileImageResponse
 import com.decagonhq.clads.data.domain.registration.UserRegSuccessResponse
 import okhttp3.MultipartBody
 import retrofit2.http.Body
-import retrofit2.http.Header
 import retrofit2.http.Multipart
 import retrofit2.http.POST
 import retrofit2.http.Part
@@ -24,15 +23,10 @@ interface ApiService {
         @Body loginCredentials: LoginCredentialsDTO
     ): EmailLoginSuccessResponse
 
-//    @Headers("application/json")
     @POST("login/google")
     suspend fun googleLogin(
-        @Header("Authorization") auth: String,
         @Body userRole: UserRole
     ): GoogleLoginSuccessResponse
-
-//    @GET("driver/v1/driver")
-//    fun getAuthorizedDriver(@Header("authorization") auth: String?): Call<Driver?>?
 
     @Multipart
     @POST("upload")
