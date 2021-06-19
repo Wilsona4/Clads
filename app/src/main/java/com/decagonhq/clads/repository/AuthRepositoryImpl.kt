@@ -1,7 +1,9 @@
 package com.decagonhq.clads.repository
 
 import com.decagonhq.clads.data.domain.login.EmailLoginSuccessResponse
+import com.decagonhq.clads.data.domain.login.GoogleLoginSuccessResponse
 import com.decagonhq.clads.data.domain.login.LoginCredentials
+import com.decagonhq.clads.data.domain.login.UserRole
 import com.decagonhq.clads.data.domain.profileimage.UserProfileImageResponse
 import com.decagonhq.clads.data.domain.registration.UserRegSuccessResponse
 import com.decagonhq.clads.data.domain.registration.UserRegistration
@@ -33,6 +35,15 @@ class AuthRepositoryImpl constructor(
             emit(
                 safeApiCall {
                     apiService.login(loginCredentialsDTOMapper.mapFromDomainModel(loginCredentials))
+                }
+            )
+        }
+
+    override suspend fun loginUserWithGoogle(auth: String, userRole: UserRole): Flow<Resource<GoogleLoginSuccessResponse>> =
+        flow {
+            emit(
+                safeApiCall {
+                    apiService.googleLogin(auth, userRole)
                 }
             )
         }

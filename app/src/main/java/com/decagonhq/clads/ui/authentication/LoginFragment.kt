@@ -10,6 +10,7 @@ import android.text.Spanned
 import android.text.method.LinkMovementMethod
 import android.text.style.ClickableSpan
 import android.text.style.ForegroundColorSpan
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -24,10 +25,13 @@ import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
 import com.decagonhq.clads.R
 import com.decagonhq.clads.data.domain.login.LoginCredentials
+import com.decagonhq.clads.data.domain.login.UserRole
 import com.decagonhq.clads.databinding.LoginFragmentBinding
 import com.decagonhq.clads.ui.profile.DashboardActivity
+import com.decagonhq.clads.util.Constants.TOKEN
 import com.decagonhq.clads.util.CustomTypefaceSpan
 import com.decagonhq.clads.util.Resource
+import com.decagonhq.clads.util.SessionManager
 import com.decagonhq.clads.util.ValidationObject.validateEmail
 import com.decagonhq.clads.viewmodels.AuthenticationViewModel
 import com.google.android.gms.auth.api.signin.GoogleSignIn
@@ -38,6 +42,8 @@ import com.google.android.gms.common.api.ApiException
 import com.google.android.gms.tasks.Task
 import com.google.android.material.textfield.TextInputEditText
 import dagger.hilt.android.AndroidEntryPoint
+import timber.log.Timber
+import javax.inject.Inject
 
 @AndroidEntryPoint
 class LoginFragment : Fragment() {
@@ -54,6 +60,8 @@ class LoginFragment : Fragment() {
     private var GOOGLE_SIGNIN_RQ_CODE = 100
 
     val viewModel: AuthenticationViewModel by viewModels()
+
+    @Inject lateinit var sessionManager: SessionManager
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -114,6 +122,7 @@ class LoginFragment : Fragment() {
                             when (it) {
                                 is Resource.Success -> {
                                     val successResponse = it.value.payload
+                                    sessionManager.saveToSharedPref(TOKEN, successResponse)
                                     val intent = Intent(requireContext(), DashboardActivity::class.java)
                                     startActivity(intent)
                                     activity?.finish()
@@ -196,9 +205,49 @@ class LoginFragment : Fragment() {
     /*open the dashboard fragment if account was selected*/
     private fun loadDashBoardFragment(account: GoogleSignInAccount?) {
         if (account != null) {
+//            Toast.makeText(requireContext(), "this is ${account.idToken}", Toast.LENGTH_SHORT).show()
 
-            val intent = Intent(requireContext(), DashboardActivity::class.java)
-            startActivity(intent)
+            Log.d("ACCOUNT_TOKEN", "loadDashBoardFragment: ${account.idToken}")
+            Log.d("ACCOUNT_AUTH", "loadDashBoardFragment: ${account.serverAuthCode}")
+
+            viewModel.loginUserWithGoogle("Bearer${account.idToken!!}", UserRole(getString(R.string.tailor)))
+
+            viewModel.loginUserWithGoogle.observe(
+                viewLifecycleOwner,
+                Observer {
+                    when (it) {
+                        is Resource.Success -> {
+                            val successResponse = it.value.payload
+                            Log.d("RetrofitResponse", "loadDashBoardFragment: ${it.value.message}")
+                            sessionManager.saveToSharedPref(TOKEN, successResponse)
+                            val intent = Intent(requireContext(), DashboardActivity::class.java)
+
+                            startActivity(intent)
+                            activity?.finish()
+                        }
+                        is Resource.Error -> {
+                            Toast.makeText(
+                                requireContext(),
+                                "Error: ${it.errorCode} = ${it.errorBody}",
+                                Toast.LENGTH_SHORT
+                            ).show()
+                            Timber.d("${it.errorCode} ${it.errorBody}")
+                            Log.d("ERROR__MESSAGE", "loadDashBoardFragment: ${it.errorBody}")
+//                        Log.d(TAG, "loadDashBoardFragment: ")
+                        }
+                        is Resource.Loading -> {
+                            Toast.makeText(
+                                requireContext(),
+                                "Loading",
+                                Toast.LENGTH_SHORT
+                            ).show()
+                        }
+                    }
+                }
+            )
+//
+//            val intent = Intent(requireContext(), DashboardActivity::class.java)
+//            startActivity(intent)
         }
     }
 

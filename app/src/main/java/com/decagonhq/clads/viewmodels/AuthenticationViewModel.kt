@@ -5,7 +5,9 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.decagonhq.clads.data.domain.login.EmailLoginSuccessResponse
+import com.decagonhq.clads.data.domain.login.GoogleLoginSuccessResponse
 import com.decagonhq.clads.data.domain.login.LoginCredentials
+import com.decagonhq.clads.data.domain.login.UserRole
 import com.decagonhq.clads.data.domain.profileimage.UserProfileImageResponse
 import com.decagonhq.clads.data.domain.registration.UserRegSuccessResponse
 import com.decagonhq.clads.data.domain.registration.UserRegistration
@@ -31,7 +33,11 @@ class AuthenticationViewModel @Inject constructor(
     private var _userProfileImage = MutableLiveData<Resource<UserProfileImageResponse>>()
     val userProfileImage: LiveData<Resource<UserProfileImageResponse>> get() = _userProfileImage
 
+    private var _loginUserWithGoogle = MutableLiveData<Resource<GoogleLoginSuccessResponse>>()
+    val loginUserWithGoogle: LiveData<Resource<GoogleLoginSuccessResponse>> get() = _loginUserWithGoogle
+
     fun registerUser(user: UserRegistration) {
+
         viewModelScope.launch {
             val response = authRepository.registerUser(user)
             response.collect {
@@ -45,6 +51,15 @@ class AuthenticationViewModel @Inject constructor(
             val response = authRepository.loginUser(loginCredentials)
             response.collect {
                 _loginUser.value = it
+            }
+        }
+    }
+
+    fun loginUserWithGoogle(auth: String, userRole: UserRole) {
+        viewModelScope.launch {
+            val response = authRepository.loginUserWithGoogle(auth, userRole)
+            response.collect {
+                _loginUserWithGoogle.value = it
             }
         }
     }

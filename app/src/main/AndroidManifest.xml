@@ -22,8 +22,13 @@
             android:theme="@style/SplashTheme">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
+
+                <data android:host="clads-service.herokuapp.com/api/v1/"
+                    android:scheme="http"/>
+
+                <data android:host="clads-service.herokuapp.com/api/v1/"
+                    android:scheme="https"/>
             </intent-filter>
         </activity>
         <activity android:name=".ui.authentication.MainActivity" />

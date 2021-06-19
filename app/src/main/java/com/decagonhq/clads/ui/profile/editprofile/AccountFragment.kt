@@ -10,7 +10,6 @@ import android.os.Build
 import android.os.Bundle
 import android.provider.MediaStore
 import android.provider.OpenableColumns
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -22,20 +21,11 @@ import androidx.core.content.ContextCompat
 import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
-import androidx.lifecycle.Observer
 import com.decagonhq.clads.R
 import com.decagonhq.clads.databinding.AccountFragmentBinding
 import com.decagonhq.clads.ui.profile.dialogfragment.ProfileManagementDialogFragments.Companion.createProfileDialogFragment
-import com.decagonhq.clads.util.FileUtil
-import com.decagonhq.clads.util.Resource
-import com.decagonhq.clads.util.errorSnack
 import com.decagonhq.clads.viewmodels.AuthenticationViewModel
-import com.google.android.material.snackbar.Snackbar
 import dagger.hilt.android.AndroidEntryPoint
-import okhttp3.MediaType.Companion.toMediaTypeOrNull
-import okhttp3.MultipartBody
-import okhttp3.RequestBody.Companion.asRequestBody
-import java.io.File
 
 @AndroidEntryPoint
 class AccountFragment : Fragment() {
