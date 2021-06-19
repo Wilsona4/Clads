@@ -21,8 +21,8 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.observe
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
-import com.decagonhq.clads.databinding.MediaFragmentBinding
 import com.decagonhq.clads.data.domain.PhotoGalleryModel
+import com.decagonhq.clads.databinding.MediaFragmentBinding
 import com.decagonhq.clads.ui.profile.adapter.PhotoGalleryRecyclerAdapter
 import com.decagonhq.clads.util.DataListener
 import com.decagonhq.clads.util.GRID_SIZE
