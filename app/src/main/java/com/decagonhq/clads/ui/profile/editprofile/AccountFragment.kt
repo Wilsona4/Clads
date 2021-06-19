@@ -169,7 +169,7 @@ class AccountFragment : Fragment() {
 
     // function to get the name of the file
     private fun getFileName(uri: Uri, contentResolver: ContentResolver): String {
-        var name = ""
+        var name = " "
         val cursor = query(contentResolver, uri, null, null, null, null, null)
         cursor?.use {
             it.moveToFirst()
