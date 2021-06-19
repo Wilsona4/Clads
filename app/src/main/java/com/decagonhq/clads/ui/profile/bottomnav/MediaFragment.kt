@@ -22,13 +22,19 @@ import androidx.lifecycle.observe
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
 import com.decagonhq.clads.databinding.MediaFragmentBinding
-import com.decagonhq.clads.model.PhotoGalleryModel
+import com.decagonhq.clads.data.domain.PhotoGalleryModel
 import com.decagonhq.clads.ui.profile.adapter.PhotoGalleryRecyclerAdapter
-import com.decagonhq.clads.util.*
-
+import com.decagonhq.clads.util.DataListener
+import com.decagonhq.clads.util.GRID_SIZE
+import com.decagonhq.clads.util.IMAGE_DATA_BUNDLE_KEY
+import com.decagonhq.clads.util.IMAGE_KEY
+import com.decagonhq.clads.util.IMAGE_NAME_BUNDLE_KEY
+import com.decagonhq.clads.util.PERMISSION_DENIED
+import com.decagonhq.clads.util.REQUEST_CODE
+import com.decagonhq.clads.util.photosProvidersList
+import com.decagonhq.clads.util.showView
 
 class MediaFragment : Fragment() {
-
 
     private var _binding: MediaFragmentBinding? = null
 
@@ -39,7 +45,6 @@ class MediaFragment : Fragment() {
     private lateinit var noPhotoTextView: TextView
     private lateinit var photoGalleryModel: PhotoGalleryModel
     private lateinit var imageUri: Uri
-
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -57,15 +62,17 @@ class MediaFragment : Fragment() {
         noPhotoImageView = binding.mediaFragmentPhotoIconImageView
         noPhotoTextView = binding.mediaFragmentYouHaveNoPhotoInGalleryTextView
 
-
-
         findNavController().currentBackStackEntry?.savedStateHandle?.getLiveData<Bundle>(IMAGE_KEY)
             ?.observe(viewLifecycleOwner) {
                 val imageName = it.getString(IMAGE_NAME_BUNDLE_KEY)
                 val imageData = it.getString(IMAGE_DATA_BUNDLE_KEY)
                 val imageDataUri = imageData?.toUri()
 
-                photoGalleryModel = PhotoGalleryModel(imageDataUri, imageName)
+                photoGalleryModel =
+                    PhotoGalleryModel(
+                        imageDataUri,
+                        imageName
+                    )
 
                 if (DataListener.imageListener.value == true) {
 
@@ -80,8 +87,6 @@ class MediaFragment : Fragment() {
                     noPhotoTextView.visibility = View.INVISIBLE
                     mediaFragmentPhotoRecyclerView.visibility = View.VISIBLE
                 }
-
-
             }
 
         binding.apply {
@@ -121,9 +126,11 @@ class MediaFragment : Fragment() {
 
     /* Check for user permission to read external storage*/
     private fun checkPermission(): Boolean {
-        return (ContextCompat.checkSelfPermission(
-            requireContext(), Manifest.permission.READ_EXTERNAL_STORAGE
-        ) == PackageManager.PERMISSION_GRANTED)
+        return (
+            ContextCompat.checkSelfPermission(
+                requireContext(), Manifest.permission.READ_EXTERNAL_STORAGE
+            ) == PackageManager.PERMISSION_GRANTED
+            )
     }
 
     /* requestPermission for user permission to read external storage*/
@@ -137,7 +144,8 @@ class MediaFragment : Fragment() {
             else ->
 
                 ActivityCompat.requestPermissions(
-                    requireActivity(), arrayOf(
+                    requireActivity(),
+                    arrayOf(
                         Manifest.permission.READ_EXTERNAL_STORAGE
                     ),
                     REQUEST_CODE
@@ -151,8 +159,7 @@ class MediaFragment : Fragment() {
         startActivityForResult(intent, REQUEST_CODE)
     }
 
-
-    //function to attach the selected image to the image view
+    // function to attach the selected image to the image view
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
         if (resultCode == RESULT_OK && requestCode == REQUEST_CODE) {
@@ -172,11 +179,9 @@ class MediaFragment : Fragment() {
                 noPhotoTextView.visibility = View.INVISIBLE
                 binding.mediaFragmentPhotoRecyclerView.visibility = View.VISIBLE
                 photoGalleryRecyclerAdapter.notifyDataSetChanged()
-
             }
         }
     }
-
 
     /* On request permission result grant user permission or show a permission denied message */
     override fun onRequestPermissionsResult(
@@ -186,8 +191,8 @@ class MediaFragment : Fragment() {
     ) {
         when (requestCode) {
             REQUEST_CODE -> {
-                if ((grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED)
-                    && grantResults[1] == PackageManager.PERMISSION_GRANTED
+                if ((grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED) &&
+                    grantResults[1] == PackageManager.PERMISSION_GRANTED
                 ) {
                     uploadImageFromGallery()
                 } else {
@@ -196,7 +201,6 @@ class MediaFragment : Fragment() {
                 return
             }
             else -> {
-
             }
         }
     }
@@ -220,12 +224,8 @@ class MediaFragment : Fragment() {
         dialog.show()
     }
 
-
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
     }
-
 }
-
-

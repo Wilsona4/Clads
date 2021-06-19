@@ -4,20 +4,22 @@ import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
 import android.util.Log
-import android.view.*
-import android.widget.Toast
+import android.view.LayoutInflater
+import android.view.Menu
+import android.view.MenuInflater
+import android.view.MenuItem
+import android.view.View
+import android.view.ViewGroup
 import androidx.core.net.toUri
 import androidx.fragment.app.Fragment
-import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import com.bumptech.glide.Glide
 import com.decagonhq.clads.R
+import com.decagonhq.clads.data.domain.PhotoGalleryModel
 import com.decagonhq.clads.databinding.MediaFragmentRecyclerViewItemClickedBinding
-import com.decagonhq.clads.model.PhotoGalleryModel
 import com.decagonhq.clads.util.DataListener
 import com.decagonhq.clads.util.TEMP_LABEL
 import com.decagonhq.clads.util.photosProvidersList
-
 
 class MediaFragmentRecyclerViewItemClicked : Fragment() {
     private var _binding: MediaFragmentRecyclerViewItemClickedBinding? = null
@@ -28,7 +30,9 @@ class MediaFragmentRecyclerViewItemClicked : Fragment() {
     val args: MediaFragmentRecyclerViewItemClickedArgs by navArgs()
 
     override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
     ): View? {
 
         _binding = MediaFragmentRecyclerViewItemClickedBinding.inflate(inflater, container, false)
@@ -44,7 +48,6 @@ class MediaFragmentRecyclerViewItemClicked : Fragment() {
         photoIV = args.imageUri.toUri()
 
         DataListener.imageListener.value = false
-        Log.d("DATTA", "${DataListener.imageListener.value}")
 
         Glide.with(this)
             .load(photoIV)
@@ -76,17 +79,16 @@ class MediaFragmentRecyclerViewItemClicked : Fragment() {
 
     private fun deletePhoto() {
         val photoGalleryModel = PhotoGalleryModel(photoIV, TEMP_LABEL)
-    photosProvidersList.remove(photoGalleryModel)
-      //  val action = MediaFragmentRecyclerViewItemClickedDirections.actionMediaFragmentRecyclerViewItemClickedToNavMedia()
-       // findNavController().navigate(action)
+        photosProvidersList.remove(photoGalleryModel)
+        //  val action = MediaFragmentRecyclerViewItemClickedDirections.actionMediaFragmentRecyclerViewItemClickedToNavMedia()
+        // findNavController().navigate(action)
     }
 
-    //method to edit photo
+    // method to edit photo
     private fun editPhoto() {
         val intent = Intent(Intent.ACTION_PICK)
         intent.type = "image/*"
         startActivityForResult(intent, REQUEST_CODE)
-
     }
 
     companion object {

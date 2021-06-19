@@ -3,13 +3,11 @@ package com.decagonhq.clads.ui.profile.adapter
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.navigation.Navigation.findNavController
 import androidx.navigation.findNavController
-import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.decagonhq.clads.databinding.MediaFragmentPhotoRecyclerViewItemBinding
-import com.decagonhq.clads.model.PhotoGalleryModel
+import com.decagonhq.clads.data.domain.PhotoGalleryModel
 import com.decagonhq.clads.ui.profile.bottomnav.MediaFragmentDirections
 
 class PhotoGalleryRecyclerAdapter(
@@ -54,7 +52,6 @@ class PhotoGalleryRecyclerAdapter(
         return photoArrayList.size
     }
 
-
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
 
         Glide.with(holder.binding.root.context)
@@ -70,7 +67,6 @@ class PhotoGalleryRecyclerAdapter(
             }
         }
 
-
         // listen for user click events
         holder.setItemClickListener(object : OnItemClickListener {
             override fun onItemClick(view: View, position: Int) {
@@ -84,7 +80,6 @@ class PhotoGalleryRecyclerAdapter(
         })
         holder.setIsRecyclable(false)
     }
-
 
     // enables navigation to the MediaFragmentRecyclerViewItemClicked2
     interface OnItemClickListener {

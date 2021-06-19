@@ -9,5 +9,4 @@ object DataListener {
     init {
         imageListener.value = false
     }
-
 }

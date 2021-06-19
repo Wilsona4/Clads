@@ -1,4 +1,4 @@
-package com.decagonhq.clads.model
+package com.decagonhq.clads.data.domain
 
 import android.os.Parcelable
 import kotlinx.android.parcel.Parcelize

@@ -35,15 +35,6 @@
             android:id="@+id/action_emailSignUpFragment_to_emailConfirmationFragment"
             app:destination="@id/email_confirmation_fragment" />
 
-        <argument
-            android:name="firstName"
-            app:argType="string" />
-        <argument
-            android:name="lastName"
-            app:argType="string" />
-        <argument
-            android:name="email"
-            app:argType="string" />
     </fragment>
     <fragment
         android:id="@+id/email_confirmation_fragment"
@@ -53,10 +44,7 @@
         <action
             android:id="@+id/action_emailConfirmationFragment_to_loginFragment"
             app:destination="@id/login_fragment" />
-        <argument
-            android:name="myArg"
-            android:defaultValue="null"
-            app:argType="string" />
+
     </fragment>
     <fragment
         android:id="@+id/login_fragment"
@@ -66,6 +54,9 @@
         <action
             android:id="@+id/action_loginFragment_to_dashboardFragment"
             app:destination="@id/dashboard_fragment" />
+        <deepLink
+            android:id="@+id/emailConfirmationDeepLink"
+            app:uri="https://clads-service.herokuapp.com/api/v1/confirm" />
     </fragment>
     <fragment
         android:id="@+id/reset_password_fragment"

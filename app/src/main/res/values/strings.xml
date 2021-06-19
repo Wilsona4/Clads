@@ -305,12 +305,18 @@
     <string name="required">Required</string>
     <string name="tag_employee_number_dialog_fragment">Employee Number dialog fragment</string>
     <string name="frstname_dialog_fragment">FirstName Dialog Fragment</string>
+
     <string name="you_have_no_photo_in_your_gallery">You have no photo in your gallery</string>
     <string name="media_share">Share</string>
     <string name="media_edit">Edit</string>
     <string name="media_delete">Delete</string>
     <string name="send_to">SEND</string>
     <string name="enter_name">Enter image name</string>
+
+
+    <string name="phone">08154343448</string>
+    <string name="nigeria">Nigeria</string>
+    <string name="null_all">null</string>
 
 
     <string-array name="account_category">

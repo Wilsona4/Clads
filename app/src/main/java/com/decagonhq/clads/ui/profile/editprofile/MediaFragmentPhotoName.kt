@@ -25,13 +25,14 @@ class MediaFragmentPhotoName : Fragment() {
     private lateinit var sendFab: FloatingActionButton
 
     override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
     ): View? {
         _binding = MediaFragmentPhotoNameBinding.inflate(inflater, container, false)
         setHasOptionsMenu(true)
         return binding.root
     }
-
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -56,6 +57,5 @@ class MediaFragmentPhotoName : Fragment() {
             findNavController().previousBackStackEntry?.savedStateHandle?.set(IMAGE_KEY, bundle)
             findNavController().popBackStack()
         }
-
     }
 }

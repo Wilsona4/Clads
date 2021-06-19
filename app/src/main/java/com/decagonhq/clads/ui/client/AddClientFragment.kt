@@ -39,7 +39,6 @@ class AddClientFragment : Fragment() {
         val adapter = AddClientPagerAdapter(childFragmentManager, lifecycle)
         viewPager2.adapter = adapter
 
-
         TabLayoutMediator(tabLayout, viewPager2) { tab, position ->
             when (position) {
                 0 -> tab.text = getString(R.string.client_account)

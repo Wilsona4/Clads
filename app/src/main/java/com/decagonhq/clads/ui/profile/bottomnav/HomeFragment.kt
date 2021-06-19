@@ -9,8 +9,8 @@ import android.widget.AutoCompleteTextView
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.decagonhq.clads.R
+import com.decagonhq.clads.data.domain.ClientsListModel
 import com.decagonhq.clads.databinding.HomeFragmentBinding
-import com.decagonhq.clads.model.ClientsListModel
 import com.decagonhq.clads.ui.profile.adapter.HomeFragmentClientsRecyclerAdapter
 import com.decagonhq.clads.util.ChartData.chartData
 

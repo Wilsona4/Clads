@@ -1,4 +1,4 @@
-package com.decagonhq.clads.model
+package com.decagonhq.clads.data.domain
 
 data class ClientsListModel(
     val firstName: String,

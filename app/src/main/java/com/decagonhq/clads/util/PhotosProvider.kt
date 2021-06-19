@@ -1,6 +1,6 @@
 package com.decagonhq.clads.util
 
-import com.decagonhq.clads.model.PhotoGalleryModel
+import com.decagonhq.clads.data.domain.PhotoGalleryModel
 import java.util.ArrayList
 
 var photosProvidersList: ArrayList<PhotoGalleryModel> = arrayListOf()
