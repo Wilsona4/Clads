@@ -1,11 +1,9 @@
 package com.decagonhq.clads.ui.profile.editprofile
 
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Button
 import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
@@ -16,6 +14,7 @@ import com.decagonhq.clads.util.DataListener
 import com.decagonhq.clads.util.IMAGE_DATA_BUNDLE_KEY
 import com.decagonhq.clads.util.IMAGE_KEY
 import com.decagonhq.clads.util.IMAGE_NAME_BUNDLE_KEY
+import com.google.android.material.floatingactionbutton.FloatingActionButton
 
 class MediaFragmentPhotoName : Fragment() {
     private var _binding: MediaFragmentPhotoNameBinding? = null
@@ -23,7 +22,7 @@ class MediaFragmentPhotoName : Fragment() {
     // This property is only valid between onCreateView and onDestroyView.
     private val binding get() = _binding!!
     private val args: MediaFragmentPhotoNameArgs by navArgs()
-    private lateinit var sendButton: Button
+    private lateinit var sendFab: FloatingActionButton
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
@@ -36,16 +35,17 @@ class MediaFragmentPhotoName : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        sendButton = binding.mediaFragmentPhotoNameSendButton
+        sendFab = binding.mediaFragmentPhotoNameSendButton
         val photoGalleryImage = binding.photoGalleryImage
         val photoIV = args.imageData
 
+        /*load the image sent from media fragment*/
         Glide.with(this)
             .load(photoIV)
             .into(photoGalleryImage)
 
-
-        sendButton.setOnClickListener {
+        /*click the send fab to send photo and name of photo back to media fragment*/
+        sendFab.setOnClickListener {
             val imageName = binding.mediaFragmentPhotoNameEditText.text.toString()
             val imageData = args.imageData
 
