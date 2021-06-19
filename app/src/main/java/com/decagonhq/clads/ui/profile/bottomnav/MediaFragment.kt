@@ -6,6 +6,7 @@ import android.content.Intent
 import android.content.pm.PackageManager
 import android.net.Uri
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -56,6 +57,33 @@ class MediaFragment : Fragment() {
         noPhotoImageView = binding.mediaFragmentPhotoIconImageView
         noPhotoTextView = binding.mediaFragmentYouHaveNoPhotoInGalleryTextView
 
+
+
+        findNavController().currentBackStackEntry?.savedStateHandle?.getLiveData<Bundle>(IMAGE_KEY)
+            ?.observe(viewLifecycleOwner) {
+                val imageName = it.getString(IMAGE_NAME_BUNDLE_KEY)
+                val imageData = it.getString(IMAGE_DATA_BUNDLE_KEY)
+                val imageDataUri = imageData?.toUri()
+
+                photoGalleryModel = PhotoGalleryModel(imageDataUri, imageName)
+
+                if (DataListener.imageListener.value == true) {
+
+                    Log.d("DATALISTENER", "CALLED")
+                    Log.d("DATALISTENER", "${DataListener.imageListener.value}")
+                    photosProvidersList.add(photoGalleryModel)
+                    photoGalleryRecyclerAdapter.notifyDataSetChanged()
+                }
+
+                binding.apply {
+                    noPhotoImageView.visibility = View.INVISIBLE
+                    noPhotoTextView.visibility = View.INVISIBLE
+                    mediaFragmentPhotoRecyclerView.visibility = View.VISIBLE
+                }
+
+
+            }
+
         binding.apply {
 
             mediaFragmentPhotoRecyclerView.apply {
@@ -89,27 +117,6 @@ class MediaFragment : Fragment() {
                 )
             }
         }
-    }
-
-    override fun onResume() {
-        super.onResume()
-        findNavController().currentBackStackEntry?.savedStateHandle?.getLiveData<Bundle>(IMAGE_KEY)
-            ?.observe(viewLifecycleOwner) {
-                val imageName = it.getString(IMAGE_NAME_BUNDLE_KEY)
-                val imageData = it.getString(IMAGE_DATA_BUNDLE_KEY)
-                val imageDataUri = imageData?.toUri()
-
-                photoGalleryModel = PhotoGalleryModel(imageDataUri, imageName)
-
-                photosProvidersList.add(photoGalleryModel)
-                photoGalleryRecyclerAdapter.notifyDataSetChanged()
-
-                binding.apply {
-                    noPhotoImageView.visibility = View.INVISIBLE
-                    noPhotoTextView.visibility = View.INVISIBLE
-                    mediaFragmentPhotoRecyclerView.visibility = View.VISIBLE
-                }
-            }
     }
 
     /* Check for user permission to read external storage*/

@@ -12,6 +12,7 @@ import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import com.bumptech.glide.Glide
 import com.decagonhq.clads.databinding.MediaFragmentPhotoNameBinding
+import com.decagonhq.clads.util.DataListener
 import com.decagonhq.clads.util.IMAGE_DATA_BUNDLE_KEY
 import com.decagonhq.clads.util.IMAGE_KEY
 import com.decagonhq.clads.util.IMAGE_NAME_BUNDLE_KEY
@@ -47,6 +48,8 @@ class MediaFragmentPhotoName : Fragment() {
         sendButton.setOnClickListener {
             val imageName = binding.mediaFragmentPhotoNameEditText.text.toString()
             val imageData = args.imageData
+
+            DataListener.imageListener.value = true
 
             val bundle =
                 bundleOf(IMAGE_NAME_BUNDLE_KEY to imageName, IMAGE_DATA_BUNDLE_KEY to imageData)

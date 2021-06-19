@@ -9,5 +9,6 @@ fun Fragment.showView(view: View) {
     if (view.visibility == View.GONE || view.visibility == View.INVISIBLE) {
         view.visibility = View.VISIBLE
     }
+
 }
 
