@@ -153,6 +153,7 @@ class MediaFragment : Fragment() {
         }
     }
 
+    /*intent to get image from gallery*/
     private fun uploadImageFromGallery() {
         val intent = Intent(Intent.ACTION_PICK)
         intent.type = "image/*"
