@@ -19,10 +19,22 @@
         android:id="@+id/nav_media"
         android:name="com.decagonhq.clads.ui.profile.bottomnav.MediaFragment"
         android:label="Photo Gallery"
-        tools:layout="@layout/media_fragment" >
+        tools:layout="@layout/media_fragment">
         <action
             android:id="@+id/action_nav_media_to_mediaFragmentRecyclerViewItemClicked2"
             app:destination="@id/mediaFragmentRecyclerViewItemClicked" />
+        <action
+            android:id="@+id/action_nav_media_to_mediaFragmentPhotoName"
+            app:destination="@id/mediaFragmentPhotoName" />
+        <argument
+            android:name="imageName"
+            app:argType="string"
+            app:nullable="true"
+            android:defaultValue="@null"/>
+        <argument
+            android:name="imagePhoto"
+            android:defaultValue="@null"
+            app:nullable="true"/>
     </fragment>
 
     <fragment
@@ -56,7 +68,7 @@
         android:id="@+id/measurementsFragment"
         android:name="com.decagonhq.clads.ui.client.MeasurementsFragment"
         android:label="measurements_fragment"
-        tools:layout="@layout/measurements_fragment" >
+        tools:layout="@layout/measurements_fragment">
         <argument
             android:name="dress_measurement"
             app:argType="com.decagonhq.clads.model.DressMeasurementModel" />
@@ -65,19 +77,19 @@
         android:id="@+id/deliveryAddressFragment"
         android:name="com.decagonhq.clads.ui.client.DeliveryAddressFragment"
         android:label="@string/add_client"
-        tools:layout="@layout/delivery_address_fragment" >
+        tools:layout="@layout/delivery_address_fragment">
         <argument
             android:name="delivery_address"
+            android:defaultValue="@null"
             app:argType="com.decagonhq.clads.model.DeliveryAddressModel"
-            app:nullable="true"
-            android:defaultValue="@null"/>
+            app:nullable="true" />
     </fragment>
 
     <fragment
         android:id="@+id/addAddressFragment"
         android:name="com.decagonhq.clads.ui.client.AddAddressFragment"
         android:label="@string/add_client"
-        tools:layout="@layout/add_address_fragment" >
+        tools:layout="@layout/add_address_fragment">
         <action
             android:id="@+id/action_addAddressFragment_to_deliveryAddressFragment"
             app:destination="@id/deliveryAddressFragment" />
@@ -106,8 +118,25 @@
         android:id="@+id/mediaFragmentRecyclerViewItemClicked"
         android:name="com.decagonhq.clads.ui.profile.bottomnav.MediaFragmentRecyclerViewItemClicked"
         android:label="Elegant suit for men"
-        tools:layout="@layout/media_fragment_recycler_view_item_clicked" >
+        tools:layout="@layout/media_fragment_recycler_view_item_clicked">
         <argument android:name="imageUri" />
+        <action
+            android:id="@+id/action_mediaFragmentRecyclerViewItemClicked_to_nav_media"
+            app:destination="@id/nav_media" />
+    </fragment>
+    <fragment
+        android:id="@+id/mediaFragmentPhotoName"
+        android:name="com.decagonhq.clads.ui.profile.editprofile.MediaFragmentPhotoName"
+        android:label="MediaFragmentPhotoName">
+        <argument
+            android:name="imageData"
+            android:defaultValue="@null"
+            app:nullable="true" />
+        <action
+            android:id="@+id/action_mediaFragmentPhotoName_to_nav_media"
+            app:destination="@id/nav_media"
+            app:popUpTo="@id/nav_media"
+            app:popUpToInclusive="true" />
     </fragment>
 
 </navigation>

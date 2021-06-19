@@ -1,6 +1,5 @@
 package com.decagonhq.clads.ui.profile.adapter
 
-import android.content.Intent
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -10,8 +9,6 @@ import com.bumptech.glide.Glide
 import com.decagonhq.clads.databinding.MediaFragmentPhotoRecyclerViewItemBinding
 import com.decagonhq.clads.model.PhotoGalleryModel
 import com.decagonhq.clads.ui.profile.bottomnav.MediaFragmentDirections
-import com.decagonhq.clads.ui.profile.bottomnav.MediaFragmentRecyclerViewItemClicked
-import com.decagonhq.clads.util.photosProviders
 
 class PhotoGalleryRecyclerAdapter(
     var photoArrayList: ArrayList<PhotoGalleryModel>,
@@ -38,16 +35,9 @@ class PhotoGalleryRecyclerAdapter(
                 )
             }
         }
-//        override fun onClick(v: View?) {
-//            val position: Int = adapterPosition
-//            if (position != RecyclerView.NO_POSITION) {
-//                onClickListener.onItemClick(position)
-//            }
-//        }
-
     }
 
-
+    /*inflate the view that contains the recycler view item*/
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val binding = MediaFragmentPhotoRecyclerViewItemBinding.inflate(
             LayoutInflater.from(parent.context),
@@ -57,9 +47,11 @@ class PhotoGalleryRecyclerAdapter(
         return ViewHolder(binding)
     }
 
+    /*get the side of the array list*/
     override fun getItemCount(): Int {
         return photoArrayList.size
     }
+
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
 
@@ -76,19 +68,19 @@ class PhotoGalleryRecyclerAdapter(
             }
         }
 
+
         // listen for user click events
         holder.setItemClickListener(object : OnItemClickListener {
             override fun onItemClick(view: View, position: Int) {
                 val imageUri = photoArrayList[position].image.toString()
                 // use actions to pass data from one fragment to the other
                 val action =
-                    MediaFragmentDirections.actionNavMediaToMediaFragmentRecyclerViewItemClicked2(
-                        imageUri
-                    )
+                    MediaFragmentDirections.actionNavMediaToMediaFragmentRecyclerViewItemClicked2(imageUri)
                 view.findNavController().navigate(action)
             }
         })
     }
+
 
     // enables navigation to the MediaFragmentRecyclerViewItemClicked2
     interface OnItemClickListener {

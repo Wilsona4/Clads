@@ -6,6 +6,7 @@ import android.content.Intent
 import android.content.pm.PackageManager
 import android.net.Uri
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -15,17 +16,15 @@ import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
-import androidx.core.view.isVisible
+import androidx.core.net.toUri
 import androidx.fragment.app.Fragment
-import androidx.navigation.fragment.NavHostFragment.findNavController
 import androidx.navigation.fragment.findNavController
+import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.GridLayoutManager
-import com.decagonhq.clads.R
 import com.decagonhq.clads.databinding.MediaFragmentBinding
 import com.decagonhq.clads.model.PhotoGalleryModel
 import com.decagonhq.clads.ui.profile.adapter.PhotoGalleryRecyclerAdapter
-import com.decagonhq.clads.util.photosProviders
-import com.decagonhq.clads.util.showView
+import com.decagonhq.clads.util.*
 
 
 class MediaFragment : Fragment() {
@@ -39,6 +38,8 @@ class MediaFragment : Fragment() {
     private lateinit var noPhotoImageView: ImageView
     private lateinit var noPhotoTextView: TextView
     var imageUri: Uri? = null
+    val args: MediaFragmentArgs by navArgs()
+
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -60,13 +61,13 @@ class MediaFragment : Fragment() {
 
             mediaFragmentPhotoRecyclerView.apply {
                 photoGalleryRecyclerAdapter =
-                    PhotoGalleryRecyclerAdapter(photosProviders /*this@MediaFragment*/)
+                    PhotoGalleryRecyclerAdapter(photosProvidersList)
                 adapter = photoGalleryRecyclerAdapter
                 layoutManager = GridLayoutManager(requireContext(), GRID_SIZE)
                 photoGalleryRecyclerAdapter.notifyDataSetChanged()
             }
 
-            if (photosProviders.isEmpty()) {
+            if (photosProvidersList.isEmpty()) {
                 noPhotoImageView.visibility = View.VISIBLE
                 noPhotoTextView.visibility = View.VISIBLE
                 mediaFragmentPhotoRecyclerView.visibility = View.GONE
@@ -74,7 +75,6 @@ class MediaFragment : Fragment() {
                 noPhotoImageView.visibility = View.INVISIBLE
                 noPhotoTextView.visibility = View.INVISIBLE
                 mediaFragmentPhotoRecyclerView.visibility = View.VISIBLE
-
             }
         }
 
@@ -137,16 +137,31 @@ class MediaFragment : Fragment() {
         super.onActivityResult(requestCode, resultCode, data)
         if (resultCode == RESULT_OK && requestCode == REQUEST_CODE) {
 
+
             //get image from gallery and add to a list
             imageUri = data?.data!!
+//            val imageData = imageUri.toString()
+//            val action = MediaFragmentDirections.actionNavMediaToMediaFragmentPhotoName(imageData)
+//            findNavController().navigate(action)
             val photoGalleryModel = PhotoGalleryModel(
                 imageUri!!,
                 TEMP_LABEL
             )
-            photosProviders.add(photoGalleryModel)
 
+//            val photoGalleryModel = args.imageName?.let {
+//                args.imagePhoto?.toUri()?.let { it1 ->
+//                    PhotoGalleryModel(
+//                        it1,
+//                        it
+//                    )
+//                }
+//            }
+            photosProvidersList.add(photoGalleryModel)
 
-            if (photosProviders.isEmpty()) {
+            Log.d("ImagePhoto", "onActivityResult: ${args.imagePhoto?.toUri()}")
+            Log.d("ImageName", "onActivityResult: ${args.imageName}")
+
+            if (photosProvidersList.isEmpty()) {
 
                 showView(noPhotoImageView)
                 showView(noPhotoTextView)
@@ -207,31 +222,11 @@ class MediaFragment : Fragment() {
         dialog.show()
     }
 
-//    override fun onItemClick(position: Int) {
-//        Toast.makeText(requireContext(), "Item $position clicked", Toast.LENGTH_SHORT).show()
-//        photoGalleryRecyclerAdapter.notifyDataSetChanged()
-//
-//        val intent = Intent(requireContext(), MediaFragmentRecyclerViewItemClicked::class.java )
-//        intent.putExtra("key" , photosProviders[position].image )
-//        intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK
-//        startActivity(intent)
-////        val imageUri = photosProviders[position].image
-////        val action = MediaFragmentDirections.actionNavMediaToMediaFragmentRecyclerViewItemClicked2()
-////        findNavController().navigate(action)
-//    }
-
 
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
     }
-
-    companion object {
-        private const val REQUEST_CODE = 100
-        private const val GRID_SIZE = 2
-        private const val TEMP_LABEL = "Image"
-    }
-
 
 }
 
