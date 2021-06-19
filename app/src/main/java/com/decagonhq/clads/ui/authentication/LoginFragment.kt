@@ -226,14 +226,8 @@ class LoginFragment : Fragment() {
                     when (it) {
                         is Resource.Success -> {
                             val successResponse = it.value.payload
-
-                            Timber.d("${account.idToken}")
-                            Timber.d("$successResponse")
-
                             sessionManager.saveToSharedPref(TOKEN, successResponse)
-
                             val intent = Intent(requireContext(), DashboardActivity::class.java)
-
                             startActivity(intent)
                             activity?.finish()
                         }
