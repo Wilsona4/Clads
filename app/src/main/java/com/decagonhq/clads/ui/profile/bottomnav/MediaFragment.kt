@@ -6,7 +6,6 @@ import android.content.Intent
 import android.content.pm.PackageManager
 import android.net.Uri
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -18,8 +17,8 @@ import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.core.net.toUri
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.observe
 import androidx.navigation.fragment.findNavController
-import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.GridLayoutManager
 import com.decagonhq.clads.databinding.MediaFragmentBinding
 import com.decagonhq.clads.model.PhotoGalleryModel
@@ -37,8 +36,8 @@ class MediaFragment : Fragment() {
     private lateinit var photoGalleryRecyclerAdapter: PhotoGalleryRecyclerAdapter
     private lateinit var noPhotoImageView: ImageView
     private lateinit var noPhotoTextView: TextView
-    var imageUri: Uri? = null
-    val args: MediaFragmentArgs by navArgs()
+    private lateinit var photoGalleryModel: PhotoGalleryModel
+    private lateinit var imageUri: Uri
 
 
     override fun onCreateView(
@@ -92,6 +91,27 @@ class MediaFragment : Fragment() {
         }
     }
 
+    override fun onResume() {
+        super.onResume()
+        findNavController().currentBackStackEntry?.savedStateHandle?.getLiveData<Bundle>(IMAGE_KEY)
+            ?.observe(viewLifecycleOwner) {
+                val imageName = it.getString(IMAGE_NAME_BUNDLE_KEY)
+                val imageData = it.getString(IMAGE_DATA_BUNDLE_KEY)
+                val imageDataUri = imageData?.toUri()
+
+                photoGalleryModel = PhotoGalleryModel(imageDataUri, imageName)
+
+                photosProvidersList.add(photoGalleryModel)
+                photoGalleryRecyclerAdapter.notifyDataSetChanged()
+
+                binding.apply {
+                    noPhotoImageView.visibility = View.INVISIBLE
+                    noPhotoTextView.visibility = View.INVISIBLE
+                    mediaFragmentPhotoRecyclerView.visibility = View.VISIBLE
+                }
+            }
+    }
+
     /* Check for user permission to read external storage*/
     private fun checkPermission(): Boolean {
         return (ContextCompat.checkSelfPermission(
@@ -124,55 +144,26 @@ class MediaFragment : Fragment() {
         startActivityForResult(intent, REQUEST_CODE)
     }
 
-    private fun getPickImageIntent() {
-        val intent = Intent(Intent.ACTION_GET_CONTENT)
-        intent.type = "image/*"
-        intent.putExtra(Intent.EXTRA_ALLOW_MULTIPLE, true)
-        startActivityForResult(intent, REQUEST_CODE)
-    }
-
 
     //function to attach the selected image to the image view
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
         if (resultCode == RESULT_OK && requestCode == REQUEST_CODE) {
 
-
-            //get image from gallery and add to a list
+            /*get image from gallery and send to a fragment for naming*/
             imageUri = data?.data!!
-//            val imageData = imageUri.toString()
-//            val action = MediaFragmentDirections.actionNavMediaToMediaFragmentPhotoName(imageData)
-//            findNavController().navigate(action)
-            val photoGalleryModel = PhotoGalleryModel(
-                imageUri!!,
-                TEMP_LABEL
-            )
-
-//            val photoGalleryModel = args.imageName?.let {
-//                args.imagePhoto?.toUri()?.let { it1 ->
-//                    PhotoGalleryModel(
-//                        it1,
-//                        it
-//                    )
-//                }
-//            }
-            photosProvidersList.add(photoGalleryModel)
-
-            Log.d("ImagePhoto", "onActivityResult: ${args.imagePhoto?.toUri()}")
-            Log.d("ImageName", "onActivityResult: ${args.imageName}")
+            val imageData = imageUri.toString()
+            val action = MediaFragmentDirections.actionNavMediaToMediaFragmentPhotoName(imageData)
+            findNavController().navigate(action)
 
             if (photosProvidersList.isEmpty()) {
-
                 showView(noPhotoImageView)
                 showView(noPhotoTextView)
-
                 binding.mediaFragmentPhotoRecyclerView.visibility = View.GONE
             } else {
                 noPhotoImageView.visibility = View.INVISIBLE
                 noPhotoTextView.visibility = View.INVISIBLE
-
                 binding.mediaFragmentPhotoRecyclerView.visibility = View.VISIBLE
-
                 photoGalleryRecyclerAdapter.notifyDataSetChanged()
 
             }
@@ -193,7 +184,7 @@ class MediaFragment : Fragment() {
                 ) {
                     uploadImageFromGallery()
                 } else {
-                    Toast.makeText(requireContext(), "Permission Denied", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(requireContext(), PERMISSION_DENIED, Toast.LENGTH_SHORT).show()
                 }
                 return
             }

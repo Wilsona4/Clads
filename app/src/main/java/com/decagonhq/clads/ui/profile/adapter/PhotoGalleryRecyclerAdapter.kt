@@ -3,7 +3,9 @@ package com.decagonhq.clads.ui.profile.adapter
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.navigation.Navigation.findNavController
 import androidx.navigation.findNavController
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.decagonhq.clads.databinding.MediaFragmentPhotoRecyclerViewItemBinding
@@ -77,6 +79,7 @@ class PhotoGalleryRecyclerAdapter(
                 val action =
                     MediaFragmentDirections.actionNavMediaToMediaFragmentRecyclerViewItemClicked2(imageUri)
                 view.findNavController().navigate(action)
+                //view.findNavController().popBackStack()
             }
         })
     }

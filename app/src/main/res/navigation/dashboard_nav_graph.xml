@@ -26,15 +26,6 @@
         <action
             android:id="@+id/action_nav_media_to_mediaFragmentPhotoName"
             app:destination="@id/mediaFragmentPhotoName" />
-        <argument
-            android:name="imageName"
-            app:argType="string"
-            app:nullable="true"
-            android:defaultValue="@null"/>
-        <argument
-            android:name="imagePhoto"
-            android:defaultValue="@null"
-            app:nullable="true"/>
     </fragment>
 
     <fragment
@@ -130,11 +121,11 @@
         android:label="MediaFragmentPhotoName">
         <argument
             android:name="imageData"
-            android:defaultValue="@null"
-            app:nullable="true" />
+            app:argType="string" />
         <action
             android:id="@+id/action_mediaFragmentPhotoName_to_nav_media"
             app:destination="@id/nav_media"
+            app:launchSingleTop="false"
             app:popUpTo="@id/nav_media"
             app:popUpToInclusive="true" />
     </fragment>
