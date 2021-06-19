@@ -130,7 +130,6 @@ class AccountFragment : Fragment() {
         if (resultCode == Activity.RESULT_OK && requestCode == REQUEST_CODE_IMAGE_PICKER) {
             selectedImage = data?.data!!
             binding.accountFragmentEditProfileIconImageView.setImageURI(selectedImage)
-
             /*Upload image*/
             // Getting the file name
 //            val file = File(FileUtil.getPath(selectedImage!!, requireContext()))
@@ -186,7 +185,6 @@ class AccountFragment : Fragment() {
     }
 
     private fun accountlegalStatusdialog() {
-
         childFragmentManager.setFragmentResultListener(
             ACCOUNT_LEGAL_STATUS_REQUEST_KEY,
             requireActivity()
