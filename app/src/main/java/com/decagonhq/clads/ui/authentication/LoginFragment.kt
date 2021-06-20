@@ -1,6 +1,5 @@
 package com.decagonhq.clads.ui.authentication
 
-import android.app.ProgressDialog
 import android.content.Intent
 import android.graphics.Color
 import android.graphics.Typeface
@@ -29,8 +28,8 @@ import com.decagonhq.clads.data.domain.login.UserRole
 import com.decagonhq.clads.databinding.LoginFragmentBinding
 import com.decagonhq.clads.ui.profile.DashboardActivity
 import com.decagonhq.clads.util.Constants.TOKEN
-import com.decagonhq.clads.util.CustomTypefaceSpan
 import com.decagonhq.clads.util.CustomProgressDialog
+import com.decagonhq.clads.util.CustomTypefaceSpan
 import com.decagonhq.clads.util.Resource
 import com.decagonhq.clads.util.SessionManager
 import com.decagonhq.clads.util.ValidationObject.validateEmail
@@ -144,12 +143,11 @@ class LoginFragment : Fragment() {
                                     progressDialog.hideProgressDialog()
                                     Toast.makeText(
                                         requireContext(),
-                                        "Error: ${it}",
+                                        "Error: $it",
                                         Toast.LENGTH_SHORT
                                     ).show()
                                 }
                                 is Resource.Loading -> {
-
                                 }
                             }
                         }
@@ -226,7 +224,6 @@ class LoginFragment : Fragment() {
             )
             progressDialog.showDialogFragment(getString(R.string.please_wait))
 
-
             /*Handling the response from the retrofit*/
             viewModel.loginUserWithGoogle.observe(
                 viewLifecycleOwner,
@@ -244,7 +241,7 @@ class LoginFragment : Fragment() {
                             progressDialog.hideProgressDialog()
                             Toast.makeText(
                                 requireContext(),
-                                "Error: ${it}",
+                                "Error: $it",
                                 Toast.LENGTH_SHORT
                             ).show()
                         }

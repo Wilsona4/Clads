@@ -1,7 +1,6 @@
 package com.decagonhq.clads.util
 
 import android.content.Context
-import android.os.Message
 import android.view.LayoutInflater
 import android.widget.TextView
 import androidx.appcompat.app.AlertDialog
@@ -27,9 +26,7 @@ class CustomProgressDialog(context: Context) : AlertDialog(context) {
         this.show()
     }
 
-    fun hideProgressDialog(){
+    fun hideProgressDialog() {
         this.dismiss()
     }
-
-
 }
