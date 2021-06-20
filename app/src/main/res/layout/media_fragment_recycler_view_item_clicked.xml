@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:background="@color/black"
+    tools:context=".ui.profile.bottomnav.MediaFragmentRecyclerViewItemClicked">
+
+    <ImageView
+        android:id="@+id/media_fragment_recycler_view_photo_image_view"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:src="@drawable/elegant_suit_photo"
+        />
+
+</androidx.constraintlayout.widget.ConstraintLayout>
