@@ -6,7 +6,6 @@ import android.content.Intent
 import android.content.pm.PackageManager
 import android.net.Uri
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -31,7 +30,9 @@ import com.decagonhq.clads.util.IMAGE_KEY
 import com.decagonhq.clads.util.IMAGE_NAME_BUNDLE_KEY
 import com.decagonhq.clads.util.PERMISSION_DENIED
 import com.decagonhq.clads.util.REQUEST_CODE
+import com.decagonhq.clads.util.hide
 import com.decagonhq.clads.util.photosProvidersList
+import com.decagonhq.clads.util.show
 import com.decagonhq.clads.util.showView
 
 class MediaFragment : Fragment() {
@@ -76,8 +77,6 @@ class MediaFragment : Fragment() {
 
                 if (DataListener.imageListener.value == true) {
 
-                    Log.d("DATALISTENER", "CALLED")
-                    Log.d("DATALISTENER", "${DataListener.imageListener.value}")
                     photosProvidersList.add(photoGalleryModel)
                     photoGalleryRecyclerAdapter.notifyDataSetChanged()
                 }
@@ -176,9 +175,9 @@ class MediaFragment : Fragment() {
                 showView(noPhotoTextView)
                 binding.mediaFragmentPhotoRecyclerView.visibility = View.GONE
             } else {
-                noPhotoImageView.visibility = View.INVISIBLE
-                noPhotoTextView.visibility = View.INVISIBLE
-                binding.mediaFragmentPhotoRecyclerView.visibility = View.VISIBLE
+                noPhotoImageView.hide()
+                noPhotoTextView.hide()
+                binding.mediaFragmentPhotoRecyclerView.show()
                 photoGalleryRecyclerAdapter.notifyDataSetChanged()
             }
         }

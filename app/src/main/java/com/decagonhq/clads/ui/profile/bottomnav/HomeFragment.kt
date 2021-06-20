@@ -9,10 +9,10 @@ import android.widget.AutoCompleteTextView
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.decagonhq.clads.R
-import com.decagonhq.clads.data.domain.ClientsListModel
 import com.decagonhq.clads.databinding.HomeFragmentBinding
 import com.decagonhq.clads.ui.profile.adapter.HomeFragmentClientsRecyclerAdapter
 import com.decagonhq.clads.util.ChartData.chartData
+import com.decagonhq.clads.util.DummyDataUtil
 
 class HomeFragment : Fragment() {
 
@@ -21,7 +21,6 @@ class HomeFragment : Fragment() {
     // This property is only valid between onCreateView and onDestroyView.
     private val binding get() = _binding!!
     private lateinit var homeFragmentYearDropdown: AutoCompleteTextView
-    private lateinit var clientList: ArrayList<ClientsListModel>
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -38,13 +37,17 @@ class HomeFragment : Fragment() {
 
         binding.apply {
             homeFragmentClientListRecyclerView.apply {
-                populateClient()
+
                 adapter =
                     HomeFragmentClientsRecyclerAdapter(
-                        clientList
+                        DummyDataUtil.populateClient()
                     )
                 layoutManager =
-                    LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, false)
+                    LinearLayoutManager(
+                        requireContext(),
+                        LinearLayoutManager.VERTICAL,
+                        false
+                    )
                 setHasFixedSize(true)
             }
         }
@@ -59,38 +62,6 @@ class HomeFragment : Fragment() {
         val accountCategoriesArrayAdapter =
             ArrayAdapter(requireContext(), R.layout.chart_year_dropdown_item, chartYear)
         homeFragmentYearDropdown.setAdapter(accountCategoriesArrayAdapter)
-    }
-
-    // dummy data to populate the recycler view
-    private fun populateClient() {
-        clientList = arrayListOf(
-            ClientsListModel("Ruth", "Unoka", "Lagos"),
-            ClientsListModel(
-                "Ezekiel",
-                "Olufemi",
-                "Benin"
-            ),
-            ClientsListModel(
-                "Olufemi",
-                "Ogundipe",
-                "Abeokuta"
-            ),
-            ClientsListModel(
-                "Adebayo",
-                "Kings",
-                "Lagos"
-            ),
-            ClientsListModel(
-                "Abdul",
-                "Salawu",
-                "Benin"
-            ),
-            ClientsListModel(
-                "Hope",
-                "Omoruyi",
-                "Abeokuta"
-            )
-        )
     }
 
     override fun onDestroyView() {

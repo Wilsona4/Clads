@@ -18,6 +18,7 @@ import com.decagonhq.clads.util.IMAGE_NAME_BUNDLE_KEY
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 
 class MediaFragmentPhotoName : Fragment() {
+
     private var _binding: MediaFragmentPhotoNameBinding? = null
 
     // This property is only valid between onCreateView and onDestroyView.
