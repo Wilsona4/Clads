@@ -30,6 +30,7 @@ import com.decagonhq.clads.databinding.LoginFragmentBinding
 import com.decagonhq.clads.ui.profile.DashboardActivity
 import com.decagonhq.clads.util.Constants.TOKEN
 import com.decagonhq.clads.util.CustomTypefaceSpan
+import com.decagonhq.clads.util.CustomProgressDialog
 import com.decagonhq.clads.util.Resource
 import com.decagonhq.clads.util.SessionManager
 import com.decagonhq.clads.util.ValidationObject.validateEmail
@@ -57,7 +58,7 @@ class LoginFragment : Fragment() {
     private lateinit var googleSignInButton: Button
     private lateinit var cladsSignInClient: GoogleSignInClient
     private var GOOGLE_SIGNIN_RQ_CODE = 100
-    private lateinit var progressDialog: ProgressDialog
+    private lateinit var progressDialog: CustomProgressDialog
 
     val viewModel: AuthenticationViewModel by viewModels()
 
@@ -85,6 +86,7 @@ class LoginFragment : Fragment() {
         newUserSignUpForFree = binding.loginFragmentSignUpForFreeTextView
         forgetPasswordButton = binding.loginFragmentForgetPasswordTextView
         googleSignInButton = binding.loginFragmentGoogleSignInButton
+        progressDialog = CustomProgressDialog(requireContext())
 
         newUserSignUpForFreeSpannable()
         googleSignInClient()
@@ -123,6 +125,8 @@ class LoginFragment : Fragment() {
 
                     /*Handling response from the retrofit*/
                     viewModel.loginUser(loginCredentials)
+
+                    progressDialog.showDialogFragment(getString(R.string.please_wait))
                     viewModel.loginUser.observe(
                         viewLifecycleOwner,
                         Observer {
@@ -130,24 +134,22 @@ class LoginFragment : Fragment() {
                                 is Resource.Success -> {
                                     val successResponse = it.value.payload
                                     sessionManager.saveToSharedPref(TOKEN, successResponse)
+                                    progressDialog.hideProgressDialog()
                                     val intent =
                                         Intent(requireContext(), DashboardActivity::class.java)
                                     startActivity(intent)
                                     activity?.finish()
                                 }
                                 is Resource.Error -> {
+                                    progressDialog.hideProgressDialog()
                                     Toast.makeText(
                                         requireContext(),
-                                        "Error: ${it.errorCode} = ${it.errorBody}",
+                                        "Error: ${it}",
                                         Toast.LENGTH_SHORT
                                     ).show()
                                 }
                                 is Resource.Loading -> {
-                                    Toast.makeText(
-                                        requireContext(),
-                                        "Loading",
-                                        Toast.LENGTH_SHORT
-                                    ).show()
+
                                 }
                             }
                         }
@@ -222,6 +224,8 @@ class LoginFragment : Fragment() {
             viewModel.loginUserWithGoogle(
                 UserRole(getString(R.string.tailor))
             )
+            progressDialog.showDialogFragment(getString(R.string.please_wait))
+
 
             /*Handling the response from the retrofit*/
             viewModel.loginUserWithGoogle.observe(
@@ -231,14 +235,16 @@ class LoginFragment : Fragment() {
                         is Resource.Success -> {
                             val successResponse = it.value.payload
                             sessionManager.saveToSharedPref(TOKEN, successResponse)
+                            progressDialog.hideProgressDialog()
                             val intent = Intent(requireContext(), DashboardActivity::class.java)
                             startActivity(intent)
                             activity?.finish()
                         }
                         is Resource.Error -> {
+                            progressDialog.hideProgressDialog()
                             Toast.makeText(
                                 requireContext(),
-                                "Error: ${it.errorCode} = ${it.errorBody}",
+                                "Error: ${it}",
                                 Toast.LENGTH_SHORT
                             ).show()
                         }
