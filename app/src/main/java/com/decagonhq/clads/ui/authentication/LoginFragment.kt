@@ -91,6 +91,7 @@ class LoginFragment : Fragment() {
         binding.loginFragmentLogInButton.setOnClickListener {
             val emailAddress = emailEditText.text.toString()
             val password = passwordEditText.text.toString()
+
             when {
                 // Check if email is empty
                 emailAddress.isEmpty() -> {
@@ -117,6 +118,8 @@ class LoginFragment : Fragment() {
                         emailEditText.text.toString(),
                         passwordEditText.text.toString()
                     )
+
+                    /*Handling response from the retrofit*/
                     viewModel.loginUser(loginCredentials)
                     viewModel.loginUser.observe(
                         viewLifecycleOwner,
@@ -201,8 +204,9 @@ class LoginFragment : Fragment() {
             val account = completedTask.getResult(ApiException::class.java)
             loadDashBoardFragment(account)
         } catch (e: ApiException) {
-            loadDashBoardFragment(null)
+
         }
+
     }
 
     /*open the dashboard fragment if account was selected*/
@@ -219,6 +223,7 @@ class LoginFragment : Fragment() {
                 UserRole(getString(R.string.tailor))
             )
 
+            /*Handling the response from the retrofit*/
             viewModel.loginUserWithGoogle.observe(
                 viewLifecycleOwner,
                 Observer {
@@ -290,6 +295,7 @@ class LoginFragment : Fragment() {
         return isValidated
     }
 
+    /*Spannable from login screen to sign up screen*/
     private fun newUserSignUpForFreeSpannable() {
         val message = getString(R.string.new_user_sign_up_for_free)
         val spannable = SpannableStringBuilder(message)

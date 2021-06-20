@@ -15,6 +15,5 @@ interface AuthRepository {
     suspend fun registerUser(user: UserRegistration): Flow<Resource<UserRegSuccessResponse>>
     suspend fun loginUser(loginCredentials: LoginCredentials): Flow<Resource<EmailLoginSuccessResponse>>
     suspend fun userProfileImage(userProfileImage: MultipartBody.Part): Flow<Resource<UserProfileImageResponse>>
-//    suspend fun loginUserWithGoogle(auth: String, userRole: UserRole): Flow<Resource<GoogleLoginSuccessResponse>>
     suspend fun loginUserWithGoogle(userRole: UserRole): Flow<Resource<GoogleLoginSuccessResponse>>
 }

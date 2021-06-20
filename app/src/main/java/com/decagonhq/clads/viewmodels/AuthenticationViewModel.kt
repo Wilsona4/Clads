@@ -46,6 +46,7 @@ class AuthenticationViewModel @Inject constructor(
         }
     }
 
+    /*Login in with email*/
     fun loginUser(loginCredentials: LoginCredentials) {
         viewModelScope.launch {
             val response = authRepository.loginUser(loginCredentials)
@@ -55,6 +56,7 @@ class AuthenticationViewModel @Inject constructor(
         }
     }
 
+    /*Login with google*/
     fun loginUserWithGoogle(userRole: UserRole) {
         viewModelScope.launch {
             val response = authRepository.loginUserWithGoogle(userRole)
@@ -63,15 +65,6 @@ class AuthenticationViewModel @Inject constructor(
             }
         }
     }
-
-//    fun loginUserWithGoogle(auth: String, userRole: UserRole) {
-//        viewModelScope.launch {
-//            val response = authRepository.loginUserWithGoogle(auth, userRole)
-//            response.collect {
-//                _loginUserWithGoogle.value = it
-//            }
-//        }
-//    }
 
     fun userProfileImage(userProfileImage: MultipartBody.Part) {
         viewModelScope.launch {
