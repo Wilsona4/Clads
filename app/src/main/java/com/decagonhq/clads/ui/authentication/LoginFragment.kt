@@ -1,5 +1,6 @@
 package com.decagonhq.clads.ui.authentication
 
+import android.app.ProgressDialog
 import android.content.Intent
 import android.graphics.Color
 import android.graphics.Typeface
@@ -56,6 +57,7 @@ class LoginFragment : Fragment() {
     private lateinit var googleSignInButton: Button
     private lateinit var cladsSignInClient: GoogleSignInClient
     private var GOOGLE_SIGNIN_RQ_CODE = 100
+    private lateinit var progressDialog: ProgressDialog
 
     val viewModel: AuthenticationViewModel by viewModels()
 
@@ -204,9 +206,7 @@ class LoginFragment : Fragment() {
             val account = completedTask.getResult(ApiException::class.java)
             loadDashBoardFragment(account)
         } catch (e: ApiException) {
-
         }
-
     }
 
     /*open the dashboard fragment if account was selected*/
