@@ -214,5 +214,7 @@
     <dimen name="width_2dp">2dp</dimen>
     <dimen name="layout_width_30dp">30dp</dimen>
     <dimen name="layout_height_30dp">30dp</dimen>
+    <dimen name="photo_image_height_171dp">171dp</dimen>
+    <dimen name="radius_30dp">30dp</dimen>
 
 </resources>

@@ -11,6 +11,7 @@ import com.decagonhq.clads.databinding.ClientFragmentBinding
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 
 class ClientFragment : Fragment() {
+
     private var _binding: ClientFragmentBinding? = null
 
     // This property is only valid between onCreateView and onDestroyView.

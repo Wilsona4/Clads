@@ -34,10 +34,7 @@ class MessagesFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         getNotification()
         notificationRecyclerView = binding.messagesFragmentClientMessagesRecyclerView
-        notificationAdapter =
-            MessagesFragmentClientsRecyclerAdapter(
-                messageNotificationList
-            )
+        notificationAdapter = MessagesFragmentClientsRecyclerAdapter(messageNotificationList)
         notificationRecyclerView.layoutManager =
             LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, false)
         notificationRecyclerView.adapter = notificationAdapter
