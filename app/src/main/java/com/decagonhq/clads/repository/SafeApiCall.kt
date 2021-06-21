@@ -12,7 +12,6 @@ abstract class SafeApiCall {
         apiCall: suspend () -> T
     ): Resource<T> {
         return withContext(Dispatchers.IO) {
-            Resource.Loading
             try {
                 Resource.Success(apiCall.invoke())
             } catch (throwable: Throwable) {
@@ -28,7 +27,7 @@ abstract class SafeApiCall {
                         )
                     }
                     else -> {
-                        Resource.Error(false, null, null)
+                        Resource.Error(true, null, null)
                     }
                 }
             }
