@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+        <item
+            android:id="@+id/media_share"
+            android:title="@string/media_share" />
+        <item
+            android:id="@+id/media_edit"
+            android:title="@string/media_edit" />
+        <item
+            android:id="@+id/media_delete"
+            android:title="@string/media_delete" />
+</menu>

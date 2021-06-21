@@ -7,8 +7,7 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.decagonhq.clads.R
-import com.decagonhq.clads.ui.client.model.DressMeasurementModel
-import com.decagonhq.clads.util.RecyclerClickListener
+import com.decagonhq.clads.data.domain.DressMeasurementModel
 
 class AddMeasurementAdapter(
     private val currentList: MutableList<DressMeasurementModel>,
@@ -47,4 +46,9 @@ class AddMeasurementAdapter(
     override fun getItemCount(): Int {
         return currentList.size
     }
+}
+
+interface RecyclerClickListener {
+    fun onItemClickToEdit(position: Int, currentList: MutableList<DressMeasurementModel>)
+    fun onItemClickToDelete(position: Int, currentList: MutableList<DressMeasurementModel>)
 }

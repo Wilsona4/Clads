@@ -110,7 +110,7 @@
     <string name="delivery_address_city">City</string>
     <string name="delivery_address_state">State</string>
     <string name="there_are_no_delivery_address">There are no delivery address for this client</string>
-    <string name="add_address">Add address</string>
+    <string name="add_address">Add Address</string>
     <string name="add_address_fragment">Add address</string>
     <string name="edit_measurement">Edit measurement</string>
 
@@ -163,7 +163,7 @@
         <item>Zamfara</item>
         <item>FCT</item>
     </string-array>
-<!-- String extractions -->
+    <!-- String extractions -->
     <string name="tag">Dialog tag</string>
     <string name="request_key_keyClicked">keyClicked</string>
     <string name="key_bundleKey">bundleKey</string>
@@ -172,11 +172,11 @@
     <string name="key_position">position</string>
     <string name="delete_measurement">Delete measurement!</string>
     <string name="are_you_sure">Are you sure ?</string>
-    <string name="do_you_want_to_delete_measurement">Do you want delete the measurement ?</string>
+    <string name="do_you_want_to_delete_measurement">Do you want to delete the measurement ?</string>
     <string name="dialog_alert_confirmation_yes">Yes</string>
-    <string name="dialog_alert_confirmation_cancle">Cancle</string>
+    <string name="dialog_alert_confirmation_cancle">Cancel</string>
 
-<!--  Temporary string used for dummy array -->
+    <!--  Temporary string used for dummy array -->
     <string name="arm">Arm</string>
     <string name="leg">Leg</string>
     <string name="neck">Neck</string>
@@ -184,7 +184,7 @@
     <string name="sholder">Sholder</string>
     <string name="elbow">Elbow</string>
 
-<!-- Validation strings -->
+    <!-- Validation strings -->
     <string name="enter_the_delivery_address_validation">Please, enter the delivery address</string>
     <string name="enter_city_validation">Please, enter a city</string>
     <string name="enter_state_validation">Please, select a state</string>
@@ -195,13 +195,13 @@
     <string name="payment_terms">Payment Terms</string>
     <string name="_100_deposit">100% Deposit</string>
     <string name="payment_options">Payment Options</string>
-    <string name="vcash_bank_deposit_naira_paystack">VCash, Bank Deposit(Naira),PayStack</string>
+    <string name="vcash_bank_deposit_naira_paystack">VCash, Bank Deposit (Naira),PayStack</string>
     <string name="_50_deposit_and_50_balance_on_delivery">50% Deposit and 50% balance on delivery</string>
     <string name="_0_deposit_and_100_balance_on_delivery">0% Deposit and 100% balance on delivery</string>
     <string name="payoneer">Payoneer</string>
     <string name="vcash">VCash</string>
     <string name="cash">Cash</string>
-    <string name="add_payment_terms">Add Payment terms</string>
+    <string name="add_payment_terms">Add Payment Terms</string>
     <string name="text">Text</string>
     <string name="phone_number">Phone Number</string>
     <string name="new_password">New Password</string>
@@ -302,6 +302,28 @@
     <string name="street">Street</string>
     <string name="no_7_decabon_way_lekki">No 7 Decabon way, lekki</string>
     <string name="_2020">2020</string>
+    <string name="required">Required</string>
+    <string name="tag_employee_number_dialog_fragment">Employee Number dialog fragment</string>
+    <string name="frstname_dialog_fragment">FirstName Dialog Fragment</string>
+
+    <string name="you_have_no_photo_in_your_gallery">You have no photo in your gallery</string>
+    <string name="media_share">Share</string>
+    <string name="media_edit">Edit</string>
+    <string name="media_delete">Delete</string>
+    <string name="send_to">SEND</string>
+    <string name="enter_name">Enter image name</string>
+
+
+    <string name="phone">08154343448</string>
+    <string name="nigeria">Nigeria</string>
+    <string name="null_all">null</string>
+    <string name="videos">Videos</string>
+    <string name="view_all">View All</string>
+    <string name="hour_30_min">1 hours 30 mins</string>
+    <string name="pope_hope">Pope Hope</string>
+    <string name="stitching_neatly">Stitching Neatly</string>
+    <string name="article_publications">Article/Publications</string>
+    <string name="articles">Articles</string>
 
 
     <string-array name="account_category">

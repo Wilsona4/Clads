@@ -10,8 +10,8 @@ import android.widget.Button
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import com.decagonhq.clads.R
+import com.decagonhq.clads.data.domain.DeliveryAddressModel
 import com.decagonhq.clads.databinding.AddAddressFragmentBinding
-import com.decagonhq.clads.ui.client.model.DeliveryAddressModel
 import com.decagonhq.clads.util.errorSnack
 import com.google.android.material.snackbar.Snackbar
 import com.google.android.material.textfield.TextInputEditText
@@ -48,14 +48,31 @@ class AddAddressFragment : Fragment() {
             val cityAddress = cityAddress.text.toString()
             val stateAddress = stateSelectorDropdown.text.toString()
             if (enterDeliveryAddress.isEmpty()) {
-                binding.addAddressFragmentEnterDeliveryAddressEditTextLayout.errorSnack(getString(R.string.enter_the_delivery_address_validation), Snackbar.LENGTH_LONG)
+                binding.addAddressFragmentEnterDeliveryAddressEditTextLayout.errorSnack(
+                    getString(R.string.enter_the_delivery_address_validation),
+                    Snackbar.LENGTH_LONG
+                )
             } else if (cityAddress.isEmpty()) {
-                binding.addAddressFragmentCityAddressEditTextLayout.errorSnack(getString(R.string.enter_city_validation), Snackbar.LENGTH_LONG)
+                binding.addAddressFragmentCityAddressEditTextLayout.errorSnack(
+                    getString(R.string.enter_city_validation),
+                    Snackbar.LENGTH_LONG
+                )
             } else if (stateAddress == getString(R.string.state)) {
-                binding.addAddressFragmentCityAddressEditTextLayout.errorSnack(getString(R.string.enter_state_validation), Snackbar.LENGTH_LONG)
+                binding.addAddressFragmentCityAddressEditTextLayout.errorSnack(
+                    getString(R.string.enter_state_validation),
+                    Snackbar.LENGTH_LONG
+                )
             } else {
-                val deliveryAddressModel = DeliveryAddressModel(enterDeliveryAddress, cityAddress, stateAddress)
-                val action = AddAddressFragmentDirections.actionAddAddressFragmentToDeliveryAddressFragment(deliveryAddressModel)
+                val deliveryAddressModel =
+                    DeliveryAddressModel(
+                        enterDeliveryAddress,
+                        cityAddress,
+                        stateAddress
+                    )
+                val action =
+                    AddAddressFragmentDirections.actionAddAddressFragmentToDeliveryAddressFragment(
+                        deliveryAddressModel
+                    )
                 findNavController().navigate(action)
             }
         }

@@ -7,7 +7,7 @@
     android:layout_height="match_parent"
     android:backgroundTint="@color/email_confirmatory_background_color"
     android:fillViewport="true"
-    tools:context=".ui.auth.EmailConfirmationFragment">
+    tools:context=".ui.authentication.EmailConfirmationFragment">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"

@@ -4,12 +4,15 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
-import androidx.lifecycle.observe
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.decagonhq.clads.R
+import com.decagonhq.clads.data.domain.SpecialtyModel
 import com.decagonhq.clads.databinding.SpecialtyFragmentBinding
-import com.decagonhq.clads.util.Specialty
+import com.decagonhq.clads.ui.profile.adapter.SpecialtyFragmentRecyclerAdapter
+import com.decagonhq.clads.ui.profile.dialogfragment.ProfileManagementDialogFragments.Companion.createProfileDialogFragment
 import com.decagonhq.clads.viewmodels.ProfileManagementViewModel
 
 class SpecialtyFragment : Fragment() {
@@ -24,7 +27,7 @@ class SpecialtyFragment : Fragment() {
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         // Inflate the layout for this fragment
         _binding = SpecialtyFragmentBinding.inflate(inflater, container, false)
 
@@ -38,7 +41,7 @@ class SpecialtyFragment : Fragment() {
         recyclerViewAdapterSetUp()
         changeIfObiomaIsTrainedDialog()
         addNewSpecialtyDialog()
-        addSpeialdelivaryTime()
+        addSpecialDeliveryTime()
     }
 
     private fun recyclerViewAdapterSetUp() {
@@ -50,83 +53,110 @@ class SpecialtyFragment : Fragment() {
 
     // Gender Dialog
     private fun changeIfObiomaIsTrainedDialog() {
-        // when isTrained value is clicked
+        // when delivery time value is clicked
+        childFragmentManager.setFragmentResultListener(
+            SPECIAL_OBIOMA_TRAINED_REQUEST_KEY,
+            requireActivity()
+        ) { key, bundle ->
+            // collect input values from dialog fragment and update the union name text of user
+            val obiomaTrainedValue = bundle.getString(SPECIAL_OBIOMA_TRAINED_BUNDLE_KEY)
+            binding.specialtyFragmentObiomaTrainedAndCertifiedValueTextView.text = obiomaTrainedValue
+        }
+
+        // when delivery time value is clicked
         binding.specialtyFragmentObiomaTrainedAndCertifiedValueTextView.setOnClickListener {
-            val obiomaTrainedFragment = SpecialtyObiomaTrainedDialogFragment()
-            obiomaTrainedFragment.show(
-                requireActivity().supportFragmentManager,
-                "Obioma Trained fragment"
-            )
-            // collect input values from dialog fragment and update the gender value of user
-            profileManagementViewModel.obiomaTrainedLiveData.observe(
-                viewLifecycleOwner,
-                {
-                    binding.specialtyFragmentObiomaTrainedAndCertifiedValueTextView.text =
-                        it.toString()
-                }
+            val currentObiomaTrainedValue =
+                binding.specialtyFragmentObiomaTrainedAndCertifiedValueTextView.text.toString()
+            val bundle = bundleOf(CURRENT_SPECIAL_OBIOMA_TRAINED_BUNDLE_KEY to currentObiomaTrainedValue)
+            createProfileDialogFragment(
+                R.layout.specialty_obioma_trained_dialog_fragment,
+                bundle
+            ).show(
+                childFragmentManager,
+                SpecialtyFragment::class.java.simpleName
             )
         }
     }
 
     private fun addNewSpecialtyDialog() {
+        // when delivery time value is clicked
+        childFragmentManager.setFragmentResultListener(
+            ADD_SPECIALTY_REQUEST_KEY,
+            requireActivity()
+        ) { key, bundle ->
+            // collect input values from dialog fragment and update the text of user
+            val newSpecialty = bundle.getString(ADD_SPECIALTY_BUNDLE_KEY)
+            list.add(SpecialtyModel(newSpecialty, false))
+        }
+
+        // when delivery time value is clicked
         binding.specialtyFragmentAddNewSpecialtyIcon.setOnClickListener {
-            val specialtyAddFragment = SpecialtyAddSpecialtyDialogFragment()
-            specialtyAddFragment.show(
-                requireActivity().supportFragmentManager,
-                "add new obioma specialty"
-            )
-            // add the input "new specialty" to the list for recycler view usage
-            specialtyAddFragment.specialtyInput.observe(
-                viewLifecycleOwner,
-                {
-                    list.add(Specialty(it.toString(), false))
-                }
+            createProfileDialogFragment(
+                R.layout.specialty_add_specialty_dialog_fragment
+            ).show(
+                childFragmentManager,
+                SpecialtyFragment::class.java.simpleName
             )
         }
     }
 
-    private fun addSpeialdelivaryTime() {
-        binding.specialtyFragmentDeliveryLeadTimeValueTextView.setOnClickListener {
-            val specialtyDeliveryTime = SpecialtyDeliveryTimeDialogFragment()
-            specialtyDeliveryTime.show(
-                requireActivity().supportFragmentManager,
-                "delivery time"
-            )
-            // collect input values from dialog fragment and update the firstname text of user
-            profileManagementViewModel.deliveryValueInNumber.observe(
-                viewLifecycleOwner,
-                { itOne ->
-                    profileManagementViewModel.deliveryDuration.observe(
-                        viewLifecycleOwner,
-                        { itTwo ->
+    private fun addSpecialDeliveryTime() {
+        // when delivery time value is clicked
+        childFragmentManager.setFragmentResultListener(
+            SPECIAL_DELIVERY_TIME_REQUEST_KEY,
+            requireActivity()
+        ) { key, bundle ->
+            // collect input values from dialog fragment and update the union name text of user
+            val specialtyDeliveryTime = bundle.getString(SPECIAL_DELIVERY_TIME_BUNDLE_KEY)
+            binding.specialtyFragmentDeliveryLeadTimeValueTextView.text = specialtyDeliveryTime
+        }
 
-                            binding.specialtyFragmentDeliveryLeadTimeValueTextView.text =
-                                itOne.toString() + " " + itTwo.toString()
-                        }
-                    )
-                }
+        // when delivery time value is clicked
+        binding.specialtyFragmentDeliveryLeadTimeValueTextView.setOnClickListener {
+            val currentDeliveryTime =
+                binding.specialtyFragmentDeliveryLeadTimeValueTextView.text.toString()
+            val bundle = bundleOf(CURRENT_SPECIAL_DELIVERY_TIME_BUNDLE_KEY to currentDeliveryTime)
+            createProfileDialogFragment(
+                R.layout.specialty_delivery_time_dialog_fragment,
+                bundle
+            ).show(
+                childFragmentManager,
+                SpecialtyFragment::class.java.simpleName
             )
         }
     }
 
     var list = arrayListOf(
-        Specialty("Yoruba Attire", false),
-        Specialty("Hausa Attires", false),
-        Specialty("Senator", false),
-        Specialty("Embroidery", false),
-        Specialty("Africa Fashion", false),
-        Specialty("School Uniform", false),
-        Specialty("Militery and Paramiltery Uniforms", false),
-        Specialty("Igbo Attire", false),
-        Specialty("South-south attire", false),
-        Specialty("Kaftans", false),
-        Specialty("Contemporary", false),
-        Specialty("Western Fashion", false),
-        Specialty("Caps", false)
+        SpecialtyModel("Yoruba Attires", false),
+        SpecialtyModel("Hausa Attires", false),
+        SpecialtyModel("Senator", false),
+        SpecialtyModel("Embroidery", false),
+        SpecialtyModel("Africa Fashion", false),
+        SpecialtyModel("School Uniform", false),
+        SpecialtyModel("Military and Paramilitary Uniforms", false),
+        SpecialtyModel("Igbo Attire", false),
+        SpecialtyModel("South-south attire", false),
+        SpecialtyModel("Kaftans", false),
+        SpecialtyModel("Contemporary", false),
+        SpecialtyModel("Western Fashion", false),
+        SpecialtyModel("Caps", false)
     )
 
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
+    }
+
+    companion object {
+        const val SPECIAL_DELIVERY_TIME_REQUEST_KEY = "SPECIAL DELIVERY TIME REQUEST KEY"
+        const val SPECIAL_DELIVERY_TIME_BUNDLE_KEY = "SPECIAL DELIVERY TIME BUNDLE KEY"
+        const val CURRENT_SPECIAL_DELIVERY_TIME_BUNDLE_KEY = "CURRENT SPECIAL DELIVERY TIME BUNDLE KEY"
+
+        const val SPECIAL_OBIOMA_TRAINED_REQUEST_KEY = "SPECIAL OBIOMA TRAINED REQUEST KEY"
+        const val SPECIAL_OBIOMA_TRAINED_BUNDLE_KEY = "SPECIAL OBIOMA TRAINED BUNDLE KEY"
+        const val CURRENT_SPECIAL_OBIOMA_TRAINED_BUNDLE_KEY = "CURRENT SPECIAL OBIOMA TRAINED BUNDLE KEY"
+
+        const val ADD_SPECIALTY_REQUEST_KEY = "SPECIAL OBIOMA TRAINED REQUEST KEY"
+        const val ADD_SPECIALTY_BUNDLE_KEY = "SPECIAL OBIOMA TRAINED BUNDLE KEY"
     }
 }

@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="wrap_content"
+    android:layout_marginTop="@dimen/margin_30dp"
+    android:layout_height="wrap_content">
+
+    <ImageView
+        android:id="@+id/media_fragment_photo_recycler_view_item_uploaded_photo_image_view"
+        android:layout_width="0dp"
+        android:layout_height="@dimen/photo_image_height_171dp"
+        android:layout_marginBottom="@dimen/margin_9dp"
+        android:background="@color/gray"
+        android:src="@drawable/elegant_suit_photo"
+        app:layout_constraintBottom_toTopOf="@+id/media_fragment_photo_recycler_view_item_image_title_text_view"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/media_fragment_photo_recycler_view_item_image_title_text_view"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/poppins_bold"
+        android:gravity="center"
+        android:letterSpacing="0.2"
+        android:maxLines="2"
+        android:text="Elegant suite for men"
+        android:textColor="@color/black"
+        android:textSize="@dimen/text_size_13sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="@+id/guideline6"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guideline6"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_begin="151dp" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>
