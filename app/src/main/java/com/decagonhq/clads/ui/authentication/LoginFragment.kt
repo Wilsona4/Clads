@@ -19,7 +19,6 @@ import android.widget.TextView
 import android.widget.Toast
 import androidx.core.content.res.ResourcesCompat
 import androidx.core.widget.doOnTextChanged
-import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
@@ -27,13 +26,14 @@ import com.decagonhq.clads.R
 import com.decagonhq.clads.data.domain.login.LoginCredentials
 import com.decagonhq.clads.data.domain.login.UserRole
 import com.decagonhq.clads.databinding.LoginFragmentBinding
+import com.decagonhq.clads.ui.BaseFragment
 import com.decagonhq.clads.ui.profile.DashboardActivity
 import com.decagonhq.clads.util.Constants.TOKEN
-import com.decagonhq.clads.util.CustomProgressDialog
 import com.decagonhq.clads.util.CustomTypefaceSpan
 import com.decagonhq.clads.util.Resource
 import com.decagonhq.clads.util.SessionManager
 import com.decagonhq.clads.util.ValidationObject.validateEmail
+import com.decagonhq.clads.util.handleApiError
 import com.decagonhq.clads.viewmodels.AuthenticationViewModel
 import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount
@@ -46,7 +46,7 @@ import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
 
 @AndroidEntryPoint
-class LoginFragment : Fragment() {
+class LoginFragment : BaseFragment() {
     // Binding
     private var _binding: LoginFragmentBinding? = null
     private val binding get() = _binding!!
@@ -58,7 +58,6 @@ class LoginFragment : Fragment() {
     private lateinit var googleSignInButton: Button
     private lateinit var cladsSignInClient: GoogleSignInClient
     private var GOOGLE_SIGNIN_RQ_CODE = 100
-    private lateinit var progressDialog: CustomProgressDialog
 
     val viewModel: AuthenticationViewModel by viewModels()
 
@@ -86,7 +85,6 @@ class LoginFragment : Fragment() {
         newUserSignUpForFree = binding.loginFragmentSignUpForFreeTextView
         forgetPasswordButton = binding.loginFragmentForgetPasswordTextView
         googleSignInButton = binding.loginFragmentGoogleSignInButton
-        progressDialog = CustomProgressDialog(requireContext())
 
         newUserSignUpForFreeSpannable()
         googleSignInClient()
@@ -125,12 +123,13 @@ class LoginFragment : Fragment() {
 
                     /*Handling response from the retrofit*/
                     viewModel.loginUser(loginCredentials)
-
-                    progressDialog.showDialogFragment(getString(R.string.please_wait))
                     viewModel.loginUser.observe(
                         viewLifecycleOwner,
                         Observer {
                             when (it) {
+                                is Resource.Loading -> {
+                                    progressDialog.showDialogFragment(it.message)
+                                }
                                 is Resource.Success -> {
                                     val successResponse = it.value.payload
                                     sessionManager.saveToSharedPref(TOKEN, successResponse)
@@ -144,13 +143,7 @@ class LoginFragment : Fragment() {
                                 }
                                 is Resource.Error -> {
                                     progressDialog.hideProgressDialog()
-                                    Toast.makeText(
-                                        requireContext(),
-                                        "Error: $it",
-                                        Toast.LENGTH_SHORT
-                                    ).show()
-                                }
-                                is Resource.Loading -> {
+                                    handleApiError(it, retrofit, requireView())
                                 }
                             }
                         }

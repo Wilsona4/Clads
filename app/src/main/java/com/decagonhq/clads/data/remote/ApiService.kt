@@ -1,10 +1,7 @@
 package com.decagonhq.clads.data.remote
 
-import com.decagonhq.clads.data.domain.login.EmailLoginSuccessResponse
-import com.decagonhq.clads.data.domain.login.GoogleLoginSuccessResponse
+import com.decagonhq.clads.data.domain.GenericResponseClass
 import com.decagonhq.clads.data.domain.login.UserRole
-import com.decagonhq.clads.data.domain.profileimage.UserProfileImageResponse
-import com.decagonhq.clads.data.domain.registration.UserRegSuccessResponse
 import okhttp3.MultipartBody
 import retrofit2.http.Body
 import retrofit2.http.Multipart
@@ -16,19 +13,19 @@ interface ApiService {
     @POST("artisans/register")
     suspend fun registerUser(
         @Body user: UserRegistrationDTO
-    ): UserRegSuccessResponse
+    ): GenericResponseClass
 
     @POST("login")
     suspend fun login(
         @Body loginCredentials: LoginCredentialsDTO
-    ): EmailLoginSuccessResponse
+    ): GenericResponseClass
 
     @POST("login/google")
     suspend fun googleLogin(
         @Body userRole: UserRole
-    ): GoogleLoginSuccessResponse
+    ): GenericResponseClass
 
     @Multipart
     @POST("upload")
-    fun uploadImage(@Part image: MultipartBody.Part): UserProfileImageResponse
+    fun uploadImage(@Part image: MultipartBody.Part): GenericResponseClass
 }
