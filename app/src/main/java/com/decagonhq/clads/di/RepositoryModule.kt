@@ -1,6 +1,7 @@
 package com.decagonhq.clads.di
 
 import com.decagonhq.clads.data.remote.ApiService
+import com.decagonhq.clads.data.remote.LoginCredentialsDTOMapper
 import com.decagonhq.clads.data.remote.UserRegDTOMapper
 import com.decagonhq.clads.repository.AuthRepository
 import com.decagonhq.clads.repository.AuthRepositoryImpl
@@ -18,8 +19,9 @@ object RepositoryModule {
     @Provides
     fun providesAuthRepository(
         apiService: ApiService,
-        userRegDTOMapper: UserRegDTOMapper
+        userRegDTOMapper: UserRegDTOMapper,
+        loginCredentialsDTOMapper: LoginCredentialsDTOMapper,
     ): AuthRepository {
-        return AuthRepositoryImpl(apiService, userRegDTOMapper)
+        return AuthRepositoryImpl(apiService, userRegDTOMapper, loginCredentialsDTOMapper)
     }
 }

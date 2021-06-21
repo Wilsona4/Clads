@@ -6,18 +6,15 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.decagonhq.clads.R
 import com.decagonhq.clads.data.domain.SpecialtyModel
 import com.decagonhq.clads.databinding.SpecialtyFragmentBinding
 import com.decagonhq.clads.ui.profile.adapter.SpecialtyFragmentRecyclerAdapter
 import com.decagonhq.clads.ui.profile.dialogfragment.ProfileManagementDialogFragments.Companion.createProfileDialogFragment
-import com.decagonhq.clads.viewmodels.ProfileManagementViewModel
 
 class SpecialtyFragment : Fragment() {
     private var _binding: SpecialtyFragmentBinding? = null
-    private lateinit var profileManagementViewModel: ProfileManagementViewModel
 
     private val recyclerViewAdapter by lazy { SpecialtyFragmentRecyclerAdapter() }
 
@@ -31,8 +28,8 @@ class SpecialtyFragment : Fragment() {
         // Inflate the layout for this fragment
         _binding = SpecialtyFragmentBinding.inflate(inflater, container, false)
 
-        profileManagementViewModel =
-            ViewModelProvider(requireActivity()).get(ProfileManagementViewModel::class.java)
+//        profileManagementViewModel =
+//            ViewModelProvider(requireActivity()).get(ProfileManagementViewModel::class.java)
         return binding.root
     }
 

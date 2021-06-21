@@ -15,15 +15,25 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
 import android.widget.TextView
+import android.widget.Toast
 import androidx.core.content.res.ResourcesCompat
 import androidx.core.widget.doOnTextChanged
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
+import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
 import com.decagonhq.clads.R
+import com.decagonhq.clads.data.domain.login.LoginCredentials
+import com.decagonhq.clads.data.domain.login.UserRole
 import com.decagonhq.clads.databinding.LoginFragmentBinding
 import com.decagonhq.clads.ui.profile.DashboardActivity
+import com.decagonhq.clads.util.Constants.TOKEN
+import com.decagonhq.clads.util.CustomProgressDialog
 import com.decagonhq.clads.util.CustomTypefaceSpan
+import com.decagonhq.clads.util.Resource
+import com.decagonhq.clads.util.SessionManager
 import com.decagonhq.clads.util.ValidationObject.validateEmail
+import com.decagonhq.clads.viewmodels.AuthenticationViewModel
 import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount
 import com.google.android.gms.auth.api.signin.GoogleSignInClient
@@ -31,7 +41,10 @@ import com.google.android.gms.auth.api.signin.GoogleSignInOptions
 import com.google.android.gms.common.api.ApiException
 import com.google.android.gms.tasks.Task
 import com.google.android.material.textfield.TextInputEditText
+import dagger.hilt.android.AndroidEntryPoint
+import javax.inject.Inject
 
+@AndroidEntryPoint
 class LoginFragment : Fragment() {
     // Binding
     private var _binding: LoginFragmentBinding? = null
@@ -44,6 +57,12 @@ class LoginFragment : Fragment() {
     private lateinit var googleSignInButton: Button
     private lateinit var cladsSignInClient: GoogleSignInClient
     private var GOOGLE_SIGNIN_RQ_CODE = 100
+    private lateinit var progressDialog: CustomProgressDialog
+
+    val viewModel: AuthenticationViewModel by viewModels()
+
+    @Inject
+    lateinit var sessionManager: SessionManager
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -66,6 +85,7 @@ class LoginFragment : Fragment() {
         newUserSignUpForFree = binding.loginFragmentSignUpForFreeTextView
         forgetPasswordButton = binding.loginFragmentForgetPasswordTextView
         googleSignInButton = binding.loginFragmentGoogleSignInButton
+        progressDialog = CustomProgressDialog(requireContext())
 
         newUserSignUpForFreeSpannable()
         googleSignInClient()
@@ -74,6 +94,7 @@ class LoginFragment : Fragment() {
         binding.loginFragmentLogInButton.setOnClickListener {
             val emailAddress = emailEditText.text.toString()
             val password = passwordEditText.text.toString()
+
             when {
                 // Check if email is empty
                 emailAddress.isEmpty() -> {
@@ -95,10 +116,42 @@ class LoginFragment : Fragment() {
                     return@setOnClickListener
                 }
                 else -> {
-//                    findNavController().navigate(R.id.action_loginFragment_to_dashboardFragment)
-                    val intent = Intent(requireContext(), DashboardActivity::class.java)
-                    startActivity(intent)
-                    activity?.finish()
+
+                    val loginCredentials = LoginCredentials(
+                        emailEditText.text.toString(),
+                        passwordEditText.text.toString()
+                    )
+
+                    /*Handling response from the retrofit*/
+                    viewModel.loginUser(loginCredentials)
+
+                    progressDialog.showDialogFragment(getString(R.string.please_wait))
+                    viewModel.loginUser.observe(
+                        viewLifecycleOwner,
+                        Observer {
+                            when (it) {
+                                is Resource.Success -> {
+                                    val successResponse = it.value.payload
+                                    sessionManager.saveToSharedPref(TOKEN, successResponse)
+                                    progressDialog.hideProgressDialog()
+                                    val intent =
+                                        Intent(requireContext(), DashboardActivity::class.java)
+                                    startActivity(intent)
+                                    activity?.finish()
+                                }
+                                is Resource.Error -> {
+                                    progressDialog.hideProgressDialog()
+                                    Toast.makeText(
+                                        requireContext(),
+                                        "Error: $it",
+                                        Toast.LENGTH_SHORT
+                                    ).show()
+                                }
+                                is Resource.Loading -> {
+                                }
+                            }
+                        }
+                    )
                 }
             }
         }
@@ -153,15 +206,55 @@ class LoginFragment : Fragment() {
             val account = completedTask.getResult(ApiException::class.java)
             loadDashBoardFragment(account)
         } catch (e: ApiException) {
-            loadDashBoardFragment(null)
         }
     }
 
     /*open the dashboard fragment if account was selected*/
     private fun loadDashBoardFragment(account: GoogleSignInAccount?) {
         if (account != null) {
-            val intent = Intent(requireContext(), DashboardActivity::class.java)
-            startActivity(intent)
+
+            account.idToken.let {
+                if (it != null) {
+                    sessionManager.saveToSharedPref(TOKEN, it)
+                }
+            }
+
+            viewModel.loginUserWithGoogle(
+                UserRole(getString(R.string.tailor))
+            )
+            progressDialog.showDialogFragment(getString(R.string.please_wait))
+
+            /*Handling the response from the retrofit*/
+            viewModel.loginUserWithGoogle.observe(
+                viewLifecycleOwner,
+                Observer {
+                    when (it) {
+                        is Resource.Success -> {
+                            val successResponse = it.value.payload
+                            sessionManager.saveToSharedPref(TOKEN, successResponse)
+                            progressDialog.hideProgressDialog()
+                            val intent = Intent(requireContext(), DashboardActivity::class.java)
+                            startActivity(intent)
+                            activity?.finish()
+                        }
+                        is Resource.Error -> {
+                            progressDialog.hideProgressDialog()
+                            Toast.makeText(
+                                requireContext(),
+                                "Error: $it",
+                                Toast.LENGTH_SHORT
+                            ).show()
+                        }
+                        is Resource.Loading -> {
+                            Toast.makeText(
+                                requireContext(),
+                                "Loading",
+                                Toast.LENGTH_SHORT
+                            ).show()
+                        }
+                    }
+                }
+            )
         }
     }
 
@@ -205,6 +298,7 @@ class LoginFragment : Fragment() {
         return isValidated
     }
 
+    /*Spannable from login screen to sign up screen*/
     private fun newUserSignUpForFreeSpannable() {
         val message = getString(R.string.new_user_sign_up_for_free)
         val spannable = SpannableStringBuilder(message)

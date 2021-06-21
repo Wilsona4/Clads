@@ -42,12 +42,12 @@ object NetworkModule {
     @Provides
     @Singleton
     fun provideClient(
-        logger: HttpLoggingInterceptor,
-        headerAuthorization: Interceptor
+        headerAuthorization: Interceptor,
+        logger: HttpLoggingInterceptor
     ): OkHttpClient {
         return OkHttpClient.Builder()
-            .addInterceptor(logger)
             .addInterceptor(headerAuthorization)
+            .addInterceptor(logger)
             .build()
     }
 
