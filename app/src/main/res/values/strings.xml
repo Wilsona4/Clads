@@ -313,10 +313,10 @@
     <string name="send_to">SEND</string>
     <string name="enter_name">Enter image name</string>
 
-
     <string name="phone">08154343448</string>
     <string name="nigeria">Nigeria</string>
     <string name="null_all">null</string>
+
     <string name="videos">Videos</string>
     <string name="view_all">View All</string>
     <string name="hour_30_min">1 hours 30 mins</string>
@@ -324,6 +324,7 @@
     <string name="stitching_neatly">Stitching Neatly</string>
     <string name="article_publications">Article/Publications</string>
     <string name="articles">Articles</string>
+    <string name="please_wait">Please wait...</string>
 
 
     <string-array name="account_category">

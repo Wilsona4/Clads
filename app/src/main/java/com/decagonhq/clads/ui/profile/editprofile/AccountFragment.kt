@@ -1,20 +1,35 @@
 package com.decagonhq.clads.ui.profile.editprofile
 
+import android.Manifest
+import android.app.Activity
+import android.content.Intent
+import android.content.pm.PackageManager
+import android.net.Uri
+import android.os.Build
 import android.os.Bundle
+import android.provider.MediaStore
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
+import androidx.appcompat.app.AlertDialog
+import androidx.core.app.ActivityCompat
+import androidx.core.content.ContextCompat
 import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.ViewModelProvider
+import androidx.fragment.app.viewModels
 import com.decagonhq.clads.R
 import com.decagonhq.clads.databinding.AccountFragmentBinding
 import com.decagonhq.clads.ui.profile.dialogfragment.ProfileManagementDialogFragments.Companion.createProfileDialogFragment
-import com.decagonhq.clads.viewmodels.ProfileManagementViewModel
+import com.decagonhq.clads.viewmodels.AuthenticationViewModel
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class AccountFragment : Fragment() {
     private var _binding: AccountFragmentBinding? = null
-    private lateinit var profileManagementViewModel: ProfileManagementViewModel
+    private var selectedImage: Uri? = null
+
+    val viewModel: AuthenticationViewModel by viewModels()
 
     // This property is only valid between onCreateView and onDestroyView.
     private val binding get() = _binding!!
@@ -25,15 +40,12 @@ class AccountFragment : Fragment() {
     ): View? {
         // Inflate the layout for this fragment
         _binding = AccountFragmentBinding.inflate(inflater, container, false)
-
-        profileManagementViewModel =
-            ViewModelProvider(requireActivity()).get(ProfileManagementViewModel::class.java)
-
         return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        /*Dialog fragment functions*/
         accountFirstNameEditDialog()
         accountGenderSelectDialog()
         accountUnionStateDialogFragment()
@@ -48,10 +60,135 @@ class AccountFragment : Fragment() {
         accountWorkshopStateDialog()
         accountOtherNameEditDialog()
         accountlegalStatusdialog()
+
+        /*Select profile image*/
+        binding.accountFragmentChangePictureTextView.setOnClickListener {
+            Manifest.permission.READ_EXTERNAL_STORAGE.checkForPermission(NAME, READ_IMAGE_STORAGE)
+        }
+    }
+
+    private fun String.checkForPermission(name: String, requestCode: Int) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            when {
+                ContextCompat.checkSelfPermission(
+                    requireContext(),
+                    this
+                ) == PackageManager.PERMISSION_GRANTED -> {
+                    // call read contact function
+                    openImageChooser()
+                }
+                shouldShowRequestPermissionRationale(this) -> showDialog(this, name, requestCode)
+                else -> ActivityCompat.requestPermissions(
+                    requireActivity(),
+                    arrayOf(this),
+                    requestCode
+                )
+            }
+        }
+    }
+
+    // check for permission and make call
+    override fun onRequestPermissionsResult(
+        requestCode: Int,
+        permissions: Array<out String>,
+        grantResults: IntArray
+    ) {
+        fun innerCheck(name: String) {
+            if (grantResults.isEmpty() || grantResults[0] != PackageManager.PERMISSION_GRANTED) {
+                Toast.makeText(requireContext(), "$name permission refused", Toast.LENGTH_SHORT)
+                    .show()
+            } else {
+                Toast.makeText(requireContext(), "$name permission granted", Toast.LENGTH_SHORT)
+                    .show()
+                openImageChooser()
+            }
+        }
+        when (requestCode) {
+            READ_IMAGE_STORAGE -> innerCheck(NAME)
+        }
+    }
+
+    // Show dialog for permission dialog
+    private fun showDialog(permission: String, name: String, requestCode: Int) {
+        // Alert dialog box
+        val builder = AlertDialog.Builder(requireContext())
+        builder.apply {
+            // setting alert properties
+            setMessage("Permission to access your $name is required to use this app")
+            setTitle("Permission required")
+            setPositiveButton("Ok") { _, _ ->
+                ActivityCompat.requestPermissions(
+                    requireActivity(),
+                    arrayOf(permission),
+                    requestCode
+                )
+            }
+        }
+        val dialog = builder.create()
+        dialog.show()
+    }
+
+    // function to attach the selected image to the image view
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        if (resultCode == Activity.RESULT_OK && requestCode == REQUEST_CODE_IMAGE_PICKER) {
+            selectedImage = data?.data!!
+            binding.accountFragmentEditProfileIconImageView.setImageURI(selectedImage)
+            /*Upload image*/
+            // Getting the file name
+//            val file = File(FileUtil.getPath(selectedImage!!, requireContext()))
+//            // Getting the file part
+//            val requestBody = file.asRequestBody("image/jpg".toMediaTypeOrNull())
+//            val multiPartBody = MultipartBody.Part.createFormData("file", file.name, requestBody)
+//
+//            viewModel.userProfileImage(multiPartBody)
+//            viewModel.loginUser.observe(
+//                viewLifecycleOwner,
+//                Observer {
+//                    when (it) {
+//                        is Resource.Success -> {
+//                            binding.accountFragmentEditProfileIconImageView.errorSnack(
+//                                "Image Uploaded successively",
+//                                Snackbar.LENGTH_LONG
+//                            )
+//                            Log.d("RecourceReport", "onActivityResult:$it ")
+//                        }
+//                        is Resource.Error -> {
+//                            binding.accountFragmentEditProfileIconImageView.errorSnack(
+//                                "Image Uploaded successively",
+//                                Snackbar.LENGTH_LONG
+//                            )
+//                        }
+//                        is Resource.Loading -> {
+//                            binding.accountFragmentEditProfileIconImageView.errorSnack(
+//                                "Image upload in progress",
+//                                Snackbar.LENGTH_LONG
+//                            )
+//                        }
+//                    }
+//                }
+//            )
+        }
+    }
+
+    // function to get the name of the file
+//    private fun getFileName(uri: Uri, contentResolver: ContentResolver): String {
+//        var name = "TO BE REMOVED STRING"
+//        val cursor = query(contentResolver, uri, null, null, null, null, null)
+//        cursor?.use {
+//            it.moveToFirst()
+//            name = cursor.getString(it.getColumnIndex(OpenableColumns.DISPLAY_NAME))
+//        }
+//        return name
+//    }
+
+    /*Select Image*/
+    private fun openImageChooser() {
+        val intent = Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI)
+        startActivityForResult(intent, REQUEST_CODE_IMAGE_PICKER)
     }
 
     private fun accountlegalStatusdialog() {
-
         childFragmentManager.setFragmentResultListener(
             ACCOUNT_LEGAL_STATUS_REQUEST_KEY,
             requireActivity()
@@ -150,9 +287,13 @@ class AccountFragment : Fragment() {
 
         // when state value is clicked
         binding.accountFragmentWorkshopAddressStateValueTextView.setOnClickListener {
-            val currentState = binding.accountFragmentWorkshopAddressStateValueTextView.text.toString()
+            val currentState =
+                binding.accountFragmentWorkshopAddressStateValueTextView.text.toString()
             val bundle = bundleOf(CURRENT_ACCOUNT_WORKSHOP_STATE_BUNDLE_KEY to currentState)
-            createProfileDialogFragment(R.layout.account_workshop_state_dialog_fragment, bundle).show(
+            createProfileDialogFragment(
+                R.layout.account_workshop_state_dialog_fragment,
+                bundle
+            ).show(
                 childFragmentManager, AccountFragment::class.java.simpleName
             )
         }
@@ -172,9 +313,13 @@ class AccountFragment : Fragment() {
 
         // when city is clicked
         binding.accountFragmentWorkshopAddressCityValueTextView.setOnClickListener {
-            val currentCity = binding.accountFragmentWorkshopAddressCityValueTextView.text.toString()
+            val currentCity =
+                binding.accountFragmentWorkshopAddressCityValueTextView.text.toString()
             val bundle = bundleOf(CURRENT_ACCOUNT_WORKSHOP_CITY_BUNDLE_KEY to currentCity)
-            createProfileDialogFragment(R.layout.account_workshop_city_dialog_fragment, bundle).show(
+            createProfileDialogFragment(
+                R.layout.account_workshop_city_dialog_fragment,
+                bundle
+            ).show(
                 childFragmentManager, AccountFragment::class.java.simpleName
             )
         }
@@ -194,9 +339,13 @@ class AccountFragment : Fragment() {
 
         // when street value is clicked
         binding.accountFragmentWorkshopAddressStreetValueTextView.setOnClickListener {
-            val currentStreet = binding.accountFragmentWorkshopAddressStreetValueTextView.text.toString()
+            val currentStreet =
+                binding.accountFragmentWorkshopAddressStreetValueTextView.text.toString()
             val bundle = bundleOf(CURRENT_ACCOUNT_WORKSHOP_STREET_BUNDLE_KEY to currentStreet)
-            createProfileDialogFragment(R.layout.account_workshop_street_dialog_fragment, bundle).show(
+            createProfileDialogFragment(
+                R.layout.account_workshop_street_dialog_fragment,
+                bundle
+            ).show(
                 childFragmentManager, AccountFragment::class.java.simpleName
             )
         }
@@ -215,9 +364,14 @@ class AccountFragment : Fragment() {
 
         // when showroom address is clicked
         binding.accountFragmentShowroomAddressValueTextView.setOnClickListener {
-            val currentShowroomAddress = binding.accountFragmentShowroomAddressValueTextView.text.toString()
-            val bundle = bundleOf(CURRENT_ACCOUNT_SHOWROOM_ADDRESS_BUNDLE_KEY to currentShowroomAddress)
-            createProfileDialogFragment(R.layout.account_showroom_address_dialog_fragment, bundle).show(
+            val currentShowroomAddress =
+                binding.accountFragmentShowroomAddressValueTextView.text.toString()
+            val bundle =
+                bundleOf(CURRENT_ACCOUNT_SHOWROOM_ADDRESS_BUNDLE_KEY to currentShowroomAddress)
+            createProfileDialogFragment(
+                R.layout.account_showroom_address_dialog_fragment,
+                bundle
+            ).show(
                 childFragmentManager, AccountFragment::class.java.simpleName
             )
         }
@@ -402,19 +556,23 @@ class AccountFragment : Fragment() {
 
         const val ACCOUNT_WORKSHOP_STATE_REQUEST_KEY = "ACCOUNT WORKSHOP STATE REQUEST KEY"
         const val ACCOUNT_WORKSHOP_STATE_BUNDLE_KEY = "ACCOUNT WORKSHOP STATE BUNDLE KEY"
-        const val CURRENT_ACCOUNT_WORKSHOP_STATE_BUNDLE_KEY = "CURRENT ACCOUNT WORKSHOP STATE BUNDLE KEY"
+        const val CURRENT_ACCOUNT_WORKSHOP_STATE_BUNDLE_KEY =
+            "CURRENT ACCOUNT WORKSHOP STATE BUNDLE KEY"
 
         const val ACCOUNT_WORKSHOP_CITY_REQUEST_KEY = "ACCOUNT WORKSHOP CITY REQUEST KEY"
         const val ACCOUNT_WORKSHOP_CITY_BUNDLE_KEY = "ACCOUNT WORKSHOP CITY BUNDLE KEY"
-        const val CURRENT_ACCOUNT_WORKSHOP_CITY_BUNDLE_KEY = "CURRENT ACCOUNT WORKSHOP CITY BUNDLE KEY"
+        const val CURRENT_ACCOUNT_WORKSHOP_CITY_BUNDLE_KEY =
+            "CURRENT ACCOUNT WORKSHOP CITY BUNDLE KEY"
 
         const val ACCOUNT_WORKSHOP_STREET_REQUEST_KEY = "ACCOUNT WORKSHOP STREET REQUEST KEY"
         const val ACCOUNT_WORKSHOP_STREET_BUNDLE_KEY = "ACCOUNT WORKSHOP STREET BUNDLE KEY"
-        const val CURRENT_ACCOUNT_WORKSHOP_STREET_BUNDLE_KEY = "CURRENT ACCOUNT WORKSHOP STREET BUNDLE KEY"
+        const val CURRENT_ACCOUNT_WORKSHOP_STREET_BUNDLE_KEY =
+            "CURRENT ACCOUNT WORKSHOP STREET BUNDLE KEY"
 
         const val ACCOUNT_SHOWROOM_ADDRESS_REQUEST_KEY = "ACCOUNT SHOWROOM ADDRESS REQUEST KEY"
         const val ACCOUNT_SHOWROOM_ADDRESS_BUNDLE_KEY = "ACCOUNT SHOWROOM ADDRESS BUNDLE KEY"
-        const val CURRENT_ACCOUNT_SHOWROOM_ADDRESS_BUNDLE_KEY = "CURRENT ACCOUNT SHOWROOM ADDRESS BUNDLE KEY"
+        const val CURRENT_ACCOUNT_SHOWROOM_ADDRESS_BUNDLE_KEY =
+            "CURRENT ACCOUNT SHOWROOM ADDRESS BUNDLE KEY"
 
         const val ACCOUNT_UNION_NAME_REQUEST_KEY = "ACCOUNT UNION NAME REQUEST KEY"
         const val ACCOUNT_UNION_NAME_BUNDLE_KEY = "ACCOUNT UNION NAME BUNDLE KEY"
@@ -434,6 +592,11 @@ class AccountFragment : Fragment() {
 
         const val ACCOUNT_LEGAL_STATUS_REQUEST_KEY = "ACCOUNT LEGAL STATUS REQUEST KEY"
         const val ACCOUNT_LEGAL_STATUS_BUNDLE_KEY = "ACCOUNT LEGAL STATUS BUNDLE KEY"
-        const val CURRENT_ACCOUNT_LEGAL_STATUS_BUNDLE_KEY = "CURRENT ACCOUNT LEGAL STATUS BUNDLE KEY"
+        const val CURRENT_ACCOUNT_LEGAL_STATUS_BUNDLE_KEY =
+            "CURRENT ACCOUNT LEGAL STATUS BUNDLE KEY"
+
+        const val READ_IMAGE_STORAGE = 102
+        const val NAME = "CLads"
+        const val REQUEST_CODE_IMAGE_PICKER = 100
     }
 }

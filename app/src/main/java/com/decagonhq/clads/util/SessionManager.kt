@@ -1,8 +1,9 @@
 package com.decagonhq.clads.util
 
 import android.content.SharedPreferences
+import javax.inject.Inject
 
-class SessionManager constructor(private val sharedPreferences: SharedPreferences) {
+class SessionManager @Inject constructor(private val sharedPreferences: SharedPreferences) {
 
     /*Load details From Shared Preferences*/
     fun loadFromSharedPref(prefType: String): String {

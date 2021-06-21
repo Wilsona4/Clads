@@ -14,7 +14,7 @@
         android:backgroundTint="@color/email_confirmatory_background_color"
         tools:context=".ui.profile.editprofile.AccountFragment">
 
-        <com.google.android.material.imageview.ShapeableImageView
+        <de.hdodenhof.circleimageview.CircleImageView
             android:id="@+id/account_fragment_edit_profile_icon_image_view"
             android:layout_width="0dp"
             android:layout_height="@dimen/layout_height"

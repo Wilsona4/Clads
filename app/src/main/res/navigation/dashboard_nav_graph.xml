@@ -139,7 +139,6 @@
             app:popUpTo="@id/nav_media"
             app:popUpToInclusive="true" />
     </fragment>
-
     <fragment
         android:id="@+id/resourceVideosFragment"
         android:name="com.decagonhq.clads.ui.resource.ResourceVideosFragment"

@@ -28,6 +28,7 @@ class EmailConfirmationFragment : Fragment() {
         binding.emailConfirmationFragmentVerifyEmailAddressButton.setOnClickListener {
             val intent = Intent(Intent.ACTION_MAIN).apply {
                 addCategory(Intent.CATEGORY_APP_EMAIL)
+                addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
             }
             startActivity(intent)
         }
