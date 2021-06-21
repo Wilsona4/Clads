@@ -10,6 +10,7 @@ import android.text.Spanned
 import android.text.method.LinkMovementMethod
 import android.text.style.ClickableSpan
 import android.text.style.ForegroundColorSpan
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -133,6 +134,8 @@ class LoginFragment : Fragment() {
                                 is Resource.Success -> {
                                     val successResponse = it.value.payload
                                     sessionManager.saveToSharedPref(TOKEN, successResponse)
+
+                                    val pref = sessionManager.loadFromSharedPref(TOKEN)
                                     progressDialog.hideProgressDialog()
                                     val intent =
                                         Intent(requireContext(), DashboardActivity::class.java)
@@ -216,6 +219,7 @@ class LoginFragment : Fragment() {
             account.idToken.let {
                 if (it != null) {
                     sessionManager.saveToSharedPref(TOKEN, it)
+
                 }
             }
 
@@ -232,6 +236,7 @@ class LoginFragment : Fragment() {
                         is Resource.Success -> {
                             val successResponse = it.value.payload
                             sessionManager.saveToSharedPref(TOKEN, successResponse)
+
                             progressDialog.hideProgressDialog()
                             val intent = Intent(requireContext(), DashboardActivity::class.java)
                             startActivity(intent)
