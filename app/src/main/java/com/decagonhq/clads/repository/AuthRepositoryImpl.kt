@@ -20,7 +20,7 @@ class AuthRepositoryImpl constructor(
     private val userRegDTOMapper: UserRegDTOMapper,
     private val loginCredentialsDTOMapper: LoginCredentialsDTOMapper,
 
-    ) : AuthRepository, SafeApiCall() {
+) : AuthRepository, SafeApiCall() {
 
     override suspend fun registerUser(user: UserRegistration): Flow<Resource<UserRegSuccessResponse>> =
         flow {

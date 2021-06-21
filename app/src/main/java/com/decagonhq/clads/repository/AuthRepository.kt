@@ -11,7 +11,6 @@ import com.decagonhq.clads.util.Resource
 import kotlinx.coroutines.flow.Flow
 import okhttp3.MultipartBody
 
-
 interface AuthRepository {
     suspend fun registerUser(user: UserRegistration): Flow<Resource<UserRegSuccessResponse>>
     suspend fun loginUser(loginCredentials: LoginCredentials): Flow<Resource<EmailLoginSuccessResponse>>
