@@ -2,6 +2,7 @@ package com.decagonhq.clads.ui.resource.adapter
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import androidx.navigation.findNavController
 import androidx.recyclerview.widget.AsyncListDiffer
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
@@ -69,7 +70,11 @@ class GeneralVideoRvAdapter(private val interaction: Interaction? = null) :
 
         fun bind(item: ResourceGeneralVideoModel) = with(itemView) {
             itemView.setOnClickListener {
-                interaction?.onItemSelected(adapterPosition, item)
+                val navigationCurrentDestination = findNavController().currentDestination?.id
+                if (navigationCurrentDestination == R.id.resourceGeneralFragment) {
+                    it.findNavController().navigate(R.id.action_resourceGeneralFragment_to_individualVideoScreenFragment)
+                }
+//                interaction?.onItemSelected(adapterPosition, item)
             }
 
             val mediaItem = MediaItem.fromUri(item.videoUrl)

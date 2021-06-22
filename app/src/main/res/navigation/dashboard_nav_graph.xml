@@ -45,6 +45,9 @@
         <action
             android:id="@+id/action_resourceGeneralFragment_to_resourceArticlesFragment"
             app:destination="@id/resourceArticlesFragment" />
+        <action
+            android:id="@+id/action_resourceGeneralFragment_to_individualVideoScreenFragment"
+            app:destination="@id/individualVideoScreenFragment" />
     </fragment>
     <fragment
         android:id="@+id/subscriptionFragment"
@@ -143,11 +146,20 @@
         android:id="@+id/resourceVideosFragment"
         android:name="com.decagonhq.clads.ui.resource.ResourceVideosFragment"
         android:label="@string/videos"
-        tools:layout="@layout/resource_videos_fragment" />
+        tools:layout="@layout/resource_videos_fragment" >
+        <action
+            android:id="@+id/action_resourceVideosFragment_to_individualVideoScreenFragment"
+            app:destination="@id/individualVideoScreenFragment" />
+    </fragment>
     <fragment
         android:id="@+id/resourceArticlesFragment"
         android:name="com.decagonhq.clads.ui.resource.ResourceArticlesFragment"
         android:label="@string/articles"
         tools:layout="@layout/resource_articles_fragment" />
+    <fragment
+        android:id="@+id/individualVideoScreenFragment"
+        android:name="com.decagonhq.clads.ui.resource.IndividualVideoScreenFragment"
+        android:label="@string/individual_video"
+        tools:layout="@layout/individual_video_screen_fragment" />
 
 </navigation>

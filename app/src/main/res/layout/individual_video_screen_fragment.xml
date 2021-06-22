@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".ui.resource.IndividualVideoScreenFragment">
+
+    <com.google.android.exoplayer2.ui.PlayerView
+        android:id="@+id/individual_video_screen_fragment_player_view"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/height_210"
+        android:layout_marginTop="@dimen/margin_18dp"
+        android:paddingHorizontal="@dimen/padding_16dp"
+        app:fastforward_increment="30000"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:rewind_increment="30000"
+        app:show_timeout="10000"
+        app:use_controller="true" />
+
+    <TextView
+        android:id="@+id/individual_video_screen_fragment_video_title_text_view"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/margin_15dp"
+        android:layout_marginTop="@dimen/margin_8dp"
+        android:text="@string/how_to_perfectly_sew_attire"
+        android:textColor="@color/navy_blue"
+        android:textSize="@dimen/text_size_12sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/individual_video_screen_fragment_player_view" />
+
+
+    <TextView
+        android:id="@+id/individual_video_screen_fragment_video_date_posted_text_view"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/margin_15dp"
+        android:text="@string/posted_1_month_ago"
+        android:textColor="@color/menu_text_color"
+        android:textSize="@dimen/text_size_9sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/individual_video_screen_fragment_video_title_text_view" />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/individual_video_screen_fragment_recycler_view"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="@dimen/margin_16dp"
+        android:layout_marginTop="@dimen/margin_64dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/individual_video_screen_fragment_player_view" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

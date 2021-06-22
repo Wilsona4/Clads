@@ -216,5 +216,6 @@
     <dimen name="layout_height_30dp">30dp</dimen>
     <dimen name="photo_image_height_171dp">171dp</dimen>
     <dimen name="radius_30dp">30dp</dimen>
+    <dimen name="height_210">210dp</dimen>
 
 </resources>
