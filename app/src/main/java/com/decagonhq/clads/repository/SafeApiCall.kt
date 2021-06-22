@@ -27,7 +27,7 @@ abstract class SafeApiCall {
                         )
                     }
                     else -> {
-                        Resource.Error(true, null, null)
+                        Resource.Error(false, null, null)
                     }
                 }
             }
