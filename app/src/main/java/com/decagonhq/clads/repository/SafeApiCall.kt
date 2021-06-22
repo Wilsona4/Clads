@@ -8,9 +8,7 @@ import retrofit2.Response
 import java.io.IOException
 
 abstract class SafeApiCall {
-    suspend fun <T> safeApiCall(
-        apiCall: suspend () -> T
-    ): Resource<T> {
+    suspend fun <T> safeApiCall(apiCall: suspend () -> T): Resource<T> {
         return withContext(Dispatchers.IO) {
             try {
                 Resource.Success(apiCall.invoke())
@@ -18,13 +16,9 @@ abstract class SafeApiCall {
                 when (throwable) {
                     is IOException -> Resource.Error(true, null, null)
                     is HttpException -> {
-                        val t = throwable.response()?.errorBody()?.charStream()
+//                        val t = throwable.response()?.errorBody()?.charStream()
                         val code = throwable.code()
-                        Resource.Error(
-                            false,
-                            code,
-                            throwable.response() as Response<Any>
-                        )
+                        Resource.Error(false, code, throwable.response() as Response<Any>)
                     }
                     else -> {
                         Resource.Error(true, null, null)

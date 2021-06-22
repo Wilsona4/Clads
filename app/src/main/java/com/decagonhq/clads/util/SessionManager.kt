@@ -17,6 +17,12 @@ class SessionManager @Inject constructor(private val sharedPreferences: SharedPr
         editor.apply()
     }
 
+    fun saveBooleanToSharedPref(prefType: String, prefValue: Boolean) {
+        val editor: SharedPreferences.Editor = sharedPreferences.edit()
+        editor.putBoolean(prefType, prefValue)
+        editor.apply()
+    }
+
     /*Clear values in Shared Preferences*/
     fun clearSharedPref() {
         val editor: SharedPreferences.Editor = sharedPreferences.edit()

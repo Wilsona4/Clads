@@ -91,8 +91,8 @@ class LoginFragment : BaseFragment() {
 
         // On login button pressed
         binding.loginFragmentLogInButton.setOnClickListener {
-            val emailAddress = emailEditText.text.toString()
-            val password = passwordEditText.text.toString()
+            val emailAddress = emailEditText.text.toString().trim()
+            val password = passwordEditText.text.toString().trim()
 
             when {
                 // Check if email is empty
@@ -116,10 +116,7 @@ class LoginFragment : BaseFragment() {
                 }
                 else -> {
 
-                    val loginCredentials = LoginCredentials(
-                        emailEditText.text.toString(),
-                        passwordEditText.text.toString()
-                    )
+                    val loginCredentials = LoginCredentials(emailAddress, password)
 
                     /*Handling response from the retrofit*/
                     viewModel.loginUser(loginCredentials)
@@ -133,8 +130,6 @@ class LoginFragment : BaseFragment() {
                                 is Resource.Success -> {
                                     val successResponse = it.value.payload
                                     sessionManager.saveToSharedPref(TOKEN, successResponse)
-
-                                    val pref = sessionManager.loadFromSharedPref(TOKEN)
                                     progressDialog.hideProgressDialog()
                                     val intent =
                                         Intent(requireContext(), DashboardActivity::class.java)
@@ -237,18 +232,10 @@ class LoginFragment : BaseFragment() {
                         }
                         is Resource.Error -> {
                             progressDialog.hideProgressDialog()
-                            Toast.makeText(
-                                requireContext(),
-                                "Error: $it",
-                                Toast.LENGTH_SHORT
-                            ).show()
+//
                         }
                         is Resource.Loading -> {
-                            Toast.makeText(
-                                requireContext(),
-                                "Loading",
-                                Toast.LENGTH_SHORT
-                            ).show()
+
                         }
                     }
                 }

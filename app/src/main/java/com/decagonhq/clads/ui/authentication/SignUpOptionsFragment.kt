@@ -12,12 +12,14 @@ import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import com.decagonhq.clads.R
 import com.decagonhq.clads.databinding.SignUpOptionsFragmentBinding
+import com.decagonhq.clads.util.SessionManager
 import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount
 import com.google.android.gms.auth.api.signin.GoogleSignInClient
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions
 import com.google.android.gms.common.api.ApiException
 import com.google.android.gms.tasks.Task
+import javax.inject.Inject
 
 class SignUpOptionsFragment : Fragment() {
     private var _binding: SignUpOptionsFragmentBinding? = null
@@ -29,6 +31,8 @@ class SignUpOptionsFragment : Fragment() {
     private lateinit var cladsGoogleSignInClient: GoogleSignInClient
     private var GOOGLE_SIGN_IN_REQ_CODE = 100
 
+    @Inject
+    lateinit var sessionManager: SessionManager
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,

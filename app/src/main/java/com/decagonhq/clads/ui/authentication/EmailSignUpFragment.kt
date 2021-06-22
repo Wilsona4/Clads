@@ -17,6 +17,7 @@ import com.decagonhq.clads.R
 import com.decagonhq.clads.data.domain.registration.UserRegistration
 import com.decagonhq.clads.databinding.EmailSignUpFragmentBinding
 import com.decagonhq.clads.util.Resource
+import com.decagonhq.clads.util.SessionManager
 import com.decagonhq.clads.util.ValidationObject.validateAccountCategory
 import com.decagonhq.clads.util.ValidationObject.validateEmail
 import com.decagonhq.clads.util.ValidationObject.validatePasswordMismatch
@@ -27,6 +28,7 @@ import com.google.android.gms.auth.api.signin.GoogleSignInOptions
 import com.google.android.material.button.MaterialButton
 import com.google.android.material.textfield.TextInputEditText
 import dagger.hilt.android.AndroidEntryPoint
+import javax.inject.Inject
 
 @AndroidEntryPoint
 class EmailSignUpFragment : Fragment() {
@@ -35,6 +37,9 @@ class EmailSignUpFragment : Fragment() {
     private val binding get() = _binding!!
 
     val viewModel: AuthenticationViewModel by viewModels()
+
+    @Inject
+    lateinit var sessionManager: SessionManager
 
     private lateinit var firstNameEditText: TextInputEditText
     private lateinit var lastNameEditText: TextInputEditText
@@ -77,21 +82,16 @@ class EmailSignUpFragment : Fragment() {
                 when (it) {
                     is Resource.Success -> {
                         val successResponse = it.value.payload
+
+                        sessionManager.saveBooleanToSharedPref("SIGNED_UP", true)
+
                         findNavController().navigate(R.id.action_emailSignUpFragment_to_emailConfirmationFragment)
                     }
                     is Resource.Error -> {
-                        Toast.makeText(
-                            requireContext(),
-                            "Error: ${it.errorCode} = ${it.errorBody}",
-                            Toast.LENGTH_SHORT
-                        ).show()
+
                     }
                     is Resource.Loading -> {
-                        Toast.makeText(
-                            requireContext(),
-                            "Loading",
-                            Toast.LENGTH_SHORT
-                        ).show()
+
                     }
                 }
             }
