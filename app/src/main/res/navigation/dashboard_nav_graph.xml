@@ -35,10 +35,17 @@
         tools:layout="@layout/messages_fragment" />
 
     <fragment
-        android:id="@+id/resourcesFragment"
-        android:name="com.decagonhq.clads.ui.resource.ResourcesFragment"
+        android:id="@+id/resourceGeneralFragment"
+        android:name="com.decagonhq.clads.ui.resource.ResourceGeneralFragment"
         android:label="@string/resources"
-        tools:layout="@layout/resources_fragment" />
+        tools:layout="@layout/resource_general_fragment">
+        <action
+            android:id="@+id/action_resourcesFragment_to_resourceVideosFragment"
+            app:destination="@id/resourceVideosFragment" />
+        <action
+            android:id="@+id/action_resourceGeneralFragment_to_resourceArticlesFragment"
+            app:destination="@id/resourceArticlesFragment" />
+    </fragment>
     <fragment
         android:id="@+id/subscriptionFragment"
         android:name="com.decagonhq.clads.ui.subscription.SubscriptionFragment"
@@ -132,5 +139,15 @@
             app:popUpTo="@id/nav_media"
             app:popUpToInclusive="true" />
     </fragment>
+    <fragment
+        android:id="@+id/resourceVideosFragment"
+        android:name="com.decagonhq.clads.ui.resource.ResourceVideosFragment"
+        android:label="@string/videos"
+        tools:layout="@layout/resource_videos_fragment" />
+    <fragment
+        android:id="@+id/resourceArticlesFragment"
+        android:name="com.decagonhq.clads.ui.resource.ResourceArticlesFragment"
+        android:label="@string/articles"
+        tools:layout="@layout/resource_articles_fragment" />
 
 </navigation>

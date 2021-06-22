@@ -163,7 +163,7 @@
         <item>Zamfara</item>
         <item>FCT</item>
     </string-array>
-<!-- String extractions -->
+    <!-- String extractions -->
     <string name="tag">Dialog tag</string>
     <string name="request_key_keyClicked">keyClicked</string>
     <string name="key_bundleKey">bundleKey</string>
@@ -176,7 +176,7 @@
     <string name="dialog_alert_confirmation_yes">Yes</string>
     <string name="dialog_alert_confirmation_cancle">Cancel</string>
 
-<!--  Temporary string used for dummy array -->
+    <!--  Temporary string used for dummy array -->
     <string name="arm">Arm</string>
     <string name="leg">Leg</string>
     <string name="neck">Neck</string>
@@ -184,7 +184,7 @@
     <string name="sholder">Sholder</string>
     <string name="elbow">Elbow</string>
 
-<!-- Validation strings -->
+    <!-- Validation strings -->
     <string name="enter_the_delivery_address_validation">Please, enter the delivery address</string>
     <string name="enter_city_validation">Please, enter a city</string>
     <string name="enter_state_validation">Please, select a state</string>
@@ -313,10 +313,17 @@
     <string name="send_to">SEND</string>
     <string name="enter_name">Enter image name</string>
 
-
     <string name="phone">08154343448</string>
     <string name="nigeria">Nigeria</string>
     <string name="null_all">null</string>
+
+    <string name="videos">Videos</string>
+    <string name="view_all">View All</string>
+    <string name="hour_30_min">1 hours 30 mins</string>
+    <string name="pope_hope">Pope Hope</string>
+    <string name="stitching_neatly">Stitching Neatly</string>
+    <string name="article_publications">Article/Publications</string>
+    <string name="articles">Articles</string>
     <string name="please_wait">Please wait...</string>
 
 

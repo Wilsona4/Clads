@@ -70,7 +70,10 @@ class AccountFragment : Fragment() {
     private fun String.checkForPermission(name: String, requestCode: Int) {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             when {
-                ContextCompat.checkSelfPermission(requireContext(), this) == PackageManager.PERMISSION_GRANTED -> {
+                ContextCompat.checkSelfPermission(
+                    requireContext(),
+                    this
+                ) == PackageManager.PERMISSION_GRANTED -> {
                     // call read contact function
                     openImageChooser()
                 }
@@ -85,7 +88,11 @@ class AccountFragment : Fragment() {
     }
 
     // check for permission and make call
-    override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<out String>, grantResults: IntArray) {
+    override fun onRequestPermissionsResult(
+        requestCode: Int,
+        permissions: Array<out String>,
+        grantResults: IntArray
+    ) {
         fun innerCheck(name: String) {
             if (grantResults.isEmpty() || grantResults[0] != PackageManager.PERMISSION_GRANTED) {
                 Toast.makeText(requireContext(), "$name permission refused", Toast.LENGTH_SHORT)
@@ -280,9 +287,13 @@ class AccountFragment : Fragment() {
 
         // when state value is clicked
         binding.accountFragmentWorkshopAddressStateValueTextView.setOnClickListener {
-            val currentState = binding.accountFragmentWorkshopAddressStateValueTextView.text.toString()
+            val currentState =
+                binding.accountFragmentWorkshopAddressStateValueTextView.text.toString()
             val bundle = bundleOf(CURRENT_ACCOUNT_WORKSHOP_STATE_BUNDLE_KEY to currentState)
-            createProfileDialogFragment(R.layout.account_workshop_state_dialog_fragment, bundle).show(
+            createProfileDialogFragment(
+                R.layout.account_workshop_state_dialog_fragment,
+                bundle
+            ).show(
                 childFragmentManager, AccountFragment::class.java.simpleName
             )
         }
@@ -302,9 +313,13 @@ class AccountFragment : Fragment() {
 
         // when city is clicked
         binding.accountFragmentWorkshopAddressCityValueTextView.setOnClickListener {
-            val currentCity = binding.accountFragmentWorkshopAddressCityValueTextView.text.toString()
+            val currentCity =
+                binding.accountFragmentWorkshopAddressCityValueTextView.text.toString()
             val bundle = bundleOf(CURRENT_ACCOUNT_WORKSHOP_CITY_BUNDLE_KEY to currentCity)
-            createProfileDialogFragment(R.layout.account_workshop_city_dialog_fragment, bundle).show(
+            createProfileDialogFragment(
+                R.layout.account_workshop_city_dialog_fragment,
+                bundle
+            ).show(
                 childFragmentManager, AccountFragment::class.java.simpleName
             )
         }
@@ -324,9 +339,13 @@ class AccountFragment : Fragment() {
 
         // when street value is clicked
         binding.accountFragmentWorkshopAddressStreetValueTextView.setOnClickListener {
-            val currentStreet = binding.accountFragmentWorkshopAddressStreetValueTextView.text.toString()
+            val currentStreet =
+                binding.accountFragmentWorkshopAddressStreetValueTextView.text.toString()
             val bundle = bundleOf(CURRENT_ACCOUNT_WORKSHOP_STREET_BUNDLE_KEY to currentStreet)
-            createProfileDialogFragment(R.layout.account_workshop_street_dialog_fragment, bundle).show(
+            createProfileDialogFragment(
+                R.layout.account_workshop_street_dialog_fragment,
+                bundle
+            ).show(
                 childFragmentManager, AccountFragment::class.java.simpleName
             )
         }
@@ -345,9 +364,14 @@ class AccountFragment : Fragment() {
 
         // when showroom address is clicked
         binding.accountFragmentShowroomAddressValueTextView.setOnClickListener {
-            val currentShowroomAddress = binding.accountFragmentShowroomAddressValueTextView.text.toString()
-            val bundle = bundleOf(CURRENT_ACCOUNT_SHOWROOM_ADDRESS_BUNDLE_KEY to currentShowroomAddress)
-            createProfileDialogFragment(R.layout.account_showroom_address_dialog_fragment, bundle).show(
+            val currentShowroomAddress =
+                binding.accountFragmentShowroomAddressValueTextView.text.toString()
+            val bundle =
+                bundleOf(CURRENT_ACCOUNT_SHOWROOM_ADDRESS_BUNDLE_KEY to currentShowroomAddress)
+            createProfileDialogFragment(
+                R.layout.account_showroom_address_dialog_fragment,
+                bundle
+            ).show(
                 childFragmentManager, AccountFragment::class.java.simpleName
             )
         }
@@ -532,19 +556,23 @@ class AccountFragment : Fragment() {
 
         const val ACCOUNT_WORKSHOP_STATE_REQUEST_KEY = "ACCOUNT WORKSHOP STATE REQUEST KEY"
         const val ACCOUNT_WORKSHOP_STATE_BUNDLE_KEY = "ACCOUNT WORKSHOP STATE BUNDLE KEY"
-        const val CURRENT_ACCOUNT_WORKSHOP_STATE_BUNDLE_KEY = "CURRENT ACCOUNT WORKSHOP STATE BUNDLE KEY"
+        const val CURRENT_ACCOUNT_WORKSHOP_STATE_BUNDLE_KEY =
+            "CURRENT ACCOUNT WORKSHOP STATE BUNDLE KEY"
 
         const val ACCOUNT_WORKSHOP_CITY_REQUEST_KEY = "ACCOUNT WORKSHOP CITY REQUEST KEY"
         const val ACCOUNT_WORKSHOP_CITY_BUNDLE_KEY = "ACCOUNT WORKSHOP CITY BUNDLE KEY"
-        const val CURRENT_ACCOUNT_WORKSHOP_CITY_BUNDLE_KEY = "CURRENT ACCOUNT WORKSHOP CITY BUNDLE KEY"
+        const val CURRENT_ACCOUNT_WORKSHOP_CITY_BUNDLE_KEY =
+            "CURRENT ACCOUNT WORKSHOP CITY BUNDLE KEY"
 
         const val ACCOUNT_WORKSHOP_STREET_REQUEST_KEY = "ACCOUNT WORKSHOP STREET REQUEST KEY"
         const val ACCOUNT_WORKSHOP_STREET_BUNDLE_KEY = "ACCOUNT WORKSHOP STREET BUNDLE KEY"
-        const val CURRENT_ACCOUNT_WORKSHOP_STREET_BUNDLE_KEY = "CURRENT ACCOUNT WORKSHOP STREET BUNDLE KEY"
+        const val CURRENT_ACCOUNT_WORKSHOP_STREET_BUNDLE_KEY =
+            "CURRENT ACCOUNT WORKSHOP STREET BUNDLE KEY"
 
         const val ACCOUNT_SHOWROOM_ADDRESS_REQUEST_KEY = "ACCOUNT SHOWROOM ADDRESS REQUEST KEY"
         const val ACCOUNT_SHOWROOM_ADDRESS_BUNDLE_KEY = "ACCOUNT SHOWROOM ADDRESS BUNDLE KEY"
-        const val CURRENT_ACCOUNT_SHOWROOM_ADDRESS_BUNDLE_KEY = "CURRENT ACCOUNT SHOWROOM ADDRESS BUNDLE KEY"
+        const val CURRENT_ACCOUNT_SHOWROOM_ADDRESS_BUNDLE_KEY =
+            "CURRENT ACCOUNT SHOWROOM ADDRESS BUNDLE KEY"
 
         const val ACCOUNT_UNION_NAME_REQUEST_KEY = "ACCOUNT UNION NAME REQUEST KEY"
         const val ACCOUNT_UNION_NAME_BUNDLE_KEY = "ACCOUNT UNION NAME BUNDLE KEY"
@@ -564,7 +592,8 @@ class AccountFragment : Fragment() {
 
         const val ACCOUNT_LEGAL_STATUS_REQUEST_KEY = "ACCOUNT LEGAL STATUS REQUEST KEY"
         const val ACCOUNT_LEGAL_STATUS_BUNDLE_KEY = "ACCOUNT LEGAL STATUS BUNDLE KEY"
-        const val CURRENT_ACCOUNT_LEGAL_STATUS_BUNDLE_KEY = "CURRENT ACCOUNT LEGAL STATUS BUNDLE KEY"
+        const val CURRENT_ACCOUNT_LEGAL_STATUS_BUNDLE_KEY =
+            "CURRENT ACCOUNT LEGAL STATUS BUNDLE KEY"
 
         const val READ_IMAGE_STORAGE = 102
         const val NAME = "CLads"

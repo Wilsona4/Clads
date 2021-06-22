@@ -9,7 +9,7 @@
             android:icon="@drawable/nav_drawer_clients_icon"
             android:title="@string/clients"/>
         <item
-            android:id="@+id/resourcesFragment"
+            android:id="@+id/resourceGeneralFragment"
             android:icon="@drawable/nav_drawer_theater_icon"
             android:title="@string/resources" />
         <item
