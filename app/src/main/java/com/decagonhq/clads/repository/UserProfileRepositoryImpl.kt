@@ -7,6 +7,7 @@ import com.decagonhq.clads.data.remote.ApiService
 import com.decagonhq.clads.data.remote.profile.UserProfileDTOMapper
 import com.decagonhq.clads.util.Resource
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.flow
 
 class UserProfileRepositoryImpl(
     apiService: ApiService,
@@ -16,9 +17,10 @@ class UserProfileRepositoryImpl(
 ) : UserProfileRepository {
 
     override suspend fun getUserProfile(): Flow<Resource<GenericResponseClass>> = flow {
+        TODO("Not yet implemented")
     }
 
-    override suspend fun updateUserProfile(): Flow<Resource<GenericResponseClass>> {
+    override suspend fun updateUserProfile(): Flow<Resource<GenericResponseClass>> = flow {
         TODO("Not yet implemented")
     }
 }
