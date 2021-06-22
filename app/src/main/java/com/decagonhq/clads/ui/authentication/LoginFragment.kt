@@ -140,7 +140,7 @@ class LoginFragment : BaseFragment() {
                                 }
                                 is Resource.Error -> {
                                     progressDialog.hideProgressDialog()
-                                    handleApiError(it, retrofit, requireView())
+                                    handleApiError(it, mainRetrofit, requireView())
                                 }
                             }
                         }
