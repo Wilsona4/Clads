@@ -4,7 +4,7 @@ import android.content.Context
 import androidx.room.Room
 import com.decagonhq.clads.data.local.CladsDatabase
 import com.decagonhq.clads.data.local.ClientDao
-import com.decagonhq.clads.data.local.UserDao
+import com.decagonhq.clads.data.local.UserProfileDao
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -36,7 +36,7 @@ object LocalModule {
 
     @Singleton
     @Provides
-    fun providesUserDAO(cladsDatabase: CladsDatabase): UserDao {
-        return cladsDatabase.userDao()
+    fun providesUserDAO(cladsDatabase: CladsDatabase): UserProfileDao {
+        return cladsDatabase.userProfileDao()
     }
 }

@@ -1,4 +1,4 @@
-package com.decagonhq.clads.data.remote
+package com.decagonhq.clads.data.remote.login
 
 import com.decagonhq.clads.data.domain.login.LoginCredentials
 import com.decagonhq.clads.util.DomainMapper
