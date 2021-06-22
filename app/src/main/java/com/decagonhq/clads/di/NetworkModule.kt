@@ -3,6 +3,7 @@ package com.decagonhq.clads.di
 import android.content.SharedPreferences
 import com.decagonhq.clads.data.remote.ApiService
 import com.decagonhq.clads.util.Constants.BASE_URL
+import com.decagonhq.clads.util.Constants.IMAGE_BASE_URL
 import com.decagonhq.clads.util.Constants.TOKEN
 import dagger.Module
 import dagger.Provides
@@ -14,6 +15,7 @@ import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Converter
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
+import javax.inject.Named
 import javax.inject.Singleton
 
 @Module
@@ -70,9 +72,30 @@ object NetworkModule {
             .build()
     }
 
+    @Named("Image Retrofit")
+    @Provides
+    @Singleton
+    fun provideImageRetrofitService(
+        client: OkHttpClient,
+        converterFactory: Converter.Factory
+    ): Retrofit {
+        return Retrofit.Builder()
+            .baseUrl(IMAGE_BASE_URL)
+            .addConverterFactory(converterFactory)
+            .client(client)
+            .build()
+    }
+
     @Provides
     @Singleton
     fun provideApiService(retrofit: Retrofit): ApiService {
+        return retrofit.create(ApiService::class.java)
+    }
+
+    @Named("Image ApiService")
+    @Provides
+    @Singleton
+    fun provideImageApiService(retrofit: Retrofit): ApiService {
         return retrofit.create(ApiService::class.java)
     }
 }

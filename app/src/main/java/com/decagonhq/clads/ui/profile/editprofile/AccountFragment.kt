@@ -2,18 +2,23 @@ package com.decagonhq.clads.ui.profile.editprofile
 
 import android.Manifest
 import android.app.Activity
+import android.content.ContentResolver
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.net.Uri
 import android.os.Build
 import android.os.Bundle
+import android.os.Handler
+import android.os.Looper
 import android.provider.MediaStore
+import android.provider.OpenableColumns
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.core.app.ActivityCompat
+import androidx.core.content.ContentResolverCompat.query
 import androidx.core.content.ContextCompat
 import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
@@ -23,6 +28,15 @@ import com.decagonhq.clads.databinding.AccountFragmentBinding
 import com.decagonhq.clads.ui.profile.dialogfragment.ProfileManagementDialogFragments.Companion.createProfileDialogFragment
 import com.decagonhq.clads.viewmodels.AuthenticationViewModel
 import dagger.hilt.android.AndroidEntryPoint
+import okhttp3.MediaType
+import okhttp3.MediaType.Companion.toMediaTypeOrNull
+import okhttp3.MultipartBody
+import okhttp3.RequestBody
+import okhttp3.RequestBody.Companion.asRequestBody
+import okio.BufferedSink
+import java.io.File
+import java.io.FileInputStream
+import java.io.FileOutputStream
 
 @AndroidEntryPoint
 class AccountFragment : Fragment() {
@@ -121,6 +135,12 @@ class AccountFragment : Fragment() {
         dialog.show()
     }
 
+    /*Select Image*/
+    private fun openImageChooser() {
+        val intent = Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI)
+        startActivityForResult(intent, REQUEST_CODE_IMAGE_PICKER)
+    }
+
     // function to attach the selected image to the image view
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
@@ -164,22 +184,76 @@ class AccountFragment : Fragment() {
         }
     }
 
-    // function to get the name of the file
-//    private fun getFileName(uri: Uri, contentResolver: ContentResolver): String {
-//        var name = "TO BE REMOVED STRING"
-//        val cursor = query(contentResolver, uri, null, null, null, null, null)
-//        cursor?.use {
-//            it.moveToFirst()
-//            name = cursor.getString(it.getColumnIndex(OpenableColumns.DISPLAY_NAME))
-//        }
-//        return name
-//    }
+    fun File.asRequestBodyWithProgress(
+        contentType: MediaType? = null,
+        progressCallback: ((progress: Float) -> Unit)?
+    ): RequestBody {
+        return object : RequestBody() {
+            override fun contentType() = contentType
 
-    /*Select Image*/
-    private fun openImageChooser() {
-        val intent = Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI)
-        startActivityForResult(intent, REQUEST_CODE_IMAGE_PICKER)
+            override fun contentLength() = length()
+
+            override fun writeTo(sink: BufferedSink) {
+                val fileLength = contentLength()
+                val buffer = ByteArray(DEFAULT_BUFFER_SIZE)
+                val inSt = FileInputStream(this@asRequestBodyWithProgress)
+                var uploaded = 0L
+                inSt.use {
+                    var read: Int = inSt.read(buffer)
+                    val handler = Handler(Looper.getMainLooper())
+                    while (read != -1) {
+                        progressCallback?.let {
+                            uploaded += read
+                            val progress = (uploaded.toDouble() / fileLength.toDouble()).toFloat()
+                            handler.post { it(progress) }
+
+                            sink.write(buffer, 0, read)
+                        }
+                        read = inSt.read(buffer)
+                    }
+                }
+            }
+        }
     }
+
+    // function to get the name of the file
+    private fun getFileName(uri: Uri, contentResolver: ContentResolver): String {
+        var name = "TO BE REMOVED STRING"
+        val cursor = query(contentResolver, uri, null, null, null, null, null)
+        cursor?.use {
+            it.moveToFirst()
+            name = cursor.getString(it.getColumnIndex(OpenableColumns.DISPLAY_NAME))
+        }
+        return name
+    }
+
+
+    fun uploadImage(uri: Uri){
+
+        //get the data under the Uri and open it in read format
+        val parcelFileDescriptor = requireActivity().contentResolver
+            .openFileDescriptor(uri, "r", null)?: return
+
+        //use the contentResolver to get the actual file by uri
+        val file = File(requireActivity().cacheDir, getFileName(uri, requireActivity().contentResolver))
+        val inputStream = FileInputStream(parcelFileDescriptor.fileDescriptor)
+        val outputStream = FileOutputStream(file)
+        inputStream.copyTo(outputStream)
+
+
+        //create RequestBody instance from file
+        val body = file.asRequestBody("image/*".toMediaTypeOrNull())
+
+        //get the information of the image to upload
+        //MultiPartBody.Part is used to send the actual file name
+        val imageUpload = MultipartBody.Part.createFormData("file", file.name, body)
+
+        //execute the request
+
+
+    }
+
+
 
     private fun accountlegalStatusdialog() {
         childFragmentManager.setFragmentResultListener(

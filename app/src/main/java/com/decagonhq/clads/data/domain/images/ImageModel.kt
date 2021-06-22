@@ -1,6 +1,6 @@
-package com.decagonhq.clads.data.domain.profileimage
+package com.decagonhq.clads.data.domain.images
 
-data class UserProfileImage(
+data class ImageModel(
     val downloadUri: String,
     val fileId: String,
     val fileName: String,
