@@ -325,6 +325,11 @@
     <string name="article_publications">Article/Publications</string>
     <string name="articles">Articles</string>
     <string name="please_wait">Please wait...</string>
+    <string name="how_to_perfectly_sew_attire">How to perfectly sew attire</string>
+    <string name="posted_1_month_ago">Posted 1 month ago</string>
+    <string name="how_to_sew_attire">How to sew attire</string>
+    <string name="_1_hour_30_minutes">1 hour 30 minutes</string>
+    <string name="individual_video">Individual Video</string>
 
 
     <string-array name="account_category">

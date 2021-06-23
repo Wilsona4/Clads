@@ -2,6 +2,7 @@ package com.decagonhq.clads.ui.resource.adapter
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import androidx.navigation.findNavController
 import androidx.recyclerview.widget.AsyncListDiffer
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
@@ -9,7 +10,7 @@ import com.decagonhq.clads.R
 import com.decagonhq.clads.data.domain.resource.ResourceDetailVideoModel
 import com.decagonhq.clads.databinding.ResourceGeneralVideoViewAllItemBinding
 
-class ViewAllVideoRvAdapter(private val interaction: Interaction? = null) :
+class ViewAllVideoRvAdapter(private val interaction: Interaction) :
     RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
     private val diffCallback = object : DiffUtil.ItemCallback<ResourceDetailVideoModel>() {
@@ -65,7 +66,13 @@ class ViewAllVideoRvAdapter(private val interaction: Interaction? = null) :
 
         fun bind(item: ResourceDetailVideoModel) = with(itemView) {
             itemView.setOnClickListener {
-                interaction?.onItemSelected(adapterPosition, item)
+                val currentID = findNavController().currentDestination?.id
+                if (currentID == R.id.resourceVideosFragment) {
+                    findNavController().navigate(R.id.action_resourceVideosFragment_to_individualVideoScreenFragment)
+                    interaction?.onItemSelected(adapterPosition, item)
+                } else {
+                    interaction?.onItemSelected(adapterPosition, item)
+                }
             }
             binding.resourceGeneralVideoViewAllItemCardImageView.setImageResource(R.drawable.video_thumbnail)
             binding.resourceGeneralVideoViewAllItemTitleTextView.text = item.resourceTitle

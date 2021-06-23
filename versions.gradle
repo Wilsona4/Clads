@@ -11,7 +11,6 @@ ext.versions = [
         build_gradle_version   : "4.1.1",
         google_services        : "4.3.4",
         hilt_compiler_version  : "1.0.0",
-        glide_version          : '4.12.0',
         androidx_test          : "1.3.0",
         timber_version         : "4.7.1",
         ktlint_version         : "10.0.0",
@@ -20,5 +19,7 @@ ext.versions = [
         play_service_auth      : "19.0.0",
         truth_version           : "1.1.3",
         circle_iv_version       : "3.1.0",
-        exo_player_version       : "2.14.1"
+        glide_version          : '4.12.0',
+        exoplayer_version       : '2.14.1'
+
 ]
