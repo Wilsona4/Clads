@@ -40,13 +40,11 @@ object RepositoryModule {
         userProfileEntityMapper: UserProfileEntityMapper,
         userProfileDao: UserProfileDao
     ): UserProfileRepository {
-        return UserProfileRepositoryImpl(apiService, userProfileDTOMapper, userProfileEntityMapper, userProfileDao)
+        return UserProfileRepositoryImpl(
+            apiService,
+            userProfileDTOMapper,
+            userProfileEntityMapper,
+            userProfileDao
+        )
     }
-
-//    @Singleton
-//    @Provides
-//    fun provideImageRepository(
-//        @Named(IMAGE_API_SERVICE) apiService: ApiService,
-//
-//    )
 }

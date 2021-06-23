@@ -101,7 +101,7 @@ object NetworkModule {
     @Named(IMAGE_API_SERVICE)
     @Provides
     @Singleton
-    fun provideImageApiService(@Named(IMAGE_RETROFIT)retrofit: Retrofit): ApiService {
+    fun provideImageApiService(@Named(IMAGE_RETROFIT) retrofit: Retrofit): ApiService {
         return retrofit.create(ApiService::class.java)
     }
 }
