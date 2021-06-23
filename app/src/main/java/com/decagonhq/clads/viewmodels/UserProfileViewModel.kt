@@ -5,6 +5,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.decagonhq.clads.data.domain.GenericResponseClass
+import com.decagonhq.clads.data.domain.userprofile.Userprofile
 import com.decagonhq.clads.repository.UserProfileRepository
 import com.decagonhq.clads.util.Resource
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -18,8 +19,8 @@ class UserProfileViewModel @Inject constructor(
     private val userProfileRepository: UserProfileRepository
 ) : ViewModel() {
 
-    private var _userProfile = MutableLiveData<Resource<GenericResponseClass>>()
-    val userProfile: LiveData<Resource<GenericResponseClass>> get() = _userProfile
+    private var _userProfile = MutableLiveData<Resource<Userprofile>>()
+    val userProfile: LiveData<Resource<Userprofile>> get() = _userProfile
 
     fun getUserProfile() {
         viewModelScope.launch {

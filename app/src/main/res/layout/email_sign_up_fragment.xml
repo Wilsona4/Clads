@@ -95,13 +95,13 @@
         </com.google.android.material.textfield.TextInputLayout>
 
         <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/email_sign_up_fragment_other_name_edit_text_layout"
+            android:id="@+id/email_sign_up_fragment_phone_number_edit_text_layout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="@dimen/margin_18dp"
             android:layout_marginTop="@dimen/margin_9dp"
             android:fontFamily="@font/poppins"
-            android:hint="@string/all_other_name"
+            android:hint="@string/phone_number"
             android:textColorHint="@color/gray"
             app:boxStrokeColor="@color/text_indicator_gray"
             app:errorEnabled="true"
@@ -111,7 +111,7 @@
             app:layout_constraintTop_toBottomOf="@+id/email_sign_up_fragment_last_name_edit_text_layout">
 
             <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/email_sign_up_fragment_other_name_edit_text"
+                android:id="@+id/email_sign_up_fragment_phone_number_edit_text"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:inputType="text"
@@ -136,7 +136,7 @@
             app:errorEnabled="true"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/email_sign_up_fragment_other_name_edit_text_layout">
+            app:layout_constraintTop_toBottomOf="@+id/email_sign_up_fragment_phone_number_edit_text_layout">
 
             <AutoCompleteTextView
                 android:id="@+id/email_sign_up_fragment_account_category_text_view"

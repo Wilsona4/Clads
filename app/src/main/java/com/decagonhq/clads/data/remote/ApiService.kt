@@ -2,6 +2,7 @@ package com.decagonhq.clads.data.remote
 
 import com.decagonhq.clads.data.domain.GenericResponseClass
 import com.decagonhq.clads.data.domain.login.UserRole
+import com.decagonhq.clads.data.domain.userprofile.Userprofile
 import com.decagonhq.clads.data.remote.login.LoginCredentialsDTO
 import com.decagonhq.clads.data.remote.registration.UserRegistrationDTO
 import okhttp3.MultipartBody
@@ -38,5 +39,5 @@ interface ApiService {
 
     /*Get User Profile*/
     @GET("me/profile")
-    suspend fun getUserProfile(): GenericResponseClass
+    suspend fun getUserProfile(): Userprofile
 }

@@ -318,6 +318,8 @@
     <string name="nigeria">Nigeria</string>
     <string name="null_all">null</string>
     <string name="please_wait">Please wait...</string>
+    <string name="invalid_phone_number">Invalid Phone number</string>
+    <string name="all_phone_number_is_required">Phone Number is required</string>
 
 
     <string-array name="account_category">

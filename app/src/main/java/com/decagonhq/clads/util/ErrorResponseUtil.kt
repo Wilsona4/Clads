@@ -18,7 +18,7 @@ class ErrorResponseUtil @Inject constructor(var retrofit: Retrofit) {
             converter.convert(response.errorBody()!!)!!
         } catch (e: IOException) {
             Timber.d(e.message)
-            return GenericResponseClass("Please enter valid credentials", "null", 69)
+            return GenericResponseClass("IOException", "null", 69)
 //            converter.convert(response.errorBody())!!
         }
     }

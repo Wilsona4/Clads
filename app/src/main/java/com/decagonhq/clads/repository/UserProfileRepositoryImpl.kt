@@ -3,6 +3,7 @@ package com.decagonhq.clads.repository
 import com.decagonhq.clads.data.domain.GenericResponseClass
 
 import com.decagonhq.clads.data.domain.profile.UserProfile
+import com.decagonhq.clads.data.domain.userprofile.Userprofile
 import com.decagonhq.clads.data.local.UserProfileDao
 import com.decagonhq.clads.data.local.UserProfileEntityMapper
 import com.decagonhq.clads.data.remote.ApiService
@@ -18,7 +19,7 @@ class UserProfileRepositoryImpl(
     private val userProfileDao: UserProfileDao
 ) : UserProfileRepository, SafeApiCall() {
 
-    override suspend fun getUserProfile(): Flow<Resource<GenericResponseClass>> = flow {
+    override suspend fun getUserProfile(): Flow<Resource<Userprofile>> = flow {
         emit(
             safeApiCall {
                 apiService.getUserProfile()

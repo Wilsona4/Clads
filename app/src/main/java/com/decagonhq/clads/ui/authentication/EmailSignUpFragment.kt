@@ -7,7 +7,6 @@ import android.view.ViewGroup
 import android.widget.ArrayAdapter
 import android.widget.AutoCompleteTextView
 import android.widget.TextView
-import android.widget.Toast
 import androidx.core.widget.doOnTextChanged
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
@@ -18,6 +17,7 @@ import com.decagonhq.clads.data.domain.registration.UserRegistration
 import com.decagonhq.clads.databinding.EmailSignUpFragmentBinding
 import com.decagonhq.clads.util.Resource
 import com.decagonhq.clads.util.SessionManager
+import com.decagonhq.clads.util.ValidationObject.jdValidatePhoneNumber
 import com.decagonhq.clads.util.ValidationObject.validateAccountCategory
 import com.decagonhq.clads.util.ValidationObject.validateEmail
 import com.decagonhq.clads.util.ValidationObject.validatePasswordMismatch
@@ -43,7 +43,7 @@ class EmailSignUpFragment : Fragment() {
 
     private lateinit var firstNameEditText: TextInputEditText
     private lateinit var lastNameEditText: TextInputEditText
-    private lateinit var otherNameEditText: TextInputEditText
+    private lateinit var phoneNumberEditText: TextInputEditText
     private lateinit var emailEditText: TextInputEditText
     private lateinit var accountCategoryDropDown: AutoCompleteTextView
     private lateinit var passwordEditText: TextInputEditText
@@ -66,7 +66,7 @@ class EmailSignUpFragment : Fragment() {
         /*Initialize Views*/
         firstNameEditText = binding.emailSignUpFragmentFirstNameEditText
         lastNameEditText = binding.emailSignUpFragmentLastNameEditText
-        otherNameEditText = binding.emailSignUpFragmentOtherNameEditText
+        phoneNumberEditText = binding.emailSignUpFragmentPhoneNumberEditText
         emailEditText = binding.emailSignUpFragmentEmailEditText
         accountCategoryDropDown = binding.emailSignUpFragmentAccountCategoryTextView
         passwordEditText = binding.emailSignUpFragmentPasswordEditText
@@ -107,7 +107,7 @@ class EmailSignUpFragment : Fragment() {
             /*Initialize User Inputs*/
             val firstName = firstNameEditText.text.toString().trim()
             val lastName = lastNameEditText.text.toString().trim()
-            val otherName = otherNameEditText.text.toString().trim()
+            val phoneNumber = phoneNumberEditText.text.toString().trim()
             val email = emailEditText.text.toString().trim()
             val accountCategory = accountCategoryDropDown.text.toString().trim()
             val password = passwordEditText.text.toString().trim()
@@ -128,6 +128,16 @@ class EmailSignUpFragment : Fragment() {
                 email.isEmpty() -> {
                     binding.emailSignUpFragmentEmailEditTextLayout.error =
                         getString(R.string.all_email_cant_be_empty)
+                    return@setOnClickListener
+                }
+                !binding.emailSignUpFragmentPhoneNumberEditText.jdValidatePhoneNumber(phoneNumber)->{
+                    binding.emailSignUpFragmentPhoneNumberEditTextLayout.error =
+                    getString(R.string.invalid_phone_number)
+                    return@setOnClickListener
+                }
+                phoneNumber.isEmpty() ->{
+                    binding.emailSignUpFragmentPhoneNumberEditTextLayout.error =
+                            getString(R.string.all_phone_number_is_required)
                     return@setOnClickListener
                 }
                 !validateEmail(email) -> {
@@ -161,7 +171,7 @@ class EmailSignUpFragment : Fragment() {
                             firstName = firstName,
                             lastName = lastName,
                             email = email,
-                            phoneNumber = getString(R.string.phone),
+                            phoneNumber = phoneNumber,
                             category = accountCategory,
                             role = getString(R.string.tailor),
                             password = password,
