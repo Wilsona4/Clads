@@ -9,7 +9,7 @@
     android:paddingBottom="@dimen/margin_20dp">
     <androidx.cardview.widget.CardView
         android:id="@+id/individual_video_screen_fragment_recycler_item_card_view"
-        android:layout_width="134dp"
+        android:layout_width="@dimen/width_134dp"
         android:layout_height="@dimen/margin_200dp"
         android:layout_marginTop="@dimen/margin_10dp"
         android:gravity="center"
@@ -41,7 +41,7 @@
 
     <TextView
         android:id="@+id/individual_video_screen_fragment_recycler_item_video_title_text_view"
-        android:layout_width="0dp"
+        android:layout_width="@dimen/width_0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="@dimen/margin_20dp"
         android:layout_marginTop="@dimen/margin_8dp"

@@ -68,7 +68,8 @@ class ViewAllVideoRvAdapter(private val interaction: Interaction) :
             itemView.setOnClickListener {
                 val currentID = findNavController().currentDestination?.id
                 if (currentID == R.id.resourceVideosFragment) {
-                    it.findNavController().navigate(R.id.action_resourceVideosFragment_to_individualVideoScreenFragment)
+                    findNavController().navigate(R.id.action_resourceVideosFragment_to_individualVideoScreenFragment)
+                    interaction?.onItemSelected(adapterPosition, item)
                 } else {
                     interaction?.onItemSelected(adapterPosition, item)
                 }

@@ -1,6 +1,5 @@
 package com.decagonhq.clads.ui.resource
 
-import android.annotation.SuppressLint
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -75,7 +74,6 @@ class IndividualVideoScreenFragment : Fragment(), ViewAllVideoRvAdapter.Interact
 
     override fun onResume() {
         super.onResume()
-        hideSystemUi()
         if (Util.SDK_INT < 24 || player == null) {
             initializePlayer()
         }
@@ -109,9 +107,8 @@ class IndividualVideoScreenFragment : Fragment(), ViewAllVideoRvAdapter.Interact
             player =
                 SimpleExoPlayer.Builder(requireContext()).setTrackSelector(trackSelector).build()
         }
-//        player = SimpleExoPlayer.Builder(requireContext()).build()
         playerView = binding.individualVideoScreenFragmentPlayerView
-        playerView.setPlayer(player)
+        playerView.player = player
         // use media Item builder to set the video
 
         mediaItem = MediaItem.Builder()
@@ -119,36 +116,23 @@ class IndividualVideoScreenFragment : Fragment(), ViewAllVideoRvAdapter.Interact
             .build()
         player!!.setMediaItem(mediaItem)
         // if there exist a saved state collect them and continue, if not, use the default innitialize at top
-        player!!.setPlayWhenReady(playerWhenReady)
+        player!!.playWhenReady = playerWhenReady
         player!!.seekTo(currentWindow, playBackPosition)
         player!!.addListener(playbackStateListener)
         player!!.prepare()
     }
 
     private fun releasePlayer() {
-        if (player != null) {
-            // store the information of the player before it is realsed
-            playerWhenReady = player!!.getPlayWhenReady()
-            playBackPosition = player!!.getCurrentPosition()
-            currentWindow = player!!.getCurrentWindowIndex()
+
+        player?.let { playerNotNull ->
+            playerWhenReady = playerNotNull.playWhenReady
+            playBackPosition = playerNotNull.currentPosition
+            currentWindow = playerNotNull.currentWindowIndex
             // release the player
-            player!!.removeListener(playbackStateListener)
-            player!!.release()
+            playerNotNull.removeListener(playbackStateListener)
+            playerNotNull.release()
             player = null
         }
-    }
-
-    // this enables yoo to have a full screen experience
-    @SuppressLint("InlinedApi")
-    private fun hideSystemUi() {
-        playerView.systemUiVisibility = (
-            View.SYSTEM_UI_FLAG_LOW_PROFILE
-                or View.SYSTEM_UI_FLAG_FULLSCREEN
-                or View.SYSTEM_UI_FLAG_LAYOUT_STABLE
-                or View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY
-                or View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
-                or View.SYSTEM_UI_FLAG_HIDE_NAVIGATION
-            )
     }
 
     inner class PlaybackStateListener : Player.EventListener {
