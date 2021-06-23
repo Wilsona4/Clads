@@ -61,6 +61,7 @@ dependencies {
     implementation 'com.google.android.material:material:1.4.0-rc01'
     implementation 'com.github.PhilJay:MPAndroidChart:v2.2.2'
     implementation 'com.amulyakhare:com.amulyakhare.textdrawable:1.0.1'
+    implementation 'net.gotev:uploadservice:2.1'
 
     //androidx.test
     androidTestImplementation "androidx.test:runner:$versions.androidx_test"

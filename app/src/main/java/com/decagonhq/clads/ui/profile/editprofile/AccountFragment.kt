@@ -27,6 +27,7 @@ import com.decagonhq.clads.R
 import com.decagonhq.clads.databinding.AccountFragmentBinding
 import com.decagonhq.clads.ui.profile.dialogfragment.ProfileManagementDialogFragments.Companion.createProfileDialogFragment
 import com.decagonhq.clads.viewmodels.AuthenticationViewModel
+import com.decagonhq.clads.viewmodels.ImageUploadViewModel
 import dagger.hilt.android.AndroidEntryPoint
 import okhttp3.MediaType
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
@@ -43,7 +44,9 @@ class AccountFragment : Fragment() {
     private var _binding: AccountFragmentBinding? = null
     private var selectedImage: Uri? = null
 
-    val viewModel: AuthenticationViewModel by viewModels()
+    val authenticationViewModel: AuthenticationViewModel by viewModels()
+
+    val imageUploadViewModel: ImageUploadViewModel by viewModels()
 
     // This property is only valid between onCreateView and onDestroyView.
     private val binding get() = _binding!!
@@ -248,8 +251,7 @@ class AccountFragment : Fragment() {
         //MultiPartBody.Part is used to send the actual file name
         val imageUpload = MultipartBody.Part.createFormData("file", file.name, body)
 
-        //execute the request
-
+        //imageUploadViewModel.mediaImageUpload(imageUpload)
 
     }
 

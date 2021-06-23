@@ -27,9 +27,6 @@ class AuthenticationViewModel @Inject constructor(
     private var _loginUser = MutableLiveData<Resource<GenericResponseClass>>()
     val loginUser: LiveData<Resource<GenericResponseClass>> get() = _loginUser
 
-    private var _userProfileImage = MutableLiveData<Resource<GenericResponseClass>>()
-    val userProfileImage: LiveData<Resource<GenericResponseClass>> get() = _userProfileImage
-
     private var _loginUserWithGoogle = MutableLiveData<Resource<GenericResponseClass>>()
     val loginUserWithGoogle: LiveData<Resource<GenericResponseClass>> get() = _loginUserWithGoogle
 
@@ -66,13 +63,4 @@ class AuthenticationViewModel @Inject constructor(
         }
     }
 
-    fun userProfileImage(userProfileImage: MultipartBody.Part) {
-        viewModelScope.launch {
-            _userProfileImage.value = Resource.Loading("Uploading...")
-            val response = authRepository.userProfileImage(userProfileImage)
-            response.collect {
-                _userProfileImage.value = it
-            }
-        }
-    }
 }

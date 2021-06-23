@@ -1,4 +1,4 @@
-package com.decagonhq.clads.data.remote
+package com.decagonhq.clads.data.remote.registration
 
 import com.google.gson.annotations.SerializedName
 

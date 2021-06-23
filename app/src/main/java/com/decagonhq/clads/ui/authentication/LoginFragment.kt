@@ -58,7 +58,7 @@ class LoginFragment : BaseFragment() {
     private lateinit var cladsSignInClient: GoogleSignInClient
     private var GOOGLE_SIGNIN_RQ_CODE = 100
 
-    val viewModel: AuthenticationViewModel by viewModels()
+    private val viewModel: AuthenticationViewModel by viewModels()
 
     @Inject
     lateinit var sessionManager: SessionManager
@@ -140,7 +140,7 @@ class LoginFragment : BaseFragment() {
                                 }
                                 is Resource.Error -> {
                                     progressDialog.hideProgressDialog()
-                                    handleApiError(it, retrofit, requireView())
+                                    handleApiError(it, mainRetrofit, requireView())
                                 }
                             }
                         }
