@@ -17,15 +17,25 @@ class UserProfileRepositoryImpl(
     private val userProfileDao: UserProfileDao
 ) : UserProfileRepository, SafeApiCall() {
 
-    override suspend fun getUserProfile(): Flow<Resource<GenericResponseClass>> = flow {
-        emit(
-            safeApiCall {
-                apiService.getUserProfile()
+    override suspend fun getUserProfile(): Flow<Resource<GenericResponseClass<UserProfile>>> =
+        flow {
+            val response = safeApiCall {
+                val response = apiService.getUserProfile()
+                userProfileDao.addUserProfile(userProfileEntityMapper.mapFromDomainModel(response.payload))
             }
-        )
-    }
+            emit(
+                safeApiCall {
+                    apiService.getUserProfile()
+                }
+            )
+        }
 
-    override suspend fun updateUserProfile(userProfile: UserProfile): Flow<Resource<GenericResponseClass>> = flow {
-        TODO("Not yet implemented")
-    }
+    override suspend fun updateUserProfile(userProfile: UserProfile): Flow<Resource<GenericResponseClass<UserProfile>>> =
+        flow {
+            emit(
+                safeApiCall {
+                    apiService.getUserProfile()
+                }
+            )
+        }
 }

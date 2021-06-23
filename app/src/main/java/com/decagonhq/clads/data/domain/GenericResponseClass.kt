@@ -1,7 +1,7 @@
 package com.decagonhq.clads.data.domain
 
-data class GenericResponseClass(
+data class GenericResponseClass<T>(
     val message: String,
-    val payload: String,
+    val payload: T,
     val status: Int
 )
