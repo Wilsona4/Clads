@@ -10,13 +10,11 @@ import android.text.Spanned
 import android.text.method.LinkMovementMethod
 import android.text.style.ClickableSpan
 import android.text.style.ForegroundColorSpan
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
 import android.widget.TextView
-import android.widget.Toast
 import androidx.core.content.res.ResourcesCompat
 import androidx.core.widget.doOnTextChanged
 import androidx.fragment.app.viewModels
@@ -207,7 +205,6 @@ class LoginFragment : BaseFragment() {
             account.idToken.let {
                 if (it != null) {
                     sessionManager.saveToSharedPref(TOKEN, it)
-
                 }
             }
 
@@ -235,7 +232,6 @@ class LoginFragment : BaseFragment() {
 //
                         }
                         is Resource.Loading -> {
-
                         }
                     }
                 }

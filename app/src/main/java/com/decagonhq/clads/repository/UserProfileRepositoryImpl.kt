@@ -1,9 +1,7 @@
 package com.decagonhq.clads.repository
 
 import com.decagonhq.clads.data.domain.GenericResponseClass
-
 import com.decagonhq.clads.data.domain.profile.UserProfile
-import com.decagonhq.clads.data.domain.userprofile.Userprofile
 import com.decagonhq.clads.data.local.UserProfileDao
 import com.decagonhq.clads.data.local.UserProfileEntityMapper
 import com.decagonhq.clads.data.remote.ApiService
@@ -19,15 +17,21 @@ class UserProfileRepositoryImpl(
     private val userProfileDao: UserProfileDao
 ) : UserProfileRepository, SafeApiCall() {
 
-    override suspend fun getUserProfile(): Flow<Resource<Userprofile>> = flow {
-        emit(
-            safeApiCall {
-                apiService.getUserProfile()
-            }
-        )
-    }
+    override suspend fun getUserProfile(): Flow<Resource<GenericResponseClass<UserProfile>>> =
+        flow {
+            emit(
+                safeApiCall {
+                    apiService.getUserProfile()
+                }
+            )
+        }
 
-    override suspend fun updateUserProfile(userProfile: UserProfile): Flow<Resource<GenericResponseClass>> = flow {
-        TODO("Not yet implemented")
-    }
+    override suspend fun updateUserProfile(userProfile: UserProfile): Flow<Resource<GenericResponseClass<UserProfile>>> =
+        flow {
+            emit(
+                safeApiCall {
+                    apiService.updateUserProfile(userProfileDTOMapper.mapFromDomainModel(userProfile))
+                }
+            )
+        }
 }

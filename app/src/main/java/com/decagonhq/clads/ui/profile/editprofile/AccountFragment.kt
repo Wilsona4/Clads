@@ -16,11 +16,11 @@ import androidx.appcompat.app.AlertDialog
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.core.os.bundleOf
-import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import com.decagonhq.clads.R
 import com.decagonhq.clads.databinding.AccountFragmentBinding
+import com.decagonhq.clads.ui.BaseFragment
 import com.decagonhq.clads.ui.profile.dialogfragment.ProfileManagementDialogFragments.Companion.createProfileDialogFragment
 import com.decagonhq.clads.util.Resource
 import com.decagonhq.clads.util.handleApiError
@@ -30,7 +30,7 @@ import dagger.hilt.android.AndroidEntryPoint
 import de.hdodenhof.circleimageview.CircleImageView
 
 @AndroidEntryPoint
-class AccountFragment : Fragment() {
+class AccountFragment : BaseFragment() {
     private var _binding: AccountFragmentBinding? = null
     private var selectedImage: Uri? = null
 
@@ -38,9 +38,9 @@ class AccountFragment : Fragment() {
 
     private lateinit var profileImageView: CircleImageView
     private lateinit var firstNameValueTextView: MaterialTextView
-    private lateinit var lastNameValueTextView:MaterialTextView
+    private lateinit var lastNameValueTextView: MaterialTextView
     private lateinit var phoneNumberValueTextView: MaterialTextView
-    private lateinit var genderValueTextView:MaterialTextView
+    private lateinit var genderValueTextView: MaterialTextView
     private lateinit var workAddressStateValueTextView: MaterialTextView
     private lateinit var cityValueTextView: MaterialTextView
     private lateinit var streetValueTextView: MaterialTextView
@@ -66,7 +66,7 @@ class AccountFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        /*Dialog fragment functions*/
+        /**/
         profileImageView = binding.accountFragmentEditProfileIconImageView
         firstNameValueTextView = binding.accountFragmentFirstNameValueTextView
         lastNameValueTextView = binding.accountFragmentLastNameValueTextView
@@ -83,7 +83,7 @@ class AccountFragment : Fragment() {
         localGovernmentAreaTextView = binding.accountFragmentLocalGovtAreaTextView
         unionStateValueTextView = binding.accountFragmentStateValueTextView
 
-
+        /*Dialog fragment functions*/
         accountFirstNameEditDialog()
         accountGenderSelectDialog()
         accountUnionStateDialogFragment()
@@ -104,35 +104,31 @@ class AccountFragment : Fragment() {
             Manifest.permission.READ_EXTERNAL_STORAGE.checkForPermission(NAME, READ_IMAGE_STORAGE)
         }
 
-
         /*Get users profile*/
         getUserProfile()
-
-
     }
 
     private fun getUserProfile() {
-        userProfileViewModel.getUserProfile()
         userProfileViewModel.userProfile.observe(
-                viewLifecycleOwner, Observer {
-            when (it) {
-                is Resource.Loading -> {
-//                    progressDialog.showDialogFragment(it.message)
-                }
-                is Resource.Success -> {
-                    val successResponse = it.value.payload
-                    firstNameValueTextView.text = successResponse.firstName
-                    lastNameValueTextView.text = successResponse.lastName
-                    phoneNumberValueTextView.text = successResponse.phoneNumber
-
-
-                }
-                is Resource.Error -> {
-//                    progressDialog.hideProgressDialog()
-//                    handleApiError(it, mainRetrofit, requireView())
+            viewLifecycleOwner,
+            Observer {
+                when (it) {
+                    is Resource.Loading -> {
+                        Toast.makeText(requireContext(), it.message, Toast.LENGTH_SHORT).show()
+                    }
+                    is Resource.Success -> {
+                        val successResponse = it.value.payload
+                        progressDialog.hideProgressDialog()
+                        firstNameValueTextView.text = successResponse.firstName
+                        lastNameValueTextView.text = successResponse.lastName
+                        phoneNumberValueTextView.text = successResponse.phoneNumber
+                    }
+                    is Resource.Error -> {
+                        progressDialog.hideProgressDialog()
+                        handleApiError(it, mainRetrofit, requireView())
+                    }
                 }
             }
-        }
         )
     }
 
@@ -282,7 +278,7 @@ class AccountFragment : Fragment() {
 
         // when last Name name value is clicked
         binding.accountFragmentPhoneNumberValueTextView.setOnClickListener {
-            val currentOtherName = binding.accountFragmentPhoneNumberValueTextView .text.toString()
+            val currentOtherName = binding.accountFragmentPhoneNumberValueTextView.text.toString()
             val bundle = bundleOf(CURRENT_ACCOUNT_OTHER_NAME_BUNDLE_KEY to currentOtherName)
             createProfileDialogFragment(R.layout.account_other_name_dialog_fragment, bundle).show(
                 childFragmentManager, AccountFragment::class.java.simpleName

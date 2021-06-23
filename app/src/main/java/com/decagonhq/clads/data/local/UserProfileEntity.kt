@@ -18,11 +18,11 @@ data class UserProfileEntity(
     val lastName: String,
     val phoneNumber: String,
     val role: String,
-    @Embedded
+    @Embedded(prefix = "user_profile__table_showroom_address")
     val showroomAddress: ShowroomAddress,
     val thumbnail: String,
-    @Embedded
+    @Embedded(prefix = "user_profile_table_union")
     val union: Union,
-    @Embedded
+    @Embedded(prefix = "user_profile_table_workshop_address")
     val workshopAddress: WorkshopAddress
 )

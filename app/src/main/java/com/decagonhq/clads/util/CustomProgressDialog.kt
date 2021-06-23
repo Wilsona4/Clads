@@ -1,6 +1,5 @@
 package com.decagonhq.clads.util
 
-import android.app.Activity
 import android.content.Context
 import android.view.LayoutInflater
 import android.widget.TextView
@@ -31,5 +30,3 @@ class CustomProgressDialog(context: Context) : AlertDialog(context) {
         this.dismiss()
     }
 }
-
-

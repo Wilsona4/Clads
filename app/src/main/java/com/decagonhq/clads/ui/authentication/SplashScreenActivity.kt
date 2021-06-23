@@ -2,7 +2,6 @@ package com.decagonhq.clads.ui.authentication
 
 import android.content.Intent
 import android.os.Bundle
-import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
 import com.decagonhq.clads.R
 import com.decagonhq.clads.ui.profile.DashboardActivity
@@ -31,15 +30,15 @@ class SplashScreenActivity : AppCompatActivity() {
 
                 val pref = sessionManager.loadFromSharedPref(Constants.TOKEN)
                 /*Use finish to disable the page when back button is pressed from homePage*/
-                if (pref.isEmpty()){
+                if (pref.isEmpty()) {
                     val intent = Intent(this@SplashScreenActivity, MainActivity::class.java)
                     startActivity(intent)
                     finish()
-                } else if(pref.isNotEmpty()){
+                } else if (pref.isNotEmpty()) {
                     val intent =
                         Intent(this@SplashScreenActivity, DashboardActivity::class.java)
                     startActivity(intent)
-                  finish()
+                    finish()
                 }
             }
         }

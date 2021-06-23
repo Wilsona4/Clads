@@ -3,6 +3,7 @@ package com.decagonhq.clads.repository
 import com.decagonhq.clads.data.domain.GenericResponseClass
 import com.decagonhq.clads.data.domain.login.LoginCredentials
 import com.decagonhq.clads.data.domain.login.UserRole
+import com.decagonhq.clads.data.domain.profileimage.UserProfileImage
 import com.decagonhq.clads.data.domain.registration.UserRegistration
 import com.decagonhq.clads.data.remote.ApiService
 import com.decagonhq.clads.data.remote.login.LoginCredentialsDTOMapper
@@ -18,7 +19,7 @@ class AuthRepositoryImpl constructor(
     private val loginCredentialsDTOMapper: LoginCredentialsDTOMapper,
 ) : AuthRepository, SafeApiCall() {
 
-    override suspend fun registerUser(user: UserRegistration): Flow<Resource<GenericResponseClass>> =
+    override suspend fun registerUser(user: UserRegistration): Flow<Resource<GenericResponseClass<String>>> =
         flow {
             emit(
                 safeApiCall {
@@ -27,7 +28,7 @@ class AuthRepositoryImpl constructor(
             )
         }
 
-    override suspend fun loginUser(loginCredentials: LoginCredentials): Flow<Resource<GenericResponseClass>> =
+    override suspend fun loginUser(loginCredentials: LoginCredentials): Flow<Resource<GenericResponseClass<String>>> =
         flow {
             emit(
                 safeApiCall {
@@ -36,7 +37,7 @@ class AuthRepositoryImpl constructor(
             )
         }
 
-    override suspend fun loginUserWithGoogle(userRole: UserRole): Flow<Resource<GenericResponseClass>> =
+    override suspend fun loginUserWithGoogle(userRole: UserRole): Flow<Resource<GenericResponseClass<String>>> =
         flow {
             emit(
                 safeApiCall {
@@ -45,7 +46,7 @@ class AuthRepositoryImpl constructor(
             )
         }
 
-    override suspend fun userProfileImage(userProfileImage: MultipartBody.Part): Flow<Resource<GenericResponseClass>> =
+    override suspend fun userProfileImage(userProfileImage: MultipartBody.Part): Flow<Resource<GenericResponseClass<UserProfileImage>>> =
         flow {
             emit(
                 safeApiCall {

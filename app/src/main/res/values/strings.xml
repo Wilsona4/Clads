@@ -320,6 +320,7 @@
     <string name="please_wait">Please wait...</string>
     <string name="invalid_phone_number">Invalid Phone number</string>
     <string name="all_phone_number_is_required">Phone Number is required</string>
+    <string name="signed_up">SIGNED_UP</string>
 
 
     <string-array name="account_category">

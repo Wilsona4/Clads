@@ -8,13 +8,13 @@ import android.widget.ArrayAdapter
 import android.widget.AutoCompleteTextView
 import android.widget.TextView
 import androidx.core.widget.doOnTextChanged
-import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
 import com.decagonhq.clads.R
 import com.decagonhq.clads.data.domain.registration.UserRegistration
 import com.decagonhq.clads.databinding.EmailSignUpFragmentBinding
+import com.decagonhq.clads.ui.BaseFragment
 import com.decagonhq.clads.util.Resource
 import com.decagonhq.clads.util.SessionManager
 import com.decagonhq.clads.util.ValidationObject.jdValidatePhoneNumber
@@ -31,12 +31,12 @@ import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
 
 @AndroidEntryPoint
-class EmailSignUpFragment : Fragment() {
+class EmailSignUpFragment : BaseFragment() {
     private lateinit var cladsGoogleSignInClient: GoogleSignInClient
     private var _binding: EmailSignUpFragmentBinding? = null
     private val binding get() = _binding!!
 
-    val viewModel: AuthenticationViewModel by viewModels()
+    val authenticationViewModel: AuthenticationViewModel by viewModels()
 
     @Inject
     lateinit var sessionManager: SessionManager
@@ -76,22 +76,20 @@ class EmailSignUpFragment : Fragment() {
 
         getUserRemoteData()
 
-        viewModel.userRegData.observe(
+        authenticationViewModel.userRegData.observe(
             viewLifecycleOwner,
             Observer {
                 when (it) {
                     is Resource.Success -> {
                         val successResponse = it.value.payload
-
-                        sessionManager.saveBooleanToSharedPref("SIGNED_UP", true)
-
+                        progressDialog.hideProgressDialog()
                         findNavController().navigate(R.id.action_emailSignUpFragment_to_emailConfirmationFragment)
                     }
                     is Resource.Error -> {
-
+                        progressDialog.hideProgressDialog()
                     }
                     is Resource.Loading -> {
-
+                        progressDialog.showDialogFragment(it.message)
                     }
                 }
             }
@@ -130,14 +128,14 @@ class EmailSignUpFragment : Fragment() {
                         getString(R.string.all_email_cant_be_empty)
                     return@setOnClickListener
                 }
-                !binding.emailSignUpFragmentPhoneNumberEditText.jdValidatePhoneNumber(phoneNumber)->{
+                !binding.emailSignUpFragmentPhoneNumberEditText.jdValidatePhoneNumber(phoneNumber) -> {
                     binding.emailSignUpFragmentPhoneNumberEditTextLayout.error =
-                    getString(R.string.invalid_phone_number)
+                        getString(R.string.invalid_phone_number)
                     return@setOnClickListener
                 }
-                phoneNumber.isEmpty() ->{
+                phoneNumber.isEmpty() -> {
                     binding.emailSignUpFragmentPhoneNumberEditTextLayout.error =
-                            getString(R.string.all_phone_number_is_required)
+                        getString(R.string.all_phone_number_is_required)
                     return@setOnClickListener
                 }
                 !validateEmail(email) -> {
@@ -180,7 +178,7 @@ class EmailSignUpFragment : Fragment() {
                             country = getString(R.string.nigeria),
                             thumbnail = getString(R.string.null_all)
                         )
-                        viewModel.registerUser(newRegisteredUser)
+                        authenticationViewModel.registerUser(newRegisteredUser)
                     } else {
                         return@setOnClickListener
                     }
