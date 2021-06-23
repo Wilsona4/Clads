@@ -10,10 +10,12 @@ import com.decagonhq.clads.repository.AuthRepository
 import com.decagonhq.clads.repository.AuthRepositoryImpl
 import com.decagonhq.clads.repository.UserProfileRepository
 import com.decagonhq.clads.repository.UserProfileRepositoryImpl
+import com.decagonhq.clads.util.Constants.MAIN_API_SERVICE
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
+import javax.inject.Named
 import javax.inject.Singleton
 
 @Module
@@ -23,7 +25,7 @@ object RepositoryModule {
     @Singleton
     @Provides
     fun providesAuthRepository(
-        apiService: ApiService,
+        @Named(MAIN_API_SERVICE) apiService: ApiService,
         userRegDTOMapper: UserRegDTOMapper,
         loginCredentialsDTOMapper: LoginCredentialsDTOMapper,
     ): AuthRepository {
@@ -33,11 +35,16 @@ object RepositoryModule {
     @Singleton
     @Provides
     fun providesUserProfileRepository(
-        apiService: ApiService,
+        @Named(MAIN_API_SERVICE) apiService: ApiService,
         userProfileDTOMapper: UserProfileDTOMapper,
         userProfileEntityMapper: UserProfileEntityMapper,
         userProfileDao: UserProfileDao
     ): UserProfileRepository {
-        return UserProfileRepositoryImpl(apiService, userProfileDTOMapper, userProfileEntityMapper, userProfileDao)
+        return UserProfileRepositoryImpl(
+            apiService,
+            userProfileDTOMapper,
+            userProfileEntityMapper,
+            userProfileDao
+        )
     }
 }
