@@ -5,8 +5,8 @@ import com.decagonhq.clads.data.domain.login.LoginCredentials
 import com.decagonhq.clads.data.domain.login.UserRole
 import com.decagonhq.clads.data.domain.registration.UserRegistration
 import com.decagonhq.clads.data.remote.ApiService
-import com.decagonhq.clads.data.remote.LoginCredentialsDTOMapper
-import com.decagonhq.clads.data.remote.UserRegDTOMapper
+import com.decagonhq.clads.data.remote.login.LoginCredentialsDTOMapper
+import com.decagonhq.clads.data.remote.registration.UserRegDTOMapper
 import com.decagonhq.clads.util.Resource
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow

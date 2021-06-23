@@ -1,4 +1,4 @@
-package com.decagonhq.clads.data.remote
+package com.decagonhq.clads.data.remote.profile
 
 import com.decagonhq.clads.data.domain.profile.ShowroomAddress
 import com.decagonhq.clads.data.domain.profile.Union
