@@ -14,7 +14,7 @@ abstract class SafeApiCall {
             } catch (throwable: Throwable) {
                 when (throwable) {
                     is HttpException -> {
-                        val t = throwable.response()?.errorBody()?.charStream()
+//                        val t = throwable.response()?.errorBody()?.charStream()
                         val code = throwable.code()
                         Resource.Error(false, code, throwable.response() as Response<Any>)
                     }

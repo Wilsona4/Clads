@@ -46,5 +46,5 @@ interface ApiService {
 
     /*Update User Profile*/
     @PATCH("me/profile")
-    suspend fun updateUserProfile(userProfile: UserProfileDTO): GenericResponseClass<UserProfile>
+    suspend fun updateUserProfile(@Body userProfile: UserProfileDTO): GenericResponseClass<UserProfile>
 }
