@@ -114,7 +114,7 @@
                 android:id="@+id/email_sign_up_fragment_phone_number_edit_text"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:inputType="text"
+                android:inputType="phone"
                 android:textColor="@color/gray"
                 android:textCursorDrawable="@color/gray"
                 app:backgroundTint="@color/deep_sky_blue" />
