@@ -10,6 +10,7 @@ import android.text.Spanned
 import android.text.method.LinkMovementMethod
 import android.text.style.ClickableSpan
 import android.text.style.ForegroundColorSpan
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -29,7 +30,6 @@ import com.decagonhq.clads.ui.profile.DashboardActivity
 import com.decagonhq.clads.util.Constants.TOKEN
 import com.decagonhq.clads.util.CustomTypefaceSpan
 import com.decagonhq.clads.util.Resource
-import com.decagonhq.clads.util.SessionManager
 import com.decagonhq.clads.util.ValidationObject.validateEmail
 import com.decagonhq.clads.util.handleApiError
 import com.decagonhq.clads.viewmodels.AuthenticationViewModel
@@ -41,7 +41,6 @@ import com.google.android.gms.common.api.ApiException
 import com.google.android.gms.tasks.Task
 import com.google.android.material.textfield.TextInputEditText
 import dagger.hilt.android.AndroidEntryPoint
-import javax.inject.Inject
 
 @AndroidEntryPoint
 class LoginFragment : BaseFragment() {
@@ -58,9 +57,9 @@ class LoginFragment : BaseFragment() {
     private var GOOGLE_SIGNIN_RQ_CODE = 100
 
     val viewModel: AuthenticationViewModel by viewModels()
-
-    @Inject
-    lateinit var sessionManager: SessionManager
+//
+//    @Inject
+//    lateinit var sessionManager: SessionManager
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -128,6 +127,11 @@ class LoginFragment : BaseFragment() {
                                 is Resource.Success -> {
                                     val successResponse = it.value.payload
                                     sessionManager.saveToSharedPref(TOKEN, successResponse)
+                                    sessionManager.saveToSharedPref(
+                                        getString(R.string.login_status), getString(
+                                            R.string.log_in
+                                        )
+                                    )
                                     progressDialog.hideProgressDialog()
                                     val intent =
                                         Intent(requireContext(), DashboardActivity::class.java)
@@ -222,8 +226,12 @@ class LoginFragment : BaseFragment() {
                             val successResponse = it.value.payload
                             sessionManager.saveToSharedPref(TOKEN, successResponse)
 
+                            Log.d("TOKEN", "loadDashBoardFragment: ${sessionManager.loadFromSharedPref(
+                                TOKEN)}")
+
                             progressDialog.hideProgressDialog()
                             val intent = Intent(requireContext(), DashboardActivity::class.java)
+
                             startActivity(intent)
                             activity?.finish()
                         }
@@ -283,33 +291,15 @@ class LoginFragment : BaseFragment() {
     private fun newUserSignUpForFreeSpannable() {
         val message = getString(R.string.new_user_sign_up_for_free)
         val spannable = SpannableStringBuilder(message)
-        val myTypeface = Typeface.create(
-            ResourcesCompat.getFont(requireContext(), R.font.poppins_bold),
-            Typeface.BOLD
-        )
-        spannable.setSpan(
-            CustomTypefaceSpan(myTypeface),
-            10,
-            message.length,
-            Spannable.SPAN_INCLUSIVE_INCLUSIVE
-        )
+        val myTypeface = Typeface.create(ResourcesCompat.getFont(requireContext(), R.font.poppins_bold), Typeface.BOLD)
+        spannable.setSpan(CustomTypefaceSpan(myTypeface), 10, message.length, Spannable.SPAN_INCLUSIVE_INCLUSIVE)
         val clickableSignUpForFree = object : ClickableSpan() {
             override fun onClick(widget: View) {
                 findNavController().navigate(R.id.email_sign_up_fragment)
             }
         }
-        spannable.setSpan(
-            clickableSignUpForFree,
-            10,
-            message.length,
-            Spanned.SPAN_INCLUSIVE_INCLUSIVE
-        )
-        spannable.setSpan(
-            ForegroundColorSpan(Color.WHITE),
-            10,
-            message.length,
-            Spannable.SPAN_INCLUSIVE_INCLUSIVE
-        )
+        spannable.setSpan(clickableSignUpForFree, 10, message.length, Spanned.SPAN_INCLUSIVE_INCLUSIVE)
+        spannable.setSpan(ForegroundColorSpan(Color.WHITE), 10, message.length, Spannable.SPAN_INCLUSIVE_INCLUSIVE)
         newUserSignUpForFree.text = spannable
         newUserSignUpForFree.movementMethod = LinkMovementMethod.getInstance()
     }

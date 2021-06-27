@@ -1,5 +1,6 @@
 package com.decagonhq.clads.util
 
+import android.content.Context
 import android.content.SharedPreferences
 import javax.inject.Inject
 
@@ -10,6 +11,11 @@ class SessionManager @Inject constructor(private val sharedPreferences: SharedPr
         return sharedPreferences.getString(prefType, "").toString()
     }
 
+    /*Load logout boolean From Shared Preferences*/
+    fun loadLogoutBooleanFromSharedPref(prefType: String): Boolean {
+        return sharedPreferences.getBoolean(prefType, true)
+    }
+
     /*Save details to Shared Preferences*/
     fun saveToSharedPref(prefType: String, prefValue: String) {
         val editor: SharedPreferences.Editor = sharedPreferences.edit()
@@ -18,9 +24,7 @@ class SessionManager @Inject constructor(private val sharedPreferences: SharedPr
     }
 
     fun saveBooleanToSharedPref(prefType: String, prefValue: Boolean) {
-        val editor: SharedPreferences.Editor = sharedPreferences.edit()
-        editor.putBoolean(prefType, prefValue)
-        editor.apply()
+        sharedPreferences.edit().putBoolean(prefType, prefValue).apply()
     }
 
     /*Clear values in Shared Preferences*/

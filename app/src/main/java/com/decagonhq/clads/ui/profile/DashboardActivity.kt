@@ -7,6 +7,7 @@ import android.content.Context
 import android.content.Intent
 import android.os.Build
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import android.view.WindowManager
 import android.widget.ImageView
@@ -137,7 +138,11 @@ class DashboardActivity : AppCompatActivity() {
 
                     Intent(this, MainActivity::class.java).also {
                         sessionManager.clearSharedPref()
-//                        sessionManager.saveBooleanToSharedPref()
+                        sessionManager.saveToSharedPref(
+                            getString(R.string.login_status),
+                            getString(R.string.log_out)
+                        )
+                        Log.d("LOGOUT", "onCreate: ${sessionManager.saveToSharedPref(getString(R.string.login_status), getString(R.string.log_out))}")
                         startActivity(it)
                         finish()
                     }

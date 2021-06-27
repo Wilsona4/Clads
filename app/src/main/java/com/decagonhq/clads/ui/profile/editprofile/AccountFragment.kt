@@ -121,7 +121,16 @@ class AccountFragment : BaseFragment() {
                         progressDialog.hideProgressDialog()
                         firstNameValueTextView.text = successResponse.firstName
                         lastNameValueTextView.text = successResponse.lastName
-                        phoneNumberValueTextView.text = successResponse.phoneNumber
+//                        phoneNumberValueTextView.text = successResponse.phoneNumber
+//                        genderValueTextView.text = successResponse.gender
+//                        workAddressStateValueTextView.text = successResponse.workshopAddress.state
+//                        cityValueTextView.text = successResponse.workshopAddress.city
+//                        streetValueTextView.text = successResponse.workshopAddress.street
+//                        showRoomAddressValueTextView.text = successResponse.showroomAddress.state
+//                        nameOfUnionValueTextView.text = successResponse.union.name
+//                        wardValueTextView.text = successResponse.union.ward
+//                        localGovernmentAreaTextView.text = successResponse.union.lga
+//                        unionStateValueTextView.text = successResponse.union.state
                     }
                     is Resource.Error -> {
                         progressDialog.hideProgressDialog()

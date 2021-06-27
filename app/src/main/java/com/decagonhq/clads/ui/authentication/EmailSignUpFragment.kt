@@ -7,6 +7,7 @@ import android.view.ViewGroup
 import android.widget.ArrayAdapter
 import android.widget.AutoCompleteTextView
 import android.widget.TextView
+import android.widget.Toast
 import androidx.core.widget.doOnTextChanged
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
@@ -21,6 +22,7 @@ import com.decagonhq.clads.util.ValidationObject.jdValidatePhoneNumber
 import com.decagonhq.clads.util.ValidationObject.validateAccountCategory
 import com.decagonhq.clads.util.ValidationObject.validateEmail
 import com.decagonhq.clads.util.ValidationObject.validatePasswordMismatch
+import com.decagonhq.clads.util.handleApiError
 import com.decagonhq.clads.viewmodels.AuthenticationViewModel
 import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.auth.api.signin.GoogleSignInClient
@@ -38,8 +40,8 @@ class EmailSignUpFragment : BaseFragment() {
 
     val authenticationViewModel: AuthenticationViewModel by viewModels()
 
-    @Inject
-    lateinit var sessionManager: SessionManager
+//    @Inject
+//    lateinit var sessionManager: SessionManager
 
     private lateinit var firstNameEditText: TextInputEditText
     private lateinit var lastNameEditText: TextInputEditText
@@ -81,12 +83,17 @@ class EmailSignUpFragment : BaseFragment() {
             Observer {
                 when (it) {
                     is Resource.Success -> {
-                        val successResponse = it.value.payload
                         progressDialog.hideProgressDialog()
+                        sessionManager.saveToSharedPref(
+                            getString(R.string.user_name),
+                            firstNameEditText.text.toString()
+                        )
+                        Toast.makeText(requireContext(), "Registered successfully", Toast.LENGTH_SHORT).show()
                         findNavController().navigate(R.id.action_emailSignUpFragment_to_emailConfirmationFragment)
                     }
                     is Resource.Error -> {
                         progressDialog.hideProgressDialog()
+                        handleApiError(it, mainRetrofit, requireView())
                     }
                     is Resource.Loading -> {
                         progressDialog.showDialogFragment(it.message)
