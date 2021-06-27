@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/individual_video_screen_fragment_recycler_item_parent_layout"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_marginTop="@dimen/margin_10dp"
+    android:paddingBottom="@dimen/margin_20dp">
+    <androidx.cardview.widget.CardView
+        android:id="@+id/individual_video_screen_fragment_recycler_item_card_view"
+        android:layout_width="@dimen/width_134dp"
+        android:layout_height="@dimen/margin_200dp"
+        android:layout_marginTop="@dimen/margin_10dp"
+        android:gravity="center"
+        android:layout_marginHorizontal="@dimen/margin_15dp"
+        app:cardCornerRadius="@dimen/margin_10dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <ImageView
+            android:id="@+id/individual_video_screen_fragment_recycler_item_image_view"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:scaleType="centerCrop"
+            android:layout_gravity="fill_vertical" />
+
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:alpha="0.4"
+            android:background="@color/black" />
+
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:src="@drawable/individual_video_play_icon" />
+    </androidx.cardview.widget.CardView>
+
+    <TextView
+        android:id="@+id/individual_video_screen_fragment_recycler_item_video_title_text_view"
+        android:layout_width="@dimen/width_0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/margin_20dp"
+        android:layout_marginTop="@dimen/margin_8dp"
+        android:fontFamily="@font/poppins_medium"
+        android:text="@string/how_to_sew_attire"
+        android:textColor="@color/navy_blue"
+        app:layout_constraintEnd_toEndOf="@+id/individual_video_screen_fragment_recycler_item_card_view"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/individual_video_screen_fragment_recycler_item_card_view" />
+
+    <TextView
+        android:id="@+id/individual_video_screen_fragment_recycler_item_date_posted"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/margin_12dp"
+        android:layout_marginTop="@dimen/margin_2dp"
+        android:fontFamily="@font/poppins_light"
+        android:gravity="center"
+        android:text="@string/_1_hour_30_minutes"
+        android:textColor="@color/navy_blue"
+        app:layout_constraintStart_toEndOf="@id/individual_video_screen_fragment_recycler_item_icon_image_view"
+        app:layout_constraintTop_toBottomOf="@+id/individual_video_screen_fragment_recycler_item_video_title_text_view" />
+
+    <ImageView
+        android:id="@+id/individual_video_screen_fragment_recycler_item_icon_image_view"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/margin_20dp"
+        android:src="@drawable/vector_clock"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/individual_video_screen_fragment_recycler_item_video_title_text_view" />
+</androidx.constraintlayout.widget.ConstraintLayout>
+

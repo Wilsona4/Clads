@@ -57,14 +57,16 @@ class SpecialtyFragment : Fragment() {
         ) { key, bundle ->
             // collect input values from dialog fragment and update the union name text of user
             val obiomaTrainedValue = bundle.getString(SPECIAL_OBIOMA_TRAINED_BUNDLE_KEY)
-            binding.specialtyFragmentObiomaTrainedAndCertifiedValueTextView.text = obiomaTrainedValue
+            binding.specialtyFragmentObiomaTrainedAndCertifiedValueTextView.text =
+                obiomaTrainedValue
         }
 
         // when delivery time value is clicked
         binding.specialtyFragmentObiomaTrainedAndCertifiedValueTextView.setOnClickListener {
             val currentObiomaTrainedValue =
                 binding.specialtyFragmentObiomaTrainedAndCertifiedValueTextView.text.toString()
-            val bundle = bundleOf(CURRENT_SPECIAL_OBIOMA_TRAINED_BUNDLE_KEY to currentObiomaTrainedValue)
+            val bundle =
+                bundleOf(CURRENT_SPECIAL_OBIOMA_TRAINED_BUNDLE_KEY to currentObiomaTrainedValue)
             createProfileDialogFragment(
                 R.layout.specialty_obioma_trained_dialog_fragment,
                 bundle
@@ -147,11 +149,13 @@ class SpecialtyFragment : Fragment() {
     companion object {
         const val SPECIAL_DELIVERY_TIME_REQUEST_KEY = "SPECIAL DELIVERY TIME REQUEST KEY"
         const val SPECIAL_DELIVERY_TIME_BUNDLE_KEY = "SPECIAL DELIVERY TIME BUNDLE KEY"
-        const val CURRENT_SPECIAL_DELIVERY_TIME_BUNDLE_KEY = "CURRENT SPECIAL DELIVERY TIME BUNDLE KEY"
+        const val CURRENT_SPECIAL_DELIVERY_TIME_BUNDLE_KEY =
+            "CURRENT SPECIAL DELIVERY TIME BUNDLE KEY"
 
         const val SPECIAL_OBIOMA_TRAINED_REQUEST_KEY = "SPECIAL OBIOMA TRAINED REQUEST KEY"
         const val SPECIAL_OBIOMA_TRAINED_BUNDLE_KEY = "SPECIAL OBIOMA TRAINED BUNDLE KEY"
-        const val CURRENT_SPECIAL_OBIOMA_TRAINED_BUNDLE_KEY = "CURRENT SPECIAL OBIOMA TRAINED BUNDLE KEY"
+        const val CURRENT_SPECIAL_OBIOMA_TRAINED_BUNDLE_KEY =
+            "CURRENT SPECIAL OBIOMA TRAINED BUNDLE KEY"
 
         const val ADD_SPECIALTY_REQUEST_KEY = "SPECIAL OBIOMA TRAINED REQUEST KEY"
         const val ADD_SPECIALTY_BUNDLE_KEY = "SPECIAL OBIOMA TRAINED BUNDLE KEY"
