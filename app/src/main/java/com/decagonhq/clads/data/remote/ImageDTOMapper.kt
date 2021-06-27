@@ -1,12 +1,12 @@
 package com.decagonhq.clads.data.remote
 
-import com.decagonhq.clads.data.domain.images.ImageModel
+import com.decagonhq.clads.data.domain.images.UserProfileImage
 import com.decagonhq.clads.util.DomainMapper
 import javax.inject.Inject
 
-class ImageDTOMapper @Inject constructor() : DomainMapper<ImageDTO, ImageModel> {
-    override fun mapToDomainModel(model: ImageDTO): ImageModel {
-        return ImageModel(
+class ImageDTOMapper @Inject constructor() : DomainMapper<ImageDTO, UserProfileImage> {
+    override fun mapToDomainModel(model: ImageDTO): UserProfileImage {
+        return UserProfileImage(
             downloadUri = model.downloadUri,
             fileId = model.fileId,
             fileName = model.fileName,
@@ -15,7 +15,7 @@ class ImageDTOMapper @Inject constructor() : DomainMapper<ImageDTO, ImageModel> 
         )
     }
 
-    override fun mapFromDomainModel(domainModel: ImageModel): ImageDTO {
+    override fun mapFromDomainModel(domainModel: UserProfileImage): ImageDTO {
         return ImageDTO(
             downloadUri = domainModel.downloadUri,
             fileId = domainModel.fileId,

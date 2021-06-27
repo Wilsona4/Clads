@@ -8,8 +8,6 @@ import android.content.pm.PackageManager
 import android.net.Uri
 import android.os.Build
 import android.os.Bundle
-import android.os.Handler
-import android.os.Looper
 import android.provider.MediaStore
 import android.provider.OpenableColumns
 import android.view.LayoutInflater
@@ -21,32 +19,42 @@ import androidx.core.app.ActivityCompat
 import androidx.core.content.ContentResolverCompat.query
 import androidx.core.content.ContextCompat
 import androidx.core.os.bundleOf
-import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.Observer
+import com.bumptech.glide.Glide
 import com.decagonhq.clads.R
 import com.decagonhq.clads.databinding.AccountFragmentBinding
+import com.decagonhq.clads.ui.BaseFragment
 import com.decagonhq.clads.ui.profile.dialogfragment.ProfileManagementDialogFragments.Companion.createProfileDialogFragment
+import com.decagonhq.clads.util.Constants.IMAGE_URL
+import com.decagonhq.clads.util.Resource
+import com.decagonhq.clads.util.SessionManager
+import com.decagonhq.clads.util.handleApiError
+import com.decagonhq.clads.util.saveBitmap
+import com.decagonhq.clads.util.uriToBitmap
 import com.decagonhq.clads.viewmodels.AuthenticationViewModel
 import com.decagonhq.clads.viewmodels.ImageUploadViewModel
 import dagger.hilt.android.AndroidEntryPoint
-import okhttp3.MediaType
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import okhttp3.MultipartBody
-import okhttp3.RequestBody
 import okhttp3.RequestBody.Companion.asRequestBody
-import okio.BufferedSink
 import java.io.File
 import java.io.FileInputStream
 import java.io.FileOutputStream
+import javax.inject.Inject
 
 @AndroidEntryPoint
-class AccountFragment : Fragment() {
+class AccountFragment : BaseFragment() {
     private var _binding: AccountFragmentBinding? = null
     private var selectedImage: Uri? = null
 
+    @Inject
+    lateinit var sessionManager: SessionManager
+
     val authenticationViewModel: AuthenticationViewModel by viewModels()
 
-    val imageUploadViewModel: ImageUploadViewModel by viewModels()
+    private val imageUploadViewModel: ImageUploadViewModel by viewModels()
+
 
     // This property is only valid between onCreateView and onDestroyView.
     private val binding get() = _binding!!
@@ -82,12 +90,47 @@ class AccountFragment : Fragment() {
         binding.accountFragmentChangePictureTextView.setOnClickListener {
             Manifest.permission.READ_EXTERNAL_STORAGE.checkForPermission(NAME, READ_IMAGE_STORAGE)
         }
+
+        // imageUploadViewModel.getUserImage()
+//        imageUploadViewModel.userProfileImage.observe(
+//            viewLifecycleOwner,
+//            Observer {
+//                when (it) {
+//                    is Resource.Success -> {
+//                        progressDialog.hideProgressDialog()
+//
+//                        Toast.makeText(requireContext(), "download Successful", Toast.LENGTH_SHORT)
+//                            .show()
+//
+//                        val imageUrl = it.value.payload.downloadUri
+//
+//                        sessionManager.saveToSharedPref(IMAGE_URL, imageUrl)
+//
+//                        Glide.with(this)
+//                            .load(it.value.payload.downloadUri)
+//                            .into(binding.accountFragmentEditProfileIconImageView)
+//                    }
+//                    is Resource.Error -> {
+//                        progressDialog.hideProgressDialog()
+//                        Toast.makeText(requireContext(), "${it.errorBody}", Toast.LENGTH_SHORT)
+//                            .show()
+//                        handleApiError(it, imageRetrofit, requireView())
+//                    }
+//                    is Resource.Loading -> {
+//                        progressDialog.showDialogFragment(it.message)
+//                    }
+//                }
+//            }
+//        )
     }
 
     private fun String.checkForPermission(name: String, requestCode: Int) {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             when {
-                ContextCompat.checkSelfPermission(requireContext(), this) == PackageManager.PERMISSION_GRANTED -> {
+                ContextCompat.checkSelfPermission(
+                    requireContext(),
+                    this
+                ) == PackageManager.PERMISSION_GRANTED -> {
                     // call read contact function
                     openImageChooser()
                 }
@@ -102,7 +145,11 @@ class AccountFragment : Fragment() {
     }
 
     // check for permission and make call
-    override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<out String>, grantResults: IntArray) {
+    override fun onRequestPermissionsResult(
+        requestCode: Int,
+        permissions: Array<out String>,
+        grantResults: IntArray
+    ) {
         fun innerCheck(name: String) {
             if (grantResults.isEmpty() || grantResults[0] != PackageManager.PERMISSION_GRANTED) {
                 Toast.makeText(requireContext(), "$name permission refused", Toast.LENGTH_SHORT)
@@ -149,75 +196,11 @@ class AccountFragment : Fragment() {
         super.onActivityResult(requestCode, resultCode, data)
         if (resultCode == Activity.RESULT_OK && requestCode == REQUEST_CODE_IMAGE_PICKER) {
             selectedImage = data?.data!!
-            binding.accountFragmentEditProfileIconImageView.setImageURI(selectedImage)
-            /*Upload image*/
-            // Getting the file name
-//            val file = File(FileUtil.getPath(selectedImage!!, requireContext()))
-//            // Getting the file part
-//            val requestBody = file.asRequestBody("image/jpg".toMediaTypeOrNull())
-//            val multiPartBody = MultipartBody.Part.createFormData("file", file.name, requestBody)
-//
-//            viewModel.userProfileImage(multiPartBody)
-//            viewModel.loginUser.observe(
-//                viewLifecycleOwner,
-//                Observer {
-//                    when (it) {
-//                        is Resource.Success -> {
-//                            binding.accountFragmentEditProfileIconImageView.errorSnack(
-//                                "Image Uploaded successively",
-//                                Snackbar.LENGTH_LONG
-//                            )
-//                            Log.d("RecourceReport", "onActivityResult:$it ")
-//                        }
-//                        is Resource.Error -> {
-//                            binding.accountFragmentEditProfileIconImageView.errorSnack(
-//                                "Image Uploaded successively",
-//                                Snackbar.LENGTH_LONG
-//                            )
-//                        }
-//                        is Resource.Loading -> {
-//                            binding.accountFragmentEditProfileIconImageView.errorSnack(
-//                                "Image upload in progress",
-//                                Snackbar.LENGTH_LONG
-//                            )
-//                        }
-//                    }
-//                }
-//            )
+            uploadImageToServer(selectedImage!!)
+            // binding.accountFragmentEditProfileIconImageView.setImageURI(selectedImage)
         }
     }
 
-    fun File.asRequestBodyWithProgress(
-        contentType: MediaType? = null,
-        progressCallback: ((progress: Float) -> Unit)?
-    ): RequestBody {
-        return object : RequestBody() {
-            override fun contentType() = contentType
-
-            override fun contentLength() = length()
-
-            override fun writeTo(sink: BufferedSink) {
-                val fileLength = contentLength()
-                val buffer = ByteArray(DEFAULT_BUFFER_SIZE)
-                val inSt = FileInputStream(this@asRequestBodyWithProgress)
-                var uploaded = 0L
-                inSt.use {
-                    var read: Int = inSt.read(buffer)
-                    val handler = Handler(Looper.getMainLooper())
-                    while (read != -1) {
-                        progressCallback?.let {
-                            uploaded += read
-                            val progress = (uploaded.toDouble() / fileLength.toDouble()).toFloat()
-                            handler.post { it(progress) }
-
-                            sink.write(buffer, 0, read)
-                        }
-                        read = inSt.read(buffer)
-                    }
-                }
-            }
-        }
-    }
 
     // function to get the name of the file
     private fun getFileName(uri: Uri, contentResolver: ContentResolver): String {
@@ -231,30 +214,77 @@ class AccountFragment : Fragment() {
     }
 
 
-    fun uploadImage(uri: Uri){
-
+    private fun uploadImageToServer(uri: Uri) {
         //get the data under the Uri and open it in read format
         val parcelFileDescriptor = requireActivity().contentResolver
-            .openFileDescriptor(uri, "r", null)?: return
+            .openFileDescriptor(uri, "r", null) ?: return
 
         //use the contentResolver to get the actual file by uri
-        val file = File(requireActivity().cacheDir, getFileName(uri, requireActivity().contentResolver))
+        val file =
+            File(requireActivity().cacheDir, getFileName(uri, requireActivity().contentResolver))
         val inputStream = FileInputStream(parcelFileDescriptor.fileDescriptor)
         val outputStream = FileOutputStream(file)
         inputStream.copyTo(outputStream)
 
-
         //create RequestBody instance from file
-        val body = file.asRequestBody("image/*".toMediaTypeOrNull())
+        val convertedImageUriToBitmap = uriToBitmap(uri)
+        val bitmapToFile = saveBitmap(convertedImageUriToBitmap)
 
-        //get the information of the image to upload
+        val imageBody = bitmapToFile?.asRequestBody("image/jpg".toMediaTypeOrNull())
+
         //MultiPartBody.Part is used to send the actual file name
-        val imageUpload = MultipartBody.Part.createFormData("file", file.name, body)
+        val image = MultipartBody.Part.createFormData("file", bitmapToFile?.name, imageBody!!)
 
-        //imageUploadViewModel.mediaImageUpload(imageUpload)
+        imageUploadViewModel.mediaImageUpload(image)
+
+        /*Handling the response from the retrofit*/
+        imageUploadViewModel.userProfileImage.observe(
+            viewLifecycleOwner,
+            Observer {
+
+                when (it) {
+
+                    is Resource.Success -> {
+                        progressDialog.hideProgressDialog()
+                        // Log.d("UPLOAD", "uploadImageToServer: ${it.value}")
+
+                        val imageUrl = it.value.payload.downloadUri
+
+                        sessionManager.saveToSharedPref(IMAGE_URL, imageUrl)
+
+
+                        Toast.makeText(requireContext(), "Upload Successful", Toast.LENGTH_SHORT)
+                            .show()
+                    }
+
+                    is Resource.Error -> {
+                        progressDialog.hideProgressDialog()
+                        Toast.makeText(requireContext(), "${it.errorBody}", Toast.LENGTH_SHORT)
+                            .show()
+                        handleApiError(it, imageRetrofit, requireView())
+                    }
+
+                    is Resource.Loading -> {
+                        progressDialog.showDialogFragment(it.message)
+                    }
+
+                }
+
+            }
+        )
 
     }
 
+    override fun onResume() {
+        super.onResume()
+
+        val imageUrl = sessionManager.loadFromSharedPref(IMAGE_URL)
+
+        Glide.with(this)
+            .load(imageUrl)
+            .placeholder(R.drawable.nav_drawer_profile_avatar)
+            .into(binding.accountFragmentEditProfileIconImageView)
+    }
 
 
     private fun accountlegalStatusdialog() {
@@ -277,7 +307,7 @@ class AccountFragment : Fragment() {
         }
     }
 
-    // Firstname Dialog
+    // firstName Dialog
     private fun accountFirstNameEditDialog() {
         // when first name value is clicked
         childFragmentManager.setFragmentResultListener(
@@ -356,9 +386,13 @@ class AccountFragment : Fragment() {
 
         // when state value is clicked
         binding.accountFragmentWorkshopAddressStateValueTextView.setOnClickListener {
-            val currentState = binding.accountFragmentWorkshopAddressStateValueTextView.text.toString()
+            val currentState =
+                binding.accountFragmentWorkshopAddressStateValueTextView.text.toString()
             val bundle = bundleOf(CURRENT_ACCOUNT_WORKSHOP_STATE_BUNDLE_KEY to currentState)
-            createProfileDialogFragment(R.layout.account_workshop_state_dialog_fragment, bundle).show(
+            createProfileDialogFragment(
+                R.layout.account_workshop_state_dialog_fragment,
+                bundle
+            ).show(
                 childFragmentManager, AccountFragment::class.java.simpleName
             )
         }
@@ -378,9 +412,13 @@ class AccountFragment : Fragment() {
 
         // when city is clicked
         binding.accountFragmentWorkshopAddressCityValueTextView.setOnClickListener {
-            val currentCity = binding.accountFragmentWorkshopAddressCityValueTextView.text.toString()
+            val currentCity =
+                binding.accountFragmentWorkshopAddressCityValueTextView.text.toString()
             val bundle = bundleOf(CURRENT_ACCOUNT_WORKSHOP_CITY_BUNDLE_KEY to currentCity)
-            createProfileDialogFragment(R.layout.account_workshop_city_dialog_fragment, bundle).show(
+            createProfileDialogFragment(
+                R.layout.account_workshop_city_dialog_fragment,
+                bundle
+            ).show(
                 childFragmentManager, AccountFragment::class.java.simpleName
             )
         }
@@ -400,9 +438,13 @@ class AccountFragment : Fragment() {
 
         // when street value is clicked
         binding.accountFragmentWorkshopAddressStreetValueTextView.setOnClickListener {
-            val currentStreet = binding.accountFragmentWorkshopAddressStreetValueTextView.text.toString()
+            val currentStreet =
+                binding.accountFragmentWorkshopAddressStreetValueTextView.text.toString()
             val bundle = bundleOf(CURRENT_ACCOUNT_WORKSHOP_STREET_BUNDLE_KEY to currentStreet)
-            createProfileDialogFragment(R.layout.account_workshop_street_dialog_fragment, bundle).show(
+            createProfileDialogFragment(
+                R.layout.account_workshop_street_dialog_fragment,
+                bundle
+            ).show(
                 childFragmentManager, AccountFragment::class.java.simpleName
             )
         }
@@ -421,9 +463,14 @@ class AccountFragment : Fragment() {
 
         // when showroom address is clicked
         binding.accountFragmentShowroomAddressValueTextView.setOnClickListener {
-            val currentShowroomAddress = binding.accountFragmentShowroomAddressValueTextView.text.toString()
-            val bundle = bundleOf(CURRENT_ACCOUNT_SHOWROOM_ADDRESS_BUNDLE_KEY to currentShowroomAddress)
-            createProfileDialogFragment(R.layout.account_showroom_address_dialog_fragment, bundle).show(
+            val currentShowroomAddress =
+                binding.accountFragmentShowroomAddressValueTextView.text.toString()
+            val bundle =
+                bundleOf(CURRENT_ACCOUNT_SHOWROOM_ADDRESS_BUNDLE_KEY to currentShowroomAddress)
+            createProfileDialogFragment(
+                R.layout.account_showroom_address_dialog_fragment,
+                bundle
+            ).show(
                 childFragmentManager, AccountFragment::class.java.simpleName
             )
         }
@@ -580,6 +627,7 @@ class AccountFragment : Fragment() {
         }
     }
 
+
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
@@ -608,19 +656,23 @@ class AccountFragment : Fragment() {
 
         const val ACCOUNT_WORKSHOP_STATE_REQUEST_KEY = "ACCOUNT WORKSHOP STATE REQUEST KEY"
         const val ACCOUNT_WORKSHOP_STATE_BUNDLE_KEY = "ACCOUNT WORKSHOP STATE BUNDLE KEY"
-        const val CURRENT_ACCOUNT_WORKSHOP_STATE_BUNDLE_KEY = "CURRENT ACCOUNT WORKSHOP STATE BUNDLE KEY"
+        const val CURRENT_ACCOUNT_WORKSHOP_STATE_BUNDLE_KEY =
+            "CURRENT ACCOUNT WORKSHOP STATE BUNDLE KEY"
 
         const val ACCOUNT_WORKSHOP_CITY_REQUEST_KEY = "ACCOUNT WORKSHOP CITY REQUEST KEY"
         const val ACCOUNT_WORKSHOP_CITY_BUNDLE_KEY = "ACCOUNT WORKSHOP CITY BUNDLE KEY"
-        const val CURRENT_ACCOUNT_WORKSHOP_CITY_BUNDLE_KEY = "CURRENT ACCOUNT WORKSHOP CITY BUNDLE KEY"
+        const val CURRENT_ACCOUNT_WORKSHOP_CITY_BUNDLE_KEY =
+            "CURRENT ACCOUNT WORKSHOP CITY BUNDLE KEY"
 
         const val ACCOUNT_WORKSHOP_STREET_REQUEST_KEY = "ACCOUNT WORKSHOP STREET REQUEST KEY"
         const val ACCOUNT_WORKSHOP_STREET_BUNDLE_KEY = "ACCOUNT WORKSHOP STREET BUNDLE KEY"
-        const val CURRENT_ACCOUNT_WORKSHOP_STREET_BUNDLE_KEY = "CURRENT ACCOUNT WORKSHOP STREET BUNDLE KEY"
+        const val CURRENT_ACCOUNT_WORKSHOP_STREET_BUNDLE_KEY =
+            "CURRENT ACCOUNT WORKSHOP STREET BUNDLE KEY"
 
         const val ACCOUNT_SHOWROOM_ADDRESS_REQUEST_KEY = "ACCOUNT SHOWROOM ADDRESS REQUEST KEY"
         const val ACCOUNT_SHOWROOM_ADDRESS_BUNDLE_KEY = "ACCOUNT SHOWROOM ADDRESS BUNDLE KEY"
-        const val CURRENT_ACCOUNT_SHOWROOM_ADDRESS_BUNDLE_KEY = "CURRENT ACCOUNT SHOWROOM ADDRESS BUNDLE KEY"
+        const val CURRENT_ACCOUNT_SHOWROOM_ADDRESS_BUNDLE_KEY =
+            "CURRENT ACCOUNT SHOWROOM ADDRESS BUNDLE KEY"
 
         const val ACCOUNT_UNION_NAME_REQUEST_KEY = "ACCOUNT UNION NAME REQUEST KEY"
         const val ACCOUNT_UNION_NAME_BUNDLE_KEY = "ACCOUNT UNION NAME BUNDLE KEY"
@@ -640,7 +692,8 @@ class AccountFragment : Fragment() {
 
         const val ACCOUNT_LEGAL_STATUS_REQUEST_KEY = "ACCOUNT LEGAL STATUS REQUEST KEY"
         const val ACCOUNT_LEGAL_STATUS_BUNDLE_KEY = "ACCOUNT LEGAL STATUS BUNDLE KEY"
-        const val CURRENT_ACCOUNT_LEGAL_STATUS_BUNDLE_KEY = "CURRENT ACCOUNT LEGAL STATUS BUNDLE KEY"
+        const val CURRENT_ACCOUNT_LEGAL_STATUS_BUNDLE_KEY =
+            "CURRENT ACCOUNT LEGAL STATUS BUNDLE KEY"
 
         const val READ_IMAGE_STORAGE = 102
         const val NAME = "CLads"

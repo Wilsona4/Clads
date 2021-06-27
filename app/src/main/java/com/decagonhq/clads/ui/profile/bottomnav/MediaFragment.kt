@@ -6,6 +6,7 @@ import android.content.Intent
 import android.content.pm.PackageManager
 import android.net.Uri
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -17,6 +18,9 @@ import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.core.net.toUri
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
+import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.observe
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
@@ -33,6 +37,7 @@ import com.decagonhq.clads.util.REQUEST_CODE
 import com.decagonhq.clads.util.hideView
 import com.decagonhq.clads.util.photosProvidersList
 import com.decagonhq.clads.util.showView
+import com.decagonhq.clads.viewmodels.ImageUploadViewModel
 
 class MediaFragment : Fragment() {
 
@@ -45,6 +50,7 @@ class MediaFragment : Fragment() {
     private lateinit var noPhotoTextView: TextView
     private lateinit var photoGalleryModel: PhotoGalleryModel
     private lateinit var imageUri: Uri
+    private val imageUploadViewModel: ImageUploadViewModel by viewModels()
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -61,32 +67,36 @@ class MediaFragment : Fragment() {
 
         noPhotoImageView = binding.mediaFragmentPhotoIconImageView
         noPhotoTextView = binding.mediaFragmentYouHaveNoPhotoInGalleryTextView
+       val imageUploadViewModel = ViewModelProvider(requireActivity()).get(ImageUploadViewModel::class.java)
 
-        findNavController().currentBackStackEntry?.savedStateHandle?.getLiveData<Bundle>(IMAGE_KEY)
-            ?.observe(viewLifecycleOwner) {
-                val imageName = it.getString(IMAGE_NAME_BUNDLE_KEY)
-                val imageData = it.getString(IMAGE_DATA_BUNDLE_KEY)
-                val imageDataUri = imageData?.toUri()
-
-                photoGalleryModel =
-                    PhotoGalleryModel(
-                        imageDataUri,
-                        imageName
-                    )
-
-                if (DataListener.imageListener.value == true) {
-
-                    photosProvidersList.add(photoGalleryModel)
-                    photoGalleryRecyclerAdapter.notifyDataSetChanged()
-                }
-
-                binding.apply {
-                    noPhotoImageView.visibility = View.INVISIBLE
-                    noPhotoTextView.visibility = View.INVISIBLE
-                    mediaFragmentPhotoRecyclerView.visibility = View.VISIBLE
-                }
-            }
-
+//        findNavController().currentBackStackEntry?.savedStateHandle?.getLiveData<Bundle>(IMAGE_KEY)
+//            ?.observe(viewLifecycleOwner) {
+//                val imageName = it.getString(IMAGE_NAME_BUNDLE_KEY)
+//                val imageData = it.getString(IMAGE_DATA_BUNDLE_KEY)
+//                val imageDataUri = imageData?.toUri()
+//
+//                photoGalleryModel =
+//                    PhotoGalleryModel(
+//                        imageDataUri,
+//                        imageName
+//                    )
+//
+//                if (DataListener.imageListener.value == true) {
+//
+//                   // photosProvidersList.add(photoGalleryModel)
+//                    photoGalleryRecyclerAdapter.notifyDataSetChanged()
+//                }
+//
+//                binding.apply {
+//                    noPhotoImageView.visibility = View.INVISIBLE
+//                    noPhotoTextView.visibility = View.INVISIBLE
+//                    mediaFragmentPhotoRecyclerView.visibility = View.VISIBLE
+//                }
+//            }
+    imageUploadViewModel.userProfileImage.observe(viewLifecycleOwner, Observer {
+    Toast.makeText(requireContext(), "YESSSSS", Toast.LENGTH_SHORT).show()
+        Log.d("CHECK_VIEWMODEL", "onViewCreated: ${imageUploadViewModel.userProfileImage}")
+})
         binding.apply {
 
             mediaFragmentPhotoRecyclerView.apply {

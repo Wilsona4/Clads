@@ -7,11 +7,12 @@ import androidx.navigation.findNavController
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.decagonhq.clads.data.domain.PhotoGalleryModel
+import com.decagonhq.clads.data.domain.images.UserProfileImage
 import com.decagonhq.clads.databinding.MediaFragmentPhotoRecyclerViewItemBinding
 import com.decagonhq.clads.ui.profile.bottomnav.MediaFragmentDirections
 
 class PhotoGalleryRecyclerAdapter(
-    var photoArrayList: ArrayList<PhotoGalleryModel>,
+    var photoArrayList: MutableList<UserProfileImage>
 ) : RecyclerView.Adapter<PhotoGalleryRecyclerAdapter.ViewHolder>() {
 
     inner class ViewHolder(val binding: MediaFragmentPhotoRecyclerViewItemBinding) :
@@ -55,14 +56,14 @@ class PhotoGalleryRecyclerAdapter(
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
 
         Glide.with(holder.binding.root.context)
-            .load(photoArrayList[position].image)
+            .load(photoArrayList[position].downloadUri)
             .into(holder.uploadedImage)
 
         holder.itemView.apply {
             with(holder) {
                 with(photoArrayList[position]) {
                     // uploadedImage.setImageDrawable()
-                    imageTitle.text = imageName
+                    imageTitle.text = fileName
                 }
             }
         }
@@ -70,7 +71,7 @@ class PhotoGalleryRecyclerAdapter(
         // listen for user click events
         holder.setItemClickListener(object : OnItemClickListener {
             override fun onItemClick(view: View, position: Int) {
-                val imageUri = photoArrayList[position].image.toString()
+                val imageUri = photoArrayList[position].downloadUri.toString()
 
                 // use actions to pass data from one fragment to the other
                 val action =

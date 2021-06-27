@@ -14,31 +14,33 @@ import android.widget.Toast
 import androidx.core.content.ContentResolverCompat
 import androidx.core.net.toUri
 import androidx.core.os.bundleOf
-import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
-import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import com.bumptech.glide.Glide
 import com.decagonhq.clads.databinding.MediaFragmentPhotoNameBinding
+import com.decagonhq.clads.ui.BaseFragment
 import com.decagonhq.clads.util.DataListener
 import com.decagonhq.clads.util.IMAGE_DATA_BUNDLE_KEY
 import com.decagonhq.clads.util.IMAGE_KEY
 import com.decagonhq.clads.util.IMAGE_NAME_BUNDLE_KEY
+import com.decagonhq.clads.util.Resource
+import com.decagonhq.clads.util.handleApiError
+import com.decagonhq.clads.util.saveBitmap
+import com.decagonhq.clads.util.uriToBitmap
 import com.decagonhq.clads.viewmodels.ImageUploadViewModel
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.launch
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import okhttp3.MultipartBody
-import okhttp3.RequestBody
 import okhttp3.RequestBody.Companion.asRequestBody
 import java.io.File
 import java.io.FileInputStream
 import java.io.FileOutputStream
 
 @AndroidEntryPoint
-class MediaFragmentPhotoName : Fragment() {
+class MediaFragmentPhotoName : BaseFragment() {
 
     private var _binding: MediaFragmentPhotoNameBinding? = null
 
@@ -47,7 +49,9 @@ class MediaFragmentPhotoName : Fragment() {
     private val args: MediaFragmentPhotoNameArgs by navArgs()
     private lateinit var sendFab: FloatingActionButton
     private lateinit var imageNamed: EditText
-    lateinit var photoGalleryImage: ImageView
+    private lateinit var imageName: String
+    private lateinit var imageData: String
+    private lateinit var photoGalleryImage: ImageView
     private val imageUploadViewModel: ImageUploadViewModel by viewModels()
 
 
@@ -75,8 +79,8 @@ class MediaFragmentPhotoName : Fragment() {
 
         /*click the send fab to send photo and name of photo back to media fragment*/
         sendFab.setOnClickListener {
-            val imageName = imageNamed.text.toString()
-            val imageData = args.imageData
+            imageName = imageNamed.text.toString()
+            imageData = args.imageData
 
             DataListener.imageListener.value = true
 
@@ -85,6 +89,7 @@ class MediaFragmentPhotoName : Fragment() {
             if (imageName.isEmpty()) {
                 Toast.makeText(requireContext(), "Enter Image Name", Toast.LENGTH_SHORT).show()
             } else {
+                Log.d("THIS_URI", "${imageData.toUri()}")
                 uploadImageToServer(imageData.toUri())
 //                findNavController().previousBackStackEntry?.savedStateHandle?.set(IMAGE_KEY, bundle)
 //                findNavController().popBackStack()
@@ -107,19 +112,44 @@ class MediaFragmentPhotoName : Fragment() {
 
 
         //create RequestBody instance from file
-        val reqBody = file.asRequestBody("image/*".toMediaTypeOrNull())
+        val convertedImageUriToBitmap = uriToBitmap(uri)
+        val bitmapToFile = saveBitmap(convertedImageUriToBitmap)
 
-        //get the information of the image to upload
+        val imageBody = bitmapToFile?.asRequestBody("image/jpg".toMediaTypeOrNull())
+
         //MultiPartBody.Part is used to send the actual file name
-        val imageUpload: RequestBody = MultipartBody.Builder()
-            .setType(MultipartBody.FORM)
-            .addFormDataPart("file", file.name, reqBody)
-            .build()
-//        val imageUpload = MultipartBody.Part.createFormData("imageName", file.name, body)
-        imageUploadViewModel.mediaImageUpload(imageUpload)
+        val image = MultipartBody.Part.createFormData("file", imageName, imageBody!!)
 
+
+
+            imageUploadViewModel.mediaImageUpload(image)
+
+
+        /*Handling the response from the retrofit*/
+        imageUploadViewModel.userProfileImage.observe(
+            viewLifecycleOwner,
+            Observer {
+                when (it) {
+                    is Resource.Success -> {
+                       progressDialog.hideProgressDialog()
+                        Toast.makeText(requireContext(), "Upload Successful", Toast.LENGTH_SHORT).show()
+                        val bundle =
+                            bundleOf(IMAGE_NAME_BUNDLE_KEY to imageName, IMAGE_DATA_BUNDLE_KEY to imageData)
+                        findNavController().previousBackStackEntry?.savedStateHandle?.set(IMAGE_KEY, bundle)
+                        findNavController().popBackStack()
+                    }
+                    is Resource.Error -> {
+                        progressDialog.hideProgressDialog()
+                        Toast.makeText(requireContext(), "${it.errorBody}", Toast.LENGTH_SHORT).show()
+                        handleApiError(it, imageRetrofit, requireView())
+                    }
+                    is Resource.Loading -> {
+                        progressDialog.showDialogFragment(it.message)
+                    }
+                }
+            }
+        )
     }
-
 
     // function to get the name of the file
     private fun getFileName(uri: Uri, contentResolver: ContentResolver): String {
@@ -131,54 +161,4 @@ class MediaFragmentPhotoName : Fragment() {
         }
         return name
     }
-
-
-//    private fun uploadMultipart() {
-//        val imageData = args.imageData
-//        val filePath: Uri = imageData.toUri()
-//        //getting name for the image
-//        val name: String = imageNamed.text.toString().trim()
-//
-//        //getting the actual path of the image
-//        val path = getPath(filePath)
-//
-//        //Uploading code
-//        try {
-//            val uploadId: String = UUID.randomUUID().toString()
-//
-//            //Creating a multi part request
-//            MultipartUploadRequest(requireActivity(), uploadId, Constants.IMAGE_BASE_URL)
-//                .addFileToUpload(path, "image") //Adding file
-//                .addParameter("name", name) //Adding text parameter to the request
-//                .setNotificationConfig(UploadNotificationConfig())
-//                .setMaxRetries(2)
-//                .startUpload() //Starting the upload
-//        } catch (exc: Exception) {
-//            Toast.makeText(requireContext(), exc.message, Toast.LENGTH_SHORT).show()
-//        }
-//    }
-
-    //method to get the file path from uri
-//    private fun getPath(uri: Uri?): String? {
-//        var cursor: Cursor? =
-//            uri?.let { requireActivity().contentResolver.query(it, null, null, null, null) }
-//        cursor?.moveToFirst()
-//        var document_id = cursor?.getString(0)
-//        if (document_id != null) {
-//            document_id = document_id.substring(document_id.lastIndexOf(":") + 1)
-//        }
-//        cursor?.close()
-//        cursor = requireActivity().contentResolver.query(
-//            MediaStore.Images.Media.EXTERNAL_CONTENT_URI,
-//            null, MediaStore.Images.Media._ID + " = ? ", arrayOf(document_id), null
-//        )
-//        cursor?.moveToFirst()
-//        val path =
-//            cursor?.getString(cursor.getColumnIndex(MediaStore.Images.Media.DATA))
-//        cursor?.close()
-//        return path
-//    }
-
-
-
 }

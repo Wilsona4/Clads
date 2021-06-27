@@ -1,9 +1,8 @@
 package com.decagonhq.clads.util
 
-import com.decagonhq.clads.data.domain.PhotoGalleryModel
-import java.util.ArrayList
+import com.decagonhq.clads.data.domain.images.UserProfileImage
 
-var photosProvidersList: ArrayList<PhotoGalleryModel> = arrayListOf()
+var photosProvidersList: MutableList<UserProfileImage> = arrayListOf()
 const val REQUEST_CODE = 100
 const val GRID_SIZE = 2
 const val TEMP_LABEL = "Image"

@@ -11,8 +11,8 @@ import javax.inject.Inject
 class ErrorResponseUtil @Inject
 constructor
 (var retrofit: Retrofit) {
-    fun parseError(response: Response<*>): GenericResponseClass {
-        val converter: Converter<ResponseBody, GenericResponseClass> = retrofit
+    fun parseError(response: Response<*>): GenericResponseClass<String> {
+        val converter: Converter<ResponseBody, GenericResponseClass<String>> = retrofit
             .responseBodyConverter(GenericResponseClass::class.java, arrayOfNulls<Annotation>(0))
         return try {
             converter.convert(response.errorBody()!!)!!
