@@ -15,9 +15,11 @@ import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
+import androidx.core.net.toUri
 import androidx.core.os.bundleOf
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
+import com.bumptech.glide.Glide
 import com.decagonhq.clads.R
 import com.decagonhq.clads.databinding.AccountFragmentBinding
 import com.decagonhq.clads.ui.BaseFragment
@@ -121,8 +123,8 @@ class AccountFragment : BaseFragment() {
                         progressDialog.hideProgressDialog()
                         firstNameValueTextView.text = successResponse.firstName
                         lastNameValueTextView.text = successResponse.lastName
-//                        phoneNumberValueTextView.text = successResponse.phoneNumber
-//                        genderValueTextView.text = successResponse.gender
+                        phoneNumberValueTextView.text = successResponse.phoneNumber
+                        genderValueTextView.text = successResponse.gender
 //                        workAddressStateValueTextView.text = successResponse.workshopAddress.state
 //                        cityValueTextView.text = successResponse.workshopAddress.city
 //                        streetValueTextView.text = successResponse.workshopAddress.street
@@ -131,6 +133,10 @@ class AccountFragment : BaseFragment() {
 //                        wardValueTextView.text = successResponse.union.ward
 //                        localGovernmentAreaTextView.text = successResponse.union.lga
 //                        unionStateValueTextView.text = successResponse.union.state
+
+                        Glide.with(requireContext())
+                            .load(successResponse.thumbnail.toUri())
+                            .into(binding.accountFragmentEditProfileIconImageView)
                     }
                     is Resource.Error -> {
                         progressDialog.hideProgressDialog()

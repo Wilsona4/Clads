@@ -2,7 +2,6 @@ package com.decagonhq.clads.ui.authentication
 
 import android.content.Intent
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -19,7 +18,6 @@ import com.google.android.gms.auth.api.signin.GoogleSignInOptions
 import com.google.android.gms.common.api.ApiException
 import com.google.android.gms.tasks.Task
 import dagger.hilt.android.AndroidEntryPoint
-import timber.log.Timber
 
 @AndroidEntryPoint
 class SignUpOptionsFragment : BaseFragment() {
@@ -31,13 +29,9 @@ class SignUpOptionsFragment : BaseFragment() {
     private lateinit var cladsGoogleSignInClient: GoogleSignInClient
     private var GOOGLE_SIGN_IN_REQ_CODE = 100
 
-
-
-
-
     override fun onStart() {
         super.onStart()
-        if (sessionManager.loadFromSharedPref(getString(R.string.login_status)) == getString(R.string.logout) && sessionManager.loadFromSharedPref(getString(R.string.login_status)).isNotEmpty()){
+        if (sessionManager.loadFromSharedPref(getString(R.string.login_status)) == getString(R.string.logout) && sessionManager.loadFromSharedPref(getString(R.string.login_status)).isNotEmpty()) {
             findNavController().navigate(R.id.login_fragment)
         }
     }

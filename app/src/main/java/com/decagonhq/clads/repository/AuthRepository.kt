@@ -9,7 +9,7 @@ import com.decagonhq.clads.util.Resource
 import kotlinx.coroutines.flow.Flow
 import okhttp3.MultipartBody
 
-interface   AuthRepository {
+interface AuthRepository {
     suspend fun registerUser(user: UserRegistration): Flow<Resource<GenericResponseClass<String>>>
     suspend fun loginUser(loginCredentials: LoginCredentials): Flow<Resource<GenericResponseClass<String>>>
     suspend fun userProfileImage(userProfileImage: MultipartBody.Part): Flow<Resource<GenericResponseClass<UserProfileImage>>>

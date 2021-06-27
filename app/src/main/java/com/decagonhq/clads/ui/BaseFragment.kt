@@ -26,7 +26,6 @@ abstract class BaseFragment : Fragment() {
     @Inject
     lateinit var sessionManager: SessionManager
 
-
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         progressDialog = CustomProgressDialog(requireContext())

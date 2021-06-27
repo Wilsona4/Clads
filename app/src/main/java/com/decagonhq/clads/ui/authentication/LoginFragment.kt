@@ -128,7 +128,8 @@ class LoginFragment : BaseFragment() {
                                     val successResponse = it.value.payload
                                     sessionManager.saveToSharedPref(TOKEN, successResponse)
                                     sessionManager.saveToSharedPref(
-                                        getString(R.string.login_status), getString(
+                                        getString(R.string.login_status),
+                                        getString(
                                             R.string.log_in
                                         )
                                     )
@@ -226,8 +227,12 @@ class LoginFragment : BaseFragment() {
                             val successResponse = it.value.payload
                             sessionManager.saveToSharedPref(TOKEN, successResponse)
 
-                            Log.d("TOKEN", "loadDashBoardFragment: ${sessionManager.loadFromSharedPref(
-                                TOKEN)}")
+                            Log.d(
+                                "TOKEN",
+                                "loadDashBoardFragment: ${sessionManager.loadFromSharedPref(
+                                    TOKEN
+                                )}"
+                            )
 
                             progressDialog.hideProgressDialog()
                             val intent = Intent(requireContext(), DashboardActivity::class.java)

@@ -1,6 +1,5 @@
 package com.decagonhq.clads.util
 
-import android.content.Context
 import android.content.SharedPreferences
 import javax.inject.Inject
 
