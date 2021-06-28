@@ -10,15 +10,14 @@ import android.text.Spanned
 import android.text.method.LinkMovementMethod
 import android.text.style.ClickableSpan
 import android.text.style.ForegroundColorSpan
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
 import android.widget.TextView
-import android.widget.Toast
 import androidx.core.content.res.ResourcesCompat
 import androidx.core.widget.doOnTextChanged
-import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
@@ -26,13 +25,13 @@ import com.decagonhq.clads.R
 import com.decagonhq.clads.data.domain.login.LoginCredentials
 import com.decagonhq.clads.data.domain.login.UserRole
 import com.decagonhq.clads.databinding.LoginFragmentBinding
+import com.decagonhq.clads.ui.BaseFragment
 import com.decagonhq.clads.ui.profile.DashboardActivity
 import com.decagonhq.clads.util.Constants.TOKEN
-import com.decagonhq.clads.util.CustomProgressDialog
 import com.decagonhq.clads.util.CustomTypefaceSpan
 import com.decagonhq.clads.util.Resource
-import com.decagonhq.clads.util.SessionManager
 import com.decagonhq.clads.util.ValidationObject.validateEmail
+import com.decagonhq.clads.util.handleApiError
 import com.decagonhq.clads.viewmodels.AuthenticationViewModel
 import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount
@@ -42,10 +41,9 @@ import com.google.android.gms.common.api.ApiException
 import com.google.android.gms.tasks.Task
 import com.google.android.material.textfield.TextInputEditText
 import dagger.hilt.android.AndroidEntryPoint
-import javax.inject.Inject
 
 @AndroidEntryPoint
-class LoginFragment : Fragment() {
+class LoginFragment : BaseFragment() {
     // Binding
     private var _binding: LoginFragmentBinding? = null
     private val binding get() = _binding!!
@@ -57,12 +55,11 @@ class LoginFragment : Fragment() {
     private lateinit var googleSignInButton: Button
     private lateinit var cladsSignInClient: GoogleSignInClient
     private var GOOGLE_SIGNIN_RQ_CODE = 100
-    private lateinit var progressDialog: CustomProgressDialog
 
     val viewModel: AuthenticationViewModel by viewModels()
-
-    @Inject
-    lateinit var sessionManager: SessionManager
+//
+//    @Inject
+//    lateinit var sessionManager: SessionManager
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -85,15 +82,14 @@ class LoginFragment : Fragment() {
         newUserSignUpForFree = binding.loginFragmentSignUpForFreeTextView
         forgetPasswordButton = binding.loginFragmentForgetPasswordTextView
         googleSignInButton = binding.loginFragmentGoogleSignInButton
-        progressDialog = CustomProgressDialog(requireContext())
 
         newUserSignUpForFreeSpannable()
         googleSignInClient()
 
         // On login button pressed
         binding.loginFragmentLogInButton.setOnClickListener {
-            val emailAddress = emailEditText.text.toString()
-            val password = passwordEditText.text.toString()
+            val emailAddress = emailEditText.text.toString().trim()
+            val password = passwordEditText.text.toString().trim()
 
             when {
                 // Check if email is empty
@@ -117,22 +113,26 @@ class LoginFragment : Fragment() {
                 }
                 else -> {
 
-                    val loginCredentials = LoginCredentials(
-                        emailEditText.text.toString(),
-                        passwordEditText.text.toString()
-                    )
+                    val loginCredentials = LoginCredentials(emailAddress, password)
 
                     /*Handling response from the retrofit*/
                     viewModel.loginUser(loginCredentials)
-
-                    progressDialog.showDialogFragment(getString(R.string.please_wait))
                     viewModel.loginUser.observe(
                         viewLifecycleOwner,
                         Observer {
                             when (it) {
+                                is Resource.Loading -> {
+                                    progressDialog.showDialogFragment(it.message)
+                                }
                                 is Resource.Success -> {
                                     val successResponse = it.value.payload
                                     sessionManager.saveToSharedPref(TOKEN, successResponse)
+                                    sessionManager.saveToSharedPref(
+                                        getString(R.string.login_status),
+                                        getString(
+                                            R.string.log_in
+                                        )
+                                    )
                                     progressDialog.hideProgressDialog()
                                     val intent =
                                         Intent(requireContext(), DashboardActivity::class.java)
@@ -141,13 +141,7 @@ class LoginFragment : Fragment() {
                                 }
                                 is Resource.Error -> {
                                     progressDialog.hideProgressDialog()
-                                    Toast.makeText(
-                                        requireContext(),
-                                        "Error: $it",
-                                        Toast.LENGTH_SHORT
-                                    ).show()
-                                }
-                                is Resource.Loading -> {
+                                    handleApiError(it, mainRetrofit, requireView())
                                 }
                             }
                         }
@@ -232,25 +226,25 @@ class LoginFragment : Fragment() {
                         is Resource.Success -> {
                             val successResponse = it.value.payload
                             sessionManager.saveToSharedPref(TOKEN, successResponse)
+
+                            Log.d(
+                                "TOKEN",
+                                "loadDashBoardFragment: ${sessionManager.loadFromSharedPref(
+                                    TOKEN
+                                )}"
+                            )
+
                             progressDialog.hideProgressDialog()
                             val intent = Intent(requireContext(), DashboardActivity::class.java)
+
                             startActivity(intent)
                             activity?.finish()
                         }
                         is Resource.Error -> {
                             progressDialog.hideProgressDialog()
-                            Toast.makeText(
-                                requireContext(),
-                                "Error: $it",
-                                Toast.LENGTH_SHORT
-                            ).show()
+//
                         }
                         is Resource.Loading -> {
-                            Toast.makeText(
-                                requireContext(),
-                                "Loading",
-                                Toast.LENGTH_SHORT
-                            ).show()
                         }
                     }
                 }
@@ -302,33 +296,15 @@ class LoginFragment : Fragment() {
     private fun newUserSignUpForFreeSpannable() {
         val message = getString(R.string.new_user_sign_up_for_free)
         val spannable = SpannableStringBuilder(message)
-        val myTypeface = Typeface.create(
-            ResourcesCompat.getFont(requireContext(), R.font.poppins_bold),
-            Typeface.BOLD
-        )
-        spannable.setSpan(
-            CustomTypefaceSpan(myTypeface),
-            10,
-            message.length,
-            Spannable.SPAN_INCLUSIVE_INCLUSIVE
-        )
+        val myTypeface = Typeface.create(ResourcesCompat.getFont(requireContext(), R.font.poppins_bold), Typeface.BOLD)
+        spannable.setSpan(CustomTypefaceSpan(myTypeface), 10, message.length, Spannable.SPAN_INCLUSIVE_INCLUSIVE)
         val clickableSignUpForFree = object : ClickableSpan() {
             override fun onClick(widget: View) {
                 findNavController().navigate(R.id.email_sign_up_fragment)
             }
         }
-        spannable.setSpan(
-            clickableSignUpForFree,
-            10,
-            message.length,
-            Spanned.SPAN_INCLUSIVE_INCLUSIVE
-        )
-        spannable.setSpan(
-            ForegroundColorSpan(Color.WHITE),
-            10,
-            message.length,
-            Spannable.SPAN_INCLUSIVE_INCLUSIVE
-        )
+        spannable.setSpan(clickableSignUpForFree, 10, message.length, Spanned.SPAN_INCLUSIVE_INCLUSIVE)
+        spannable.setSpan(ForegroundColorSpan(Color.WHITE), 10, message.length, Spannable.SPAN_INCLUSIVE_INCLUSIVE)
         newUserSignUpForFree.text = spannable
         newUserSignUpForFree.movementMethod = LinkMovementMethod.getInstance()
     }

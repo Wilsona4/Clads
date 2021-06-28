@@ -54,7 +54,6 @@ dependencies {
     implementation 'androidx.legacy:legacy-support-v4:1.0.0'
     implementation 'com.google.firebase:firebase-auth:21.0.1'
     implementation 'com.google.firebase:firebase-auth:21.0.1'
-    implementation "androidx.room:room-runtime:$versions.room_version"
     testImplementation 'junit:junit:4.13.2'
     androidTestImplementation 'androidx.test.ext:junit:1.1.2'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.3.0'
@@ -79,6 +78,12 @@ dependencies {
     implementation "androidx.navigation:navigation-fragment-ktx:$versions.nav_version"
     implementation "androidx.navigation:navigation-ui-ktx:$versions.nav_version"
     androidTestImplementation "androidx.navigation:navigation-testing:$versions.nav_version"
+
+//    Room Database
+    implementation "androidx.room:room-runtime:$versions.room_version"
+    annotationProcessor "androidx.room:room-compiler:$versions.room_version"
+    kapt "androidx.room:room-compiler:$versions.room_version"
+    implementation "androidx.room:room-ktx:$versions.room_version"
 
     //Retrofit
     implementation "com.squareup.retrofit2:retrofit:$versions.retrofit_version"

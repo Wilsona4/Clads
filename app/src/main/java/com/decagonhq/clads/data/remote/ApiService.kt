@@ -1,34 +1,50 @@
 package com.decagonhq.clads.data.remote
 
-import com.decagonhq.clads.data.domain.login.EmailLoginSuccessResponse
-import com.decagonhq.clads.data.domain.login.GoogleLoginSuccessResponse
+import com.decagonhq.clads.data.domain.GenericResponseClass
 import com.decagonhq.clads.data.domain.login.UserRole
-import com.decagonhq.clads.data.domain.profileimage.UserProfileImageResponse
-import com.decagonhq.clads.data.domain.registration.UserRegSuccessResponse
+import com.decagonhq.clads.data.domain.profile.UserProfile
+import com.decagonhq.clads.data.domain.profileimage.UserProfileImage
+import com.decagonhq.clads.data.remote.login.LoginCredentialsDTO
+import com.decagonhq.clads.data.remote.profile.UserProfileDTO
+import com.decagonhq.clads.data.remote.registration.UserRegistrationDTO
 import okhttp3.MultipartBody
 import retrofit2.http.Body
+import retrofit2.http.GET
 import retrofit2.http.Multipart
+import retrofit2.http.PATCH
 import retrofit2.http.POST
 import retrofit2.http.Part
 
 interface ApiService {
 
+    /*Register User */
     @POST("artisans/register")
     suspend fun registerUser(
         @Body user: UserRegistrationDTO
-    ): UserRegSuccessResponse
+    ): GenericResponseClass<String>
 
+    /*Email Login*/
     @POST("login")
     suspend fun login(
         @Body loginCredentials: LoginCredentialsDTO
-    ): EmailLoginSuccessResponse
+    ): GenericResponseClass<String>
 
+    /*Google Login*/
     @POST("login/google")
     suspend fun googleLogin(
         @Body userRole: UserRole
-    ): GoogleLoginSuccessResponse
+    ): GenericResponseClass<String>
 
+    /*Upload Profile Picture*/
     @Multipart
     @POST("upload")
-    fun uploadImage(@Part image: MultipartBody.Part): UserProfileImageResponse
+    suspend fun uploadImage(@Part image: MultipartBody.Part): GenericResponseClass<UserProfileImage>
+
+    /*Get User Profile*/
+    @GET("me/profile")
+    suspend fun getUserProfile(): GenericResponseClass<UserProfile>
+
+    /*Update User Profile*/
+    @PATCH("me/profile")
+    suspend fun updateUserProfile(userProfile: UserProfileDTO): GenericResponseClass<UserProfile>
 }

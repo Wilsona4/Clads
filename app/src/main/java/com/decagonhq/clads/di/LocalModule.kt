@@ -3,8 +3,9 @@ package com.decagonhq.clads.di
 import android.content.Context
 import androidx.room.Room
 import com.decagonhq.clads.data.local.CladsDatabase
+import com.decagonhq.clads.data.local.CladsDatabase.Companion.DATABASE_NAME
 import com.decagonhq.clads.data.local.ClientDao
-import com.decagonhq.clads.data.local.UserDao
+import com.decagonhq.clads.data.local.UserProfileDao
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -19,11 +20,7 @@ object LocalModule {
     @Singleton
     @Provides
     fun providesCladsDataBase(@ApplicationContext context: Context): CladsDatabase {
-        return Room.databaseBuilder(
-            context,
-            CladsDatabase::class.java,
-            CladsDatabase.DATABASE_NAME
-        )
+        return Room.databaseBuilder(context, CladsDatabase::class.java, DATABASE_NAME)
             .fallbackToDestructiveMigration()
             .build()
     }
@@ -36,7 +33,7 @@ object LocalModule {
 
     @Singleton
     @Provides
-    fun providesUserDAO(cladsDatabase: CladsDatabase): UserDao {
-        return cladsDatabase.userDao()
+    fun providesUserDAO(cladsDatabase: CladsDatabase): UserProfileDao {
+        return cladsDatabase.userProfileDao()
     }
 }
