@@ -17,7 +17,7 @@ constructor
         return try {
             converter.convert(response.errorBody()!!)!!
         } catch (e: IOException) {
-            return GenericResponseClass("IOException", "null", 69)
+            return GenericResponseClass("Please, enter valid credentials ", "null", 69)
         }
     }
 }

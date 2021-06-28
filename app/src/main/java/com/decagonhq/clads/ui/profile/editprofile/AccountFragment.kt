@@ -66,6 +66,8 @@ class AccountFragment : BaseFragment() {
         return binding.root
     }
 
+
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         /**/
@@ -116,7 +118,6 @@ class AccountFragment : BaseFragment() {
             Observer {
                 when (it) {
                     is Resource.Loading -> {
-                        Toast.makeText(requireContext(), it.message, Toast.LENGTH_SHORT).show()
                     }
                     is Resource.Success -> {
                         val successResponse = it.value.payload
@@ -134,9 +135,9 @@ class AccountFragment : BaseFragment() {
 //                        localGovernmentAreaTextView.text = successResponse.union.lga
 //                        unionStateValueTextView.text = successResponse.union.state
 
-                        Glide.with(requireContext())
-                            .load(successResponse.thumbnail.toUri())
-                            .into(binding.accountFragmentEditProfileIconImageView)
+//                        Glide.with(requireContext())
+//                            .load(successResponse.thumbnail.toUri())
+//                            .into(binding.accountFragmentEditProfileIconImageView)
                     }
                     is Resource.Error -> {
                         progressDialog.hideProgressDialog()
