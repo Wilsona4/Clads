@@ -25,9 +25,7 @@ import com.decagonhq.clads.ui.profile.dialogfragment.ProfileManagementDialogFrag
 import com.decagonhq.clads.util.Resource
 import com.decagonhq.clads.util.handleApiError
 import com.decagonhq.clads.viewmodels.UserProfileViewModel
-import com.google.android.material.textview.MaterialTextView
 import dagger.hilt.android.AndroidEntryPoint
-import de.hdodenhof.circleimageview.CircleImageView
 
 @AndroidEntryPoint
 class AccountFragment : BaseFragment() {
