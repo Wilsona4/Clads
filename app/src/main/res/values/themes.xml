@@ -34,4 +34,11 @@
     <style name="Theme.Clads.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
 
     <style name="Theme.Clads.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
+
+    <style name="ShapeAppearanceOverlay.App.SelectedCornerRadius" parent="">
+        <item name="cornerSizeTopLeft">15dp</item>
+        <item name="cornerFamilyTopRight">rounded</item>
+        <item name="cornerSizeBottomRight">15dp</item>
+        <item name="cornerFamilyBottomLeft">rounded</item>
+    </style>
 </resources>

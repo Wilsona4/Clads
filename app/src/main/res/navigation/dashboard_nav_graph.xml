@@ -155,11 +155,19 @@
         android:id="@+id/resourceArticlesFragment"
         android:name="com.decagonhq.clads.ui.resource.ResourceArticlesFragment"
         android:label="@string/articles"
-        tools:layout="@layout/resource_articles_fragment" />
+        tools:layout="@layout/resource_articles_fragment" >
+        <action
+            android:id="@+id/action_resourceArticlesFragment_to_resourceViewIndividualArticleFragment"
+            app:destination="@id/resourceViewIndividualArticleFragment" />
+    </fragment>
     <fragment
         android:id="@+id/individualVideoScreenFragment"
         android:name="com.decagonhq.clads.ui.resource.IndividualVideoScreenFragment"
         android:label="@string/individual_video"
         tools:layout="@layout/individual_video_screen_fragment" />
+    <fragment
+        android:id="@+id/resourceViewIndividualArticleFragment"
+        android:name="com.decagonhq.clads.ui.resource.ResourceIndividualArticleWebViewFragment"
+        android:label="Article/Publications" />
 
 </navigation>
