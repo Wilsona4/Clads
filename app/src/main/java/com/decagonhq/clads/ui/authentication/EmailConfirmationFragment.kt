@@ -2,6 +2,7 @@ package com.decagonhq.clads.ui.authentication
 
 import android.content.Intent
 import android.os.Bundle
+import android.text.Spannable
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -33,6 +34,7 @@ class EmailConfirmationFragment : BaseFragment() {
         /*Display user name*/
         val userName = sessionManager.loadFromSharedPref(getString(R.string.user_name))
         binding.emailConfirmationFragmentVerifyEmailTextTextView
+//        val spannable = Spannable
 
         /*Navigate to Login Screen After Confirmation*/
         binding.emailConfirmationFragmentVerifyEmailAddressButton.setOnClickListener {
