@@ -7,7 +7,6 @@ import androidx.navigation.findNavController
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.decagonhq.clads.data.domain.PhotoGalleryModel
-import com.decagonhq.clads.data.domain.images.UserProfileImage
 import com.decagonhq.clads.databinding.MediaFragmentPhotoRecyclerViewItemBinding
 import com.decagonhq.clads.ui.profile.bottomnav.MediaFragmentDirections
 

@@ -52,14 +52,12 @@ object RepositoryModule {
         )
     }
 
-
     @Singleton
     @Provides
     fun provideImageRepository(
-    @Named(IMAGE_API_SERVICE) apiService: ApiService,
-    imageDTOMapper: ImageDTOMapper
-): ImageRepository{
+        @Named(IMAGE_API_SERVICE) apiService: ApiService,
+        imageDTOMapper: ImageDTOMapper
+    ): ImageRepository {
         return ImageRepositoryImpl(apiService, imageDTOMapper)
     }
-
 }

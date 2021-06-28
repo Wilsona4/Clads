@@ -4,7 +4,6 @@ import android.content.ContentResolver
 import android.net.Uri
 import android.os.Bundle
 import android.provider.OpenableColumns
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -12,10 +11,8 @@ import android.widget.EditText
 import android.widget.ImageView
 import android.widget.Toast
 import androidx.core.content.ContentResolverCompat
-import androidx.core.net.toUri
 import androidx.core.os.bundleOf
 import androidx.fragment.app.viewModels
-import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import com.bumptech.glide.Glide
@@ -25,19 +22,9 @@ import com.decagonhq.clads.util.DataListener
 import com.decagonhq.clads.util.IMAGE_DATA_BUNDLE_KEY
 import com.decagonhq.clads.util.IMAGE_KEY
 import com.decagonhq.clads.util.IMAGE_NAME_BUNDLE_KEY
-import com.decagonhq.clads.util.Resource
-import com.decagonhq.clads.util.handleApiError
-import com.decagonhq.clads.util.saveBitmap
-import com.decagonhq.clads.util.uriToBitmap
 import com.decagonhq.clads.viewmodels.ImageUploadViewModel
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import dagger.hilt.android.AndroidEntryPoint
-import okhttp3.MediaType.Companion.toMediaTypeOrNull
-import okhttp3.MultipartBody
-import okhttp3.RequestBody.Companion.asRequestBody
-import java.io.File
-import java.io.FileInputStream
-import java.io.FileOutputStream
 
 @AndroidEntryPoint
 class MediaFragmentPhotoName : BaseFragment() {
@@ -53,7 +40,6 @@ class MediaFragmentPhotoName : BaseFragment() {
     private lateinit var imageData: String
     private lateinit var photoGalleryImage: ImageView
     private val imageUploadViewModel: ImageUploadViewModel by viewModels()
-
 
     override fun onCreateView(
         inflater: LayoutInflater,

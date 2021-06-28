@@ -1,26 +1,21 @@
 package com.decagonhq.clads.ui.profile.editprofile
 
 import android.Manifest
-import android.app.Activity
 import android.content.ContentResolver
-import android.content.Intent
 import android.content.pm.PackageManager
 import android.net.Uri
 import android.os.Build
 import android.os.Bundle
-import android.provider.MediaStore
 import android.provider.OpenableColumns
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
-import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AlertDialog
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContentResolverCompat.query
 import androidx.core.content.ContextCompat
-import androidx.core.content.PermissionChecker.checkPermission
 import androidx.core.os.bundleOf
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
@@ -94,16 +89,14 @@ class AccountFragment : BaseFragment() {
                 uri?.let { it ->
 
                     uploadImageToServer(uri)
-
                 }
             }
 
         /*Select profile image*/
         binding.accountFragmentChangePictureTextView.setOnClickListener {
-                Manifest.permission.READ_EXTERNAL_STORAGE.checkForPermission(NAME, READ_IMAGE_STORAGE)
+            Manifest.permission.READ_EXTERNAL_STORAGE.checkForPermission(NAME, READ_IMAGE_STORAGE)
             pickImages.launch("image/*")
         }
-
     }
 
     private fun String.checkForPermission(name: String, requestCode: Int) {
@@ -184,7 +177,6 @@ class AccountFragment : BaseFragment() {
 //        }
 //    }
 
-
     // function to get the name of the file
     private fun getFileName(uri: Uri, contentResolver: ContentResolver): String {
         var name = "TO BE REMOVED STRING"
@@ -196,26 +188,25 @@ class AccountFragment : BaseFragment() {
         return name
     }
 
-
     private fun uploadImageToServer(uri: Uri) {
-        //get the data under the Uri and open it in read format
+        // get the data under the Uri and open it in read format
         val parcelFileDescriptor = requireActivity().contentResolver
             .openFileDescriptor(uri, "r", null) ?: return
 
-        //use the contentResolver to get the actual file by uri
+        // use the contentResolver to get the actual file by uri
         val file =
             File(requireActivity().cacheDir, getFileName(uri, requireActivity().contentResolver))
         val inputStream = FileInputStream(parcelFileDescriptor.fileDescriptor)
         val outputStream = FileOutputStream(file)
         inputStream.copyTo(outputStream)
 
-        //create RequestBody instance from file
+        // create RequestBody instance from file
         val convertedImageUriToBitmap = uriToBitmap(uri)
         val bitmapToFile = saveBitmap(convertedImageUriToBitmap)
 
         val imageBody = bitmapToFile?.asRequestBody("image/jpg".toMediaTypeOrNull())
 
-        //MultiPartBody.Part is used to send the actual file name
+        // MultiPartBody.Part is used to send the actual file name
         val image = MultipartBody.Part.createFormData("file", bitmapToFile?.name, imageBody!!)
 
         imageUploadViewModel.mediaImageUpload(image)
@@ -235,7 +226,6 @@ class AccountFragment : BaseFragment() {
 
                         sessionManager.saveToSharedPref(IMAGE_URL, imageUrl)
 
-
                         Toast.makeText(requireContext(), "Upload Successful", Toast.LENGTH_SHORT)
                             .show()
                     }
@@ -250,12 +240,9 @@ class AccountFragment : BaseFragment() {
                     is Resource.Loading -> {
                         progressDialog.showDialogFragment(it.message)
                     }
-
                 }
-
             }
         )
-
     }
 
     override fun onResume() {
@@ -268,7 +255,6 @@ class AccountFragment : BaseFragment() {
             .placeholder(R.drawable.nav_drawer_profile_avatar)
             .into(binding.accountFragmentEditProfileIconImageView)
     }
-
 
     private fun accountlegalStatusdialog() {
         childFragmentManager.setFragmentResultListener(
@@ -609,7 +595,6 @@ class AccountFragment : BaseFragment() {
             )
         }
     }
-
 
     override fun onDestroyView() {
         super.onDestroyView()

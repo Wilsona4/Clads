@@ -14,7 +14,6 @@ import com.decagonhq.clads.util.Resource
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
-import okhttp3.MultipartBody
 import javax.inject.Inject
 
 @HiltViewModel
@@ -27,7 +26,6 @@ class AuthenticationViewModel @Inject constructor(
 
     private var _loginUser = MutableLiveData<Resource<GenericResponseClass<String>>>()
     val loginUser: LiveData<Resource<GenericResponseClass<String>>> get() = _loginUser
-
 
     private var _userProfileImage =
         MutableLiveData<Resource<GenericResponseClass<UserProfileImage>>>()
@@ -68,5 +66,4 @@ class AuthenticationViewModel @Inject constructor(
             }
         }
     }
-
 }

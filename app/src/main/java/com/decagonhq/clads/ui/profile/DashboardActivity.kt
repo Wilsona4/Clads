@@ -1,6 +1,5 @@
 package com.decagonhq.clads.ui.profile
 
-import android.app.Activity
 import android.app.NotificationChannel
 import android.app.NotificationManager
 import android.app.PendingIntent
@@ -9,22 +8,18 @@ import android.content.Intent
 import android.net.Uri
 import android.os.Build
 import android.os.Bundle
-import android.util.Log
 import android.view.View
 import android.view.WindowManager
 import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
-import androidx.activity.viewModels
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.NotificationCompat
 import androidx.core.view.GravityCompat
 import androidx.drawerlayout.widget.DrawerLayout
-import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
-import androidx.lifecycle.ViewModelStoreOwner
 import androidx.navigation.NavController
 import androidx.navigation.findNavController
 import androidx.navigation.ui.AppBarConfiguration
@@ -36,9 +31,7 @@ import com.decagonhq.clads.R
 import com.decagonhq.clads.databinding.DashboardActivityBinding
 import com.decagonhq.clads.ui.profile.bottomnav.MessagesFragment
 import com.decagonhq.clads.util.Constants
-import com.decagonhq.clads.util.Resource
 import com.decagonhq.clads.util.SessionManager
-import com.decagonhq.clads.util.handleApiError
 import com.decagonhq.clads.viewmodels.ImageUploadViewModel
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.android.material.navigation.NavigationView
@@ -67,7 +60,6 @@ class DashboardActivity : AppCompatActivity() {
     @Inject
     lateinit var sessionManager: SessionManager
 
-
     @RequiresApi(Build.VERSION_CODES.M)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -76,7 +68,6 @@ class DashboardActivity : AppCompatActivity() {
 
         setSupportActionBar(binding.appBarDashboard.dashboardActivityToolbar)
         val imageUploadViewModel = ViewModelProvider(this).get(ImageUploadViewModel::class.java)
-
 
         /*Set Status bar Color*/
         window?.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS)
@@ -91,7 +82,6 @@ class DashboardActivity : AppCompatActivity() {
         drawerCloseIcon = navViewHeader.findViewById(R.id.nav_drawer_close_icon_image_view)
         profileImage = navViewHeader.findViewById(R.id.nav_drawer_profile_avatar_image_view)
         val imageUrl = sessionManager.loadFromSharedPref(Constants.IMAGE_URL)
-
 
         /*Initialize Toolbar Views*/
         toolbarNotificationIcon =
@@ -141,17 +131,19 @@ class DashboardActivity : AppCompatActivity() {
             toolbarNotificationIcon.visibility = View.GONE
         }
         imageUploadViewModel.getUserImage()
-        imageUploadViewModel.userProfileImage.observe(this, Observer {
-            if (it != null) {
+        imageUploadViewModel.userProfileImage.observe(
+            this,
+            Observer {
+                if (it != null) {
 
-                Glide.with(this)
-                    .load(imageUrl)
-                    .into(toolbarProfilePicture)
-
-            } else {
-                Toast.makeText(this, "NULLLL", Toast.LENGTH_SHORT).show()
+                    Glide.with(this)
+                        .load(imageUrl)
+                        .into(toolbarProfilePicture)
+                } else {
+                    Toast.makeText(this, "NULLLL", Toast.LENGTH_SHORT).show()
+                }
             }
-        })
+        )
     }
 
     /*CLose Nav Drawer if open, on back press*/
@@ -167,7 +159,6 @@ class DashboardActivity : AppCompatActivity() {
         super.onResume()
         navController.addOnDestinationChangedListener(listener)
     }
-
 
     private fun createNotification() {
         // Create the NotificationChannel
@@ -293,5 +284,4 @@ class DashboardActivity : AppCompatActivity() {
                 }
             }
     }
-
 }

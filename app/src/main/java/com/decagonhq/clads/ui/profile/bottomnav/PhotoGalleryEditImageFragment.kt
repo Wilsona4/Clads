@@ -29,7 +29,7 @@ class PhotoGalleryEditImageFragment : Fragment() {
     // This property is only valid between onCreateView and onDestroyView.
     private val binding get() = _binding!!
     private lateinit var photoIV: Uri
-    private val args:PhotoGalleryEditImageFragmentArgs by navArgs()
+    private val args: PhotoGalleryEditImageFragmentArgs by navArgs()
     private val imageUploadViewModel: ImageUploadViewModel by viewModels()
 
     override fun onCreateView(

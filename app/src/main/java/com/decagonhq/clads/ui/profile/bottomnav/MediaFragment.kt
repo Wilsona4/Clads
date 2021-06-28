@@ -1,9 +1,6 @@
 package com.decagonhq.clads.ui.profile.bottomnav
 
 import android.Manifest
-import android.app.Activity
-import android.app.Activity.RESULT_OK
-import android.content.Intent
 import android.content.pm.PackageManager
 import android.net.Uri
 import android.os.Bundle
@@ -13,7 +10,6 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
-import androidx.activity.result.ActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AlertDialog
 import androidx.core.app.ActivityCompat
@@ -27,7 +23,6 @@ import androidx.recyclerview.widget.GridLayoutManager
 import com.decagonhq.clads.data.domain.PhotoGalleryModel
 import com.decagonhq.clads.databinding.MediaFragmentBinding
 import com.decagonhq.clads.ui.profile.adapter.PhotoGalleryRecyclerAdapter
-import com.decagonhq.clads.ui.profile.editprofile.MediaFragmentPhotoName
 import com.decagonhq.clads.util.DataListener
 import com.decagonhq.clads.util.GRID_SIZE
 import com.decagonhq.clads.util.IMAGE_DATA_BUNDLE_KEY
@@ -56,20 +51,21 @@ class MediaFragment : Fragment() {
     private val pickImages = registerForActivityResult(ActivityResultContracts.GetContent()) { uri: Uri? ->
         uri?.let { it ->
 
-        val imageData = uri.toString()
-        val action = MediaFragmentDirections.actionNavMediaToMediaFragmentPhotoName(imageData)
-        findNavController().navigate(action)
+            val imageData = uri.toString()
+            val action = MediaFragmentDirections.actionNavMediaToMediaFragmentPhotoName(imageData)
+            findNavController().navigate(action)
 
-        if (photosProvidersList.isEmpty()) {
-            noPhotoImageView.showView()
-            noPhotoTextView.showView()
-            binding.mediaFragmentPhotoRecyclerView.hideView()
-        } else {
-            noPhotoImageView.hideView()
-            noPhotoTextView.hideView()
-            binding.mediaFragmentPhotoRecyclerView.showView()
-            photoGalleryRecyclerAdapter.notifyDataSetChanged()
-        }}
+            if (photosProvidersList.isEmpty()) {
+                noPhotoImageView.showView()
+                noPhotoTextView.showView()
+                binding.mediaFragmentPhotoRecyclerView.hideView()
+            } else {
+                noPhotoImageView.hideView()
+                noPhotoTextView.hideView()
+                binding.mediaFragmentPhotoRecyclerView.showView()
+                photoGalleryRecyclerAdapter.notifyDataSetChanged()
+            } 
+        }
     }
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -86,7 +82,6 @@ class MediaFragment : Fragment() {
 
         noPhotoImageView = binding.mediaFragmentPhotoIconImageView
         noPhotoTextView = binding.mediaFragmentYouHaveNoPhotoInGalleryTextView
-
 
         findNavController().currentBackStackEntry?.savedStateHandle?.getLiveData<Bundle>(IMAGE_KEY)
             ?.observe(viewLifecycleOwner) {
@@ -229,7 +224,7 @@ class MediaFragment : Fragment() {
                 if ((grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED) &&
                     grantResults[1] == PackageManager.PERMISSION_GRANTED
                 ) {
-                   // uploadImageFromGallery()
+                    // uploadImageFromGallery()
                     pickImages.launch("image/*")
                 } else {
                     Toast.makeText(requireContext(), PERMISSION_DENIED, Toast.LENGTH_SHORT).show()
