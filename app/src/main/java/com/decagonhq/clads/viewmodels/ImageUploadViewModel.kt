@@ -8,6 +8,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.decagonhq.clads.data.domain.GenericResponseClass
+import com.decagonhq.clads.data.domain.PhotoGalleryModel
 import com.decagonhq.clads.data.domain.images.UserProfileImage
 import com.decagonhq.clads.repository.ImageRepository
 import com.decagonhq.clads.util.Resource
@@ -25,9 +26,6 @@ class ImageUploadViewModel @Inject constructor(
 ) : AndroidViewModel(Application()) {
     private var _userProfileImage = MutableLiveData<Resource<GenericResponseClass<UserProfileImage>>>()
     val userProfileImage: LiveData<Resource<GenericResponseClass<UserProfileImage>>> get() = _userProfileImage
-
-//    private var _userGetProfileImage = MutableLiveData<Resource<GenericResponseClass<UserProfileImage>>>()
-//    val userGetProfileImage: LiveData<Resource<GenericResponseClass<UserProfileImage>>> get() = _userGetProfileImage
 
     init {
         getUserImage()

@@ -19,7 +19,7 @@
             android:layout_width="0dp"
             android:layout_height="@dimen/layout_height"
             android:layout_marginTop="@dimen/margin_34dp"
-            android:src="@drawable/edit_profile_icon"
+            android:src="@drawable/nav_drawer_profile_avatar"
             app:layout_constraintDimensionRatio="w,1:1"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"

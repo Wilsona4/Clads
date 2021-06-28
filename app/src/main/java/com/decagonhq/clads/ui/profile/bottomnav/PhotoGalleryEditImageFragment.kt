@@ -11,23 +11,26 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.core.net.toUri
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import com.bumptech.glide.Glide
 import com.decagonhq.clads.R
 import com.decagonhq.clads.data.domain.PhotoGalleryModel
-import com.decagonhq.clads.databinding.MediaFragmentRecyclerViewItemClickedBinding
+import com.decagonhq.clads.databinding.PhotoGalleryEditImageFragmentBinding
 import com.decagonhq.clads.util.DataListener
 import com.decagonhq.clads.util.TEMP_LABEL
 import com.decagonhq.clads.util.photosProvidersList
+import com.decagonhq.clads.viewmodels.ImageUploadViewModel
 
-class MediaFragmentRecyclerViewItemClicked : Fragment() {
-    private var _binding: MediaFragmentRecyclerViewItemClickedBinding? = null
+class PhotoGalleryEditImageFragment : Fragment() {
+    private var _binding: PhotoGalleryEditImageFragmentBinding? = null
 
     // This property is only valid between onCreateView and onDestroyView.
     private val binding get() = _binding!!
     private lateinit var photoIV: Uri
-    val args: MediaFragmentRecyclerViewItemClickedArgs by navArgs()
+    private val args:PhotoGalleryEditImageFragmentArgs by navArgs()
+    private val imageUploadViewModel: ImageUploadViewModel by viewModels()
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -35,7 +38,7 @@ class MediaFragmentRecyclerViewItemClicked : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
 
-        _binding = MediaFragmentRecyclerViewItemClickedBinding.inflate(inflater, container, false)
+        _binding = PhotoGalleryEditImageFragmentBinding.inflate(inflater, container, false)
         setHasOptionsMenu(true)
         photoIV = args.imageUri.toUri()
         return binding.root

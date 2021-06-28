@@ -14,10 +14,13 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.activity.result.ActivityResultLauncher
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AlertDialog
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContentResolverCompat.query
 import androidx.core.content.ContextCompat
+import androidx.core.content.PermissionChecker.checkPermission
 import androidx.core.os.bundleOf
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
@@ -55,9 +58,9 @@ class AccountFragment : BaseFragment() {
 
     private val imageUploadViewModel: ImageUploadViewModel by viewModels()
 
-
     // This property is only valid between onCreateView and onDestroyView.
     private val binding get() = _binding!!
+
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -86,42 +89,21 @@ class AccountFragment : BaseFragment() {
         accountOtherNameEditDialog()
         accountlegalStatusdialog()
 
+        val pickImages =
+            registerForActivityResult(ActivityResultContracts.GetContent()) { uri: Uri? ->
+                uri?.let { it ->
+
+                    uploadImageToServer(uri)
+
+                }
+            }
+
         /*Select profile image*/
         binding.accountFragmentChangePictureTextView.setOnClickListener {
-            Manifest.permission.READ_EXTERNAL_STORAGE.checkForPermission(NAME, READ_IMAGE_STORAGE)
+                Manifest.permission.READ_EXTERNAL_STORAGE.checkForPermission(NAME, READ_IMAGE_STORAGE)
+            pickImages.launch("image/*")
         }
 
-        // imageUploadViewModel.getUserImage()
-//        imageUploadViewModel.userProfileImage.observe(
-//            viewLifecycleOwner,
-//            Observer {
-//                when (it) {
-//                    is Resource.Success -> {
-//                        progressDialog.hideProgressDialog()
-//
-//                        Toast.makeText(requireContext(), "download Successful", Toast.LENGTH_SHORT)
-//                            .show()
-//
-//                        val imageUrl = it.value.payload.downloadUri
-//
-//                        sessionManager.saveToSharedPref(IMAGE_URL, imageUrl)
-//
-//                        Glide.with(this)
-//                            .load(it.value.payload.downloadUri)
-//                            .into(binding.accountFragmentEditProfileIconImageView)
-//                    }
-//                    is Resource.Error -> {
-//                        progressDialog.hideProgressDialog()
-//                        Toast.makeText(requireContext(), "${it.errorBody}", Toast.LENGTH_SHORT)
-//                            .show()
-//                        handleApiError(it, imageRetrofit, requireView())
-//                    }
-//                    is Resource.Loading -> {
-//                        progressDialog.showDialogFragment(it.message)
-//                    }
-//                }
-//            }
-//        )
     }
 
     private fun String.checkForPermission(name: String, requestCode: Int) {
@@ -131,8 +113,8 @@ class AccountFragment : BaseFragment() {
                     requireContext(),
                     this
                 ) == PackageManager.PERMISSION_GRANTED -> {
-                    // call read contact function
-                    openImageChooser()
+//                    openImageChooser()
+//                    pickImages.launch("image/*")
                 }
                 shouldShowRequestPermissionRationale(this) -> showDialog(this, name, requestCode)
                 else -> ActivityCompat.requestPermissions(
@@ -157,7 +139,8 @@ class AccountFragment : BaseFragment() {
             } else {
                 Toast.makeText(requireContext(), "$name permission granted", Toast.LENGTH_SHORT)
                     .show()
-                openImageChooser()
+//                openImageChooser()
+//                pickImages.launch("image/*")
             }
         }
         when (requestCode) {
@@ -186,20 +169,20 @@ class AccountFragment : BaseFragment() {
     }
 
     /*Select Image*/
-    private fun openImageChooser() {
-        val intent = Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI)
-        startActivityForResult(intent, REQUEST_CODE_IMAGE_PICKER)
-    }
+//    private fun openImageChooser() {
+//        val intent = Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI)
+//        startActivityForResult(intent, REQUEST_CODE_IMAGE_PICKER)
+//    }
 
-    // function to attach the selected image to the image view
-    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-        super.onActivityResult(requestCode, resultCode, data)
-        if (resultCode == Activity.RESULT_OK && requestCode == REQUEST_CODE_IMAGE_PICKER) {
-            selectedImage = data?.data!!
-            uploadImageToServer(selectedImage!!)
-            // binding.accountFragmentEditProfileIconImageView.setImageURI(selectedImage)
-        }
-    }
+//    // function to attach the selected image to the image view
+//    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+//        super.onActivityResult(requestCode, resultCode, data)
+//        if (resultCode == Activity.RESULT_OK && requestCode == REQUEST_CODE_IMAGE_PICKER) {
+//            selectedImage = data?.data!!
+//            uploadImageToServer(selectedImage!!)
+//            // binding.accountFragmentEditProfileIconImageView.setImageURI(selectedImage)
+//        }
+//    }
 
 
     // function to get the name of the file

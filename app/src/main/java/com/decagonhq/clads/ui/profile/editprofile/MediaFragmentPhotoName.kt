@@ -89,67 +89,65 @@ class MediaFragmentPhotoName : BaseFragment() {
             if (imageName.isEmpty()) {
                 Toast.makeText(requireContext(), "Enter Image Name", Toast.LENGTH_SHORT).show()
             } else {
-                Log.d("THIS_URI", "${imageData.toUri()}")
-                uploadImageToServer(imageData.toUri())
-//                findNavController().previousBackStackEntry?.savedStateHandle?.set(IMAGE_KEY, bundle)
-//                findNavController().popBackStack()
+                findNavController().previousBackStackEntry?.savedStateHandle?.set(IMAGE_KEY, bundle)
+                findNavController().popBackStack()
             }
         }
     }
-
-    private fun uploadImageToServer(uri: Uri) {
-
-        val imageName = imageNamed.text.toString().trim()
-        //get the data under the Uri and open it in read format
-        val parcelFileDescriptor = requireActivity().contentResolver
-            .openFileDescriptor(uri, "r", null) ?: return
-
-        //use the contentResolver to get the actual file by uri
-        val file = File(requireActivity().cacheDir, getFileName(uri, requireActivity().contentResolver))
-        val inputStream = FileInputStream(parcelFileDescriptor.fileDescriptor)
-        val outputStream = FileOutputStream(file)
-        inputStream.copyTo(outputStream)
-
-
-        //create RequestBody instance from file
-        val convertedImageUriToBitmap = uriToBitmap(uri)
-        val bitmapToFile = saveBitmap(convertedImageUriToBitmap)
-
-        val imageBody = bitmapToFile?.asRequestBody("image/jpg".toMediaTypeOrNull())
-
-        //MultiPartBody.Part is used to send the actual file name
-        val image = MultipartBody.Part.createFormData("file", imageName, imageBody!!)
-
-
-
-            imageUploadViewModel.mediaImageUpload(image)
-
-
-        /*Handling the response from the retrofit*/
-        imageUploadViewModel.userProfileImage.observe(
-            viewLifecycleOwner,
-            Observer {
-                when (it) {
-                    is Resource.Success -> {
-                       progressDialog.hideProgressDialog()
-                        Toast.makeText(requireContext(), "Upload Successful", Toast.LENGTH_SHORT).show()
-                        val bundle =
-                            bundleOf(IMAGE_NAME_BUNDLE_KEY to imageName, IMAGE_DATA_BUNDLE_KEY to imageData)
-                        findNavController().previousBackStackEntry?.savedStateHandle?.set(IMAGE_KEY, bundle)
-                        findNavController().popBackStack()
-                    }
-                    is Resource.Error -> {
-                        progressDialog.hideProgressDialog()
-                        Toast.makeText(requireContext(), "${it.errorBody}", Toast.LENGTH_SHORT).show()
-                        handleApiError(it, imageRetrofit, requireView())
-                    }
-                    is Resource.Loading -> {
-                        progressDialog.showDialogFragment(it.message)
-                    }
-                }
-            }
-        )
-    }
+//
+//    private fun uploadImageToServer(uri: Uri) {
+//
+//        val imageName = imageNamed.text.toString().trim()
+//        //get the data under the Uri and open it in read format
+//        val parcelFileDescriptor = requireActivity().contentResolver
+//            .openFileDescriptor(uri, "r", null) ?: return
+//
+//        //use the contentResolver to get the actual file by uri
+//        val file = File(requireActivity().cacheDir, getFileName(uri, requireActivity().contentResolver))
+//        val inputStream = FileInputStream(parcelFileDescriptor.fileDescriptor)
+//        val outputStream = FileOutputStream(file)
+//        inputStream.copyTo(outputStream)
+//
+//
+//        //create RequestBody instance from file
+//        val convertedImageUriToBitmap = uriToBitmap(uri)
+//        val bitmapToFile = saveBitmap(convertedImageUriToBitmap)
+//
+//        val imageBody = bitmapToFile?.asRequestBody("image/jpg".toMediaTypeOrNull())
+//
+//        //MultiPartBody.Part is used to send the actual file name
+//        val image = MultipartBody.Part.createFormData("file", imageName, imageBody!!)
+//
+//
+//
+//            imageUploadViewModel.mediaImageUpload(image)
+//
+//
+//        /*Handling the response from the retrofit*/
+//        imageUploadViewModel.userProfileImage.observe(
+//            viewLifecycleOwner,
+//            Observer {
+//                when (it) {
+//                    is Resource.Success -> {
+//                       progressDialog.hideProgressDialog()
+//                        Toast.makeText(requireContext(), "Upload Successful", Toast.LENGTH_SHORT).show()
+//                        val bundle =
+//                            bundleOf(IMAGE_NAME_BUNDLE_KEY to imageName, IMAGE_DATA_BUNDLE_KEY to imageData)
+//                        findNavController().previousBackStackEntry?.savedStateHandle?.set(IMAGE_KEY, bundle)
+//                        findNavController().popBackStack()
+//                    }
+//                    is Resource.Error -> {
+//                        progressDialog.hideProgressDialog()
+//                        Toast.makeText(requireContext(), "${it.errorBody}", Toast.LENGTH_SHORT).show()
+//                        handleApiError(it, imageRetrofit, requireView())
+//                    }
+//                    is Resource.Loading -> {
+//                        progressDialog.showDialogFragment(it.message)
+//                    }
+//                }
+//            }
+//        )
+//    }
 
     // function to get the name of the file
     private fun getFileName(uri: Uri, contentResolver: ContentResolver): String {

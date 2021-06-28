@@ -12,7 +12,7 @@ import com.decagonhq.clads.databinding.MediaFragmentPhotoRecyclerViewItemBinding
 import com.decagonhq.clads.ui.profile.bottomnav.MediaFragmentDirections
 
 class PhotoGalleryRecyclerAdapter(
-    var photoArrayList: MutableList<UserProfileImage>
+    var photoArrayList: ArrayList<PhotoGalleryModel>
 ) : RecyclerView.Adapter<PhotoGalleryRecyclerAdapter.ViewHolder>() {
 
     inner class ViewHolder(val binding: MediaFragmentPhotoRecyclerViewItemBinding) :
@@ -56,14 +56,14 @@ class PhotoGalleryRecyclerAdapter(
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
 
         Glide.with(holder.binding.root.context)
-            .load(photoArrayList[position].downloadUri)
+            .load(photoArrayList[position].image)
             .into(holder.uploadedImage)
 
         holder.itemView.apply {
             with(holder) {
                 with(photoArrayList[position]) {
                     // uploadedImage.setImageDrawable()
-                    imageTitle.text = fileName
+                    imageTitle.text = imageName
                 }
             }
         }
@@ -71,11 +71,11 @@ class PhotoGalleryRecyclerAdapter(
         // listen for user click events
         holder.setItemClickListener(object : OnItemClickListener {
             override fun onItemClick(view: View, position: Int) {
-                val imageUri = photoArrayList[position].downloadUri.toString()
+                val imageUri = photoArrayList[position].image.toString()
 
                 // use actions to pass data from one fragment to the other
                 val action =
-                    MediaFragmentDirections.actionNavMediaToMediaFragmentRecyclerViewItemClicked2(imageUri)
+                    MediaFragmentDirections.actionNavMediaToPhotoGalleryEditImageFragment(imageUri)
                 view.findNavController().navigate(action)
             }
         })

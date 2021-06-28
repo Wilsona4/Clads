@@ -63,6 +63,7 @@ class DashboardActivity : AppCompatActivity() {
     private lateinit var imageUploadViewModel: ImageUploadViewModel
     lateinit var profileImage: ImageView
     private var selectedImage: Uri? = null
+
     @Inject
     lateinit var sessionManager: SessionManager
 
@@ -74,7 +75,7 @@ class DashboardActivity : AppCompatActivity() {
         setContentView(binding.root)
 
         setSupportActionBar(binding.appBarDashboard.dashboardActivityToolbar)
-         val imageUploadViewModel = ViewModelProvider(this).get(ImageUploadViewModel::class.java)
+        val imageUploadViewModel = ViewModelProvider(this).get(ImageUploadViewModel::class.java)
 
 
         /*Set Status bar Color*/
@@ -141,13 +142,13 @@ class DashboardActivity : AppCompatActivity() {
         }
         imageUploadViewModel.getUserImage()
         imageUploadViewModel.userProfileImage.observe(this, Observer {
-            if (it != null){
+            if (it != null) {
 
                 Glide.with(this)
                     .load(imageUrl)
                     .into(toolbarProfilePicture)
 
-            }else{
+            } else {
                 Toast.makeText(this, "NULLLL", Toast.LENGTH_SHORT).show()
             }
         })
@@ -165,9 +166,6 @@ class DashboardActivity : AppCompatActivity() {
     override fun onResume() {
         super.onResume()
         navController.addOnDestinationChangedListener(listener)
-
-            super.onResume()
-
     }
 
 
@@ -271,7 +269,7 @@ class DashboardActivity : AppCompatActivity() {
                         toolbarNotificationIcon.visibility = View.GONE
                         toolbarFragmentName.visibility = View.VISIBLE
                     }
-                    R.id.mediaFragmentRecyclerViewItemClicked -> {
+                    R.id.photoGalleryEditImageFragment -> {
                         bottomNavigationView.visibility = View.GONE
                         toolbarProfilePicture.visibility = View.GONE
                         toolbarUserName.visibility = View.GONE
