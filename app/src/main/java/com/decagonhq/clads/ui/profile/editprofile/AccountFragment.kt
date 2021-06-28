@@ -36,22 +36,6 @@ class AccountFragment : BaseFragment() {
 
     private val userProfileViewModel: UserProfileViewModel by viewModels()
 
-    private lateinit var profileImageView: CircleImageView
-    private lateinit var firstNameValueTextView: MaterialTextView
-    private lateinit var lastNameValueTextView: MaterialTextView
-    private lateinit var phoneNumberValueTextView: MaterialTextView
-    private lateinit var genderValueTextView: MaterialTextView
-    private lateinit var workAddressStateValueTextView: MaterialTextView
-    private lateinit var cityValueTextView: MaterialTextView
-    private lateinit var streetValueTextView: MaterialTextView
-    private lateinit var showRoomAddressValueTextView: MaterialTextView
-    private lateinit var numberOfEmployeeValueApprenticeTextView: MaterialTextView
-    private lateinit var legalStatusValueTextView: MaterialTextView
-    private lateinit var nameOfUnionValueTextView: MaterialTextView
-    private lateinit var wardValueTextView: MaterialTextView
-    private lateinit var localGovernmentAreaTextView: MaterialTextView
-    private lateinit var unionStateValueTextView: MaterialTextView
-
     // This property is only valid between onCreateView and onDestroyView.
     private val binding get() = _binding!!
     override fun onCreateView(
@@ -66,23 +50,6 @@ class AccountFragment : BaseFragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        /**/
-        profileImageView = binding.accountFragmentEditProfileIconImageView
-        firstNameValueTextView = binding.accountFragmentFirstNameValueTextView
-        lastNameValueTextView = binding.accountFragmentLastNameValueTextView
-        phoneNumberValueTextView = binding.accountFragmentPhoneNumberValueTextView
-        genderValueTextView = binding.accountFragmentGenderValueTextView
-        workAddressStateValueTextView = binding.accountFragmentStateValueTextView
-        cityValueTextView = binding.accountFragmentWorkshopAddressCityValueTextView
-        streetValueTextView = binding.accountFragmentWorkshopAddressStreetValueTextView
-        showRoomAddressValueTextView = binding.accountFragmentShowroomAddressValueTextView
-        numberOfEmployeeValueApprenticeTextView = binding.accountFragmentNumberOfEmployeeApprenticeValueTextView
-        legalStatusValueTextView = binding.accountFragmentLegalStatusValueTextView
-        nameOfUnionValueTextView = binding.accountFragmentNameOfUnionValueTextView
-        wardValueTextView = binding.accountFragmentWardValueTextView
-        localGovernmentAreaTextView = binding.accountFragmentLocalGovtAreaTextView
-        unionStateValueTextView = binding.accountFragmentStateValueTextView
-
         /*Dialog fragment functions*/
         accountFirstNameEditDialog()
         accountGenderSelectDialog()
@@ -118,19 +85,21 @@ class AccountFragment : BaseFragment() {
                     is Resource.Success -> {
                         val successResponse = it.value.payload
                         progressDialog.hideProgressDialog()
-                        firstNameValueTextView.text = successResponse.firstName
-                        lastNameValueTextView.text = successResponse.lastName
-                        phoneNumberValueTextView.text = successResponse.phoneNumber
-                        genderValueTextView.text = successResponse.gender
-//                        workAddressStateValueTextView.text = successResponse.workshopAddress.state
-//                        cityValueTextView.text = successResponse.workshopAddress.city
-//                        streetValueTextView.text = successResponse.workshopAddress.street
-//                        showRoomAddressValueTextView.text = successResponse.showroomAddress.state
-//                        nameOfUnionValueTextView.text = successResponse.union.name
-//                        wardValueTextView.text = successResponse.union.ward
-//                        localGovernmentAreaTextView.text = successResponse.union.lga
-//                        unionStateValueTextView.text = successResponse.union.state
 
+                        binding.apply {
+                            accountFragmentFirstNameValueTextView.text = successResponse.firstName
+                            accountFragmentLastNameValueTextView.text = successResponse.lastName
+                            accountFragmentPhoneNumberValueTextView.text = successResponse.phoneNumber
+                            accountFragmentGenderValueTextView.text = successResponse.gender
+//                            accountFragmentStateValueTextView.text = successResponse.workshopAddress.state
+//                            accountFragmentWorkshopAddressCityValueTextView.text = successResponse.workshopAddress.city
+//                            accountFragmentWorkshopAddressStreetValueTextView.text = successResponse.workshopAddress.street
+//                            accountFragmentShowroomAddressValueTextView.text = successResponse.showroomAddress.state
+//                            accountFragmentNameOfUnionValueTextView.text = successResponse.union.name
+//                            accountFragmentWardValueTextView.text = successResponse.union.ward
+//                            accountFragmentLocalGovtAreaTextView.text = successResponse.union.lga
+//                            accountFragmentStateValueTextView.text = successResponse.union.state
+                        }
 //                        Glide.with(requireContext())
 //                            .load(successResponse.thumbnail.toUri())
 //                            .into(binding.accountFragmentEditProfileIconImageView)
@@ -191,7 +160,7 @@ class AccountFragment : BaseFragment() {
         val builder = AlertDialog.Builder(requireContext())
         builder.apply {
             // setting alert properties
-            setMessage("Permission to access your $name is required to use this app")
+            setMessage(getString(R.string.permision_to_access) + name + getString(R.string.is_required_to_use_this_app))
             setTitle("Permission required")
             setPositiveButton("Ok") { _, _ ->
                 ActivityCompat.requestPermissions(
