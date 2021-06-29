@@ -14,30 +14,12 @@
         android:layout_alignParentTop="true"
         app:shapeAppearanceOverlay="@style/ShapeAppearanceOverlay.App.SelectedCornerRadius"
         android:scaleType="centerCrop"
-        android:src="@drawable/article_placeholder"
+        android:src="@drawable/description"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
-<!--    <androidx.cardview.widget.CardView-->
-<!--        android:id="@+id/resource_general_article_item_card_view"-->
-<!--        android:layout_width="wrap_content"-->
-<!--        android:layout_height="wrap_content"-->
-<!--        app:cardCornerRadius="@dimen/corner_radius_10dp"-->
-<!--        app:layout_constraintEnd_toEndOf="parent"-->
-<!--        app:layout_constraintStart_toStartOf="parent"-->
-<!--        app:layout_constraintTop_toTopOf="parent">-->
-<!--        <ImageView-->
-<!--            android:id="@+id/resource_general_article_item_card_image_view"-->
-<!--            android:layout_width="@dimen/margin_136dp"-->
-<!--            android:layout_height="@dimen/margin_200dp"-->
-<!--            android:layout_alignParentStart="true"-->
-<!--            android:layout_alignParentTop="true"-->
-<!--            android:scaleType="centerCrop"-->
-<!--            android:src="@drawable/article_placeholder"-->
-<!--            app:layout_constraintEnd_toEndOf="parent"-->
-<!--            app:layout_constraintStart_toStartOf="parent"-->
-<!--            app:layout_constraintTop_toTopOf="parent" />-->
-<!--    </androidx.cardview.widget.CardView>-->
+
+
 
     <TextView
         android:id="@+id/resource_general_article_item_title_text_view"

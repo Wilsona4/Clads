@@ -5,6 +5,7 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.AsyncListDiffer
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.Glide
 import com.decagonhq.clads.R
 import com.decagonhq.clads.data.domain.resource.ResourceGeneralArticleModel
 import com.decagonhq.clads.databinding.ResourceGeneralArticleViewAllItemBinding
@@ -67,7 +68,12 @@ class ViewAllArticleRvAdapter(private val interaction: Interaction? = null) :
             itemView.setOnClickListener {
                 interaction?.onItemSelected(adapterPosition, item)
             }
-            binding.resourceGeneralArticleItemCardImageView.setImageResource(R.drawable.article_placeholder)
+            Glide.with(binding.root.context)
+                .load(item.articleImages)
+                .error(R.drawable.description)
+                .into(binding.resourceGeneralArticleItemCardImageView)
+
+            // binding.resourceGeneralArticleItemCardImageView.setImageResource(R.drawable.article_placeholder)
             binding.resourceGeneralArticleItemAuthorTextView.text = item.articleAuthor
             binding.resourceGeneralArticleItemTitleTextView.text = item.articleTitle
         }

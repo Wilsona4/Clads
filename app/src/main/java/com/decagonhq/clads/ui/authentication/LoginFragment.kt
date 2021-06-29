@@ -157,7 +157,12 @@ class LoginFragment : Fragment() {
         }
 
         forgetPasswordButton.setOnClickListener {
-            findNavController().navigate(R.id.forgot_password_fragment)
+            // findNavController().navigate(R.id.forgot_password_fragment)
+
+            val intent =
+                Intent(requireContext(), DashboardActivity::class.java)
+            startActivity(intent)
+            activity?.finish()
         }
 
         /*implement the googleSignInClient method*/

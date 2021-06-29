@@ -14,7 +14,7 @@
         android:layout_alignParentTop="true"
         app:shapeAppearanceOverlay="@style/ShapeAppearanceOverlay.App.SelectedCornerRadius"
         android:scaleType="centerCrop"
-        android:src="@drawable/article_placeholder"
+        android:src="@drawable/description"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />

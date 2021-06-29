@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/mobile_navigation"
-    app:startDestination="@id/nav_home">
+    app:startDestination="@id/resourceGeneralFragment">
 
     <fragment
         android:id="@+id/nav_home"
@@ -48,6 +48,9 @@
         <action
             android:id="@+id/action_resourceGeneralFragment_to_individualVideoScreenFragment"
             app:destination="@id/individualVideoScreenFragment" />
+        <action
+            android:id="@+id/action_resourceGeneralFragment_to_resourceArticlesFragment2"
+            app:destination="@id/resourceArticlesFragment" />
     </fragment>
     <fragment
         android:id="@+id/subscriptionFragment"
