@@ -80,7 +80,7 @@ class GeneralVideoRvAdapter(private val interaction: Interaction? = null) :
             val mediaItem = MediaItem.fromUri(item.videoUrl)
             simplePlayer.addMediaItem(mediaItem)
             binding.resourceGeneralVideoItemTitleTextView.text = item.videoTitle
-            binding.resourceGeneralVideoItemCardImageView.setImageResource(R.drawable.video_thumbnail)
+            binding.resourceGeneralVideoItemCardImageView.setImageResource(item.videoThumbnail)
         }
     }
 
