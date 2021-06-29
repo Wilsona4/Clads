@@ -60,7 +60,7 @@ class MediaFragment : Fragment() {
                 noPhotoTextView.hideView()
                 binding.mediaFragmentPhotoRecyclerView.showView()
                 photoGalleryRecyclerAdapter.notifyDataSetChanged()
-            } 
+            }
         }
     }
     override fun onCreateView(
@@ -166,8 +166,6 @@ class MediaFragment : Fragment() {
                 )
         }
     }
-
-
 
     /* On request permission result grant user permission or show a permission denied message */
     override fun onRequestPermissionsResult(

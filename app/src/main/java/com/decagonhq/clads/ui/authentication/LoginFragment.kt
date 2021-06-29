@@ -29,7 +29,6 @@ import com.decagonhq.clads.ui.profile.DashboardActivity
 import com.decagonhq.clads.util.Constants.TOKEN
 import com.decagonhq.clads.util.CustomTypefaceSpan
 import com.decagonhq.clads.util.Resource
-import com.decagonhq.clads.util.SessionManager
 import com.decagonhq.clads.util.ValidationObject.validateEmail
 import com.decagonhq.clads.util.handleApiError
 import com.decagonhq.clads.viewmodels.AuthenticationViewModel
@@ -41,7 +40,6 @@ import com.google.android.gms.common.api.ApiException
 import com.google.android.gms.tasks.Task
 import com.google.android.material.textfield.TextInputEditText
 import dagger.hilt.android.AndroidEntryPoint
-import javax.inject.Inject
 
 @AndroidEntryPoint
 class LoginFragment : BaseFragment() {
@@ -61,8 +59,6 @@ class LoginFragment : BaseFragment() {
 
 //    @Inject
 //    lateinit var sessionManager: SessionManager
-
-
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -154,7 +150,12 @@ class LoginFragment : BaseFragment() {
         }
 
         forgetPasswordButton.setOnClickListener {
-            findNavController().navigate(R.id.forgot_password_fragment)
+            // findNavController().navigate(R.id.forgot_password_fragment)
+
+            val intent =
+                Intent(requireContext(), DashboardActivity::class.java)
+            startActivity(intent)
+            activity?.finish()
         }
 
         /*implement the googleSignInClient method*/
@@ -238,7 +239,6 @@ class LoginFragment : BaseFragment() {
                         }
                         is Resource.Error -> {
                             progressDialog.hideProgressDialog()
-
                         }
                         is Resource.Loading -> {
                         }

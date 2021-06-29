@@ -129,8 +129,8 @@ dependencies {
     implementation "com.github.bumptech.glide:glide:$versions.glide_version"
     annotationProcessor "com.github.bumptech.glide:compiler:$versions.glide_version"
 
+
     // Image crop
     api "com.theartofdev.edmodo:android-image-cropper:$versions.crop_image"
-
 
 }

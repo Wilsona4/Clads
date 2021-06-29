@@ -1,24 +1,20 @@
 package com.decagonhq.clads.ui.profile.editprofile
 
 import android.Manifest
-import android.content.ContentResolver
 import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.net.Uri
 import android.os.Build
 import android.os.Bundle
-import android.provider.OpenableColumns
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContract
-import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AlertDialog
 import androidx.core.app.ActivityCompat
-import androidx.core.content.ContentResolverCompat.query
 import androidx.core.content.ContextCompat
 import androidx.core.os.bundleOf
 import androidx.fragment.app.viewModels
@@ -30,11 +26,9 @@ import com.decagonhq.clads.ui.BaseFragment
 import com.decagonhq.clads.ui.profile.dialogfragment.ProfileManagementDialogFragments.Companion.createProfileDialogFragment
 import com.decagonhq.clads.util.Constants.IMAGE_URL
 import com.decagonhq.clads.util.Resource
-import com.decagonhq.clads.util.SessionManager
 import com.decagonhq.clads.util.handleApiError
 import com.decagonhq.clads.util.saveBitmap
 import com.decagonhq.clads.util.uriToBitmap
-import com.decagonhq.clads.viewmodels.AuthenticationViewModel
 import com.decagonhq.clads.viewmodels.ImageUploadViewModel
 import com.decagonhq.clads.viewmodels.UserProfileViewModel
 import com.google.android.material.textview.MaterialTextView
@@ -45,12 +39,7 @@ import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import okhttp3.MultipartBody
 import okhttp3.RequestBody.Companion.asRequestBody
 import timber.log.Timber
-import java.io.File
-import java.io.FileInputStream
-import java.io.FileOutputStream
 import java.lang.Exception
-import javax.inject.Inject
-
 
 @AndroidEntryPoint
 class AccountFragment : BaseFragment() {
@@ -124,7 +113,6 @@ class AccountFragment : BaseFragment() {
         accountWorkshopStateDialog()
         accountOtherNameEditDialog()
         accountlegalStatusdialog()
-
 
         cropActivityResultLauncher = registerForActivityResult(cropActivityResultContract) {
             it?.let { uri ->
@@ -252,13 +240,11 @@ class AccountFragment : BaseFragment() {
             var imageUri: Uri? = null
             try {
                 imageUri = CropImage.getActivityResult(intent).uri
-
             } catch (e: Exception) {
                 Timber.d(e.localizedMessage)
             }
             return imageUri
         }
-
     }
 
     private fun uploadImageToServer(uri: Uri) {
@@ -314,7 +300,6 @@ class AccountFragment : BaseFragment() {
             .load(imageUrl)
             .placeholder(R.drawable.nav_drawer_profile_avatar)
             .into(binding.accountFragmentEditProfileIconImageView)
-
     }
 
     private fun accountlegalStatusdialog() {
@@ -676,7 +661,6 @@ class AccountFragment : BaseFragment() {
         _binding = null
     }
 
-
     companion object {
         const val ACCOUNT_EMPLOYEE_REQUEST_KEY = "ACCOUNT EMPLOYEE REQUEST KEY"
         const val ACCOUNT_EMPLOYEE_BUNDLE_KEY = "ACCOUNT EMPLOYEE BUNDLE KEY"
@@ -744,6 +728,3 @@ class AccountFragment : BaseFragment() {
         const val REQUEST_CODE_IMAGE_PICKER = 100
     }
 }
-
-
-
