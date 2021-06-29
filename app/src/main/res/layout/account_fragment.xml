@@ -114,14 +114,14 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/margin_24dp"
             android:fontFamily="@font/poppins"
-            android:text="@string/other_name"
+            android:text="@string/phone_number"
             android:textColor="@color/navy_blue"
             android:textSize="@dimen/text_size_12sp"
-            app:layout_constraintBaseline_toBaselineOf="@+id/account_fragment_other_name_value_text_view"
+            app:layout_constraintBaseline_toBaselineOf="@+id/account_fragment_phone_number_value_text_view"
             app:layout_constraintStart_toStartOf="parent" />
 
         <com.google.android.material.textview.MaterialTextView
-            android:id="@+id/account_fragment_other_name_value_text_view"
+            android:id="@+id/account_fragment_phone_number_value_text_view"
             android:layout_width="@dimen/margin_0dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/margin_30dp"
@@ -165,7 +165,7 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="1.0"
             app:layout_constraintStart_toStartOf="@+id/account_fragment_guideline"
-            app:layout_constraintTop_toBottomOf="@+id/account_fragment_other_name_value_text_view" />
+            app:layout_constraintTop_toBottomOf="@+id/account_fragment_phone_number_value_text_view" />
 
         <com.google.android.material.textview.MaterialTextView
             android:id="@+id/account_fragment_workshop_address_text_view"

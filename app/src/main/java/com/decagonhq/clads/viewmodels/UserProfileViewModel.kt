@@ -21,6 +21,10 @@ class UserProfileViewModel @Inject constructor(
     private var _userProfile = MutableLiveData<Resource<GenericResponseClass<UserProfile>>>()
     val userProfile: LiveData<Resource<GenericResponseClass<UserProfile>>> get() = _userProfile
 
+    init {
+        getUserProfile()
+    }
+
     fun getUserProfile() {
         viewModelScope.launch {
             _userProfile.value = Resource.Loading("Loading...")

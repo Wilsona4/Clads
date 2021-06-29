@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.core.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/resources_fragment_root_layout"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:fillViewport="true"
+    tools:context=".ui.resource.ResourceGeneralFragment">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:paddingStart="@dimen/padding_20dp">
+
+        <TextView
+            android:id="@+id/resources_general_fragment_video_text_view"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/margin_34dp"
+            android:fontFamily="@font/poppins_medium"
+            android:text="@string/videos"
+            android:textColor="@color/black"
+            app:layout_constraintBottom_toTopOf="@id/resources_general_fragment_videos_recycler_view"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/resources_general_fragment_videos_recycler_view"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/margin_20dp"
+            android:orientation="horizontal"
+            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/resources_general_fragment_video_text_view"
+            tools:listitem="@layout/resource_general_video_item" />
+
+        <TextView
+            android:id="@+id/resources_general_view_all_video_text_view"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginVertical="@dimen/margin_20dp"
+            android:fontFamily="@font/poppins"
+            android:text="@string/view_all"
+            android:textColor="@color/deep_sky_blue"
+            app:layout_constraintEnd_toEndOf="@+id/resources_general_fragment_videos_recycler_view"
+            app:layout_constraintHorizontal_bias="0.000"
+            app:layout_constraintStart_toStartOf="@+id/resources_general_fragment_videos_recycler_view"
+            app:layout_constraintTop_toBottomOf="@+id/resources_general_fragment_videos_recycler_view" />
+
+        <TextView
+            android:id="@+id/resources_general_fragment_article_publication_text_view"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/margin_34dp"
+            android:fontFamily="@font/poppins_medium"
+            android:text="@string/article_publications"
+            android:textColor="@color/black"
+            app:layout_constraintBottom_toTopOf="@id/resources_general_fragment_image_article_publication_recycler_view"
+            app:layout_constraintStart_toStartOf="@+id/resources_general_view_all_video_text_view"
+            app:layout_constraintTop_toBottomOf="@+id/resources_general_view_all_video_text_view" />
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/resources_general_fragment_image_article_publication_recycler_view"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/margin_20dp"
+            tools:listitem="@layout/resource_general_article_item"
+            android:orientation="horizontal"
+            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="@+id/resources_general_fragment_article_publication_text_view"
+            app:layout_constraintTop_toBottomOf="@id/resources_general_fragment_article_publication_text_view" />
+
+        <TextView
+            android:id="@+id/resources_general_view_all_article_publication_text_view"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/margin_34dp"
+            android:fontFamily="@font/poppins"
+            android:text="@string/view_all"
+            android:textColor="@color/deep_sky_blue"
+            app:layout_constraintEnd_toEndOf="@+id/resources_general_fragment_image_article_publication_recycler_view"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="@+id/resources_general_fragment_image_article_publication_recycler_view"
+            app:layout_constraintTop_toBottomOf="@+id/resources_general_fragment_image_article_publication_recycler_view" />
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</androidx.core.widget.NestedScrollView>

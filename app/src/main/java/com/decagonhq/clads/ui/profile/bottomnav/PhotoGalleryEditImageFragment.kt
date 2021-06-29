@@ -29,8 +29,8 @@ class PhotoGalleryEditImageFragment : Fragment() {
     // This property is only valid between onCreateView and onDestroyView.
     private val binding get() = _binding!!
     private lateinit var photoIV: Uri
+    private lateinit var imageName: String
     private val args: PhotoGalleryEditImageFragmentArgs by navArgs()
-    private val imageUploadViewModel: ImageUploadViewModel by viewModels()
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -49,6 +49,7 @@ class PhotoGalleryEditImageFragment : Fragment() {
 
         val photoImageView = binding.mediaFragmentRecyclerViewPhotoImageView
         photoIV = args.imageUri.toUri()
+        imageName = args.imageName
 
         DataListener.imageListener.value = false
 
@@ -83,8 +84,9 @@ class PhotoGalleryEditImageFragment : Fragment() {
         startActivity(Intent.createChooser(shareIntent, getString(R.string.send_to)))
     }
 
+    //delete photo
     private fun deletePhoto() {
-        val photoGalleryModel = PhotoGalleryModel(photoIV, TEMP_LABEL)
+        val photoGalleryModel = PhotoGalleryModel(photoIV, imageName )
         photosProvidersList.remove(photoGalleryModel)
     }
 

@@ -16,7 +16,6 @@ import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.core.net.toUri
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.viewModels
 import androidx.lifecycle.observe
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
@@ -33,7 +32,6 @@ import com.decagonhq.clads.util.REQUEST_CODE
 import com.decagonhq.clads.util.hideView
 import com.decagonhq.clads.util.photosProvidersList
 import com.decagonhq.clads.util.showView
-import com.decagonhq.clads.viewmodels.ImageUploadViewModel
 
 class MediaFragment : Fragment() {
 
@@ -45,8 +43,6 @@ class MediaFragment : Fragment() {
     private lateinit var noPhotoImageView: ImageView
     private lateinit var noPhotoTextView: TextView
     private lateinit var photoGalleryModel: PhotoGalleryModel
-    private lateinit var imageUri: Uri
-    private val imageUploadViewModel: ImageUploadViewModel by viewModels()
 
     private val pickImages = registerForActivityResult(ActivityResultContracts.GetContent()) { uri: Uri? ->
         uri?.let { it ->
@@ -132,7 +128,6 @@ class MediaFragment : Fragment() {
         /*add onclick listener to the fab to ask for permission and open gallery intent*/
         binding.mediaFragmentAddPhotoFab.setOnClickListener {
             if (checkPermission()) {
-//                uploadImageFromGallery()
                 pickImages.launch("image/*")
             } else {
                 requestPermission(
@@ -172,46 +167,7 @@ class MediaFragment : Fragment() {
         }
     }
 
-//    var uploadImageFromGallery = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
-//        if (result.resultCode == Activity.RESULT_OK) {
-//            val data: Intent? = result.data
-//            // your operation...
-//            val imageData = data.toString()
-//            val action = MediaFragmentDirections.actionNavMediaToMediaFragmentPhotoName(imageData)
-//            findNavController().navigate(action)
-//        }
-//    }
 
-//    /*intent to get image from gallery*/
-//    private fun uploadImageFromGallery() {
-//        val intent = Intent(Intent.ACTION_PICK)
-//        intent.type = "image/*"
-//        startActivityForResult(intent, REQUEST_CODE)
-//    }
-//
-//    // function to attach the selected image to the image view
-//    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-//        super.onActivityResult(requestCode, resultCode, data)
-//        if (resultCode == RESULT_OK && requestCode == REQUEST_CODE) {
-//
-//            /*get image from gallery and send to a fragment for naming*/
-//            imageUri = data?.data!!
-//            val imageData = imageUri.toString()
-//            val action = MediaFragmentDirections.actionNavMediaToMediaFragmentPhotoName(imageData)
-//            findNavController().navigate(action)
-//
-//            if (photosProvidersList.isEmpty()) {
-//                noPhotoImageView.showView()
-//                noPhotoTextView.showView()
-//                binding.mediaFragmentPhotoRecyclerView.hideView()
-//            } else {
-//                noPhotoImageView.hideView()
-//                noPhotoTextView.hideView()
-//                binding.mediaFragmentPhotoRecyclerView.showView()
-//                photoGalleryRecyclerAdapter.notifyDataSetChanged()
-//            }
-//        }
-//    }
 
     /* On request permission result grant user permission or show a permission denied message */
     override fun onRequestPermissionsResult(
@@ -224,7 +180,6 @@ class MediaFragment : Fragment() {
                 if ((grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED) &&
                     grantResults[1] == PackageManager.PERMISSION_GRANTED
                 ) {
-                    // uploadImageFromGallery()
                     pickImages.launch("image/*")
                 } else {
                     Toast.makeText(requireContext(), PERMISSION_DENIED, Toast.LENGTH_SHORT).show()

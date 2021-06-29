@@ -35,7 +35,6 @@ class AuthenticationViewModel @Inject constructor(
     val loginUserWithGoogle: LiveData<Resource<GenericResponseClass<String>>> get() = _loginUserWithGoogle
 
     fun registerUser(user: UserRegistration) {
-
         viewModelScope.launch {
             _userRegData.value = Resource.Loading("Signing Up...")
             val response = authRepository.registerUser(user)

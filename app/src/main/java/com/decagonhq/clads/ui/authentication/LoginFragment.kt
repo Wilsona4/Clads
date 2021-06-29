@@ -15,7 +15,6 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
 import android.widget.TextView
-import android.widget.Toast
 import androidx.core.content.res.ResourcesCompat
 import androidx.core.widget.doOnTextChanged
 import androidx.fragment.app.viewModels
@@ -60,8 +59,10 @@ class LoginFragment : BaseFragment() {
 
     private val viewModel: AuthenticationViewModel by viewModels()
 
-    @Inject
-    lateinit var sessionManager: SessionManager
+//    @Inject
+//    lateinit var sessionManager: SessionManager
+
+
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -90,8 +91,8 @@ class LoginFragment : BaseFragment() {
 
         // On login button pressed
         binding.loginFragmentLogInButton.setOnClickListener {
-            val emailAddress = emailEditText.text.toString()
-            val password = passwordEditText.text.toString()
+            val emailAddress = emailEditText.text.toString().trim()
+            val password = passwordEditText.text.toString().trim()
 
             when {
                 // Check if email is empty
@@ -115,10 +116,7 @@ class LoginFragment : BaseFragment() {
                 }
                 else -> {
 
-                    val loginCredentials = LoginCredentials(
-                        emailEditText.text.toString(),
-                        passwordEditText.text.toString()
-                    )
+                    val loginCredentials = LoginCredentials(emailAddress, password)
 
                     /*Handling response from the retrofit*/
                     viewModel.loginUser(loginCredentials)
@@ -132,6 +130,12 @@ class LoginFragment : BaseFragment() {
                                 is Resource.Success -> {
                                     val successResponse = it.value.payload
                                     sessionManager.saveToSharedPref(TOKEN, successResponse)
+                                    sessionManager.saveToSharedPref(
+                                        getString(R.string.login_status),
+                                        getString(
+                                            R.string.log_in
+                                        )
+                                    )
                                     progressDialog.hideProgressDialog()
                                     val intent =
                                         Intent(requireContext(), DashboardActivity::class.java)
@@ -225,25 +229,18 @@ class LoginFragment : BaseFragment() {
                         is Resource.Success -> {
                             val successResponse = it.value.payload
                             sessionManager.saveToSharedPref(TOKEN, successResponse)
+
                             progressDialog.hideProgressDialog()
                             val intent = Intent(requireContext(), DashboardActivity::class.java)
+
                             startActivity(intent)
                             activity?.finish()
                         }
                         is Resource.Error -> {
                             progressDialog.hideProgressDialog()
-                            Toast.makeText(
-                                requireContext(),
-                                "Error: $it",
-                                Toast.LENGTH_SHORT
-                            ).show()
+
                         }
                         is Resource.Loading -> {
-                            Toast.makeText(
-                                requireContext(),
-                                "Loading",
-                                Toast.LENGTH_SHORT
-                            ).show()
                         }
                     }
                 }
@@ -295,33 +292,15 @@ class LoginFragment : BaseFragment() {
     private fun newUserSignUpForFreeSpannable() {
         val message = getString(R.string.new_user_sign_up_for_free)
         val spannable = SpannableStringBuilder(message)
-        val myTypeface = Typeface.create(
-            ResourcesCompat.getFont(requireContext(), R.font.poppins_bold),
-            Typeface.BOLD
-        )
-        spannable.setSpan(
-            CustomTypefaceSpan(myTypeface),
-            10,
-            message.length,
-            Spannable.SPAN_INCLUSIVE_INCLUSIVE
-        )
+        val myTypeface = Typeface.create(ResourcesCompat.getFont(requireContext(), R.font.poppins_bold), Typeface.BOLD)
+        spannable.setSpan(CustomTypefaceSpan(myTypeface), 10, message.length, Spannable.SPAN_INCLUSIVE_INCLUSIVE)
         val clickableSignUpForFree = object : ClickableSpan() {
             override fun onClick(widget: View) {
                 findNavController().navigate(R.id.email_sign_up_fragment)
             }
         }
-        spannable.setSpan(
-            clickableSignUpForFree,
-            10,
-            message.length,
-            Spanned.SPAN_INCLUSIVE_INCLUSIVE
-        )
-        spannable.setSpan(
-            ForegroundColorSpan(Color.WHITE),
-            10,
-            message.length,
-            Spannable.SPAN_INCLUSIVE_INCLUSIVE
-        )
+        spannable.setSpan(clickableSignUpForFree, 10, message.length, Spanned.SPAN_INCLUSIVE_INCLUSIVE)
+        spannable.setSpan(ForegroundColorSpan(Color.WHITE), 10, message.length, Spannable.SPAN_INCLUSIVE_INCLUSIVE)
         newUserSignUpForFree.text = spannable
         newUserSignUpForFree.movementMethod = LinkMovementMethod.getInstance()
     }

@@ -29,6 +29,7 @@ import androidx.navigation.ui.setupWithNavController
 import com.bumptech.glide.Glide
 import com.decagonhq.clads.R
 import com.decagonhq.clads.databinding.DashboardActivityBinding
+import com.decagonhq.clads.ui.authentication.MainActivity
 import com.decagonhq.clads.ui.profile.bottomnav.MessagesFragment
 import com.decagonhq.clads.util.Constants
 import com.decagonhq.clads.util.SessionManager
@@ -56,6 +57,8 @@ class DashboardActivity : AppCompatActivity() {
     private lateinit var imageUploadViewModel: ImageUploadViewModel
     lateinit var profileImage: ImageView
     private var selectedImage: Uri? = null
+    private lateinit var navigationView: NavigationView
+
 
     @Inject
     lateinit var sessionManager: SessionManager
@@ -89,9 +92,9 @@ class DashboardActivity : AppCompatActivity() {
         toolbarProfilePicture = binding.appBarDashboard.dashboardActivityToolbarProfileImageView
         toolbarUserName = binding.appBarDashboard.dashboardActivityToolbarHiIjeomaTextView
         toolbarFragmentName = binding.appBarDashboard.dashboardActivityToolbarFragmentNameTextView
-
         bottomNavigationView =
             binding.appBarDashboard.contentDashboard.dashboardActivityBottomNavigationView
+        navigationView = binding.navView
 
         navController = findNavController(R.id.nav_host_fragment_content_dashboard)
         // Passing each menu ID as a set of Ids because each
@@ -130,6 +133,7 @@ class DashboardActivity : AppCompatActivity() {
             toolbarUserName.visibility = View.INVISIBLE
             toolbarNotificationIcon.visibility = View.GONE
         }
+
         imageUploadViewModel.getUserImage()
         imageUploadViewModel.userProfileImage.observe(
             this,
@@ -144,6 +148,40 @@ class DashboardActivity : AppCompatActivity() {
                 }
             }
         )
+
+        navigationView.setNavigationItemSelectedListener { it ->
+            when (it.itemId) {
+                R.id.clientFragment -> {
+                    findNavController(R.id.nav_host_fragment_content_dashboard).navigate(R.id.clientFragment)
+                    drawerLayout.closeDrawer(GravityCompat.START)
+                    return@setNavigationItemSelectedListener true
+                }
+                R.id.resourceGeneralFragment -> {
+                    findNavController(R.id.nav_host_fragment_content_dashboard).navigate(R.id.resourceGeneralFragment)
+                    drawerLayout.closeDrawer(GravityCompat.START)
+                    return@setNavigationItemSelectedListener true
+                }
+                R.id.subscriptionFragment -> {
+                    findNavController(R.id.nav_host_fragment_content_dashboard).navigate(R.id.subscriptionFragment)
+                    drawerLayout.closeDrawer(GravityCompat.START)
+                    return@setNavigationItemSelectedListener true
+                }
+                R.id.logout -> {
+
+                    Intent(this, MainActivity::class.java).also {
+                        sessionManager.clearSharedPref()
+                        sessionManager.saveToSharedPref(
+                            getString(R.string.login_status),
+                            getString(R.string.log_out)
+                        )
+                        startActivity(it)
+                        finish()
+                    }
+                    return@setNavigationItemSelectedListener true
+                }
+                else -> return@setNavigationItemSelectedListener true
+            }
+        }
     }
 
     /*CLose Nav Drawer if open, on back press*/
@@ -218,6 +256,13 @@ class DashboardActivity : AppCompatActivity() {
             NavController.OnDestinationChangedListener { controller, destination, arguments ->
                 toolbarFragmentName.text = destination.label ?: getString(R.string.app_name)
                 when (destination.id) {
+                    R.id.nav_home -> {
+                        bottomNavigationView.visibility = View.VISIBLE
+                        toolbarProfilePicture.visibility = View.VISIBLE
+                        toolbarUserName.visibility = View.VISIBLE
+                        toolbarNotificationIcon.visibility = View.VISIBLE
+                        toolbarFragmentName.visibility = View.GONE
+                    }
                     R.id.editProfileFragment -> {
                         bottomNavigationView.visibility = View.GONE
                         toolbarProfilePicture.visibility = View.INVISIBLE
@@ -239,13 +284,6 @@ class DashboardActivity : AppCompatActivity() {
                         toolbarNotificationIcon.visibility = View.GONE
                         toolbarFragmentName.visibility = View.VISIBLE
                     }
-//                    R.id.addMeasurementFragment -> {
-//                        bottomNavigationView.visibility = View.GONE
-//                        toolbarProfilePicture.visibility = View.INVISIBLE
-//                        toolbarUserName.visibility = View.INVISIBLE
-//                        toolbarNotificationIcon.visibility = View.GONE
-//                        toolbarFragmentName.visibility = View.VISIBLE
-//                    }
                     R.id.nav_messages -> {
                         bottomNavigationView.visibility = View.VISIBLE
                         toolbarProfilePicture.visibility = View.INVISIBLE
@@ -256,7 +294,7 @@ class DashboardActivity : AppCompatActivity() {
                     R.id.nav_media -> {
                         bottomNavigationView.visibility = View.VISIBLE
                         toolbarProfilePicture.visibility = View.GONE
-                        toolbarUserName.visibility = View.GONE
+                        toolbarUserName.visibility = View.INVISIBLE
                         toolbarNotificationIcon.visibility = View.GONE
                         toolbarFragmentName.visibility = View.VISIBLE
                     }
@@ -276,10 +314,10 @@ class DashboardActivity : AppCompatActivity() {
                     }
                     else -> {
                         bottomNavigationView.visibility = View.VISIBLE
-                        toolbarProfilePicture.visibility = View.VISIBLE
-                        toolbarUserName.visibility = View.VISIBLE
-                        toolbarNotificationIcon.visibility = View.VISIBLE
-                        toolbarFragmentName.visibility = View.GONE
+                        toolbarProfilePicture.visibility = View.INVISIBLE
+                        toolbarUserName.visibility = View.INVISIBLE
+                        toolbarNotificationIcon.visibility = View.GONE
+                        toolbarFragmentName.visibility = View.VISIBLE
                     }
                 }
             }

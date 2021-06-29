@@ -71,10 +71,11 @@ class PhotoGalleryRecyclerAdapter(
         holder.setItemClickListener(object : OnItemClickListener {
             override fun onItemClick(view: View, position: Int) {
                 val imageUri = photoArrayList[position].image.toString()
+                val imageName = photoArrayList[position].imageName.toString()
 
                 // use actions to pass data from one fragment to the other
                 val action =
-                    MediaFragmentDirections.actionNavMediaToPhotoGalleryEditImageFragment(imageUri)
+                    MediaFragmentDirections.actionNavMediaToPhotoGalleryEditImageFragment(imageUri, imageName)
                 view.findNavController().navigate(action)
             }
         })

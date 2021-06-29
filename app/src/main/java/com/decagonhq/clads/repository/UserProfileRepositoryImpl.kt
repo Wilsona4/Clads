@@ -19,10 +19,6 @@ class UserProfileRepositoryImpl(
 
     override suspend fun getUserProfile(): Flow<Resource<GenericResponseClass<UserProfile>>> =
         flow {
-            val response = safeApiCall {
-                val response = apiService.getUserProfile()
-                userProfileDao.addUserProfile(userProfileEntityMapper.mapFromDomainModel(response.payload))
-            }
             emit(
                 safeApiCall {
                     apiService.getUserProfile()
@@ -34,7 +30,7 @@ class UserProfileRepositoryImpl(
         flow {
             emit(
                 safeApiCall {
-                    apiService.getUserProfile()
+                    apiService.updateUserProfile(userProfileDTOMapper.mapFromDomainModel(userProfile))
                 }
             )
         }

@@ -2,6 +2,8 @@ package com.decagonhq.clads.ui.profile.editprofile
 
 import android.Manifest
 import android.content.ContentResolver
+import android.content.Context
+import android.content.Intent
 import android.content.pm.PackageManager
 import android.net.Uri
 import android.os.Build
@@ -11,6 +13,8 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.activity.result.ActivityResultLauncher
+import androidx.activity.result.contract.ActivityResultContract
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AlertDialog
 import androidx.core.app.ActivityCompat
@@ -32,26 +36,45 @@ import com.decagonhq.clads.util.saveBitmap
 import com.decagonhq.clads.util.uriToBitmap
 import com.decagonhq.clads.viewmodels.AuthenticationViewModel
 import com.decagonhq.clads.viewmodels.ImageUploadViewModel
+import com.decagonhq.clads.viewmodels.UserProfileViewModel
+import com.google.android.material.textview.MaterialTextView
+import com.theartofdev.edmodo.cropper.CropImage
 import dagger.hilt.android.AndroidEntryPoint
+import de.hdodenhof.circleimageview.CircleImageView
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import okhttp3.MultipartBody
 import okhttp3.RequestBody.Companion.asRequestBody
+import timber.log.Timber
 import java.io.File
 import java.io.FileInputStream
 import java.io.FileOutputStream
+import java.lang.Exception
 import javax.inject.Inject
+
 
 @AndroidEntryPoint
 class AccountFragment : BaseFragment() {
     private var _binding: AccountFragmentBinding? = null
-    private var selectedImage: Uri? = null
-
-    @Inject
-    lateinit var sessionManager: SessionManager
-
-    val authenticationViewModel: AuthenticationViewModel by viewModels()
 
     private val imageUploadViewModel: ImageUploadViewModel by viewModels()
+    private val userProfileViewModel: UserProfileViewModel by viewModels()
+
+    private lateinit var profileImageView: CircleImageView
+    private lateinit var firstNameValueTextView: MaterialTextView
+    private lateinit var lastNameValueTextView: MaterialTextView
+    private lateinit var phoneNumberValueTextView: MaterialTextView
+    private lateinit var genderValueTextView: MaterialTextView
+    private lateinit var workAddressStateValueTextView: MaterialTextView
+    private lateinit var cityValueTextView: MaterialTextView
+    private lateinit var streetValueTextView: MaterialTextView
+    private lateinit var showRoomAddressValueTextView: MaterialTextView
+    private lateinit var numberOfEmployeeValueApprenticeTextView: MaterialTextView
+    private lateinit var legalStatusValueTextView: MaterialTextView
+    private lateinit var nameOfUnionValueTextView: MaterialTextView
+    private lateinit var wardValueTextView: MaterialTextView
+    private lateinit var localGovernmentAreaTextView: MaterialTextView
+    private lateinit var unionStateValueTextView: MaterialTextView
+    private lateinit var cropActivityResultLauncher: ActivityResultLauncher<Any?>
 
     // This property is only valid between onCreateView and onDestroyView.
     private val binding get() = _binding!!
@@ -68,6 +91,24 @@ class AccountFragment : BaseFragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        /**/
+        profileImageView = binding.accountFragmentEditProfileIconImageView
+        firstNameValueTextView = binding.accountFragmentFirstNameValueTextView
+        lastNameValueTextView = binding.accountFragmentLastNameValueTextView
+        phoneNumberValueTextView = binding.accountFragmentPhoneNumberValueTextView
+        genderValueTextView = binding.accountFragmentGenderValueTextView
+        workAddressStateValueTextView = binding.accountFragmentStateValueTextView
+        cityValueTextView = binding.accountFragmentWorkshopAddressCityValueTextView
+        streetValueTextView = binding.accountFragmentWorkshopAddressStreetValueTextView
+        showRoomAddressValueTextView = binding.accountFragmentShowroomAddressValueTextView
+        numberOfEmployeeValueApprenticeTextView =
+            binding.accountFragmentNumberOfEmployeeApprenticeValueTextView
+        legalStatusValueTextView = binding.accountFragmentLegalStatusValueTextView
+        nameOfUnionValueTextView = binding.accountFragmentNameOfUnionValueTextView
+        wardValueTextView = binding.accountFragmentWardValueTextView
+        localGovernmentAreaTextView = binding.accountFragmentLocalGovtAreaTextView
+        unionStateValueTextView = binding.accountFragmentStateValueTextView
+
         /*Dialog fragment functions*/
         accountFirstNameEditDialog()
         accountGenderSelectDialog()
@@ -84,19 +125,57 @@ class AccountFragment : BaseFragment() {
         accountOtherNameEditDialog()
         accountlegalStatusdialog()
 
-        val pickImages =
-            registerForActivityResult(ActivityResultContracts.GetContent()) { uri: Uri? ->
-                uri?.let { it ->
 
-                    uploadImageToServer(uri)
-                }
+        cropActivityResultLauncher = registerForActivityResult(cropActivityResultContract) {
+            it?.let { uri ->
+                binding.accountFragmentEditProfileIconImageView.imageAlpha = 140
+                uploadImageToServer(uri)
             }
+        }
 
         /*Select profile image*/
         binding.accountFragmentChangePictureTextView.setOnClickListener {
             Manifest.permission.READ_EXTERNAL_STORAGE.checkForPermission(NAME, READ_IMAGE_STORAGE)
-            pickImages.launch("image/*")
         }
+
+        /*Get users profile*/
+        getUserProfile()
+    }
+
+    private fun getUserProfile() {
+        userProfileViewModel.userProfile.observe(
+            viewLifecycleOwner,
+            Observer {
+                when (it) {
+                    is Resource.Loading -> {
+                    }
+                    is Resource.Success -> {
+                        val successResponse = it.value.payload
+                        progressDialog.hideProgressDialog()
+                        firstNameValueTextView.text = successResponse.firstName
+                        lastNameValueTextView.text = successResponse.lastName
+                        phoneNumberValueTextView.text = successResponse.phoneNumber
+                        genderValueTextView.text = successResponse.gender
+//                        workAddressStateValueTextView.text = successResponse.workshopAddress.state
+//                        cityValueTextView.text = successResponse.workshopAddress.city
+//                        streetValueTextView.text = successResponse.workshopAddress.street
+//                        showRoomAddressValueTextView.text = successResponse.showroomAddress.state
+//                        nameOfUnionValueTextView.text = successResponse.union.name
+//                        wardValueTextView.text = successResponse.union.ward
+//                        localGovernmentAreaTextView.text = successResponse.union.lga
+//                        unionStateValueTextView.text = successResponse.union.state
+
+//                        Glide.with(requireContext())
+//                            .load(successResponse.thumbnail.toUri())
+//                            .into(binding.accountFragmentEditProfileIconImageView)
+                    }
+                    is Resource.Error -> {
+                        progressDialog.hideProgressDialog()
+                        handleApiError(it, mainRetrofit, requireView())
+                    }
+                }
+            }
+        )
     }
 
     private fun String.checkForPermission(name: String, requestCode: Int) {
@@ -106,8 +185,8 @@ class AccountFragment : BaseFragment() {
                     requireContext(),
                     this
                 ) == PackageManager.PERMISSION_GRANTED -> {
-//                    openImageChooser()
-//                    pickImages.launch("image/*")
+
+                    cropActivityResultLauncher.launch(null)
                 }
                 shouldShowRequestPermissionRationale(this) -> showDialog(this, name, requestCode)
                 else -> ActivityCompat.requestPermissions(
@@ -132,8 +211,7 @@ class AccountFragment : BaseFragment() {
             } else {
                 Toast.makeText(requireContext(), "$name permission granted", Toast.LENGTH_SHORT)
                     .show()
-//                openImageChooser()
-//                pickImages.launch("image/*")
+                cropActivityResultLauncher.launch(null)
             }
         }
         when (requestCode) {
@@ -161,52 +239,35 @@ class AccountFragment : BaseFragment() {
         dialog.show()
     }
 
-    /*Select Image*/
-//    private fun openImageChooser() {
-//        val intent = Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI)
-//        startActivityForResult(intent, REQUEST_CODE_IMAGE_PICKER)
-//    }
-
-//    // function to attach the selected image to the image view
-//    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-//        super.onActivityResult(requestCode, resultCode, data)
-//        if (resultCode == Activity.RESULT_OK && requestCode == REQUEST_CODE_IMAGE_PICKER) {
-//            selectedImage = data?.data!!
-//            uploadImageToServer(selectedImage!!)
-//            // binding.accountFragmentEditProfileIconImageView.setImageURI(selectedImage)
-//        }
-//    }
-
-    // function to get the name of the file
-    private fun getFileName(uri: Uri, contentResolver: ContentResolver): String {
-        var name = "TO BE REMOVED STRING"
-        val cursor = query(contentResolver, uri, null, null, null, null, null)
-        cursor?.use {
-            it.moveToFirst()
-            name = cursor.getString(it.getColumnIndex(OpenableColumns.DISPLAY_NAME))
+    /*function to crop picture*/
+    private val cropActivityResultContract = object : ActivityResultContract<Any?, Uri>() {
+        override fun createIntent(context: Context, input: Any?): Intent {
+            return CropImage.activity()
+                .setCropMenuCropButtonTitle("Done")
+                .setAspectRatio(1, 1)
+                .getIntent(context)
         }
-        return name
+
+        override fun parseResult(resultCode: Int, intent: Intent?): Uri? {
+            var imageUri: Uri? = null
+            try {
+                imageUri = CropImage.getActivityResult(intent).uri
+
+            } catch (e: Exception) {
+                Timber.d(e.localizedMessage)
+            }
+            return imageUri
+        }
+
     }
 
     private fun uploadImageToServer(uri: Uri) {
-        // get the data under the Uri and open it in read format
-        val parcelFileDescriptor = requireActivity().contentResolver
-            .openFileDescriptor(uri, "r", null) ?: return
-
-        // use the contentResolver to get the actual file by uri
-        val file =
-            File(requireActivity().cacheDir, getFileName(uri, requireActivity().contentResolver))
-        val inputStream = FileInputStream(parcelFileDescriptor.fileDescriptor)
-        val outputStream = FileOutputStream(file)
-        inputStream.copyTo(outputStream)
 
         // create RequestBody instance from file
         val convertedImageUriToBitmap = uriToBitmap(uri)
         val bitmapToFile = saveBitmap(convertedImageUriToBitmap)
 
         val imageBody = bitmapToFile?.asRequestBody("image/jpg".toMediaTypeOrNull())
-
-        // MultiPartBody.Part is used to send the actual file name
         val image = MultipartBody.Part.createFormData("file", bitmapToFile?.name, imageBody!!)
 
         imageUploadViewModel.mediaImageUpload(image)
@@ -220,7 +281,6 @@ class AccountFragment : BaseFragment() {
 
                     is Resource.Success -> {
                         progressDialog.hideProgressDialog()
-                        // Log.d("UPLOAD", "uploadImageToServer: ${it.value}")
 
                         val imageUrl = it.value.payload.downloadUri
 
@@ -254,6 +314,7 @@ class AccountFragment : BaseFragment() {
             .load(imageUrl)
             .placeholder(R.drawable.nav_drawer_profile_avatar)
             .into(binding.accountFragmentEditProfileIconImageView)
+
     }
 
     private fun accountlegalStatusdialog() {
@@ -268,9 +329,13 @@ class AccountFragment : BaseFragment() {
 
         // when employee number name value is clicked
         binding.accountFragmentLegalStatusValueTextView.setOnClickListener {
-            val currentLegalStatus = binding.accountFragmentLegalStatusValueTextView.text.toString()
+            val currentLegalStatus =
+                binding.accountFragmentLegalStatusValueTextView.text.toString()
             val bundle = bundleOf(CURRENT_ACCOUNT_LEGAL_STATUS_BUNDLE_KEY to currentLegalStatus)
-            createProfileDialogFragment(R.layout.account_legal_status_dialog_fragment, bundle).show(
+            createProfileDialogFragment(
+                R.layout.account_legal_status_dialog_fragment,
+                bundle
+            ).show(
                 childFragmentManager, AccountFragment::class.java.simpleName
             )
         }
@@ -292,7 +357,10 @@ class AccountFragment : BaseFragment() {
         binding.accountFragmentFirstNameValueTextView.setOnClickListener {
             val currentFirstName = binding.accountFragmentFirstNameValueTextView.text.toString()
             val bundle = bundleOf(CURRENT_ACCOUNT_FIRST_NAME_BUNDLE_KEY to currentFirstName)
-            createProfileDialogFragment(R.layout.account_first_name_dialog_fragment, bundle).show(
+            createProfileDialogFragment(
+                R.layout.account_first_name_dialog_fragment,
+                bundle
+            ).show(
                 childFragmentManager, getString(R.string.frstname_dialog_fragment)
             )
         }
@@ -313,7 +381,10 @@ class AccountFragment : BaseFragment() {
         binding.accountFragmentLastNameValueTextView.setOnClickListener {
             val currentLastName = binding.accountFragmentLastNameValueTextView.text.toString()
             val bundle = bundleOf(CURRENT_ACCOUNT_LAST_NAME_BUNDLE_KEY to currentLastName)
-            createProfileDialogFragment(R.layout.account_last_name_dialog_fragment, bundle).show(
+            createProfileDialogFragment(
+                R.layout.account_last_name_dialog_fragment,
+                bundle
+            ).show(
                 childFragmentManager, AccountFragment::class.java.simpleName
             )
         }
@@ -328,14 +399,18 @@ class AccountFragment : BaseFragment() {
         ) { key, bundle ->
             // collect input values from dialog fragment and update the otherName text of user
             val otherName = bundle.getString(ACCOUNT_OTHER_NAME_BUNDLE_KEY)
-            binding.accountFragmentOtherNameValueTextView.text = otherName
+            binding.accountFragmentPhoneNumberValueTextView.text = otherName
         }
 
         // when last Name name value is clicked
-        binding.accountFragmentOtherNameValueTextView.setOnClickListener {
-            val currentOtherName = binding.accountFragmentOtherNameValueTextView.text.toString()
+        binding.accountFragmentPhoneNumberValueTextView.setOnClickListener {
+            val currentOtherName =
+                binding.accountFragmentPhoneNumberValueTextView.text.toString()
             val bundle = bundleOf(CURRENT_ACCOUNT_OTHER_NAME_BUNDLE_KEY to currentOtherName)
-            createProfileDialogFragment(R.layout.account_other_name_dialog_fragment, bundle).show(
+            createProfileDialogFragment(
+                R.layout.account_other_name_dialog_fragment,
+                bundle
+            ).show(
                 childFragmentManager, AccountFragment::class.java.simpleName
             )
         }
@@ -601,6 +676,7 @@ class AccountFragment : BaseFragment() {
         _binding = null
     }
 
+
     companion object {
         const val ACCOUNT_EMPLOYEE_REQUEST_KEY = "ACCOUNT EMPLOYEE REQUEST KEY"
         const val ACCOUNT_EMPLOYEE_BUNDLE_KEY = "ACCOUNT EMPLOYEE BUNDLE KEY"
@@ -668,3 +744,6 @@ class AccountFragment : BaseFragment() {
         const val REQUEST_CODE_IMAGE_PICKER = 100
     }
 }
+
+
+
