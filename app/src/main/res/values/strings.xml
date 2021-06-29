@@ -72,6 +72,7 @@
     <string name="resources">Resources</string>
     <string name="subscription">Subscription</string>
     <string name="logout">Logout</string>
+    <string name="login_status">LOGIN_STATU</string>
     <string name="edit_profile">Edit Profile</string>
     <string name="ijeoma_ibukun_babangida">Ijeoma Ibukun Babangida</string>
     <string name="version_1_0">version 1.0</string>
@@ -325,6 +326,12 @@
     <string name="article_publications">Article/Publications</string>
     <string name="articles">Articles</string>
     <string name="please_wait">Please wait...</string>
+    <string name="invalid_phone_number">Invalid Phone number</string>
+    <string name="all_phone_number_is_required">Phone Number is required</string>
+    <string name="signed_up">SIGNED_UP</string>
+    <string name="user_name">USER_NAME</string>
+    <string name="log_in">LOGIN</string>
+    <string name="log_out">LOGOUT</string>
     <string name="how_to_perfectly_sew_attire">How to perfectly sew attire</string>
     <string name="posted_1_month_ago">Posted 1 month ago</string>
     <string name="how_to_sew_attire">How to sew attire</string>

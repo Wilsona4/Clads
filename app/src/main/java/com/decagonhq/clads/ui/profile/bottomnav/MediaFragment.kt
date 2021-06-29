@@ -30,9 +30,8 @@ import com.decagonhq.clads.util.IMAGE_KEY
 import com.decagonhq.clads.util.IMAGE_NAME_BUNDLE_KEY
 import com.decagonhq.clads.util.PERMISSION_DENIED
 import com.decagonhq.clads.util.REQUEST_CODE
-import com.decagonhq.clads.util.hide
+import com.decagonhq.clads.util.hideView
 import com.decagonhq.clads.util.photosProvidersList
-import com.decagonhq.clads.util.show
 import com.decagonhq.clads.util.showView
 
 class MediaFragment : Fragment() {
@@ -171,13 +170,13 @@ class MediaFragment : Fragment() {
             findNavController().navigate(action)
 
             if (photosProvidersList.isEmpty()) {
-                showView(noPhotoImageView)
-                showView(noPhotoTextView)
+                noPhotoImageView.showView()
+                noPhotoTextView.showView()
                 binding.mediaFragmentPhotoRecyclerView.visibility = View.GONE
             } else {
-                noPhotoImageView.hide()
-                noPhotoTextView.hide()
-                binding.mediaFragmentPhotoRecyclerView.show()
+                noPhotoImageView.hideView()
+                noPhotoTextView.hideView()
+                binding.mediaFragmentPhotoRecyclerView.showView()
                 photoGalleryRecyclerAdapter.notifyDataSetChanged()
             }
         }

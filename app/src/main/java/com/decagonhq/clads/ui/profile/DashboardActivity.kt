@@ -7,6 +7,7 @@ import android.content.Context
 import android.content.Intent
 import android.os.Build
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import android.view.WindowManager
 import android.widget.ImageView
@@ -24,10 +25,13 @@ import androidx.navigation.ui.setupActionBarWithNavController
 import androidx.navigation.ui.setupWithNavController
 import com.decagonhq.clads.R
 import com.decagonhq.clads.databinding.DashboardActivityBinding
+import com.decagonhq.clads.ui.authentication.MainActivity
 import com.decagonhq.clads.ui.profile.bottomnav.MessagesFragment
+import com.decagonhq.clads.util.SessionManager
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.android.material.navigation.NavigationView
 import dagger.hilt.android.AndroidEntryPoint
+import javax.inject.Inject
 
 @AndroidEntryPoint
 class DashboardActivity : AppCompatActivity() {
@@ -44,6 +48,10 @@ class DashboardActivity : AppCompatActivity() {
     private lateinit var toolbarUserName: TextView
     private lateinit var toolbarFragmentName: TextView
     private lateinit var drawerCloseIcon: ImageView
+    private lateinit var navigationView: NavigationView
+
+    @Inject
+    lateinit var sessionManager: SessionManager
 
     @RequiresApi(Build.VERSION_CODES.M)
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -72,9 +80,9 @@ class DashboardActivity : AppCompatActivity() {
         toolbarProfilePicture = binding.appBarDashboard.dashboardActivityToolbarProfileImageView
         toolbarUserName = binding.appBarDashboard.dashboardActivityToolbarHiIjeomaTextView
         toolbarFragmentName = binding.appBarDashboard.dashboardActivityToolbarFragmentNameTextView
-
         bottomNavigationView =
             binding.appBarDashboard.contentDashboard.dashboardActivityBottomNavigationView
+        navigationView = binding.navView
 
         navController = findNavController(R.id.nav_host_fragment_content_dashboard)
         // Passing each menu ID as a set of Ids because each
@@ -107,6 +115,41 @@ class DashboardActivity : AppCompatActivity() {
             toolbarProfilePicture.visibility = View.INVISIBLE
             toolbarUserName.visibility = View.INVISIBLE
             toolbarNotificationIcon.visibility = View.GONE
+        }
+
+        navigationView.setNavigationItemSelectedListener { it ->
+            when (it.itemId) {
+                R.id.clientFragment -> {
+                    findNavController(R.id.nav_host_fragment_content_dashboard).navigate(R.id.clientFragment)
+                    drawerLayout.closeDrawer(GravityCompat.START)
+                    return@setNavigationItemSelectedListener true
+                }
+                R.id.resourceGeneralFragment -> {
+                    findNavController(R.id.nav_host_fragment_content_dashboard).navigate(R.id.resourceGeneralFragment)
+                    drawerLayout.closeDrawer(GravityCompat.START)
+                    return@setNavigationItemSelectedListener true
+                }
+                R.id.subscriptionFragment -> {
+                    findNavController(R.id.nav_host_fragment_content_dashboard).navigate(R.id.subscriptionFragment)
+                    drawerLayout.closeDrawer(GravityCompat.START)
+                    return@setNavigationItemSelectedListener true
+                }
+                R.id.logout -> {
+
+                    Intent(this, MainActivity::class.java).also {
+                        sessionManager.clearSharedPref()
+                        sessionManager.saveToSharedPref(
+                            getString(R.string.login_status),
+                            getString(R.string.log_out)
+                        )
+                        Log.d("LOGOUT", "onCreate: ${sessionManager.saveToSharedPref(getString(R.string.login_status), getString(R.string.log_out))}")
+                        startActivity(it)
+                        finish()
+                    }
+                    return@setNavigationItemSelectedListener true
+                }
+                else -> return@setNavigationItemSelectedListener true
+            }
         }
     }
 

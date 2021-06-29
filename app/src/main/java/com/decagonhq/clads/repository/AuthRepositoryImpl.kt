@@ -1,15 +1,13 @@
 package com.decagonhq.clads.repository
 
-import com.decagonhq.clads.data.domain.login.EmailLoginSuccessResponse
-import com.decagonhq.clads.data.domain.login.GoogleLoginSuccessResponse
+import com.decagonhq.clads.data.domain.GenericResponseClass
 import com.decagonhq.clads.data.domain.login.LoginCredentials
 import com.decagonhq.clads.data.domain.login.UserRole
-import com.decagonhq.clads.data.domain.profileimage.UserProfileImageResponse
-import com.decagonhq.clads.data.domain.registration.UserRegSuccessResponse
+import com.decagonhq.clads.data.domain.profileimage.UserProfileImage
 import com.decagonhq.clads.data.domain.registration.UserRegistration
 import com.decagonhq.clads.data.remote.ApiService
-import com.decagonhq.clads.data.remote.LoginCredentialsDTOMapper
-import com.decagonhq.clads.data.remote.UserRegDTOMapper
+import com.decagonhq.clads.data.remote.login.LoginCredentialsDTOMapper
+import com.decagonhq.clads.data.remote.registration.UserRegDTOMapper
 import com.decagonhq.clads.util.Resource
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
@@ -22,7 +20,7 @@ class AuthRepositoryImpl constructor(
 
 ) : AuthRepository, SafeApiCall() {
 
-    override suspend fun registerUser(user: UserRegistration): Flow<Resource<UserRegSuccessResponse>> =
+    override suspend fun registerUser(user: UserRegistration): Flow<Resource<GenericResponseClass<String>>> =
         flow {
             emit(
                 safeApiCall {
@@ -31,7 +29,7 @@ class AuthRepositoryImpl constructor(
             )
         }
 
-    override suspend fun loginUser(loginCredentials: LoginCredentials): Flow<Resource<EmailLoginSuccessResponse>> =
+    override suspend fun loginUser(loginCredentials: LoginCredentials): Flow<Resource<GenericResponseClass<String>>> =
         flow {
             emit(
                 safeApiCall {
@@ -40,7 +38,7 @@ class AuthRepositoryImpl constructor(
             )
         }
 
-    override suspend fun loginUserWithGoogle(userRole: UserRole): Flow<Resource<GoogleLoginSuccessResponse>> =
+    override suspend fun loginUserWithGoogle(userRole: UserRole): Flow<Resource<GenericResponseClass<String>>> =
         flow {
             emit(
                 safeApiCall {
@@ -49,7 +47,7 @@ class AuthRepositoryImpl constructor(
             )
         }
 
-    override suspend fun userProfileImage(userProfileImage: MultipartBody.Part): Flow<Resource<UserProfileImageResponse>> =
+    override suspend fun userProfileImage(userProfileImage: MultipartBody.Part): Flow<Resource<GenericResponseClass<UserProfileImage>>> =
         flow {
             emit(
                 safeApiCall {

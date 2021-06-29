@@ -16,20 +16,41 @@ import androidx.appcompat.app.AlertDialog
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.core.os.bundleOf
-import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.Observer
 import com.decagonhq.clads.R
 import com.decagonhq.clads.databinding.AccountFragmentBinding
+import com.decagonhq.clads.ui.BaseFragment
 import com.decagonhq.clads.ui.profile.dialogfragment.ProfileManagementDialogFragments.Companion.createProfileDialogFragment
-import com.decagonhq.clads.viewmodels.AuthenticationViewModel
+import com.decagonhq.clads.util.Resource
+import com.decagonhq.clads.util.handleApiError
+import com.decagonhq.clads.viewmodels.UserProfileViewModel
+import com.google.android.material.textview.MaterialTextView
 import dagger.hilt.android.AndroidEntryPoint
+import de.hdodenhof.circleimageview.CircleImageView
 
 @AndroidEntryPoint
-class AccountFragment : Fragment() {
+class AccountFragment : BaseFragment() {
     private var _binding: AccountFragmentBinding? = null
     private var selectedImage: Uri? = null
 
-    val viewModel: AuthenticationViewModel by viewModels()
+    private val userProfileViewModel: UserProfileViewModel by viewModels()
+
+    private lateinit var profileImageView: CircleImageView
+    private lateinit var firstNameValueTextView: MaterialTextView
+    private lateinit var lastNameValueTextView: MaterialTextView
+    private lateinit var phoneNumberValueTextView: MaterialTextView
+    private lateinit var genderValueTextView: MaterialTextView
+    private lateinit var workAddressStateValueTextView: MaterialTextView
+    private lateinit var cityValueTextView: MaterialTextView
+    private lateinit var streetValueTextView: MaterialTextView
+    private lateinit var showRoomAddressValueTextView: MaterialTextView
+    private lateinit var numberOfEmployeeValueApprenticeTextView: MaterialTextView
+    private lateinit var legalStatusValueTextView: MaterialTextView
+    private lateinit var nameOfUnionValueTextView: MaterialTextView
+    private lateinit var wardValueTextView: MaterialTextView
+    private lateinit var localGovernmentAreaTextView: MaterialTextView
+    private lateinit var unionStateValueTextView: MaterialTextView
 
     // This property is only valid between onCreateView and onDestroyView.
     private val binding get() = _binding!!
@@ -45,6 +66,23 @@ class AccountFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        /**/
+        profileImageView = binding.accountFragmentEditProfileIconImageView
+        firstNameValueTextView = binding.accountFragmentFirstNameValueTextView
+        lastNameValueTextView = binding.accountFragmentLastNameValueTextView
+        phoneNumberValueTextView = binding.accountFragmentPhoneNumberValueTextView
+        genderValueTextView = binding.accountFragmentGenderValueTextView
+        workAddressStateValueTextView = binding.accountFragmentStateValueTextView
+        cityValueTextView = binding.accountFragmentWorkshopAddressCityValueTextView
+        streetValueTextView = binding.accountFragmentWorkshopAddressStreetValueTextView
+        showRoomAddressValueTextView = binding.accountFragmentShowroomAddressValueTextView
+        numberOfEmployeeValueApprenticeTextView = binding.accountFragmentNumberOfEmployeeApprenticeValueTextView
+        legalStatusValueTextView = binding.accountFragmentLegalStatusValueTextView
+        nameOfUnionValueTextView = binding.accountFragmentNameOfUnionValueTextView
+        wardValueTextView = binding.accountFragmentWardValueTextView
+        localGovernmentAreaTextView = binding.accountFragmentLocalGovtAreaTextView
+        unionStateValueTextView = binding.accountFragmentStateValueTextView
+
         /*Dialog fragment functions*/
         accountFirstNameEditDialog()
         accountGenderSelectDialog()
@@ -65,6 +103,45 @@ class AccountFragment : Fragment() {
         binding.accountFragmentChangePictureTextView.setOnClickListener {
             Manifest.permission.READ_EXTERNAL_STORAGE.checkForPermission(NAME, READ_IMAGE_STORAGE)
         }
+
+        /*Get users profile*/
+        getUserProfile()
+    }
+
+    private fun getUserProfile() {
+        userProfileViewModel.userProfile.observe(
+            viewLifecycleOwner,
+            Observer {
+                when (it) {
+                    is Resource.Loading -> {
+                    }
+                    is Resource.Success -> {
+                        val successResponse = it.value.payload
+                        progressDialog.hideProgressDialog()
+                        firstNameValueTextView.text = successResponse.firstName
+                        lastNameValueTextView.text = successResponse.lastName
+                        phoneNumberValueTextView.text = successResponse.phoneNumber
+                        genderValueTextView.text = successResponse.gender
+//                        workAddressStateValueTextView.text = successResponse.workshopAddress.state
+//                        cityValueTextView.text = successResponse.workshopAddress.city
+//                        streetValueTextView.text = successResponse.workshopAddress.street
+//                        showRoomAddressValueTextView.text = successResponse.showroomAddress.state
+//                        nameOfUnionValueTextView.text = successResponse.union.name
+//                        wardValueTextView.text = successResponse.union.ward
+//                        localGovernmentAreaTextView.text = successResponse.union.lga
+//                        unionStateValueTextView.text = successResponse.union.state
+
+//                        Glide.with(requireContext())
+//                            .load(successResponse.thumbnail.toUri())
+//                            .into(binding.accountFragmentEditProfileIconImageView)
+                    }
+                    is Resource.Error -> {
+                        progressDialog.hideProgressDialog()
+                        handleApiError(it, mainRetrofit, requireView())
+                    }
+                }
+            }
+        )
     }
 
     private fun String.checkForPermission(name: String, requestCode: Int) {
@@ -134,53 +211,8 @@ class AccountFragment : Fragment() {
         if (resultCode == Activity.RESULT_OK && requestCode == REQUEST_CODE_IMAGE_PICKER) {
             selectedImage = data?.data!!
             binding.accountFragmentEditProfileIconImageView.setImageURI(selectedImage)
-            /*Upload image*/
-            // Getting the file name
-//            val file = File(FileUtil.getPath(selectedImage!!, requireContext()))
-//            // Getting the file part
-//            val requestBody = file.asRequestBody("image/jpg".toMediaTypeOrNull())
-//            val multiPartBody = MultipartBody.Part.createFormData("file", file.name, requestBody)
-//
-//            viewModel.userProfileImage(multiPartBody)
-//            viewModel.loginUser.observe(
-//                viewLifecycleOwner,
-//                Observer {
-//                    when (it) {
-//                        is Resource.Success -> {
-//                            binding.accountFragmentEditProfileIconImageView.errorSnack(
-//                                "Image Uploaded successively",
-//                                Snackbar.LENGTH_LONG
-//                            )
-//                            Log.d("RecourceReport", "onActivityResult:$it ")
-//                        }
-//                        is Resource.Error -> {
-//                            binding.accountFragmentEditProfileIconImageView.errorSnack(
-//                                "Image Uploaded successively",
-//                                Snackbar.LENGTH_LONG
-//                            )
-//                        }
-//                        is Resource.Loading -> {
-//                            binding.accountFragmentEditProfileIconImageView.errorSnack(
-//                                "Image upload in progress",
-//                                Snackbar.LENGTH_LONG
-//                            )
-//                        }
-//                    }
-//                }
-//            )
         }
     }
-
-    // function to get the name of the file
-//    private fun getFileName(uri: Uri, contentResolver: ContentResolver): String {
-//        var name = "TO BE REMOVED STRING"
-//        val cursor = query(contentResolver, uri, null, null, null, null, null)
-//        cursor?.use {
-//            it.moveToFirst()
-//            name = cursor.getString(it.getColumnIndex(OpenableColumns.DISPLAY_NAME))
-//        }
-//        return name
-//    }
 
     /*Select Image*/
     private fun openImageChooser() {
@@ -260,12 +292,12 @@ class AccountFragment : Fragment() {
         ) { key, bundle ->
             // collect input values from dialog fragment and update the otherName text of user
             val otherName = bundle.getString(ACCOUNT_OTHER_NAME_BUNDLE_KEY)
-            binding.accountFragmentOtherNameValueTextView.text = otherName
+            binding.accountFragmentPhoneNumberValueTextView.text = otherName
         }
 
         // when last Name name value is clicked
-        binding.accountFragmentOtherNameValueTextView.setOnClickListener {
-            val currentOtherName = binding.accountFragmentOtherNameValueTextView.text.toString()
+        binding.accountFragmentPhoneNumberValueTextView.setOnClickListener {
+            val currentOtherName = binding.accountFragmentPhoneNumberValueTextView.text.toString()
             val bundle = bundleOf(CURRENT_ACCOUNT_OTHER_NAME_BUNDLE_KEY to currentOtherName)
             createProfileDialogFragment(R.layout.account_other_name_dialog_fragment, bundle).show(
                 childFragmentManager, AccountFragment::class.java.simpleName

@@ -1,4 +1,4 @@
-package com.decagonhq.clads.data.remote
+package com.decagonhq.clads.data.remote.registration
 
 import com.decagonhq.clads.data.domain.registration.UserRegistration
 import com.decagonhq.clads.util.DomainMapper

@@ -8,7 +8,7 @@ import androidx.room.RoomDatabase
 abstract class CladsDatabase : RoomDatabase() {
 
     abstract fun clientDao(): ClientDao
-    abstract fun userDao(): UserDao
+    abstract fun userProfileDao(): UserProfileDao
 
     companion object {
         var DATABASE_NAME: String = "clads_db"
