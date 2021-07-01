@@ -14,10 +14,11 @@ constructor
     fun parseError(response: Response<*>): GenericResponseClass<String> {
         val converter: Converter<ResponseBody, GenericResponseClass<String>> = retrofit
             .responseBodyConverter(GenericResponseClass::class.java, arrayOfNulls<Annotation>(0))
+
         return try {
             converter.convert(response.errorBody()!!)!!
         } catch (e: IOException) {
-            return GenericResponseClass("Please, enter valid credentials ", "null", 69)
+            return GenericResponseClass("IO Exception ", "null", 69)
         }
     }
 }
