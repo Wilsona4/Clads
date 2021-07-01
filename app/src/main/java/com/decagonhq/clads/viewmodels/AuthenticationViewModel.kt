@@ -7,6 +7,7 @@ import androidx.lifecycle.viewModelScope
 import com.decagonhq.clads.data.domain.GenericResponseClass
 import com.decagonhq.clads.data.domain.login.LoginCredentials
 import com.decagonhq.clads.data.domain.login.UserRole
+import com.decagonhq.clads.data.domain.profile.UserProfile
 import com.decagonhq.clads.data.domain.profileimage.UserProfileImage
 import com.decagonhq.clads.data.domain.registration.UserRegistration
 import com.decagonhq.clads.repository.AuthRepository
@@ -22,8 +23,8 @@ class AuthenticationViewModel @Inject constructor(
     private val authRepository: AuthRepository
 ) : ViewModel() {
 
-    private var _userRegData = MutableLiveData<Resource<GenericResponseClass<String>>>()
-    val userRegData: LiveData<Resource<GenericResponseClass<String>>> get() = _userRegData
+    private var _userRegData = MutableLiveData<Resource<GenericResponseClass<UserProfile>>>()
+    val userRegData: LiveData<Resource<GenericResponseClass<UserProfile>>> get() = _userRegData
 
     private var _loginUser = MutableLiveData<Resource<GenericResponseClass<String>>>()
     val loginUser: LiveData<Resource<GenericResponseClass<String>>> get() = _loginUser
@@ -37,7 +38,7 @@ class AuthenticationViewModel @Inject constructor(
 
     fun registerUser(user: UserRegistration) {
         viewModelScope.launch {
-            _userRegData.value = Resource.Loading("Signing Up...")
+            _userRegData.value = Resource.Loading(null, "Signing Up...")
             val response = authRepository.registerUser(user)
             response.collect {
                 _userRegData.value = it
@@ -48,7 +49,7 @@ class AuthenticationViewModel @Inject constructor(
     /*Login in with email*/
     fun loginUser(loginCredentials: LoginCredentials) {
         viewModelScope.launch {
-            _loginUser.value = Resource.Loading("Loading...")
+            _loginUser.value = Resource.Loading(null, "Loading...")
             val response = authRepository.loginUser(loginCredentials)
             response.collect {
                 _loginUser.value = it
@@ -59,7 +60,7 @@ class AuthenticationViewModel @Inject constructor(
     /*Login with google*/
     fun loginUserWithGoogle(userRole: UserRole) {
         viewModelScope.launch {
-            _loginUserWithGoogle.value = Resource.Loading("Loading...")
+            _loginUserWithGoogle.value = Resource.Loading(null, "Loading...")
             val response = authRepository.loginUserWithGoogle(userRole)
             response.collect {
                 _loginUserWithGoogle.value = it
@@ -69,7 +70,7 @@ class AuthenticationViewModel @Inject constructor(
 
     fun userProfileImage(userProfileImage: MultipartBody.Part) {
         viewModelScope.launch {
-            _userProfileImage.value = Resource.Loading("Uploading...")
+            _userProfileImage.value = Resource.Loading(null, "Uploading...")
             val response = authRepository.userProfileImage(userProfileImage)
             response.collect {
                 _userProfileImage.value = it

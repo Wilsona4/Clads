@@ -14,6 +14,7 @@ constructor
     fun parseError(response: Response<*>): GenericResponseClass<String> {
         val converter: Converter<ResponseBody, GenericResponseClass<String>> = retrofit
             .responseBodyConverter(GenericResponseClass::class.java, arrayOfNulls<Annotation>(0))
+
         return try {
             converter.convert(response.errorBody()!!)!!
         } catch (e: IOException) {

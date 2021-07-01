@@ -8,7 +8,7 @@ import android.widget.ArrayAdapter
 import android.widget.AutoCompleteTextView
 import android.widget.TextView
 import androidx.core.widget.doOnTextChanged
-import androidx.fragment.app.viewModels
+import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
 import com.decagonhq.clads.R
@@ -22,6 +22,7 @@ import com.decagonhq.clads.util.ValidationObject.validateAccountCategory
 import com.decagonhq.clads.util.ValidationObject.validateEmail
 import com.decagonhq.clads.util.ValidationObject.validatePasswordMismatch
 import com.decagonhq.clads.viewmodels.AuthenticationViewModel
+import com.decagonhq.clads.viewmodels.UserProfileViewModel
 import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.auth.api.signin.GoogleSignInClient
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions
@@ -36,7 +37,8 @@ class EmailSignUpFragment : BaseFragment() {
     private var _binding: EmailSignUpFragmentBinding? = null
     private val binding get() = _binding!!
 
-    val authenticationViewModel: AuthenticationViewModel by viewModels()
+    val authenticationViewModel: AuthenticationViewModel by activityViewModels()
+    val userProfileViewModel: UserProfileViewModel by activityViewModels()
 
     @Inject
     lateinit var sessionManager: SessionManager
@@ -81,7 +83,9 @@ class EmailSignUpFragment : BaseFragment() {
             Observer {
                 when (it) {
                     is Resource.Success -> {
-                        val successResponse = it.value.payload
+                        it.data?.payload?.let { userProfile ->
+                            userProfileViewModel.saveUserProfileToLocalDatabase()
+                        }
                         progressDialog.hideProgressDialog()
                         findNavController().navigate(R.id.action_emailSignUpFragment_to_emailConfirmationFragment)
                     }
@@ -89,7 +93,9 @@ class EmailSignUpFragment : BaseFragment() {
                         progressDialog.hideProgressDialog()
                     }
                     is Resource.Loading -> {
-                        progressDialog.showDialogFragment(it.message)
+                        it.message?.let { message ->
+                            progressDialog.showDialogFragment(message)
+                        }
                     }
                 }
             }

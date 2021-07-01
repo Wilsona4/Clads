@@ -16,14 +16,14 @@ fun Fragment.showView(view: View) {
     }
 }
 
-fun Fragment.handleApiError(
-    failure: Resource.Error,
+fun <T> Fragment.handleApiError(
+    failure: Resource.Error<T>,
     retrofit: Retrofit,
     view: View,
 ) {
     val errorResponseUtil = ErrorResponseUtil(retrofit)
     when {
-        failure.isNetworkError -> {
+        failure.isNetworkError == true -> {
             view.showSnackBar("Poor Internet Connection. Retry")
         }
         else -> {

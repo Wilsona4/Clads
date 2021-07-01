@@ -4,7 +4,6 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.decagonhq.clads.data.domain.GenericResponseClass
 import com.decagonhq.clads.data.domain.profile.UserProfile
 import com.decagonhq.clads.repository.UserProfileRepository
 import com.decagonhq.clads.util.Resource
@@ -18,20 +17,29 @@ class UserProfileViewModel @Inject constructor(
     private val userProfileRepository: UserProfileRepository
 ) : ViewModel() {
 
-    private var _userProfile = MutableLiveData<Resource<GenericResponseClass<UserProfile>>>()
-    val userProfile: LiveData<Resource<GenericResponseClass<UserProfile>>> get() = _userProfile
+    private var _userProfile = MutableLiveData<Resource<UserProfile>>()
+    val userProfile: LiveData<Resource<UserProfile>> get() = _userProfile
 
-    init {
-        getUserProfile()
-    }
+//    init {
+//        viewModelScope.launch {
+//            delay(10000)
+//            getUserProfile()
+//        }
+//    }
 
     fun getUserProfile() {
         viewModelScope.launch {
-            _userProfile.value = Resource.Loading("Loading...")
             val response = userProfileRepository.getUserProfile()
             response.collect {
                 _userProfile.value = it
             }
+        }
+    }
+
+    /*Save User Profile on Sign Up*/
+    fun saveUserProfileToLocalDatabase() {
+        viewModelScope.launch {
+            userProfileRepository.saveUserProfileToLocalDatabase()
         }
     }
 }

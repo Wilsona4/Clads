@@ -6,21 +6,25 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ArrayAdapter
 import android.widget.AutoCompleteTextView
-import androidx.fragment.app.Fragment
+import androidx.fragment.app.activityViewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.decagonhq.clads.R
 import com.decagonhq.clads.databinding.HomeFragmentBinding
+import com.decagonhq.clads.ui.BaseFragment
 import com.decagonhq.clads.ui.profile.adapter.HomeFragmentClientsRecyclerAdapter
 import com.decagonhq.clads.util.ChartData.chartData
 import com.decagonhq.clads.util.DummyDataUtil
+import com.decagonhq.clads.viewmodels.UserProfileViewModel
 
-class HomeFragment : Fragment() {
+class HomeFragment : BaseFragment() {
 
     private var _binding: HomeFragmentBinding? = null
 
     // This property is only valid between onCreateView and onDestroyView.
     private val binding get() = _binding!!
     private lateinit var homeFragmentYearDropdown: AutoCompleteTextView
+
+    private val userProfileViewModel: UserProfileViewModel by activityViewModels()
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -34,6 +38,8 @@ class HomeFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        /*Get User profile*/
+        userProfileViewModel.saveUserProfileToLocalDatabase()
 
         binding.apply {
             homeFragmentClientListRecyclerView.apply {

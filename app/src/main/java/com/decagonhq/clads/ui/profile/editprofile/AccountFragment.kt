@@ -16,7 +16,7 @@ import androidx.appcompat.app.AlertDialog
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.core.os.bundleOf
-import androidx.fragment.app.viewModels
+import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.Observer
 import com.decagonhq.clads.R
 import com.decagonhq.clads.databinding.AccountFragmentBinding
@@ -34,7 +34,7 @@ class AccountFragment : BaseFragment() {
     private var _binding: AccountFragmentBinding? = null
     private var selectedImage: Uri? = null
 
-    private val userProfileViewModel: UserProfileViewModel by viewModels()
+    private val userProfileViewModel: UserProfileViewModel by activityViewModels()
 
     private lateinit var profileImageView: CircleImageView
     private lateinit var firstNameValueTextView: MaterialTextView
@@ -55,9 +55,9 @@ class AccountFragment : BaseFragment() {
     // This property is only valid between onCreateView and onDestroyView.
     private val binding get() = _binding!!
     override fun onCreateView(
-            inflater: LayoutInflater,
-            container: ViewGroup?,
-            savedInstanceState: Bundle?
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
         _binding = AccountFragmentBinding.inflate(inflater, container, false)
@@ -66,7 +66,7 @@ class AccountFragment : BaseFragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        /**/
+        /*Initialise Views*/
         profileImageView = binding.accountFragmentEditProfileIconImageView
         firstNameValueTextView = binding.accountFragmentFirstNameValueTextView
         lastNameValueTextView = binding.accountFragmentLastNameValueTextView
@@ -76,7 +76,8 @@ class AccountFragment : BaseFragment() {
         cityValueTextView = binding.accountFragmentWorkshopAddressCityValueTextView
         streetValueTextView = binding.accountFragmentWorkshopAddressStreetValueTextView
         showRoomAddressValueTextView = binding.accountFragmentShowroomAddressValueTextView
-        numberOfEmployeeValueApprenticeTextView = binding.accountFragmentNumberOfEmployeeApprenticeValueTextView
+        numberOfEmployeeValueApprenticeTextView =
+            binding.accountFragmentNumberOfEmployeeApprenticeValueTextView
         legalStatusValueTextView = binding.accountFragmentLegalStatusValueTextView
         nameOfUnionValueTextView = binding.accountFragmentNameOfUnionValueTextView
         wardValueTextView = binding.accountFragmentWardValueTextView
@@ -103,32 +104,32 @@ class AccountFragment : BaseFragment() {
         binding.accountFragmentChangePictureTextView.setOnClickListener {
             Manifest.permission.READ_EXTERNAL_STORAGE.checkForPermission(NAME, READ_IMAGE_STORAGE)
         }
-
         /*Get users profile*/
         getUserProfile()
     }
 
     private fun getUserProfile() {
+        userProfileViewModel.getUserProfile()
         userProfileViewModel.userProfile.observe(
-                viewLifecycleOwner,
-                Observer {
-                    when (it) {
-                        is Resource.Loading -> {
-                            Toast.makeText(requireContext(), it.message, Toast.LENGTH_SHORT).show()
-                        }
-                        is Resource.Success -> {
-                            val successResponse = it.value.payload
-                            progressDialog.hideProgressDialog()
-                            firstNameValueTextView.text = successResponse.firstName
-                            lastNameValueTextView.text = successResponse.lastName
-                            phoneNumberValueTextView.text = successResponse.phoneNumber
-                        }
-                        is Resource.Error -> {
-                            progressDialog.hideProgressDialog()
-                            handleApiError(it, mainRetrofit, requireView())
+            viewLifecycleOwner,
+            Observer {
+                when (it) {
+                    is Resource.Loading -> {
+                    }
+                    is Resource.Success -> {
+                        progressDialog.hideProgressDialog()
+                        it.data?.let { userProfile ->
+                            firstNameValueTextView.text = userProfile.firstName
+                            lastNameValueTextView.text = userProfile.lastName
+                            phoneNumberValueTextView.text = userProfile.phoneNumber
                         }
                     }
+                    is Resource.Error -> {
+                        progressDialog.hideProgressDialog()
+                        handleApiError(it, mainRetrofit, requireView())
+                    }
                 }
+            }
         )
     }
 
@@ -136,17 +137,17 @@ class AccountFragment : BaseFragment() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             when {
                 ContextCompat.checkSelfPermission(
-                        requireContext(),
-                        this
+                    requireContext(),
+                    this
                 ) == PackageManager.PERMISSION_GRANTED -> {
                     // call read contact function
                     openImageChooser()
                 }
                 shouldShowRequestPermissionRationale(this) -> showDialog(this, name, requestCode)
                 else -> ActivityCompat.requestPermissions(
-                        requireActivity(),
-                        arrayOf(this),
-                        requestCode
+                    requireActivity(),
+                    arrayOf(this),
+                    requestCode
                 )
             }
         }
@@ -154,17 +155,17 @@ class AccountFragment : BaseFragment() {
 
     // check for permission and make call
     override fun onRequestPermissionsResult(
-            requestCode: Int,
-            permissions: Array<out String>,
-            grantResults: IntArray
+        requestCode: Int,
+        permissions: Array<out String>,
+        grantResults: IntArray
     ) {
         fun innerCheck(name: String) {
             if (grantResults.isEmpty() || grantResults[0] != PackageManager.PERMISSION_GRANTED) {
                 Toast.makeText(requireContext(), "$name permission refused", Toast.LENGTH_SHORT)
-                        .show()
+                    .show()
             } else {
                 Toast.makeText(requireContext(), "$name permission granted", Toast.LENGTH_SHORT)
-                        .show()
+                    .show()
                 openImageChooser()
             }
         }
@@ -183,9 +184,9 @@ class AccountFragment : BaseFragment() {
             setTitle("Permission required")
             setPositiveButton("Ok") { _, _ ->
                 ActivityCompat.requestPermissions(
-                        requireActivity(),
-                        arrayOf(permission),
-                        requestCode
+                    requireActivity(),
+                    arrayOf(permission),
+                    requestCode
                 )
             }
         }
@@ -210,8 +211,8 @@ class AccountFragment : BaseFragment() {
 
     private fun accountlegalStatusdialog() {
         childFragmentManager.setFragmentResultListener(
-                ACCOUNT_LEGAL_STATUS_REQUEST_KEY,
-                requireActivity()
+            ACCOUNT_LEGAL_STATUS_REQUEST_KEY,
+            requireActivity()
         ) { key, bundle ->
             // collect input values from dialog fragment and update the firstname text of user
             val legalStatus = bundle.getString(ACCOUNT_LEGAL_STATUS_BUNDLE_KEY)
@@ -223,7 +224,7 @@ class AccountFragment : BaseFragment() {
             val currentLegalStatus = binding.accountFragmentLegalStatusValueTextView.text.toString()
             val bundle = bundleOf(CURRENT_ACCOUNT_LEGAL_STATUS_BUNDLE_KEY to currentLegalStatus)
             createProfileDialogFragment(R.layout.account_legal_status_dialog_fragment, bundle).show(
-                    childFragmentManager, AccountFragment::class.java.simpleName
+                childFragmentManager, AccountFragment::class.java.simpleName
             )
         }
     }
@@ -232,8 +233,8 @@ class AccountFragment : BaseFragment() {
     private fun accountFirstNameEditDialog() {
         // when first name value is clicked
         childFragmentManager.setFragmentResultListener(
-                ACCOUNT_FIRST_NAME_REQUEST_KEY,
-                requireActivity()
+            ACCOUNT_FIRST_NAME_REQUEST_KEY,
+            requireActivity()
         ) { key, bundle ->
             // collect input values from dialog fragment and update the firstname text of user
             val firstName = bundle.getString(ACCOUNT_FIRST_NAME_BUNDLE_KEY)
@@ -245,7 +246,7 @@ class AccountFragment : BaseFragment() {
             val currentFirstName = binding.accountFragmentFirstNameValueTextView.text.toString()
             val bundle = bundleOf(CURRENT_ACCOUNT_FIRST_NAME_BUNDLE_KEY to currentFirstName)
             createProfileDialogFragment(R.layout.account_first_name_dialog_fragment, bundle).show(
-                    childFragmentManager, getString(R.string.frstname_dialog_fragment)
+                childFragmentManager, getString(R.string.frstname_dialog_fragment)
             )
         }
     }
@@ -253,8 +254,8 @@ class AccountFragment : BaseFragment() {
     private fun accountLastNameDialogFragment() {
         // when last name value is clicked
         childFragmentManager.setFragmentResultListener(
-                ACCOUNT_LAST_NAME_REQUEST_KEY,
-                requireActivity()
+            ACCOUNT_LAST_NAME_REQUEST_KEY,
+            requireActivity()
         ) { key, bundle ->
             // collect input values from dialog fragment and update the firstname text of user
             val lastName = bundle.getString(ACCOUNT_LAST_NAME_BUNDLE_KEY)
@@ -266,7 +267,7 @@ class AccountFragment : BaseFragment() {
             val currentLastName = binding.accountFragmentLastNameValueTextView.text.toString()
             val bundle = bundleOf(CURRENT_ACCOUNT_LAST_NAME_BUNDLE_KEY to currentLastName)
             createProfileDialogFragment(R.layout.account_last_name_dialog_fragment, bundle).show(
-                    childFragmentManager, AccountFragment::class.java.simpleName
+                childFragmentManager, AccountFragment::class.java.simpleName
             )
         }
     }
@@ -275,8 +276,8 @@ class AccountFragment : BaseFragment() {
     private fun accountOtherNameEditDialog() {
         // when other name name value is clicked
         childFragmentManager.setFragmentResultListener(
-                ACCOUNT_OTHER_NAME_REQUEST_KEY,
-                requireActivity()
+            ACCOUNT_OTHER_NAME_REQUEST_KEY,
+            requireActivity()
         ) { key, bundle ->
             // collect input values from dialog fragment and update the otherName text of user
             val otherName = bundle.getString(ACCOUNT_OTHER_NAME_BUNDLE_KEY)
@@ -288,7 +289,7 @@ class AccountFragment : BaseFragment() {
             val currentOtherName = binding.accountFragmentPhoneNumberValueTextView.text.toString()
             val bundle = bundleOf(CURRENT_ACCOUNT_OTHER_NAME_BUNDLE_KEY to currentOtherName)
             createProfileDialogFragment(R.layout.account_other_name_dialog_fragment, bundle).show(
-                    childFragmentManager, AccountFragment::class.java.simpleName
+                childFragmentManager, AccountFragment::class.java.simpleName
             )
         }
     }
@@ -297,8 +298,8 @@ class AccountFragment : BaseFragment() {
     private fun accountWorkshopStateDialog() {
         // when account shop name value is clicked
         childFragmentManager.setFragmentResultListener(
-                ACCOUNT_WORKSHOP_STATE_REQUEST_KEY,
-                requireActivity()
+            ACCOUNT_WORKSHOP_STATE_REQUEST_KEY,
+            requireActivity()
         ) { key, bundle ->
             // collect input values from dialog fragment and update the state text of user
             val workshopState = bundle.getString(ACCOUNT_WORKSHOP_STATE_BUNDLE_KEY)
@@ -308,13 +309,13 @@ class AccountFragment : BaseFragment() {
         // when state value is clicked
         binding.accountFragmentWorkshopAddressStateValueTextView.setOnClickListener {
             val currentState =
-                    binding.accountFragmentWorkshopAddressStateValueTextView.text.toString()
+                binding.accountFragmentWorkshopAddressStateValueTextView.text.toString()
             val bundle = bundleOf(CURRENT_ACCOUNT_WORKSHOP_STATE_BUNDLE_KEY to currentState)
             createProfileDialogFragment(
-                    R.layout.account_workshop_state_dialog_fragment,
-                    bundle
+                R.layout.account_workshop_state_dialog_fragment,
+                bundle
             ).show(
-                    childFragmentManager, AccountFragment::class.java.simpleName
+                childFragmentManager, AccountFragment::class.java.simpleName
             )
         }
     }
@@ -323,8 +324,8 @@ class AccountFragment : BaseFragment() {
     private fun accountWorkshopCityDialog() {
         // when city value is clicked
         childFragmentManager.setFragmentResultListener(
-                ACCOUNT_WORKSHOP_CITY_REQUEST_KEY,
-                requireActivity()
+            ACCOUNT_WORKSHOP_CITY_REQUEST_KEY,
+            requireActivity()
         ) { key, bundle ->
             // collect input values from dialog fragment and update the city text of user
             val workshopCity = bundle.getString(ACCOUNT_WORKSHOP_CITY_BUNDLE_KEY)
@@ -334,13 +335,13 @@ class AccountFragment : BaseFragment() {
         // when city is clicked
         binding.accountFragmentWorkshopAddressCityValueTextView.setOnClickListener {
             val currentCity =
-                    binding.accountFragmentWorkshopAddressCityValueTextView.text.toString()
+                binding.accountFragmentWorkshopAddressCityValueTextView.text.toString()
             val bundle = bundleOf(CURRENT_ACCOUNT_WORKSHOP_CITY_BUNDLE_KEY to currentCity)
             createProfileDialogFragment(
-                    R.layout.account_workshop_city_dialog_fragment,
-                    bundle
+                R.layout.account_workshop_city_dialog_fragment,
+                bundle
             ).show(
-                    childFragmentManager, AccountFragment::class.java.simpleName
+                childFragmentManager, AccountFragment::class.java.simpleName
             )
         }
     }
@@ -349,8 +350,8 @@ class AccountFragment : BaseFragment() {
     private fun accountWorkshopStreetDialog() {
         // when street value is clicked
         childFragmentManager.setFragmentResultListener(
-                ACCOUNT_WORKSHOP_STREET_REQUEST_KEY,
-                requireActivity()
+            ACCOUNT_WORKSHOP_STREET_REQUEST_KEY,
+            requireActivity()
         ) { key, bundle ->
             // collect input values from dialog fragment and update the street text of user
             val workshopStreet = bundle.getString(ACCOUNT_WORKSHOP_STREET_BUNDLE_KEY)
@@ -360,13 +361,13 @@ class AccountFragment : BaseFragment() {
         // when street value is clicked
         binding.accountFragmentWorkshopAddressStreetValueTextView.setOnClickListener {
             val currentStreet =
-                    binding.accountFragmentWorkshopAddressStreetValueTextView.text.toString()
+                binding.accountFragmentWorkshopAddressStreetValueTextView.text.toString()
             val bundle = bundleOf(CURRENT_ACCOUNT_WORKSHOP_STREET_BUNDLE_KEY to currentStreet)
             createProfileDialogFragment(
-                    R.layout.account_workshop_street_dialog_fragment,
-                    bundle
+                R.layout.account_workshop_street_dialog_fragment,
+                bundle
             ).show(
-                    childFragmentManager, AccountFragment::class.java.simpleName
+                childFragmentManager, AccountFragment::class.java.simpleName
             )
         }
     }
@@ -374,8 +375,8 @@ class AccountFragment : BaseFragment() {
     private fun accountShowRoomAddressDialog() {
         // when showroom name value is clicked
         childFragmentManager.setFragmentResultListener(
-                ACCOUNT_SHOWROOM_ADDRESS_REQUEST_KEY,
-                requireActivity()
+            ACCOUNT_SHOWROOM_ADDRESS_REQUEST_KEY,
+            requireActivity()
         ) { key, bundle ->
             // collect input values from dialog fragment and update the showroom address text of user
             val showroomAddress = bundle.getString(ACCOUNT_SHOWROOM_ADDRESS_BUNDLE_KEY)
@@ -385,22 +386,22 @@ class AccountFragment : BaseFragment() {
         // when showroom address is clicked
         binding.accountFragmentShowroomAddressValueTextView.setOnClickListener {
             val currentShowroomAddress =
-                    binding.accountFragmentShowroomAddressValueTextView.text.toString()
+                binding.accountFragmentShowroomAddressValueTextView.text.toString()
             val bundle =
-                    bundleOf(CURRENT_ACCOUNT_SHOWROOM_ADDRESS_BUNDLE_KEY to currentShowroomAddress)
+                bundleOf(CURRENT_ACCOUNT_SHOWROOM_ADDRESS_BUNDLE_KEY to currentShowroomAddress)
             createProfileDialogFragment(
-                    R.layout.account_showroom_address_dialog_fragment,
-                    bundle
+                R.layout.account_showroom_address_dialog_fragment,
+                bundle
             ).show(
-                    childFragmentManager, AccountFragment::class.java.simpleName
+                childFragmentManager, AccountFragment::class.java.simpleName
             )
         }
     }
 
     private fun accountEmployeeNumberDialogFragment() {
         childFragmentManager.setFragmentResultListener(
-                ACCOUNT_EMPLOYEE_REQUEST_KEY,
-                requireActivity()
+            ACCOUNT_EMPLOYEE_REQUEST_KEY,
+            requireActivity()
         ) { key, bundle ->
             // collect input values from dialog fragment and update the employee number text of user
             val employeeNumber = bundle.getString(ACCOUNT_EMPLOYEE_BUNDLE_KEY)
@@ -410,14 +411,14 @@ class AccountFragment : BaseFragment() {
         // when employee number name value is clicked
         binding.accountFragmentNumberOfEmployeeApprenticeValueTextView.setOnClickListener {
             val currentEmployeeNumber =
-                    binding.accountFragmentNumberOfEmployeeApprenticeValueTextView.text.toString()
+                binding.accountFragmentNumberOfEmployeeApprenticeValueTextView.text.toString()
             val bundle = bundleOf(CURRENT_ACCOUNT_EMPLOYEE_BUNDLE_KEY to currentEmployeeNumber)
             createProfileDialogFragment(
-                    R.layout.account_employee_number_dialog_fragment,
-                    bundle
+                R.layout.account_employee_number_dialog_fragment,
+                bundle
             ).show(
-                    childFragmentManager,
-                    getString(R.string.tag_employee_number_dialog_fragment)
+                childFragmentManager,
+                getString(R.string.tag_employee_number_dialog_fragment)
             )
         }
     }
@@ -425,8 +426,8 @@ class AccountFragment : BaseFragment() {
     private fun accountUnionNameDialogFragment() {
         // when union name value is clicked
         childFragmentManager.setFragmentResultListener(
-                ACCOUNT_UNION_NAME_REQUEST_KEY,
-                requireActivity()
+            ACCOUNT_UNION_NAME_REQUEST_KEY,
+            requireActivity()
         ) { key, bundle ->
             // collect input values from dialog fragment and update the union name text of user
             val unionName = bundle.getString(ACCOUNT_UNION_NAME_BUNDLE_KEY)
@@ -436,14 +437,14 @@ class AccountFragment : BaseFragment() {
         // when union name value is clicked
         binding.accountFragmentNameOfUnionValueTextView.setOnClickListener {
             val currentUnionName =
-                    binding.accountFragmentNameOfUnionValueTextView.text.toString()
+                binding.accountFragmentNameOfUnionValueTextView.text.toString()
             val bundle = bundleOf(CURRENT_ACCOUNT_UNION_NAME_BUNDLE_KEY to currentUnionName)
             createProfileDialogFragment(
-                    R.layout.account_union_name_dialog_fragment,
-                    bundle
+                R.layout.account_union_name_dialog_fragment,
+                bundle
             ).show(
-                    childFragmentManager,
-                    AccountFragment::class.java.simpleName
+                childFragmentManager,
+                AccountFragment::class.java.simpleName
             )
         }
     }
@@ -451,8 +452,8 @@ class AccountFragment : BaseFragment() {
     private fun accountUnionWardDialogFragment() {
         // when ward name value is clicked
         childFragmentManager.setFragmentResultListener(
-                ACCOUNT_UNION_WARD_REQUEST_KEY,
-                requireActivity()
+            ACCOUNT_UNION_WARD_REQUEST_KEY,
+            requireActivity()
         ) { key, bundle ->
             // collect input values from dialog fragment and update the union name text of user
             val unionWard = bundle.getString(ACCOUNT_UNION_WARD_BUNDLE_KEY)
@@ -462,14 +463,14 @@ class AccountFragment : BaseFragment() {
         // when union ward value is clicked
         binding.accountFragmentWardValueTextView.setOnClickListener {
             val currentUnionWard =
-                    binding.accountFragmentWardValueTextView.text.toString()
+                binding.accountFragmentWardValueTextView.text.toString()
             val bundle = bundleOf(CURRENT_ACCOUNT_UNION_WARD_BUNDLE_KEY to currentUnionWard)
             createProfileDialogFragment(
-                    R.layout.account_union_ward_dialog_fragment,
-                    bundle
+                R.layout.account_union_ward_dialog_fragment,
+                bundle
             ).show(
-                    childFragmentManager,
-                    AccountFragment::class.java.simpleName
+                childFragmentManager,
+                AccountFragment::class.java.simpleName
             )
         }
     }
@@ -477,8 +478,8 @@ class AccountFragment : BaseFragment() {
     private fun accountUnionLGADialogFragment() {
         // when lga name value is clicked
         childFragmentManager.setFragmentResultListener(
-                ACCOUNT_UNION_LGA_REQUEST_KEY,
-                requireActivity()
+            ACCOUNT_UNION_LGA_REQUEST_KEY,
+            requireActivity()
         ) { key, bundle ->
             // collect input values from dialog fragment and update the union lga text of user
             val unionLga = bundle.getString(ACCOUNT_UNION_LGA_BUNDLE_KEY)
@@ -488,14 +489,14 @@ class AccountFragment : BaseFragment() {
         // when lga value is clicked
         binding.accountFragmentLocalGovtAreaValueTextView.setOnClickListener {
             val currentUnionState =
-                    binding.accountFragmentLocalGovtAreaValueTextView.text.toString()
+                binding.accountFragmentLocalGovtAreaValueTextView.text.toString()
             val bundle = bundleOf(CURRENT_ACCOUNT_UNION_LGA_BUNDLE_KEY to currentUnionState)
             createProfileDialogFragment(
-                    R.layout.account_union_lga_dialog_fragment,
-                    bundle
+                R.layout.account_union_lga_dialog_fragment,
+                bundle
             ).show(
-                    childFragmentManager,
-                    AccountFragment::class.java.simpleName
+                childFragmentManager,
+                AccountFragment::class.java.simpleName
             )
         }
     }
@@ -503,8 +504,8 @@ class AccountFragment : BaseFragment() {
     private fun accountUnionStateDialogFragment() {
         // when state name value is clicked
         childFragmentManager.setFragmentResultListener(
-                ACCOUNT_UNION_STATE_REQUEST_KEY,
-                requireActivity()
+            ACCOUNT_UNION_STATE_REQUEST_KEY,
+            requireActivity()
         ) { key, bundle ->
             // collect input values from dialog fragment and update the union name text of user
             val unionState = bundle.getString(ACCOUNT_UNION_STATE_BUNDLE_KEY)
@@ -514,14 +515,14 @@ class AccountFragment : BaseFragment() {
         // when state value is clicked
         binding.accountFragmentStateValueTextView.setOnClickListener {
             val currentUnionState =
-                    binding.accountFragmentStateValueTextView.text.toString()
+                binding.accountFragmentStateValueTextView.text.toString()
             val bundle = bundleOf(CURRENT_ACCOUNT_STATE_NAME_BUNDLE_KEY to currentUnionState)
             createProfileDialogFragment(
-                    R.layout.account_union_state_dialog_fragment,
-                    bundle
+                R.layout.account_union_state_dialog_fragment,
+                bundle
             ).show(
-                    childFragmentManager,
-                    AccountFragment::class.java.simpleName
+                childFragmentManager,
+                AccountFragment::class.java.simpleName
             )
         }
     }
@@ -530,8 +531,8 @@ class AccountFragment : BaseFragment() {
     private fun accountGenderSelectDialog() {
         // when gender value is clicked
         childFragmentManager.setFragmentResultListener(
-                ACCOUNT_GENDER_REQUEST_KEY,
-                requireActivity()
+            ACCOUNT_GENDER_REQUEST_KEY,
+            requireActivity()
         ) { key, bundle ->
             // collect input values from dialog fragment and update the text of user
             val gender = bundle.getString(ACCOUNT_GENDER_BUNDLE_KEY)
@@ -543,7 +544,7 @@ class AccountFragment : BaseFragment() {
             val currentGender = binding.accountFragmentGenderValueTextView.text.toString()
             val bundle = bundleOf(CURRENT_ACCOUNT_GENDER_BUNDLE_KEY to currentGender)
             createProfileDialogFragment(R.layout.account_gender_dialog_fragment, bundle).show(
-                    childFragmentManager, AccountFragment::class.java.simpleName
+                childFragmentManager, AccountFragment::class.java.simpleName
             )
         }
     }
@@ -577,22 +578,22 @@ class AccountFragment : BaseFragment() {
         const val ACCOUNT_WORKSHOP_STATE_REQUEST_KEY = "ACCOUNT WORKSHOP STATE REQUEST KEY"
         const val ACCOUNT_WORKSHOP_STATE_BUNDLE_KEY = "ACCOUNT WORKSHOP STATE BUNDLE KEY"
         const val CURRENT_ACCOUNT_WORKSHOP_STATE_BUNDLE_KEY =
-                "CURRENT ACCOUNT WORKSHOP STATE BUNDLE KEY"
+            "CURRENT ACCOUNT WORKSHOP STATE BUNDLE KEY"
 
         const val ACCOUNT_WORKSHOP_CITY_REQUEST_KEY = "ACCOUNT WORKSHOP CITY REQUEST KEY"
         const val ACCOUNT_WORKSHOP_CITY_BUNDLE_KEY = "ACCOUNT WORKSHOP CITY BUNDLE KEY"
         const val CURRENT_ACCOUNT_WORKSHOP_CITY_BUNDLE_KEY =
-                "CURRENT ACCOUNT WORKSHOP CITY BUNDLE KEY"
+            "CURRENT ACCOUNT WORKSHOP CITY BUNDLE KEY"
 
         const val ACCOUNT_WORKSHOP_STREET_REQUEST_KEY = "ACCOUNT WORKSHOP STREET REQUEST KEY"
         const val ACCOUNT_WORKSHOP_STREET_BUNDLE_KEY = "ACCOUNT WORKSHOP STREET BUNDLE KEY"
         const val CURRENT_ACCOUNT_WORKSHOP_STREET_BUNDLE_KEY =
-                "CURRENT ACCOUNT WORKSHOP STREET BUNDLE KEY"
+            "CURRENT ACCOUNT WORKSHOP STREET BUNDLE KEY"
 
         const val ACCOUNT_SHOWROOM_ADDRESS_REQUEST_KEY = "ACCOUNT SHOWROOM ADDRESS REQUEST KEY"
         const val ACCOUNT_SHOWROOM_ADDRESS_BUNDLE_KEY = "ACCOUNT SHOWROOM ADDRESS BUNDLE KEY"
         const val CURRENT_ACCOUNT_SHOWROOM_ADDRESS_BUNDLE_KEY =
-                "CURRENT ACCOUNT SHOWROOM ADDRESS BUNDLE KEY"
+            "CURRENT ACCOUNT SHOWROOM ADDRESS BUNDLE KEY"
 
         const val ACCOUNT_UNION_NAME_REQUEST_KEY = "ACCOUNT UNION NAME REQUEST KEY"
         const val ACCOUNT_UNION_NAME_BUNDLE_KEY = "ACCOUNT UNION NAME BUNDLE KEY"
@@ -613,7 +614,7 @@ class AccountFragment : BaseFragment() {
         const val ACCOUNT_LEGAL_STATUS_REQUEST_KEY = "ACCOUNT LEGAL STATUS REQUEST KEY"
         const val ACCOUNT_LEGAL_STATUS_BUNDLE_KEY = "ACCOUNT LEGAL STATUS BUNDLE KEY"
         const val CURRENT_ACCOUNT_LEGAL_STATUS_BUNDLE_KEY =
-                "CURRENT ACCOUNT LEGAL STATUS BUNDLE KEY"
+            "CURRENT ACCOUNT LEGAL STATUS BUNDLE KEY"
 
         const val READ_IMAGE_STORAGE = 102
         const val NAME = "CLads"

@@ -19,9 +19,7 @@ interface ApiService {
 
     /*Register User */
     @POST("artisans/register")
-    suspend fun registerUser(
-        @Body user: UserRegistrationDTO
-    ): GenericResponseClass<String>
+    suspend fun registerUser(@Body user: UserRegistrationDTO): GenericResponseClass<UserProfile>
 
     /*Email Login*/
     @POST("login")
