@@ -22,14 +22,17 @@
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/resources_article_fragment_articles_recycler_view"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="0dp"
+        android:layout_marginBottom="@dimen/margin_30dp"
         android:layout_marginTop="@dimen/margin_20dp"
-        android:paddingStart="@dimen/margin_14dp"
-        app:spanCount="3"
+        android:paddingHorizontal="@dimen/margin_14dp"
+        android:paddingBottom="@dimen/margin_15dp"
+        app:spanCount="2"
         app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/resources_article_fragment_article_text_view"
-        tools:listitem="@layout/resource_general_article_item" />
+        tools:listitem="@layout/resource_general_article_view_all_item" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

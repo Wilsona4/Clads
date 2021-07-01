@@ -72,6 +72,7 @@
     <string name="resources">Resources</string>
     <string name="subscription">Subscription</string>
     <string name="logout">Logout</string>
+    <string name="login_status">LOGIN_STATU</string>
     <string name="edit_profile">Edit Profile</string>
     <string name="ijeoma_ibukun_babangida">Ijeoma Ibukun Babangida</string>
     <string name="version_1_0">version 1.0</string>
@@ -300,7 +301,7 @@
     <string name="city">City</string>
     <string name="lagos">Lagos</string>
     <string name="street">Street</string>
-    <string name="no_7_decabon_way_lekki">No 7 Decabon way, lekki</string>
+    <string name="no_7_decabon_way_lekki">No 7 Decagon way, Lekki</string>
     <string name="_2020">2020</string>
     <string name="required">Required</string>
     <string name="tag_employee_number_dialog_fragment">Employee Number dialog fragment</string>
@@ -327,13 +328,22 @@
     <string name="please_wait">Please wait...</string>
     <string name="invalid_phone_number">Invalid Phone number</string>
     <string name="all_phone_number_is_required">Phone Number is required</string>
+
+
     <string name="signed_up">SIGNED_UP</string>
+    <string name="user_name">USER_NAME</string>
+    <string name="log_in">LOGIN</string>
+    <string name="log_out">LOGOUT</string>
+
     <string name="how_to_perfectly_sew_attire">How to perfectly sew attire</string>
     <string name="posted_1_month_ago">Posted 1 month ago</string>
     <string name="how_to_sew_attire">How to sew attire</string>
     <string name="_1_hour_30_minutes">1 hour 30 minutes</string>
     <string name="individual_video">Individual Video</string>
 
+    <string name="resource_view_individual_article_fragment_article_link_key">articleItem</string>
+    <string name="enter_address">Enter Address</string>
+    <string name="enter_union_resource">Enter Union Details</string>
 
     <string-array name="account_category">
         <item>Tailor</item>

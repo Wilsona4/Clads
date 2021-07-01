@@ -7,6 +7,7 @@ import android.view.ViewGroup
 import android.widget.ArrayAdapter
 import android.widget.AutoCompleteTextView
 import android.widget.TextView
+import android.widget.Toast
 import androidx.core.widget.doOnTextChanged
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.Observer
@@ -16,11 +17,11 @@ import com.decagonhq.clads.data.domain.registration.UserRegistration
 import com.decagonhq.clads.databinding.EmailSignUpFragmentBinding
 import com.decagonhq.clads.ui.BaseFragment
 import com.decagonhq.clads.util.Resource
-import com.decagonhq.clads.util.SessionManager
 import com.decagonhq.clads.util.ValidationObject.jdValidatePhoneNumber
 import com.decagonhq.clads.util.ValidationObject.validateAccountCategory
 import com.decagonhq.clads.util.ValidationObject.validateEmail
 import com.decagonhq.clads.util.ValidationObject.validatePasswordMismatch
+import com.decagonhq.clads.util.handleApiError
 import com.decagonhq.clads.viewmodels.AuthenticationViewModel
 import com.decagonhq.clads.viewmodels.UserProfileViewModel
 import com.google.android.gms.auth.api.signin.GoogleSignIn
@@ -29,7 +30,6 @@ import com.google.android.gms.auth.api.signin.GoogleSignInOptions
 import com.google.android.material.button.MaterialButton
 import com.google.android.material.textfield.TextInputEditText
 import dagger.hilt.android.AndroidEntryPoint
-import javax.inject.Inject
 
 @AndroidEntryPoint
 class EmailSignUpFragment : BaseFragment() {
@@ -37,11 +37,8 @@ class EmailSignUpFragment : BaseFragment() {
     private var _binding: EmailSignUpFragmentBinding? = null
     private val binding get() = _binding!!
 
-    val authenticationViewModel: AuthenticationViewModel by activityViewModels()
-    val userProfileViewModel: UserProfileViewModel by activityViewModels()
-
-    @Inject
-    lateinit var sessionManager: SessionManager
+    private val authenticationViewModel: AuthenticationViewModel by activityViewModels()
+    private val userProfileViewModel: UserProfileViewModel by activityViewModels()
 
     private lateinit var firstNameEditText: TextInputEditText
     private lateinit var lastNameEditText: TextInputEditText
@@ -87,10 +84,20 @@ class EmailSignUpFragment : BaseFragment() {
                             userProfileViewModel.saveUserProfileToLocalDatabase()
                         }
                         progressDialog.hideProgressDialog()
+                        sessionManager.saveToSharedPref(
+                            getString(R.string.user_name),
+                            firstNameEditText.text.toString()
+                        )
+                        Toast.makeText(
+                            requireContext(),
+                            "Registered successfully",
+                            Toast.LENGTH_SHORT
+                        ).show()
                         findNavController().navigate(R.id.action_emailSignUpFragment_to_emailConfirmationFragment)
                     }
                     is Resource.Error -> {
                         progressDialog.hideProgressDialog()
+                        handleApiError(it, mainRetrofit, requireView())
                     }
                     is Resource.Loading -> {
                         it.message?.let { message ->

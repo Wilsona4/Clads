@@ -8,9 +8,9 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.decagonhq.clads.R
 import com.decagonhq.clads.data.domain.resource.ResourceGeneralArticleModel
-import com.decagonhq.clads.databinding.ResourceGeneralArticleItemBinding
+import com.decagonhq.clads.databinding.ResourceGeneralArticleViewAllItemBinding
 
-class GeneralArticleRvAdapter(private val interaction: Interaction? = null) :
+class ViewAllArticleRvAdapter(private val interaction: Interaction? = null) :
     RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
     private val diffCallback = object : DiffUtil.ItemCallback<ResourceGeneralArticleModel>() {
@@ -32,7 +32,7 @@ class GeneralArticleRvAdapter(private val interaction: Interaction? = null) :
     private val differ = AsyncListDiffer(this, diffCallback)
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
-        val binding = ResourceGeneralArticleItemBinding.inflate(
+        val binding = ResourceGeneralArticleViewAllItemBinding.inflate(
             LayoutInflater.from(parent.context), parent,
             false
         )
@@ -60,7 +60,7 @@ class GeneralArticleRvAdapter(private val interaction: Interaction? = null) :
 
     class ViewHolder
     constructor(
-        private val binding: ResourceGeneralArticleItemBinding,
+        private val binding: ResourceGeneralArticleViewAllItemBinding,
         private val interaction: Interaction?
     ) : RecyclerView.ViewHolder(binding.root) {
 

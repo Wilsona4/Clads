@@ -7,6 +7,7 @@ import android.content.Context
 import android.content.Intent
 import android.os.Build
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import android.view.WindowManager
 import android.widget.ImageView
@@ -137,7 +138,11 @@ class DashboardActivity : AppCompatActivity() {
 
                     Intent(this, MainActivity::class.java).also {
                         sessionManager.clearSharedPref()
-//                        sessionManager.saveBooleanToSharedPref()
+                        sessionManager.saveToSharedPref(
+                            getString(R.string.login_status),
+                            getString(R.string.log_out)
+                        )
+                        Log.d("LOGOUT", "onCreate: ${sessionManager.saveToSharedPref(getString(R.string.login_status), getString(R.string.log_out))}")
                         startActivity(it)
                         finish()
                     }
@@ -270,6 +275,41 @@ class DashboardActivity : AppCompatActivity() {
                         toolbarFragmentName.visibility = View.INVISIBLE
                     }
                     R.id.mediaFragmentPhotoName -> {
+                        bottomNavigationView.visibility = View.GONE
+                        toolbarProfilePicture.visibility = View.GONE
+                        toolbarUserName.visibility = View.GONE
+                        toolbarNotificationIcon.visibility = View.GONE
+                        toolbarFragmentName.visibility = View.INVISIBLE
+                    }
+                    R.id.resourceArticlesFragment -> {
+                        bottomNavigationView.visibility = View.GONE
+                        toolbarProfilePicture.visibility = View.GONE
+                        toolbarUserName.visibility = View.GONE
+                        toolbarNotificationIcon.visibility = View.GONE
+                        toolbarFragmentName.visibility = View.INVISIBLE
+                    }
+                    R.id.resourceGeneralFragment -> {
+                        bottomNavigationView.visibility = View.GONE
+                        toolbarProfilePicture.visibility = View.GONE
+                        toolbarUserName.visibility = View.GONE
+                        toolbarNotificationIcon.visibility = View.GONE
+                        toolbarFragmentName.visibility = View.INVISIBLE
+                    }
+                    R.id.resourceVideosFragment -> {
+                        bottomNavigationView.visibility = View.GONE
+                        toolbarProfilePicture.visibility = View.GONE
+                        toolbarUserName.visibility = View.GONE
+                        toolbarNotificationIcon.visibility = View.GONE
+                        toolbarFragmentName.visibility = View.INVISIBLE
+                    }
+                    R.id.resourceViewIndividualArticleFragment -> {
+                        bottomNavigationView.visibility = View.GONE
+                        toolbarProfilePicture.visibility = View.GONE
+                        toolbarUserName.visibility = View.GONE
+                        toolbarNotificationIcon.visibility = View.GONE
+                        toolbarFragmentName.visibility = View.INVISIBLE
+                    }
+                    R.id.individualVideoScreenFragment -> {
                         bottomNavigationView.visibility = View.GONE
                         toolbarProfilePicture.visibility = View.GONE
                         toolbarUserName.visibility = View.GONE

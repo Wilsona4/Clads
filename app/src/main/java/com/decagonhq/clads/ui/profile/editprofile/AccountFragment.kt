@@ -42,8 +42,8 @@ class AccountFragment : BaseFragment() {
     private lateinit var phoneNumberValueTextView: MaterialTextView
     private lateinit var genderValueTextView: MaterialTextView
     private lateinit var workAddressStateValueTextView: MaterialTextView
-    private lateinit var cityValueTextView: MaterialTextView
-    private lateinit var streetValueTextView: MaterialTextView
+    private lateinit var workshopCityValueTextView: MaterialTextView
+    private lateinit var workshopStreetValueTextView: MaterialTextView
     private lateinit var showRoomAddressValueTextView: MaterialTextView
     private lateinit var numberOfEmployeeValueApprenticeTextView: MaterialTextView
     private lateinit var legalStatusValueTextView: MaterialTextView
@@ -73,15 +73,15 @@ class AccountFragment : BaseFragment() {
         phoneNumberValueTextView = binding.accountFragmentPhoneNumberValueTextView
         genderValueTextView = binding.accountFragmentGenderValueTextView
         workAddressStateValueTextView = binding.accountFragmentStateValueTextView
-        cityValueTextView = binding.accountFragmentWorkshopAddressCityValueTextView
-        streetValueTextView = binding.accountFragmentWorkshopAddressStreetValueTextView
+        workshopCityValueTextView = binding.accountFragmentWorkshopAddressCityValueTextView
+        workshopStreetValueTextView = binding.accountFragmentWorkshopAddressStreetValueTextView
         showRoomAddressValueTextView = binding.accountFragmentShowroomAddressValueTextView
         numberOfEmployeeValueApprenticeTextView =
             binding.accountFragmentNumberOfEmployeeApprenticeValueTextView
         legalStatusValueTextView = binding.accountFragmentLegalStatusValueTextView
         nameOfUnionValueTextView = binding.accountFragmentNameOfUnionValueTextView
         wardValueTextView = binding.accountFragmentWardValueTextView
-        localGovernmentAreaTextView = binding.accountFragmentLocalGovtAreaTextView
+        localGovernmentAreaTextView = binding.accountFragmentLocalGovtAreaValueTextView
         unionStateValueTextView = binding.accountFragmentStateValueTextView
 
         /*Dialog fragment functions*/
@@ -113,22 +113,71 @@ class AccountFragment : BaseFragment() {
         userProfileViewModel.userProfile.observe(
             viewLifecycleOwner,
             Observer {
-                when (it) {
-                    is Resource.Loading -> {
+                if (it is Resource.Loading && it.data?.firstName.isNullOrEmpty()) {
+                    it.message?.let { message ->
+                        progressDialog.showDialogFragment(message)
                     }
-                    is Resource.Success -> {
-                        progressDialog.hideProgressDialog()
-                        it.data?.let { userProfile ->
-                            firstNameValueTextView.text = userProfile.firstName
-                            lastNameValueTextView.text = userProfile.lastName
-                            phoneNumberValueTextView.text = userProfile.phoneNumber
-                        }
-                    }
-                    is Resource.Error -> {
-                        progressDialog.hideProgressDialog()
-                        handleApiError(it, mainRetrofit, requireView())
+                } else if (it is Resource.Error) {
+                    progressDialog.hideProgressDialog()
+                    handleApiError(it, mainRetrofit, requireView())
+                } else {
+                    it.data?.let { userProfile ->
+                        firstNameValueTextView.text = userProfile.firstName
+                        lastNameValueTextView.text = userProfile.lastName
+                        phoneNumberValueTextView.text = userProfile.phoneNumber
+                        workAddressStateValueTextView.text = userProfile.workshopAddress?.state
+                            ?: getString(R.string.lagos)
+                        workshopCityValueTextView.text = userProfile.workshopAddress?.city
+                            ?: getString(R.string.lagos)
+                        workshopStreetValueTextView.text = userProfile.workshopAddress?.street
+                            ?: getString(R.string.enter_address)
+                        showRoomAddressValueTextView.text = userProfile.showroomAddress?.state
+                            ?: getString(R.string.enter_address)
+                        nameOfUnionValueTextView.text = userProfile.union?.name ?: getString(R.string.enter_union_resource)
+                        wardValueTextView.text = userProfile.union?.ward ?: getString(R.string.enter_union_resource)
+                        localGovernmentAreaTextView.text = userProfile.union?.lga ?: getString(R.string.enter_union_resource)
+                        unionStateValueTextView.text = userProfile.union?.state ?: getString(R.string.enter_union_resource)
+
+//                                Glide.with(requireContext())
+//                                        .load(userProfile.thumbnail.toUri())
+//                                        .into(binding.accountFragmentEditProfileIconImageView)
                     }
                 }
+
+//                    when (it) {
+//                        is Resource.Loading -> {
+//
+//                        }
+//                        is Resource.Success -> {
+//                            progressDialog.hideProgressDialog()
+//
+//                            it.data?.let { userProfile ->
+//                                firstNameValueTextView.text = userProfile.firstName
+//                                lastNameValueTextView.text = userProfile.lastName
+//                                phoneNumberValueTextView.text = userProfile.phoneNumber
+//                                workAddressStateValueTextView.text = userProfile.workshopAddress?.state
+//                                        ?: getString(R.string.lagos)
+//                                workshopCityValueTextView.text = userProfile.workshopAddress?.city
+//                                        ?: getString(R.string.lagos)
+//                                workshopStreetValueTextView.text = userProfile.workshopAddress?.street
+//                                        ?: getString(R.string.enter_address)
+//                                showRoomAddressValueTextView.text = userProfile.showroomAddress?.state
+//                                        ?: getString(R.string.lagos)
+//                                nameOfUnionValueTextView.text = userProfile.union?.name
+//                                wardValueTextView.text = userProfile.union?.ward
+//                                localGovernmentAreaTextView.text = userProfile.union?.lga
+//                                unionStateValueTextView.text = userProfile.union?.state
+//
+// //                                Glide.with(requireContext())
+// //                                        .load(userProfile.thumbnail.toUri())
+// //                                        .into(binding.accountFragmentEditProfileIconImageView)
+//                            }
+//                        }
+//                        is Resource.Error -> {
+//                            progressDialog.hideProgressDialog()
+//                            handleApiError(it, mainRetrofit, requireView())
+//                        }
+//                    }
             }
         )
     }
