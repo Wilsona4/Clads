@@ -84,6 +84,7 @@ class AccountFragment : BaseFragment() {
                         val successResponse = it.value.payload
                         progressDialog.hideProgressDialog()
 
+                        /*To be completed later*/
                         binding.apply {
                             accountFragmentFirstNameValueTextView.text = successResponse.firstName
                             accountFragmentLastNameValueTextView.text = successResponse.lastName
