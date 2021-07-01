@@ -339,6 +339,7 @@
     <string name="individual_video">Individual Video</string>
     <string name="permision_to_access">\"Permission to access your \"</string>
     <string name="is_required_to_use_this_app">\" is required to use this app\"</string>
+    <string name="resource_view_individual_article_fragment_article_link_key">articleItem</string>
 
 
     <string-array name="account_category">
