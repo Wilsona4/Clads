@@ -16,7 +16,7 @@ import androidx.appcompat.app.AlertDialog
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.core.os.bundleOf
-import androidx.fragment.app.viewModels
+import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.Observer
 import com.decagonhq.clads.R
 import com.decagonhq.clads.databinding.AccountFragmentBinding
@@ -32,7 +32,7 @@ class AccountFragment : BaseFragment() {
     private var _binding: AccountFragmentBinding? = null
     private var selectedImage: Uri? = null
 
-    private val userProfileViewModel: UserProfileViewModel by viewModels()
+    private val userProfileViewModel: UserProfileViewModel by activityViewModels()
 
     // This property is only valid between onCreateView and onDestroyView.
     private val binding get() = _binding!!
@@ -48,6 +48,7 @@ class AccountFragment : BaseFragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
         /*Dialog fragment functions*/
         accountFirstNameEditDialog()
         accountGenderSelectDialog()
@@ -68,44 +69,51 @@ class AccountFragment : BaseFragment() {
         binding.accountFragmentChangePictureTextView.setOnClickListener {
             Manifest.permission.READ_EXTERNAL_STORAGE.checkForPermission(NAME, READ_IMAGE_STORAGE)
         }
-
         /*Get users profile*/
         getUserProfile()
     }
 
     private fun getUserProfile() {
+        userProfileViewModel.getUserProfile()
         userProfileViewModel.userProfile.observe(
             viewLifecycleOwner,
             Observer {
-                when (it) {
-                    is Resource.Loading -> {
+                if (it is Resource.Loading && it.data?.firstName.isNullOrEmpty()) {
+                    it.message?.let { message ->
+                        progressDialog.showDialogFragment(message)
                     }
-                    is Resource.Success -> {
-                        val successResponse = it.value.payload
-                        progressDialog.hideProgressDialog()
+                } else if (it is Resource.Error) {
+                    progressDialog.hideProgressDialog()
+                    handleApiError(it, mainRetrofit, requireView())
+                } else {
+                    it.data?.let { userProfile ->
 
-                        /*To be completed later*/
                         binding.apply {
-                            accountFragmentFirstNameValueTextView.text = successResponse.firstName
-                            accountFragmentLastNameValueTextView.text = successResponse.lastName
-                            accountFragmentPhoneNumberValueTextView.text = successResponse.phoneNumber
-                            accountFragmentGenderValueTextView.text = successResponse.gender
-//                            accountFragmentStateValueTextView.text = successResponse.workshopAddress.state
-//                            accountFragmentWorkshopAddressCityValueTextView.text = successResponse.workshopAddress.city
-//                            accountFragmentWorkshopAddressStreetValueTextView.text = successResponse.workshopAddress.street
-//                            accountFragmentShowroomAddressValueTextView.text = successResponse.showroomAddress.state
-//                            accountFragmentNameOfUnionValueTextView.text = successResponse.union.name
-//                            accountFragmentWardValueTextView.text = successResponse.union.ward
-//                            accountFragmentLocalGovtAreaTextView.text = successResponse.union.lga
-//                            accountFragmentStateValueTextView.text = successResponse.union.state
+                            accountFragmentFirstNameValueTextView.text = userProfile.firstName
+                            accountFragmentLastNameValueTextView.text = userProfile.lastName
+                            accountFragmentPhoneNumberValueTextView.text = userProfile.phoneNumber
+                            accountFragmentGenderValueTextView.text = userProfile.gender
+                            accountFragmentStateValueTextView.text = userProfile.workshopAddress?.state
+                                ?: getString(R.string.lagos)
+                            accountFragmentWorkshopAddressCityValueTextView.text = userProfile.workshopAddress?.city
+                                ?: getString(R.string.lagos)
+                            accountFragmentWorkshopAddressStreetValueTextView.text = userProfile.workshopAddress?.street
+                                ?: getString(R.string.enter_address)
+                            accountFragmentShowroomAddressValueTextView.text = userProfile.showroomAddress?.state
+                                ?: getString(R.string.enter_address)
+                            accountFragmentNameOfUnionValueTextView.text = userProfile.union?.name
+                                ?: getString(R.string.enter_union_name)
+                            accountFragmentWardValueTextView.text = userProfile.union?.ward
+                                ?: getString(R.string.enter_union_ward)
+                            accountFragmentLocalGovtAreaValueTextView.text = userProfile.union?.lga
+                                ?: getString(R.string.enter_union_resource)
+                            accountFragmentStateValueTextView.text = userProfile.union?.state
+                                ?: getString(R.string.enter_union_resource)
                         }
-//                        Glide.with(requireContext())
-//                            .load(successResponse.thumbnail.toUri())
-//                            .into(binding.accountFragmentEditProfileIconImageView)
-                    }
-                    is Resource.Error -> {
-                        progressDialog.hideProgressDialog()
-                        handleApiError(it, mainRetrofit, requireView())
+
+//                                Glide.with(requireContext())
+//                                        .load(userProfile.thumbnail.toUri())
+//                                        .into(binding.accountFragmentEditProfileIconImageView)
                     }
                 }
             }

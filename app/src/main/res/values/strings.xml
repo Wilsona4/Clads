@@ -301,7 +301,7 @@
     <string name="city">City</string>
     <string name="lagos">Lagos</string>
     <string name="street">Street</string>
-    <string name="no_7_decabon_way_lekki">No 7 Decabon way, lekki</string>
+    <string name="no_7_decabon_way_lekki">No 7 Decagon way, Lekki</string>
     <string name="_2020">2020</string>
     <string name="required">Required</string>
     <string name="tag_employee_number_dialog_fragment">Employee Number dialog fragment</string>
@@ -328,10 +328,13 @@
     <string name="please_wait">Please wait...</string>
     <string name="invalid_phone_number">Invalid Phone number</string>
     <string name="all_phone_number_is_required">Phone Number is required</string>
+
+
     <string name="signed_up">SIGNED_UP</string>
     <string name="user_name">USER_NAME</string>
     <string name="log_in">LOGIN</string>
     <string name="log_out">LOGOUT</string>
+
     <string name="how_to_perfectly_sew_attire">How to perfectly sew attire</string>
     <string name="posted_1_month_ago">Posted 1 month ago</string>
     <string name="how_to_sew_attire">How to sew attire</string>
@@ -339,11 +342,15 @@
     <string name="individual_video">Individual Video</string>
     <string name="permision_to_access">\Permission to access your \</string>
     <string name="is_required_to_use_this_app">\ is required to use this app\</string>
-    <string name="resource_view_individual_article_fragment_article_link_key">articleItem</string>
     <string name="hi">Hi %s</string>
     <string name="confirk_email_hi">Hi</string>
     <string name="confirm_email_you_are_ready_to_go">, you are almost ready to start enjoying clads. Simply click the blue button below to verify your email address</string>
 
+    <string name="resource_view_individual_article_fragment_article_link_key">articleItem</string>
+    <string name="enter_address">Enter Address</string>
+    <string name="enter_union_resource">Enter Union Details</string>
+    <string name="enter_union_name">Enter Union Name</string>
+    <string name="enter_union_ward">Enter Union Ward</string>
 
     <string-array name="account_category">
         <item>Tailor</item>

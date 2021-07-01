@@ -44,7 +44,7 @@ class EmailConfirmationFragment : BaseFragment() {
         }
 
         binding.emailConfirmationFragmentVerifyEmailTextTextView.text = getString(R.string.confirk_email_hi) + userName +
-                getString(R.string.confirm_email_you_are_ready_to_go)
+            getString(R.string.confirm_email_you_are_ready_to_go)
     }
 
     override fun onDestroyView() {

@@ -1,6 +1,5 @@
-package com.decagonhq.clads.repository
+package com.decagonhq.clads.util
 
-import com.decagonhq.clads.util.Resource
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import retrofit2.HttpException
@@ -16,7 +15,7 @@ abstract class SafeApiCall {
                     is HttpException -> {
 //                        val t = throwable.response()?.errorBody()?.charStream()
                         val code = throwable.code()
-                        Resource.Error(false, code, throwable.response() as Response<Any>)
+                        Resource.Error(false, throwable.response() as Response<Any>)
                     }
                     else -> {
                         Resource.Error(true, null, null)

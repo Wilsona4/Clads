@@ -7,7 +7,6 @@ import android.content.Context
 import android.content.Intent
 import android.os.Build
 import android.os.Bundle
-import android.util.Log
 import android.view.View
 import android.view.WindowManager
 import android.widget.ImageView
@@ -30,9 +29,7 @@ import com.decagonhq.clads.R
 import com.decagonhq.clads.databinding.DashboardActivityBinding
 import com.decagonhq.clads.ui.authentication.MainActivity
 import com.decagonhq.clads.ui.profile.bottomnav.MessagesFragment
-import com.decagonhq.clads.util.Resource
 import com.decagonhq.clads.util.SessionManager
-import com.decagonhq.clads.util.handleApiError
 import com.decagonhq.clads.viewmodels.UserProfileViewModel
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.android.material.navigation.NavigationView
@@ -55,12 +52,17 @@ class DashboardActivity : AppCompatActivity() {
     private lateinit var toolbarFragmentName: TextView
     private lateinit var drawerCloseIcon: ImageView
     private lateinit var navigationView: NavigationView
-    private lateinit var profileName:TextView
+    private lateinit var profileName: TextView
 
     @Inject
     lateinit var sessionManager: SessionManager
 
     private val userProfileViewModel: UserProfileViewModel by viewModels()
+
+    override fun onStart() {
+        super.onStart()
+        userProfileViewModel.saveUserProfileToLocalDatabase()
+    }
 
     @RequiresApi(Build.VERSION_CODES.M)
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -161,9 +163,6 @@ class DashboardActivity : AppCompatActivity() {
                 else -> return@setNavigationItemSelectedListener true
             }
         }
-
-        /*Observing the user profile to display the user name*/
-        getUserProfile()
     }
 
     /*Observing the user profile to display the user name*/
@@ -171,19 +170,13 @@ class DashboardActivity : AppCompatActivity() {
         userProfileViewModel.userProfile.observe(
             this,
             Observer {
-                when (it) {
-                    is Resource.Loading -> {
-                    }
-                    is Resource.Success -> {
-                        val successResponse = it.value.payload
-                        binding.appBarDashboard.dashboardActivityToolbarHiIjeomaTextView.text =
-                            getString(R.string.hi, successResponse.firstName)
-                        profileName.text =
-                            "${successResponse.firstName} ${successResponse.lastName}"
-
-                    }
-                    is Resource.Error -> {
-                    }
+                it.data.let { userProfile ->
+                    binding.appBarDashboard.dashboardActivityToolbarHiIjeomaTextView.text =
+                        getString(R.string.hi, userProfile?.firstName ?: getString(R.string.ijeoma))
+                    val fullName = "${userProfile?.firstName ?: getString(R.string.ijeoma)} ${
+                    userProfile?.lastName ?: getString(R.string.babangida)
+                    }"
+                    profileName.text = fullName
                 }
             }
         )
@@ -200,6 +193,9 @@ class DashboardActivity : AppCompatActivity() {
 
     override fun onResume() {
         super.onResume()
+        /*Observing the user profile to display the user name*/
+        getUserProfile()
+
         navController.addOnDestinationChangedListener(listener)
     }
 
