@@ -291,6 +291,7 @@ class AccountFragment : BaseFragment() {
         )
     }
 
+    /*load the image from shared pref on resume of the account fragment class*/
     override fun onResume() {
         super.onResume()
 
