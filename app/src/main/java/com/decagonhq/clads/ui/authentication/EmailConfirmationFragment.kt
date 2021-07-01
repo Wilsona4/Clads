@@ -33,7 +33,6 @@ class EmailConfirmationFragment : BaseFragment() {
         /*Display user name*/
         val userName = sessionManager.loadFromSharedPref(getString(R.string.user_name))
         binding.emailConfirmationFragmentVerifyEmailTextTextView
-//        val spannable = Spannable
 
         /*Navigate to Login Screen After Confirmation*/
         binding.emailConfirmationFragmentVerifyEmailAddressButton.setOnClickListener {
@@ -43,6 +42,9 @@ class EmailConfirmationFragment : BaseFragment() {
             }
             startActivity(intent)
         }
+
+        binding.emailConfirmationFragmentVerifyEmailTextTextView.text = getString(R.string.confirk_email_hi) + userName +
+                getString(R.string.confirm_email_you_are_ready_to_go)
     }
 
     override fun onDestroyView() {

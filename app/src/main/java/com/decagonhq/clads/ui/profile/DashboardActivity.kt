@@ -12,11 +12,14 @@ import android.view.View
 import android.view.WindowManager
 import android.widget.ImageView
 import android.widget.TextView
+import androidx.activity.viewModels
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.NotificationCompat
 import androidx.core.view.GravityCompat
 import androidx.drawerlayout.widget.DrawerLayout
+import androidx.fragment.app.viewModels
+import androidx.lifecycle.Observer
 import androidx.navigation.NavController
 import androidx.navigation.findNavController
 import androidx.navigation.ui.AppBarConfiguration
@@ -27,7 +30,10 @@ import com.decagonhq.clads.R
 import com.decagonhq.clads.databinding.DashboardActivityBinding
 import com.decagonhq.clads.ui.authentication.MainActivity
 import com.decagonhq.clads.ui.profile.bottomnav.MessagesFragment
+import com.decagonhq.clads.util.Resource
 import com.decagonhq.clads.util.SessionManager
+import com.decagonhq.clads.util.handleApiError
+import com.decagonhq.clads.viewmodels.UserProfileViewModel
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.android.material.navigation.NavigationView
 import dagger.hilt.android.AndroidEntryPoint
@@ -49,9 +55,12 @@ class DashboardActivity : AppCompatActivity() {
     private lateinit var toolbarFragmentName: TextView
     private lateinit var drawerCloseIcon: ImageView
     private lateinit var navigationView: NavigationView
+    private lateinit var profileName:TextView
 
     @Inject
     lateinit var sessionManager: SessionManager
+
+    private val userProfileViewModel: UserProfileViewModel by viewModels()
 
     @RequiresApi(Build.VERSION_CODES.M)
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -84,6 +93,7 @@ class DashboardActivity : AppCompatActivity() {
             binding.appBarDashboard.contentDashboard.dashboardActivityBottomNavigationView
         navigationView = binding.navView
 
+        profileName = navViewHeader.findViewById(R.id.nav_drawer_user_full_name_text_view)
         navController = findNavController(R.id.nav_host_fragment_content_dashboard)
         // Passing each menu ID as a set of Ids because each
         // menu should be considered as top level destinations.
@@ -142,7 +152,7 @@ class DashboardActivity : AppCompatActivity() {
                             getString(R.string.login_status),
                             getString(R.string.log_out)
                         )
-                        Log.d("LOGOUT", "onCreate: ${sessionManager.saveToSharedPref(getString(R.string.login_status), getString(R.string.log_out))}")
+
                         startActivity(it)
                         finish()
                     }
@@ -151,6 +161,32 @@ class DashboardActivity : AppCompatActivity() {
                 else -> return@setNavigationItemSelectedListener true
             }
         }
+
+        /*Observing the user profile to display the user name*/
+        getUserProfile()
+    }
+
+    /*Observing the user profile to display the user name*/
+    private fun getUserProfile() {
+        userProfileViewModel.userProfile.observe(
+            this,
+            Observer {
+                when (it) {
+                    is Resource.Loading -> {
+                    }
+                    is Resource.Success -> {
+                        val successResponse = it.value.payload
+                        binding.appBarDashboard.dashboardActivityToolbarHiIjeomaTextView.text =
+                            getString(R.string.hi, successResponse.firstName)
+                        profileName.text =
+                            "${successResponse.firstName} ${successResponse.lastName}"
+
+                    }
+                    is Resource.Error -> {
+                    }
+                }
+            }
+        )
     }
 
     /*CLose Nav Drawer if open, on back press*/

@@ -37,7 +37,7 @@
                     android:layout_marginStart="@dimen/margin_25dp"
                     android:layout_marginTop="@dimen/margin_8dp"
                     android:fontFamily="@font/poppins_bold"
-                    android:text="@string/hi_ijeoma"
+                    android:text=""
                     android:textColor="@color/toolbar_text_color"
                     android:textSize="@dimen/text_size_16sp"
                     app:layout_constraintStart_toEndOf="@+id/dashboard_activity_toolbar_profile_image_view"
