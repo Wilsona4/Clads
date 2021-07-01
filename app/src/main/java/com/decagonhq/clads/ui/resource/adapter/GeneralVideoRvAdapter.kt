@@ -12,7 +12,6 @@ import com.decagonhq.clads.databinding.ResourceGeneralVideoItemBinding
 import com.google.android.exoplayer2.MediaItem
 import com.google.android.exoplayer2.SimpleExoPlayer
 
-
 class GeneralVideoRvAdapter(private val interaction: Interaction? = null) :
     RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
@@ -66,7 +65,9 @@ class GeneralVideoRvAdapter(private val interaction: Interaction? = null) :
         private var binding: ResourceGeneralVideoItemBinding,
         private val interaction: Interaction?
     ) : RecyclerView.ViewHolder(binding.root) {
+
         var simplePlayer = SimpleExoPlayer.Builder(binding.root.context).build()
+
         fun bind(item: ResourceGeneralVideoModel) = with(itemView) {
             itemView.setOnClickListener {
                 val navigationCurrentDestination = findNavController().currentDestination?.id
@@ -75,6 +76,7 @@ class GeneralVideoRvAdapter(private val interaction: Interaction? = null) :
                 }
 //                interaction?.onItemSelected(adapterPosition, item)
             }
+
             val mediaItem = MediaItem.fromUri(item.videoUrl)
             simplePlayer.addMediaItem(mediaItem)
             binding.resourceGeneralVideoItemTitleTextView.text = item.videoTitle
