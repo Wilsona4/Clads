@@ -19,8 +19,6 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-
-
     <TextView
         android:id="@+id/resource_general_article_item_title_text_view"
         android:layout_width="@dimen/margin_0dp"

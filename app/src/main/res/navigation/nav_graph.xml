@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/nav_graph"
-    app:startDestination="@id/login_fragment">
+    app:startDestination="@id/sign_up_options_fragment">
 
     <fragment
         android:id="@+id/landing_screen_fragment"
@@ -51,9 +51,6 @@
         android:name="com.decagonhq.clads.ui.authentication.LoginFragment"
         android:label="fragment_login"
         tools:layout="@layout/login_fragment">
-        <action
-            android:id="@+id/action_loginFragment_to_dashboardFragment"
-            app:destination="@id/dashboard_fragment" />
         <deepLink
             android:id="@+id/emailConfirmationDeepLink"
             app:uri="https://clads-service.herokuapp.com/api/v1/confirm" />
@@ -88,14 +85,4 @@
             android:id="@+id/action_forgotPasswordFragment_to_confirmPasswordResetFragment"
             app:destination="@id/confirm_password_reset_fragment" />
     </fragment>
-    <fragment
-        android:id="@+id/dashboard_fragment"
-        android:name="com.decagonhq.clads.ui.authentication.DashboardFragment"
-        android:label="fragment_dashboard"
-        tools:layout="@layout/dashboard_fragment" />
-    <fragment
-        android:id="@+id/resourceArticlesFragment2"
-        android:name="com.decagonhq.clads.ui.resource.ResourceArticlesFragment"
-        android:label="resource_articles_fragment"
-        tools:layout="@layout/resource_articles_fragment" />
 </navigation>

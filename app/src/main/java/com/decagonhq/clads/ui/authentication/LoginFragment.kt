@@ -17,7 +17,7 @@ import android.widget.Button
 import android.widget.TextView
 import androidx.core.content.res.ResourcesCompat
 import androidx.core.widget.doOnTextChanged
-import androidx.fragment.app.viewModels
+import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
 import com.decagonhq.clads.R
@@ -55,10 +55,10 @@ class LoginFragment : BaseFragment() {
     private lateinit var cladsSignInClient: GoogleSignInClient
     private var GOOGLE_SIGNIN_RQ_CODE = 100
 
-    private val viewModel: AuthenticationViewModel by viewModels()
-
 //    @Inject
 //    lateinit var sessionManager: SessionManager
+
+    private val viewModel: AuthenticationViewModel by activityViewModels()
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -111,7 +111,6 @@ class LoginFragment : BaseFragment() {
                     return@setOnClickListener
                 }
                 else -> {
-
                     val loginCredentials = LoginCredentials(emailAddress, password)
 
                     /*Handling response from the retrofit*/
@@ -121,17 +120,20 @@ class LoginFragment : BaseFragment() {
                         Observer {
                             when (it) {
                                 is Resource.Loading -> {
-                                    progressDialog.showDialogFragment(it.message)
+                                    it.message?.let { it1 -> progressDialog.showDialogFragment(it1) }
                                 }
                                 is Resource.Success -> {
-                                    val successResponse = it.value.payload
-                                    sessionManager.saveToSharedPref(TOKEN, successResponse)
-                                    sessionManager.saveToSharedPref(
-                                        getString(R.string.login_status),
-                                        getString(
-                                            R.string.log_in
+                                    val successResponse = it.data?.payload
+                                    if (successResponse != null) {
+                                        sessionManager.saveToSharedPref(TOKEN, successResponse)
+                                        sessionManager.saveToSharedPref(
+                                            getString(R.string.login_status),
+                                            getString(
+                                                R.string.log_in
+                                            )
                                         )
-                                    )
+                                    }
+
                                     progressDialog.hideProgressDialog()
                                     val intent =
                                         Intent(requireContext(), DashboardActivity::class.java)
@@ -228,8 +230,10 @@ class LoginFragment : BaseFragment() {
                 Observer {
                     when (it) {
                         is Resource.Success -> {
-                            val successResponse = it.value.payload
-                            sessionManager.saveToSharedPref(TOKEN, successResponse)
+                            val successResponse = it.data?.payload
+                            if (successResponse != null) {
+                                sessionManager.saveToSharedPref(TOKEN, successResponse)
+                            }
 
                             progressDialog.hideProgressDialog()
                             val intent = Intent(requireContext(), DashboardActivity::class.java)

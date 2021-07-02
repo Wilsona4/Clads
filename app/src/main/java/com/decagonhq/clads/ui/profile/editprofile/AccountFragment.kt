@@ -17,6 +17,7 @@ import androidx.appcompat.app.AlertDialog
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.core.os.bundleOf
+import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import com.bumptech.glide.Glide
@@ -31,42 +32,23 @@ import com.decagonhq.clads.util.saveBitmap
 import com.decagonhq.clads.util.uriToBitmap
 import com.decagonhq.clads.viewmodels.ImageUploadViewModel
 import com.decagonhq.clads.viewmodels.UserProfileViewModel
-import com.google.android.material.textview.MaterialTextView
 import com.theartofdev.edmodo.cropper.CropImage
 import dagger.hilt.android.AndroidEntryPoint
-import de.hdodenhof.circleimageview.CircleImageView
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import okhttp3.MultipartBody
 import okhttp3.RequestBody.Companion.asRequestBody
 import timber.log.Timber
-import java.lang.Exception
 
 @AndroidEntryPoint
 class AccountFragment : BaseFragment() {
     private var _binding: AccountFragmentBinding? = null
 
-    private val imageUploadViewModel: ImageUploadViewModel by viewModels()
-    private val userProfileViewModel: UserProfileViewModel by viewModels()
-
-    private lateinit var profileImageView: CircleImageView
-    private lateinit var firstNameValueTextView: MaterialTextView
-    private lateinit var lastNameValueTextView: MaterialTextView
-    private lateinit var phoneNumberValueTextView: MaterialTextView
-    private lateinit var genderValueTextView: MaterialTextView
-    private lateinit var workAddressStateValueTextView: MaterialTextView
-    private lateinit var cityValueTextView: MaterialTextView
-    private lateinit var streetValueTextView: MaterialTextView
-    private lateinit var showRoomAddressValueTextView: MaterialTextView
-    private lateinit var numberOfEmployeeValueApprenticeTextView: MaterialTextView
-    private lateinit var legalStatusValueTextView: MaterialTextView
-    private lateinit var nameOfUnionValueTextView: MaterialTextView
-    private lateinit var wardValueTextView: MaterialTextView
-    private lateinit var localGovernmentAreaTextView: MaterialTextView
-    private lateinit var unionStateValueTextView: MaterialTextView
-    private lateinit var cropActivityResultLauncher: ActivityResultLauncher<Any?>
-
     // This property is only valid between onCreateView and onDestroyView.
     private val binding get() = _binding!!
+
+    private val imageUploadViewModel: ImageUploadViewModel by viewModels()
+    private val userProfileViewModel: UserProfileViewModel by activityViewModels()
+    private lateinit var cropActivityResultLauncher: ActivityResultLauncher<Any?>
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -80,23 +62,6 @@ class AccountFragment : BaseFragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        /**/
-        profileImageView = binding.accountFragmentEditProfileIconImageView
-        firstNameValueTextView = binding.accountFragmentFirstNameValueTextView
-        lastNameValueTextView = binding.accountFragmentLastNameValueTextView
-        phoneNumberValueTextView = binding.accountFragmentPhoneNumberValueTextView
-        genderValueTextView = binding.accountFragmentGenderValueTextView
-        workAddressStateValueTextView = binding.accountFragmentStateValueTextView
-        cityValueTextView = binding.accountFragmentWorkshopAddressCityValueTextView
-        streetValueTextView = binding.accountFragmentWorkshopAddressStreetValueTextView
-        showRoomAddressValueTextView = binding.accountFragmentShowroomAddressValueTextView
-        numberOfEmployeeValueApprenticeTextView =
-            binding.accountFragmentNumberOfEmployeeApprenticeValueTextView
-        legalStatusValueTextView = binding.accountFragmentLegalStatusValueTextView
-        nameOfUnionValueTextView = binding.accountFragmentNameOfUnionValueTextView
-        wardValueTextView = binding.accountFragmentWardValueTextView
-        localGovernmentAreaTextView = binding.accountFragmentLocalGovtAreaTextView
-        unionStateValueTextView = binding.accountFragmentStateValueTextView
 
         /*Dialog fragment functions*/
         accountFirstNameEditDialog()
@@ -112,7 +77,7 @@ class AccountFragment : BaseFragment() {
         accountWorkshopCityDialog()
         accountWorkshopStateDialog()
         accountOtherNameEditDialog()
-        accountlegalStatusdialog()
+        accountLegalStatusDialog()
 
         cropActivityResultLauncher = registerForActivityResult(cropActivityResultContract) {
             it?.let { uri ->
@@ -125,41 +90,55 @@ class AccountFragment : BaseFragment() {
         binding.accountFragmentChangePictureTextView.setOnClickListener {
             Manifest.permission.READ_EXTERNAL_STORAGE.checkForPermission(NAME, READ_IMAGE_STORAGE)
         }
-
         /*Get users profile*/
         getUserProfile()
     }
 
     private fun getUserProfile() {
+        userProfileViewModel.getUserProfile()
         userProfileViewModel.userProfile.observe(
             viewLifecycleOwner,
             Observer {
-                when (it) {
-                    is Resource.Loading -> {
+                if (it is Resource.Loading && it.data?.firstName.isNullOrEmpty()) {
+                    it.message?.let { message ->
+                        progressDialog.showDialogFragment(message)
                     }
-                    is Resource.Success -> {
-                        val successResponse = it.value.payload
-                        progressDialog.hideProgressDialog()
-                        firstNameValueTextView.text = successResponse.firstName
-                        lastNameValueTextView.text = successResponse.lastName
-                        phoneNumberValueTextView.text = successResponse.phoneNumber
-                        genderValueTextView.text = successResponse.gender
-//                        workAddressStateValueTextView.text = successResponse.workshopAddress.state
-//                        cityValueTextView.text = successResponse.workshopAddress.city
-//                        streetValueTextView.text = successResponse.workshopAddress.street
-//                        showRoomAddressValueTextView.text = successResponse.showroomAddress.state
-//                        nameOfUnionValueTextView.text = successResponse.union.name
-//                        wardValueTextView.text = successResponse.union.ward
-//                        localGovernmentAreaTextView.text = successResponse.union.lga
-//                        unionStateValueTextView.text = successResponse.union.state
+                } else if (it is Resource.Error) {
+                    progressDialog.hideProgressDialog()
+                    handleApiError(it, mainRetrofit, requireView())
+                } else {
+                    it.data?.let { userProfile ->
 
-//                        Glide.with(requireContext())
-//                            .load(successResponse.thumbnail.toUri())
-//                            .into(binding.accountFragmentEditProfileIconImageView)
-                    }
-                    is Resource.Error -> {
-                        progressDialog.hideProgressDialog()
-                        handleApiError(it, mainRetrofit, requireView())
+                        binding.apply {
+                            accountFragmentFirstNameValueTextView.text = userProfile.firstName
+                            accountFragmentLastNameValueTextView.text = userProfile.lastName
+                            accountFragmentPhoneNumberValueTextView.text = userProfile.phoneNumber
+                            accountFragmentGenderValueTextView.text = userProfile.gender
+                            accountFragmentStateValueTextView.text =
+                                userProfile.workshopAddress?.state
+                                ?: getString(R.string.lagos)
+                            accountFragmentWorkshopAddressCityValueTextView.text =
+                                userProfile.workshopAddress?.city
+                                ?: getString(R.string.lagos)
+                            accountFragmentWorkshopAddressStreetValueTextView.text =
+                                userProfile.workshopAddress?.street
+                                ?: getString(R.string.enter_address)
+                            accountFragmentShowroomAddressValueTextView.text =
+                                userProfile.showroomAddress?.state
+                                ?: getString(R.string.enter_address)
+                            accountFragmentNameOfUnionValueTextView.text = userProfile.union?.name
+                                ?: getString(R.string.enter_union_name)
+                            accountFragmentWardValueTextView.text = userProfile.union?.ward
+                                ?: getString(R.string.enter_union_ward)
+                            accountFragmentLocalGovtAreaValueTextView.text = userProfile.union?.lga
+                                ?: getString(R.string.enter_union_resource)
+                            accountFragmentStateValueTextView.text = userProfile.union?.state
+                                ?: getString(R.string.enter_union_resource)
+                        }
+
+//                                Glide.with(requireContext())
+//                                        .load(userProfile.thumbnail.toUri())
+//                                        .into(binding.accountFragmentEditProfileIconImageView)
                     }
                 }
             }
@@ -213,7 +192,7 @@ class AccountFragment : BaseFragment() {
         val builder = AlertDialog.Builder(requireContext())
         builder.apply {
             // setting alert properties
-            setMessage("Permission to access your $name is required to use this app")
+            setMessage(getString(R.string.permision_to_access) + name + getString(R.string.is_required_to_use_this_app))
             setTitle("Permission required")
             setPositiveButton("Ok") { _, _ ->
                 ActivityCompat.requestPermissions(
@@ -262,20 +241,17 @@ class AccountFragment : BaseFragment() {
         imageUploadViewModel.userProfileImage.observe(
             viewLifecycleOwner,
             Observer {
-
                 when (it) {
-
                     is Resource.Success -> {
                         progressDialog.hideProgressDialog()
 
-                        val imageUrl = it.value.payload.downloadUri
+                        it.data?.payload?.downloadUri?.let { imageUrl ->
 
-                        sessionManager.saveToSharedPref(IMAGE_URL, imageUrl)
-
+                            sessionManager.saveToSharedPref(IMAGE_URL, imageUrl)
+                        }
                         Toast.makeText(requireContext(), "Upload Successful", Toast.LENGTH_SHORT)
                             .show()
                     }
-
                     is Resource.Error -> {
                         progressDialog.hideProgressDialog()
                         Toast.makeText(requireContext(), "${it.errorBody}", Toast.LENGTH_SHORT)
@@ -284,7 +260,7 @@ class AccountFragment : BaseFragment() {
                     }
 
                     is Resource.Loading -> {
-                        progressDialog.showDialogFragment(it.message)
+                        it.message?.let { it1 -> progressDialog.showDialogFragment(it1) }
                     }
                 }
             }
@@ -303,7 +279,7 @@ class AccountFragment : BaseFragment() {
             .into(binding.accountFragmentEditProfileIconImageView)
     }
 
-    private fun accountlegalStatusdialog() {
+    private fun accountLegalStatusDialog() {
         childFragmentManager.setFragmentResultListener(
             ACCOUNT_LEGAL_STATUS_REQUEST_KEY,
             requireActivity()
@@ -615,7 +591,7 @@ class AccountFragment : BaseFragment() {
             ACCOUNT_UNION_STATE_REQUEST_KEY,
             requireActivity()
         ) { key, bundle ->
-            // collect input values from dialog fragment and update the union name text of user
+            // collect input values from dialog fragment and update the union state text of user
             val unionState = bundle.getString(ACCOUNT_UNION_STATE_BUNDLE_KEY)
             binding.accountFragmentStateValueTextView.text = unionState
         }
@@ -726,6 +702,5 @@ class AccountFragment : BaseFragment() {
 
         const val READ_IMAGE_STORAGE = 102
         const val NAME = "CLads"
-        const val REQUEST_CODE_IMAGE_PICKER = 100
     }
 }

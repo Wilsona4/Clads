@@ -5,6 +5,7 @@ import com.decagonhq.clads.data.domain.images.UserProfileImage
 import com.decagonhq.clads.data.remote.ApiService
 import com.decagonhq.clads.data.remote.ImageDTOMapper
 import com.decagonhq.clads.util.Resource
+import com.decagonhq.clads.util.SafeApiCall
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 import okhttp3.MultipartBody

@@ -9,7 +9,7 @@ import android.widget.AutoCompleteTextView
 import android.widget.TextView
 import android.widget.Toast
 import androidx.core.widget.doOnTextChanged
-import androidx.fragment.app.viewModels
+import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
 import com.decagonhq.clads.R
@@ -23,6 +23,7 @@ import com.decagonhq.clads.util.ValidationObject.validateEmail
 import com.decagonhq.clads.util.ValidationObject.validatePasswordMismatch
 import com.decagonhq.clads.util.handleApiError
 import com.decagonhq.clads.viewmodels.AuthenticationViewModel
+import com.decagonhq.clads.viewmodels.UserProfileViewModel
 import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.auth.api.signin.GoogleSignInClient
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions
@@ -36,10 +37,8 @@ class EmailSignUpFragment : BaseFragment() {
     private var _binding: EmailSignUpFragmentBinding? = null
     private val binding get() = _binding!!
 
-    val authenticationViewModel: AuthenticationViewModel by viewModels()
-
-//    @Inject
-//    lateinit var sessionManager: SessionManager
+    private val authenticationViewModel: AuthenticationViewModel by activityViewModels()
+    private val userProfileViewModel: UserProfileViewModel by activityViewModels()
 
     private lateinit var firstNameEditText: TextInputEditText
     private lateinit var lastNameEditText: TextInputEditText
@@ -81,12 +80,19 @@ class EmailSignUpFragment : BaseFragment() {
             Observer {
                 when (it) {
                     is Resource.Success -> {
+                        it.data?.payload?.let { userProfile ->
+                            userProfileViewModel.saveUserProfileToLocalDatabase()
+                        }
                         progressDialog.hideProgressDialog()
                         sessionManager.saveToSharedPref(
                             getString(R.string.user_name),
                             firstNameEditText.text.toString()
                         )
-                        Toast.makeText(requireContext(), "Registered successfully", Toast.LENGTH_SHORT).show()
+                        Toast.makeText(
+                            requireContext(),
+                            "Registered successfully",
+                            Toast.LENGTH_SHORT
+                        ).show()
                         findNavController().navigate(R.id.action_emailSignUpFragment_to_emailConfirmationFragment)
                     }
                     is Resource.Error -> {
@@ -94,7 +100,9 @@ class EmailSignUpFragment : BaseFragment() {
                         handleApiError(it, mainRetrofit, requireView())
                     }
                     is Resource.Loading -> {
-                        progressDialog.showDialogFragment(it.message)
+                        it.message?.let { message ->
+                            progressDialog.showDialogFragment(message)
+                        }
                     }
                 }
             }

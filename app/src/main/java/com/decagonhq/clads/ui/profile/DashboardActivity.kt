@@ -13,6 +13,7 @@ import android.view.WindowManager
 import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
+import androidx.activity.viewModels
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.NotificationCompat
@@ -34,6 +35,7 @@ import com.decagonhq.clads.ui.profile.bottomnav.MessagesFragment
 import com.decagonhq.clads.util.Constants
 import com.decagonhq.clads.util.SessionManager
 import com.decagonhq.clads.viewmodels.ImageUploadViewModel
+import com.decagonhq.clads.viewmodels.UserProfileViewModel
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.android.material.navigation.NavigationView
 import dagger.hilt.android.AndroidEntryPoint
@@ -58,9 +60,17 @@ class DashboardActivity : AppCompatActivity() {
     lateinit var profileImage: ImageView
     private var selectedImage: Uri? = null
     private lateinit var navigationView: NavigationView
+    private lateinit var profileName: TextView
 
     @Inject
     lateinit var sessionManager: SessionManager
+
+    private val userProfileViewModel: UserProfileViewModel by viewModels()
+
+    override fun onStart() {
+        super.onStart()
+        userProfileViewModel.saveUserProfileToLocalDatabase()
+    }
 
     @RequiresApi(Build.VERSION_CODES.M)
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -95,6 +105,7 @@ class DashboardActivity : AppCompatActivity() {
             binding.appBarDashboard.contentDashboard.dashboardActivityBottomNavigationView
         navigationView = binding.navView
 
+        profileName = navViewHeader.findViewById(R.id.nav_drawer_user_full_name_text_view)
         navController = findNavController(R.id.nav_host_fragment_content_dashboard)
         // Passing each menu ID as a set of Ids because each
         // menu should be considered as top level destinations.
@@ -183,6 +194,23 @@ class DashboardActivity : AppCompatActivity() {
         }
     }
 
+    /*Observing the user profile to display the user name*/
+    private fun getUserProfile() {
+        userProfileViewModel.userProfile.observe(
+            this,
+            Observer {
+                it.data.let { userProfile ->
+                    binding.appBarDashboard.dashboardActivityToolbarHiIjeomaTextView.text =
+                        getString(R.string.hi, userProfile?.firstName ?: getString(R.string.ijeoma))
+                    val fullName = "${userProfile?.firstName ?: getString(R.string.ijeoma)} ${
+                    userProfile?.lastName ?: getString(R.string.babangida)
+                    }"
+                    profileName.text = fullName
+                }
+            }
+        )
+    }
+
     /*CLose Nav Drawer if open, on back press*/
     override fun onBackPressed() {
         if (drawerLayout.isDrawerOpen(GravityCompat.START)) {
@@ -194,6 +222,9 @@ class DashboardActivity : AppCompatActivity() {
 
     override fun onResume() {
         super.onResume()
+        /*Observing the user profile to display the user name*/
+        getUserProfile()
+
         navController.addOnDestinationChangedListener(listener)
     }
 

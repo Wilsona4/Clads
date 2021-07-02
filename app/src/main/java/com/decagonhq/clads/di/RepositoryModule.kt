@@ -1,6 +1,6 @@
 package com.decagonhq.clads.di
 
-import com.decagonhq.clads.data.local.UserProfileDao
+import com.decagonhq.clads.data.local.CladsDatabase
 import com.decagonhq.clads.data.local.UserProfileEntityMapper
 import com.decagonhq.clads.data.remote.ApiService
 import com.decagonhq.clads.data.remote.ImageDTOMapper
@@ -42,13 +42,13 @@ object RepositoryModule {
         @Named(MAIN_API_SERVICE) apiService: ApiService,
         userProfileDTOMapper: UserProfileDTOMapper,
         userProfileEntityMapper: UserProfileEntityMapper,
-        userProfileDao: UserProfileDao
+        database: CladsDatabase
     ): UserProfileRepository {
         return UserProfileRepositoryImpl(
             apiService,
             userProfileDTOMapper,
             userProfileEntityMapper,
-            userProfileDao
+            database
         )
     }
 

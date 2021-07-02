@@ -13,7 +13,6 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 import okhttp3.MultipartBody
-import timber.log.Timber
 import javax.inject.Inject
 
 @HiltViewModel
@@ -29,8 +28,7 @@ class ImageUploadViewModel @Inject constructor(
 
     fun mediaImageUpload(image: MultipartBody.Part) {
         viewModelScope.launch {
-            _userProfileImage.value = Resource.Loading("Uploading...")
-            Timber.d("$userProfileImage")
+            _userProfileImage.value = Resource.Loading(null, "Uploading...")
             val response = imageRepository.uploadMediaImage(image)
             response.collect {
                 _userProfileImage.value = it
@@ -40,7 +38,7 @@ class ImageUploadViewModel @Inject constructor(
 
     fun getUserImage() {
         viewModelScope.launch {
-            _userProfileImage.value = Resource.Loading("Loading...")
+            _userProfileImage.value = Resource.Loading(null, "Loading...")
             val response = imageRepository.getUserImage()
             response.collect {
                 _userProfileImage.value = it
