@@ -12,19 +12,19 @@
     android:paddingBottom="@dimen/activity_vertical_margin"
     android:theme="@style/ThemeOverlay.AppCompat.Dark">
 
-    <ImageView
+    <de.hdodenhof.circleimageview.CircleImageView
         android:id="@+id/nav_drawer_profile_avatar_image_view"
-        android:layout_width="@dimen/margin_76dp"
-        android:layout_height="@dimen/margin_76dp"
+        android:layout_width="0dp"
+        android:layout_height="@dimen/layout_height"
         android:layout_marginHorizontal="@dimen/margin_18dp"
         android:layout_marginTop="@dimen/margin_50dp"
         android:contentDescription="@string/nav_header_desc"
         android:paddingTop="@dimen/nav_header_vertical_spacing"
-        android:scaleType="fitCenter"
+        android:src="@drawable/nav_drawer_profile_avatar"
+        app:layout_constraintDimensionRatio="w,1:1"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/nav_drawer_profile_avatar" />
+        app:layout_constraintTop_toTopOf="parent" />
 
     <ImageView
         android:id="@+id/nav_drawer_close_icon_image_view"

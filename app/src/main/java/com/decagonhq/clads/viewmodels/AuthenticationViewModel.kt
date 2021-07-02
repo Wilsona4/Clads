@@ -8,14 +8,12 @@ import com.decagonhq.clads.data.domain.GenericResponseClass
 import com.decagonhq.clads.data.domain.login.LoginCredentials
 import com.decagonhq.clads.data.domain.login.UserRole
 import com.decagonhq.clads.data.domain.profile.UserProfile
-import com.decagonhq.clads.data.domain.profileimage.UserProfileImage
 import com.decagonhq.clads.data.domain.registration.UserRegistration
 import com.decagonhq.clads.repository.AuthRepository
 import com.decagonhq.clads.util.Resource
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
-import okhttp3.MultipartBody
 import javax.inject.Inject
 
 @HiltViewModel
@@ -28,10 +26,6 @@ class AuthenticationViewModel @Inject constructor(
 
     private var _loginUser = MutableLiveData<Resource<GenericResponseClass<String>>>()
     val loginUser: LiveData<Resource<GenericResponseClass<String>>> get() = _loginUser
-
-    private var _userProfileImage =
-        MutableLiveData<Resource<GenericResponseClass<UserProfileImage>>>()
-    val userProfileImage: LiveData<Resource<GenericResponseClass<UserProfileImage>>> get() = _userProfileImage
 
     private var _loginUserWithGoogle = MutableLiveData<Resource<GenericResponseClass<String>>>()
     val loginUserWithGoogle: LiveData<Resource<GenericResponseClass<String>>> get() = _loginUserWithGoogle
@@ -64,16 +58,6 @@ class AuthenticationViewModel @Inject constructor(
             val response = authRepository.loginUserWithGoogle(userRole)
             response.collect {
                 _loginUserWithGoogle.value = it
-            }
-        }
-    }
-
-    fun userProfileImage(userProfileImage: MultipartBody.Part) {
-        viewModelScope.launch {
-            _userProfileImage.value = Resource.Loading(null, "Uploading...")
-            val response = authRepository.userProfileImage(userProfileImage)
-            response.collect {
-                _userProfileImage.value = it
             }
         }
     }

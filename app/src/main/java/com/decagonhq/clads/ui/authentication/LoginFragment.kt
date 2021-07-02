@@ -55,6 +55,9 @@ class LoginFragment : BaseFragment() {
     private lateinit var cladsSignInClient: GoogleSignInClient
     private var GOOGLE_SIGNIN_RQ_CODE = 100
 
+//    @Inject
+//    lateinit var sessionManager: SessionManager
+
     private val viewModel: AuthenticationViewModel by activityViewModels()
 
     override fun onCreateView(
@@ -231,6 +234,7 @@ class LoginFragment : BaseFragment() {
                             if (successResponse != null) {
                                 sessionManager.saveToSharedPref(TOKEN, successResponse)
                             }
+
                             progressDialog.hideProgressDialog()
                             val intent = Intent(requireContext(), DashboardActivity::class.java)
 

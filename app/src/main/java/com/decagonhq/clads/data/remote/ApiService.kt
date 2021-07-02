@@ -1,9 +1,9 @@
 package com.decagonhq.clads.data.remote
 
 import com.decagonhq.clads.data.domain.GenericResponseClass
+import com.decagonhq.clads.data.domain.images.UserProfileImage
 import com.decagonhq.clads.data.domain.login.UserRole
 import com.decagonhq.clads.data.domain.profile.UserProfile
-import com.decagonhq.clads.data.domain.profileimage.UserProfileImage
 import com.decagonhq.clads.data.remote.login.LoginCredentialsDTO
 import com.decagonhq.clads.data.remote.profile.UserProfileDTO
 import com.decagonhq.clads.data.remote.registration.UserRegistrationDTO
@@ -37,6 +37,9 @@ interface ApiService {
     @Multipart
     @POST("upload")
     suspend fun uploadImage(@Part image: MultipartBody.Part): GenericResponseClass<UserProfileImage>
+
+    @GET("upload")
+    fun getUploadedImage(): GenericResponseClass<UserProfileImage>
 
     /*Get User Profile*/
     @GET("me/profile")

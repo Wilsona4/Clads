@@ -1,8 +1,6 @@
 package com.decagonhq.clads.ui.profile.bottomnav
 
 import android.Manifest
-import android.app.Activity.RESULT_OK
-import android.content.Intent
 import android.content.pm.PackageManager
 import android.net.Uri
 import android.os.Bundle
@@ -12,6 +10,7 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AlertDialog
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
@@ -44,8 +43,26 @@ class MediaFragment : Fragment() {
     private lateinit var noPhotoImageView: ImageView
     private lateinit var noPhotoTextView: TextView
     private lateinit var photoGalleryModel: PhotoGalleryModel
-    private lateinit var imageUri: Uri
 
+    private val pickImages = registerForActivityResult(ActivityResultContracts.GetContent()) { uri: Uri? ->
+        uri?.let { it ->
+
+            val imageData = uri.toString()
+            val action = MediaFragmentDirections.actionNavMediaToMediaFragmentPhotoName(imageData)
+            findNavController().navigate(action)
+
+            if (photosProvidersList.isEmpty()) {
+                noPhotoImageView.showView()
+                noPhotoTextView.showView()
+                binding.mediaFragmentPhotoRecyclerView.hideView()
+            } else {
+                noPhotoImageView.hideView()
+                noPhotoTextView.hideView()
+                binding.mediaFragmentPhotoRecyclerView.showView()
+                photoGalleryRecyclerAdapter.notifyDataSetChanged()
+            }
+        }
+    }
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -81,9 +98,9 @@ class MediaFragment : Fragment() {
                 }
 
                 binding.apply {
-                    noPhotoImageView.visibility = View.INVISIBLE
-                    noPhotoTextView.visibility = View.INVISIBLE
-                    mediaFragmentPhotoRecyclerView.visibility = View.VISIBLE
+                    noPhotoImageView.hideView()
+                    noPhotoTextView.hideView()
+                    mediaFragmentPhotoRecyclerView.showView()
                 }
             }
 
@@ -98,20 +115,20 @@ class MediaFragment : Fragment() {
             }
 
             if (photosProvidersList.isEmpty()) {
-                noPhotoImageView.visibility = View.VISIBLE
-                noPhotoTextView.visibility = View.VISIBLE
-                mediaFragmentPhotoRecyclerView.visibility = View.GONE
+                noPhotoImageView.showView()
+                noPhotoTextView.showView()
+                mediaFragmentPhotoRecyclerView.hideView()
             } else {
-                noPhotoImageView.visibility = View.INVISIBLE
-                noPhotoTextView.visibility = View.INVISIBLE
-                mediaFragmentPhotoRecyclerView.visibility = View.VISIBLE
+                noPhotoImageView.hideView()
+                noPhotoTextView.hideView()
+                mediaFragmentPhotoRecyclerView.showView()
             }
         }
 
         /*add onclick listener to the fab to ask for permission and open gallery intent*/
         binding.mediaFragmentAddPhotoFab.setOnClickListener {
             if (checkPermission()) {
-                uploadImageFromGallery()
+                pickImages.launch("image/*")
             } else {
                 requestPermission(
                     Manifest.permission.READ_EXTERNAL_STORAGE,
@@ -140,7 +157,6 @@ class MediaFragment : Fragment() {
                 requestCode
             )
             else ->
-
                 ActivityCompat.requestPermissions(
                     requireActivity(),
                     arrayOf(
@@ -148,37 +164,6 @@ class MediaFragment : Fragment() {
                     ),
                     REQUEST_CODE
                 )
-        }
-    }
-
-    /*intent to get image from gallery*/
-    private fun uploadImageFromGallery() {
-        val intent = Intent(Intent.ACTION_PICK)
-        intent.type = "image/*"
-        startActivityForResult(intent, REQUEST_CODE)
-    }
-
-    // function to attach the selected image to the image view
-    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-        super.onActivityResult(requestCode, resultCode, data)
-        if (resultCode == RESULT_OK && requestCode == REQUEST_CODE) {
-
-            /*get image from gallery and send to a fragment for naming*/
-            imageUri = data?.data!!
-            val imageData = imageUri.toString()
-            val action = MediaFragmentDirections.actionNavMediaToMediaFragmentPhotoName(imageData)
-            findNavController().navigate(action)
-
-            if (photosProvidersList.isEmpty()) {
-                noPhotoImageView.showView()
-                noPhotoTextView.showView()
-                binding.mediaFragmentPhotoRecyclerView.visibility = View.GONE
-            } else {
-                noPhotoImageView.hideView()
-                noPhotoTextView.hideView()
-                binding.mediaFragmentPhotoRecyclerView.showView()
-                photoGalleryRecyclerAdapter.notifyDataSetChanged()
-            }
         }
     }
 
@@ -193,7 +178,7 @@ class MediaFragment : Fragment() {
                 if ((grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED) &&
                     grantResults[1] == PackageManager.PERMISSION_GRANTED
                 ) {
-                    uploadImageFromGallery()
+                    pickImages.launch("image/*")
                 } else {
                     Toast.makeText(requireContext(), PERMISSION_DENIED, Toast.LENGTH_SHORT).show()
                 }

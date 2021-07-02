@@ -5,31 +5,36 @@ import android.app.NotificationManager
 import android.app.PendingIntent
 import android.content.Context
 import android.content.Intent
+import android.net.Uri
 import android.os.Build
 import android.os.Bundle
 import android.view.View
 import android.view.WindowManager
 import android.widget.ImageView
 import android.widget.TextView
+import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.NotificationCompat
 import androidx.core.view.GravityCompat
 import androidx.drawerlayout.widget.DrawerLayout
-import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.NavController
 import androidx.navigation.findNavController
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.navigateUp
 import androidx.navigation.ui.setupActionBarWithNavController
 import androidx.navigation.ui.setupWithNavController
+import com.bumptech.glide.Glide
 import com.decagonhq.clads.R
 import com.decagonhq.clads.databinding.DashboardActivityBinding
 import com.decagonhq.clads.ui.authentication.MainActivity
 import com.decagonhq.clads.ui.profile.bottomnav.MessagesFragment
+import com.decagonhq.clads.util.Constants
 import com.decagonhq.clads.util.SessionManager
+import com.decagonhq.clads.viewmodels.ImageUploadViewModel
 import com.decagonhq.clads.viewmodels.UserProfileViewModel
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.android.material.navigation.NavigationView
@@ -51,6 +56,9 @@ class DashboardActivity : AppCompatActivity() {
     private lateinit var toolbarUserName: TextView
     private lateinit var toolbarFragmentName: TextView
     private lateinit var drawerCloseIcon: ImageView
+    private lateinit var imageUploadViewModel: ImageUploadViewModel
+    lateinit var profileImage: ImageView
+    private var selectedImage: Uri? = null
     private lateinit var navigationView: NavigationView
     private lateinit var profileName: TextView
 
@@ -67,11 +75,11 @@ class DashboardActivity : AppCompatActivity() {
     @RequiresApi(Build.VERSION_CODES.M)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
         binding = DashboardActivityBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
         setSupportActionBar(binding.appBarDashboard.dashboardActivityToolbar)
+        val imageUploadViewModel = ViewModelProvider(this).get(ImageUploadViewModel::class.java)
 
         /*Set Status bar Color*/
         window?.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS)
@@ -84,6 +92,8 @@ class DashboardActivity : AppCompatActivity() {
         val navViewHeader = navView.getHeaderView(0)
         editProfile = navViewHeader.findViewById(R.id.nav_drawer_edit_profile_text_view)
         drawerCloseIcon = navViewHeader.findViewById(R.id.nav_drawer_close_icon_image_view)
+        profileImage = navViewHeader.findViewById(R.id.nav_drawer_profile_avatar_image_view)
+        val imageUrl = sessionManager.loadFromSharedPref(Constants.IMAGE_URL)
 
         /*Initialize Toolbar Views*/
         toolbarNotificationIcon =
@@ -116,6 +126,11 @@ class DashboardActivity : AppCompatActivity() {
             navController.navigate(R.id.editProfileFragment)
         }
 
+        /*load profile image from shared pref*/
+        Glide.with(this)
+            .load(imageUrl)
+            .into(profileImage)
+
         /*Close Drawer Icon*/
         drawerCloseIcon.setOnClickListener {
             drawerLayout.closeDrawer(GravityCompat.START)
@@ -128,6 +143,21 @@ class DashboardActivity : AppCompatActivity() {
             toolbarUserName.visibility = View.INVISIBLE
             toolbarNotificationIcon.visibility = View.GONE
         }
+
+        imageUploadViewModel.getUserImage()
+        imageUploadViewModel.userProfileImage.observe(
+            this,
+            Observer {
+                if (it != null) {
+
+                    Glide.with(this)
+                        .load(imageUrl)
+                        .into(toolbarProfilePicture)
+                } else {
+                    Toast.makeText(this, "NULLLL", Toast.LENGTH_SHORT).show()
+                }
+            }
+        )
 
         navigationView.setNavigationItemSelectedListener { it ->
             when (it.itemId) {
@@ -154,7 +184,6 @@ class DashboardActivity : AppCompatActivity() {
                             getString(R.string.login_status),
                             getString(R.string.log_out)
                         )
-
                         startActivity(it)
                         finish()
                     }
@@ -299,7 +328,7 @@ class DashboardActivity : AppCompatActivity() {
                         toolbarNotificationIcon.visibility = View.GONE
                         toolbarFragmentName.visibility = View.VISIBLE
                     }
-                    R.id.mediaFragmentRecyclerViewItemClicked -> {
+                    R.id.photoGalleryEditImageFragment -> {
                         bottomNavigationView.visibility = View.GONE
                         toolbarProfilePicture.visibility = View.GONE
                         toolbarUserName.visibility = View.GONE
