@@ -7,7 +7,6 @@ import com.bumptech.glide.Glide
 import com.decagonhq.clads.data.domain.PhotoGalleryModel
 import com.decagonhq.clads.databinding.MediaFragmentPhotoRecyclerViewItemBinding
 
-
 class PhotoGalleryRecyclerAdapter(
     var photoArrayList: ArrayList<PhotoGalleryModel>,
     private val listener1: RecyclerClickListener,
