@@ -29,8 +29,7 @@ class UserProfileViewModel @Inject constructor(
 
     fun getUserProfile() {
         viewModelScope.launch {
-            val response = userProfileRepository.getUserProfile()
-            response.collect {
+            userProfileRepository.getUserProfile().collect {
                 _userProfile.value = it
             }
         }

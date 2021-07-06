@@ -133,51 +133,20 @@ class AccountFragment : BaseFragment() {
                             ?: getString(R.string.enter_address)
                         showRoomAddressValueTextView.text = userProfile.showroomAddress?.state
                             ?: getString(R.string.enter_address)
-                        nameOfUnionValueTextView.text = userProfile.union?.name ?: getString(R.string.enter_union_resource)
-                        wardValueTextView.text = userProfile.union?.ward ?: getString(R.string.enter_union_resource)
-                        localGovernmentAreaTextView.text = userProfile.union?.lga ?: getString(R.string.enter_union_resource)
-                        unionStateValueTextView.text = userProfile.union?.state ?: getString(R.string.enter_union_resource)
+                        nameOfUnionValueTextView.text = userProfile.union?.name
+                            ?: getString(R.string.enter_union_resource)
+                        wardValueTextView.text = userProfile.union?.ward
+                            ?: getString(R.string.enter_union_resource)
+                        localGovernmentAreaTextView.text = userProfile.union?.lga
+                            ?: getString(R.string.enter_union_resource)
+                        unionStateValueTextView.text = userProfile.union?.state
+                            ?: getString(R.string.enter_union_resource)
 
 //                                Glide.with(requireContext())
 //                                        .load(userProfile.thumbnail.toUri())
 //                                        .into(binding.accountFragmentEditProfileIconImageView)
                     }
                 }
-
-//                    when (it) {
-//                        is Resource.Loading -> {
-//
-//                        }
-//                        is Resource.Success -> {
-//                            progressDialog.hideProgressDialog()
-//
-//                            it.data?.let { userProfile ->
-//                                firstNameValueTextView.text = userProfile.firstName
-//                                lastNameValueTextView.text = userProfile.lastName
-//                                phoneNumberValueTextView.text = userProfile.phoneNumber
-//                                workAddressStateValueTextView.text = userProfile.workshopAddress?.state
-//                                        ?: getString(R.string.lagos)
-//                                workshopCityValueTextView.text = userProfile.workshopAddress?.city
-//                                        ?: getString(R.string.lagos)
-//                                workshopStreetValueTextView.text = userProfile.workshopAddress?.street
-//                                        ?: getString(R.string.enter_address)
-//                                showRoomAddressValueTextView.text = userProfile.showroomAddress?.state
-//                                        ?: getString(R.string.lagos)
-//                                nameOfUnionValueTextView.text = userProfile.union?.name
-//                                wardValueTextView.text = userProfile.union?.ward
-//                                localGovernmentAreaTextView.text = userProfile.union?.lga
-//                                unionStateValueTextView.text = userProfile.union?.state
-//
-// //                                Glide.with(requireContext())
-// //                                        .load(userProfile.thumbnail.toUri())
-// //                                        .into(binding.accountFragmentEditProfileIconImageView)
-//                            }
-//                        }
-//                        is Resource.Error -> {
-//                            progressDialog.hideProgressDialog()
-//                            handleApiError(it, mainRetrofit, requireView())
-//                        }
-//                    }
             }
         )
     }
