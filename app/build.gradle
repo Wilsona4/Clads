@@ -19,6 +19,7 @@ android {
         targetSdkVersion 30
         versionCode 1
         versionName "1.0"
+//        multiDexEnabled true
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
@@ -128,6 +129,8 @@ dependencies {
     kapt "com.github.bumptech.glide:compiler:$versions.glide_version"
     implementation "com.github.bumptech.glide:glide:$versions.glide_version"
     annotationProcessor "com.github.bumptech.glide:compiler:$versions.glide_version"
+
+//    implementation 'com.android.support:multidex:1.0.3'
 
 
     // Image crop
