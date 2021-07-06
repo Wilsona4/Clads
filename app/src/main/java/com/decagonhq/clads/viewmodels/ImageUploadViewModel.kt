@@ -24,9 +24,6 @@ class ImageUploadViewModel @Inject constructor(
     val userProfileImage: LiveData<Resource<GenericResponseClass<UserProfileImage>>> get() = _userProfileImage
     private var _uploadGalleryImage = MutableLiveData<Resource<GenericResponseClass<UserProfileImage>>>()
     val uploadGalleryImage: LiveData<Resource<GenericResponseClass<UserProfileImage>>> get() = _uploadGalleryImage
-//
-//    private var _uploadGallery = MutableLiveData<Resource<GenericResponseClass<UserProfileImage>>>()
-//    val uploadGallery: LiveData<Resource<GenericResponseClass<UserProfileImage>>> get() = _uploadGallery
 
     init {
         getUserImage()
