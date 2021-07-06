@@ -9,6 +9,7 @@ import com.decagonhq.clads.util.SafeApiCall
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 import okhttp3.MultipartBody
+import okhttp3.RequestBody
 
 class ImageRepositoryImpl(
     private val apiService: ApiService,
@@ -28,6 +29,15 @@ class ImageRepositoryImpl(
             emit(
                 safeApiCall {
                     apiService.getUploadedImage()
+                }
+            )
+        }
+
+    override suspend fun uploadGalleryImage(requestBody: RequestBody): Flow<Resource<GenericResponseClass<UserProfileImage>>> =
+        flow {
+            emit(
+                safeApiCall {
+                    apiService.uploadGalleryImage(requestBody)
                 }
             )
         }
