@@ -16,18 +16,18 @@ import androidx.navigation.fragment.navArgs
 import com.bumptech.glide.Glide
 import com.decagonhq.clads.R
 import com.decagonhq.clads.data.domain.PhotoGalleryModel
-import com.decagonhq.clads.databinding.MediaFragmentRecyclerViewItemClickedBinding
+import com.decagonhq.clads.databinding.PhotoGalleryEditImageFragmentBinding
 import com.decagonhq.clads.util.DataListener
-import com.decagonhq.clads.util.TEMP_LABEL
 import com.decagonhq.clads.util.photosProvidersList
 
-class MediaFragmentRecyclerViewItemClicked : Fragment() {
-    private var _binding: MediaFragmentRecyclerViewItemClickedBinding? = null
+class PhotoGalleryEditImageFragment : Fragment() {
+    private var _binding: PhotoGalleryEditImageFragmentBinding? = null
 
     // This property is only valid between onCreateView and onDestroyView.
     private val binding get() = _binding!!
     private lateinit var photoIV: Uri
-    val args: MediaFragmentRecyclerViewItemClickedArgs by navArgs()
+    private lateinit var imageName: String
+    private val args: PhotoGalleryEditImageFragmentArgs by navArgs()
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -35,7 +35,7 @@ class MediaFragmentRecyclerViewItemClicked : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
 
-        _binding = MediaFragmentRecyclerViewItemClickedBinding.inflate(inflater, container, false)
+        _binding = PhotoGalleryEditImageFragmentBinding.inflate(inflater, container, false)
         setHasOptionsMenu(true)
         photoIV = args.imageUri.toUri()
         return binding.root
@@ -46,6 +46,7 @@ class MediaFragmentRecyclerViewItemClicked : Fragment() {
 
         val photoImageView = binding.mediaFragmentRecyclerViewPhotoImageView
         photoIV = args.imageUri.toUri()
+        imageName = args.imageName
 
         DataListener.imageListener.value = false
 
@@ -80,8 +81,9 @@ class MediaFragmentRecyclerViewItemClicked : Fragment() {
         startActivity(Intent.createChooser(shareIntent, getString(R.string.send_to)))
     }
 
+    // delete photo
     private fun deletePhoto() {
-        val photoGalleryModel = PhotoGalleryModel(photoIV, TEMP_LABEL)
+        val photoGalleryModel = PhotoGalleryModel(photoIV, imageName)
         photosProvidersList.remove(photoGalleryModel)
     }
 

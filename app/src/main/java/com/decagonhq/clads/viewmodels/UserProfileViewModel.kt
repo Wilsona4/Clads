@@ -20,16 +20,21 @@ class UserProfileViewModel @Inject constructor(
     private var _userProfile = MutableLiveData<Resource<UserProfile>>()
     val userProfile: LiveData<Resource<UserProfile>> get() = _userProfile
 
-//    init {
-//        viewModelScope.launch {
-//            delay(10000)
-//            getUserProfile()
-//        }
-//    }
+    init {
+        saveUserProfileToLocalDatabase()
+    }
 
     fun getUserProfile() {
         viewModelScope.launch {
             userProfileRepository.getUserProfile().collect {
+                _userProfile.value = it
+            }
+        }
+    }
+
+    fun getLocalDatabaseUserProfile() {
+        viewModelScope.launch {
+            userProfileRepository.getLocalDatabaseUserProfile().collect {
                 _userProfile.value = it
             }
         }

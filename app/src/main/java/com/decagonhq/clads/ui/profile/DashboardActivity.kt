@@ -7,31 +7,47 @@ import android.content.Context
 import android.content.Intent
 import android.os.Build
 import android.os.Bundle
-import android.util.Log
 import android.view.View
 import android.view.WindowManager
 import android.widget.ImageView
 import android.widget.TextView
+import androidx.activity.viewModels
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.NotificationCompat
 import androidx.core.view.GravityCompat
 import androidx.drawerlayout.widget.DrawerLayout
+import androidx.lifecycle.Observer
 import androidx.navigation.NavController
 import androidx.navigation.findNavController
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.navigateUp
 import androidx.navigation.ui.setupActionBarWithNavController
 import androidx.navigation.ui.setupWithNavController
+import com.bumptech.glide.Glide
 import com.decagonhq.clads.R
+import com.decagonhq.clads.data.domain.images.UserProfileImage
 import com.decagonhq.clads.databinding.DashboardActivityBinding
 import com.decagonhq.clads.ui.authentication.MainActivity
 import com.decagonhq.clads.ui.profile.bottomnav.MessagesFragment
+import com.decagonhq.clads.util.Constants
+import com.decagonhq.clads.util.CustomProgressDialog
+import com.decagonhq.clads.util.Resource
 import com.decagonhq.clads.util.SessionManager
+import com.decagonhq.clads.util.handleApiError
+import com.decagonhq.clads.viewmodels.ImageUploadViewModel
+import com.decagonhq.clads.viewmodels.UserProfileViewModel
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.android.material.navigation.NavigationView
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
+import retrofit2.Retrofit
 import javax.inject.Inject
+import javax.inject.Named
 
 @AndroidEntryPoint
 class DashboardActivity : AppCompatActivity() {
@@ -48,15 +64,37 @@ class DashboardActivity : AppCompatActivity() {
     private lateinit var toolbarUserName: TextView
     private lateinit var toolbarFragmentName: TextView
     private lateinit var drawerCloseIcon: ImageView
+    private lateinit var profileImage: ImageView
+    private lateinit var progressDialog: CustomProgressDialog
     private lateinit var navigationView: NavigationView
+    private lateinit var profileName: TextView
 
     @Inject
     lateinit var sessionManager: SessionManager
 
+    @Inject
+    @Named(Constants.IMAGE_RETROFIT)
+    lateinit var imageRetrofit: Retrofit
+
+    private val userProfileViewModel: UserProfileViewModel by viewModels()
+    private val imageUploadViewModel: ImageUploadViewModel by viewModels()
+
+    override fun onStart() {
+        super.onStart()
+        userProfileViewModel.saveUserProfileToLocalDatabase()
+//        userProfileViewModel.getUserProfile()
+        imageUploadViewModel.getUserImage()
+        GlobalScope.launch {
+            delay(5000L)
+            withContext(Dispatchers.Main) {
+                userProfileViewModel.getLocalDatabaseUserProfile()
+            }
+        }
+    }
+
     @RequiresApi(Build.VERSION_CODES.M)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
         binding = DashboardActivityBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
@@ -73,17 +111,22 @@ class DashboardActivity : AppCompatActivity() {
         val navViewHeader = navView.getHeaderView(0)
         editProfile = navViewHeader.findViewById(R.id.nav_drawer_edit_profile_text_view)
         drawerCloseIcon = navViewHeader.findViewById(R.id.nav_drawer_close_icon_image_view)
+        profileImage = navViewHeader.findViewById(R.id.nav_drawer_profile_avatar_image_view)
+
+        progressDialog = CustomProgressDialog(this)
 
         /*Initialize Toolbar Views*/
         toolbarNotificationIcon =
             binding.appBarDashboard.dashboardActivityToolbarNotificationImageView
         toolbarProfilePicture = binding.appBarDashboard.dashboardActivityToolbarProfileImageView
         toolbarUserName = binding.appBarDashboard.dashboardActivityToolbarHiIjeomaTextView
-        toolbarFragmentName = binding.appBarDashboard.dashboardActivityToolbarFragmentNameTextView
+        toolbarFragmentName =
+            binding.appBarDashboard.dashboardActivityToolbarFragmentNameTextView
         bottomNavigationView =
             binding.appBarDashboard.contentDashboard.dashboardActivityBottomNavigationView
         navigationView = binding.navView
 
+        profileName = navViewHeader.findViewById(R.id.nav_drawer_user_full_name_text_view)
         navController = findNavController(R.id.nav_host_fragment_content_dashboard)
         // Passing each menu ID as a set of Ids because each
         // menu should be considered as top level destinations.
@@ -117,6 +160,54 @@ class DashboardActivity : AppCompatActivity() {
             toolbarNotificationIcon.visibility = View.GONE
         }
 
+        /*Observing the user profile to display the user name*/
+        userProfileViewModel.userProfile.observe(
+            this,
+            Observer {
+                it.data.let { userProfile ->
+                    binding.appBarDashboard.dashboardActivityToolbarHiIjeomaTextView.text =
+                        getString(
+                            R.string.hi,
+                            userProfile?.firstName ?: getString(R.string.ijeoma)
+                        )
+
+                    val fullName = "${userProfile?.firstName ?: getString(R.string.ijeoma)} ${
+                    userProfile?.lastName ?: getString(R.string.babangida)
+                    }"
+                    profileName.text = fullName
+                }
+            }
+        )
+
+        /*Handling the response from the retrofit*/
+        imageUploadViewModel.userProfileImage.observe(
+            this,
+            Observer {
+                if (it is Resource.Loading<UserProfileImage> && it.data?.downloadUri.isNullOrEmpty()) {
+                    it.message?.let { message ->
+                        progressDialog.showDialogFragment(message)
+                    }
+                } else if (it is Resource.Error) {
+                    progressDialog.hideProgressDialog()
+                    handleApiError(it, imageRetrofit, toolbarFragmentName)
+                } else {
+                    progressDialog.hideProgressDialog()
+                    it.data?.downloadUri?.let { imageUrl ->
+                        Glide.with(this)
+                            .load(imageUrl)
+                            .placeholder(R.drawable.nav_drawer_profile_avatar)
+                            .into(toolbarProfilePicture)
+
+                        /*load profile image from shared pref*/
+                        Glide.with(this)
+                            .load(imageUrl)
+                            .placeholder(R.drawable.nav_drawer_profile_avatar)
+                            .into(profileImage)
+                    }
+                }
+            }
+        )
+
         navigationView.setNavigationItemSelectedListener { it ->
             when (it.itemId) {
                 R.id.clientFragment -> {
@@ -142,7 +233,6 @@ class DashboardActivity : AppCompatActivity() {
                             getString(R.string.login_status),
                             getString(R.string.log_out)
                         )
-                        Log.d("LOGOUT", "onCreate: ${sessionManager.saveToSharedPref(getString(R.string.login_status), getString(R.string.log_out))}")
                         startActivity(it)
                         finish()
                     }
@@ -191,7 +281,12 @@ class DashboardActivity : AppCompatActivity() {
 
             // get the pending intent
             val notifyPendingIntent =
-                PendingIntent.getActivity(this, 0, notifyIntent, PendingIntent.FLAG_UPDATE_CURRENT)
+                PendingIntent.getActivity(
+                    this,
+                    0,
+                    notifyIntent,
+                    PendingIntent.FLAG_UPDATE_CURRENT
+                )
             val builder = NotificationCompat.Builder(this, "ID")
                 .setContentTitle("My notification")
                 .setSmallIcon(R.drawable.clads_logo_blue)
@@ -267,7 +362,7 @@ class DashboardActivity : AppCompatActivity() {
                         toolbarNotificationIcon.visibility = View.GONE
                         toolbarFragmentName.visibility = View.VISIBLE
                     }
-                    R.id.mediaFragmentRecyclerViewItemClicked -> {
+                    R.id.photoGalleryEditImageFragment -> {
                         bottomNavigationView.visibility = View.GONE
                         toolbarProfilePicture.visibility = View.GONE
                         toolbarUserName.visibility = View.GONE

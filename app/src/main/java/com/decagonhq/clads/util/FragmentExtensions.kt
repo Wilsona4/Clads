@@ -19,7 +19,7 @@ fun Fragment.showView(view: View) {
 fun <T> Fragment.handleApiError(
     failure: Resource.Error<T>,
     retrofit: Retrofit,
-    view: View,
+    view: View
 ) {
     val errorResponseUtil = ErrorResponseUtil(retrofit)
     when {

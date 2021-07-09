@@ -38,8 +38,8 @@ class HomeFragment : BaseFragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        /*Get User profile*/
-        userProfileViewModel.saveUserProfileToLocalDatabase()
+//        /*Get User profile*/
+//        userProfileViewModel.saveUserProfileToLocalDatabase()
 
         binding.apply {
             homeFragmentClientListRecyclerView.apply {

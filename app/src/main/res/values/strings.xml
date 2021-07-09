@@ -72,7 +72,7 @@
     <string name="resources">Resources</string>
     <string name="subscription">Subscription</string>
     <string name="logout">Logout</string>
-    <string name="login_status">LOGIN_STATU</string>
+    <string name="login_status">LOGIN_STATUS</string>
     <string name="edit_profile">Edit Profile</string>
     <string name="ijeoma_ibukun_babangida">Ijeoma Ibukun Babangida</string>
     <string name="version_1_0">version 1.0</string>
@@ -340,10 +340,17 @@
     <string name="how_to_sew_attire">How to sew attire</string>
     <string name="_1_hour_30_minutes">1 hour 30 minutes</string>
     <string name="individual_video">Individual Video</string>
+    <string name="permision_to_access">\Permission to access your \</string>
+    <string name="is_required_to_use_this_app">\ is required to use this app\</string>
+    <string name="hi">Hi %s</string>
+    <string name="confirk_email_hi">Hi</string>
+    <string name="confirm_email_you_are_ready_to_go">, you are almost ready to start enjoying clads. Simply click the blue button below to verify your email address</string>
 
     <string name="resource_view_individual_article_fragment_article_link_key">articleItem</string>
     <string name="enter_address">Enter Address</string>
     <string name="enter_union_resource">Enter Union Details</string>
+    <string name="enter_union_name">Enter Union Name</string>
+    <string name="enter_union_ward">Enter Union Ward</string>
 
     <string-array name="account_category">
         <item>Tailor</item>

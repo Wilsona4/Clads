@@ -21,8 +21,8 @@
         android:label="Photo Gallery"
         tools:layout="@layout/media_fragment">
         <action
-            android:id="@+id/action_nav_media_to_mediaFragmentRecyclerViewItemClicked2"
-            app:destination="@id/mediaFragmentRecyclerViewItemClicked" />
+            android:id="@+id/action_nav_media_to_photoGalleryEditImageFragment"
+            app:destination="@id/photoGalleryEditImageFragment" />
         <action
             android:id="@+id/action_nav_media_to_mediaFragmentPhotoName"
             app:destination="@id/mediaFragmentPhotoName" />
@@ -122,14 +122,17 @@
             app:popExitAnim="@android:anim/slide_out_right" />
     </fragment>
     <fragment
-        android:id="@+id/mediaFragmentRecyclerViewItemClicked"
-        android:name="com.decagonhq.clads.ui.profile.bottomnav.MediaFragmentRecyclerViewItemClicked"
+        android:id="@+id/photoGalleryEditImageFragment"
+        android:name="com.decagonhq.clads.ui.profile.bottomnav.PhotoGalleryEditImageFragment"
         android:label="Elegant suit for men"
-        tools:layout="@layout/media_fragment_recycler_view_item_clicked">
+        tools:layout="@layout/photo_gallery_edit_image_fragment">
         <argument android:name="imageUri" />
         <action
             android:id="@+id/action_mediaFragmentRecyclerViewItemClicked_to_nav_media"
             app:destination="@id/nav_media" />
+        <argument
+            android:name="imageName"
+            app:argType="string" />
     </fragment>
     <fragment
         android:id="@+id/mediaFragmentPhotoName"

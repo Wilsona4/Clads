@@ -44,6 +44,12 @@ class UserProfileRepositoryImpl(
             }
         )
 
+    override suspend fun getLocalDatabaseUserProfile(): Flow<Resource<UserProfile>> {
+        return database.userProfileDao().readUserProfile().map {
+            Resource.Success(userProfileEntityMapper.mapToDomainModel(it))
+        }
+    }
+
     override suspend fun updateUserProfile(userProfile: UserProfile): Flow<Resource<UserProfile>> =
         networkBoundResource(
             fetchFromLocal = {

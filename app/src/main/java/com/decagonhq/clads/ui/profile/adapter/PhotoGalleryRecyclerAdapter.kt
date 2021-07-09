@@ -11,7 +11,7 @@ import com.decagonhq.clads.databinding.MediaFragmentPhotoRecyclerViewItemBinding
 import com.decagonhq.clads.ui.profile.bottomnav.MediaFragmentDirections
 
 class PhotoGalleryRecyclerAdapter(
-    var photoArrayList: ArrayList<PhotoGalleryModel>,
+    var photoArrayList: ArrayList<PhotoGalleryModel>
 ) : RecyclerView.Adapter<PhotoGalleryRecyclerAdapter.ViewHolder>() {
 
     inner class ViewHolder(val binding: MediaFragmentPhotoRecyclerViewItemBinding) :
@@ -71,10 +71,11 @@ class PhotoGalleryRecyclerAdapter(
         holder.setItemClickListener(object : OnItemClickListener {
             override fun onItemClick(view: View, position: Int) {
                 val imageUri = photoArrayList[position].image.toString()
+                val imageName = photoArrayList[position].imageName.toString()
 
                 // use actions to pass data from one fragment to the other
                 val action =
-                    MediaFragmentDirections.actionNavMediaToMediaFragmentRecyclerViewItemClicked2(imageUri)
+                    MediaFragmentDirections.actionNavMediaToPhotoGalleryEditImageFragment(imageUri, imageName)
                 view.findNavController().navigate(action)
             }
         })

@@ -231,6 +231,7 @@ class LoginFragment : BaseFragment() {
                             if (successResponse != null) {
                                 sessionManager.saveToSharedPref(TOKEN, successResponse)
                             }
+
                             progressDialog.hideProgressDialog()
                             val intent = Intent(requireContext(), DashboardActivity::class.java)
 

@@ -4,7 +4,6 @@ import com.decagonhq.clads.data.domain.GenericResponseClass
 import com.decagonhq.clads.data.domain.login.LoginCredentials
 import com.decagonhq.clads.data.domain.login.UserRole
 import com.decagonhq.clads.data.domain.profile.UserProfile
-import com.decagonhq.clads.data.domain.profileimage.UserProfileImage
 import com.decagonhq.clads.data.domain.registration.UserRegistration
 import com.decagonhq.clads.data.remote.ApiService
 import com.decagonhq.clads.data.remote.login.LoginCredentialsDTOMapper
@@ -13,7 +12,6 @@ import com.decagonhq.clads.util.Resource
 import com.decagonhq.clads.util.SafeApiCall
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
-import okhttp3.MultipartBody
 
 class AuthRepositoryImpl(
     private val apiService: ApiService,
@@ -44,15 +42,6 @@ class AuthRepositoryImpl(
             emit(
                 safeApiCall {
                     apiService.googleLogin(userRole)
-                }
-            )
-        }
-
-    override suspend fun userProfileImage(userProfileImage: MultipartBody.Part): Flow<Resource<GenericResponseClass<UserProfileImage>>> =
-        flow {
-            emit(
-                safeApiCall {
-                    apiService.uploadImage(userProfileImage)
                 }
             )
         }
