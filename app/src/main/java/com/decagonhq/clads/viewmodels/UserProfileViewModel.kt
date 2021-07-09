@@ -32,6 +32,14 @@ class UserProfileViewModel @Inject constructor(
         }
     }
 
+    /* update users endpoint data */
+    fun updateUserProfile(userProfile: UserProfile) {
+        viewModelScope.launch {
+            userProfileRepository.updateUserProfile(userProfile)
+        }
+    }
+
+    /*Get user profile data in the local database*/
     fun getLocalDatabaseUserProfile() {
         viewModelScope.launch {
             userProfileRepository.getLocalDatabaseUserProfile().collect {

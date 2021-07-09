@@ -22,6 +22,10 @@ import androidx.lifecycle.Observer
 import com.bumptech.glide.Glide
 import com.decagonhq.clads.R
 import com.decagonhq.clads.data.domain.images.UserProfileImage
+import com.decagonhq.clads.data.domain.profile.ShowroomAddress
+import com.decagonhq.clads.data.domain.profile.Union
+import com.decagonhq.clads.data.domain.profile.UserProfile
+import com.decagonhq.clads.data.domain.profile.WorkshopAddress
 import com.decagonhq.clads.databinding.AccountFragmentBinding
 import com.decagonhq.clads.ui.BaseFragment
 import com.decagonhq.clads.ui.profile.dialogfragment.ProfileManagementDialogFragments.Companion.createProfileDialogFragment
@@ -90,6 +94,11 @@ class AccountFragment : BaseFragment() {
             Manifest.permission.READ_EXTERNAL_STORAGE.checkForPermission(NAME, READ_IMAGE_STORAGE)
         }
 
+        /* Update User Profile */
+        binding.accountFragmentSaveChangesButton.setOnClickListener {
+            updateUserProfile()
+        }
+
         /*Get users profile*/
         imageUploadViewModel.getUserImage()
         getUserProfile()
@@ -135,6 +144,51 @@ class AccountFragment : BaseFragment() {
                                 ?: getString(R.string.enter_union_resource)
                         }
                     }
+                }
+            }
+        )
+    }
+
+    private fun updateUserProfile() {
+        userProfileViewModel.userProfile.observe(
+            viewLifecycleOwner,
+            Observer {
+                it.data?.let { profile ->
+                    val userProfile = UserProfile(
+                        country = profile.country,
+                        deliveryTime = profile.deliveryTime,
+                        email = profile.email,
+                        firstName = binding.accountFragmentFirstNameValueTextView.text.toString(),
+                        gender = binding.accountFragmentGenderValueTextView.text.toString(),
+                        genderFocus = profile.genderFocus,
+                        lastName = binding.accountFragmentLastNameValueTextView.text.toString(),
+                        measurementOption = profile.measurementOption,
+                        phoneNumber = binding.accountFragmentPhoneNumberValueTextView.text.toString(),
+                        role = profile.role,
+                        workshopAddress = WorkshopAddress(
+                            street = binding.accountFragmentWorkshopAddressStreetValueTextView.text.toString(),
+                            state = binding.accountFragmentShowroomAddressValueTextView.text.toString(),
+                            city = binding.accountFragmentWorkshopAddressCityValueTextView.text.toString(),
+                        ),
+                        showroomAddress = ShowroomAddress(
+                            street = binding.accountFragmentWorkshopAddressCityValueTextView.text.toString(),
+                            city = binding.accountFragmentWorkshopAddressCityValueTextView.text.toString(),
+                            state = binding.accountFragmentShowroomAddressValueTextView.text.toString(),
+                        ),
+                        specialties = profile.specialties,
+                        thumbnail = profile.thumbnail,
+                        trained = profile.trained,
+                        union = Union(
+                            name = binding.accountFragmentNameOfUnionValueTextView.text.toString(),
+                            ward = binding.accountFragmentWardValueTextView.text.toString(),
+                            lga = binding.accountFragmentLocalGovtAreaValueTextView.text.toString(),
+                            state = binding.accountFragmentStateValueTextView.text.toString(),
+                        ),
+                        paymentTerms = profile.paymentTerms,
+                        paymentOptions = profile.paymentOptions
+                    )
+
+                    userProfileViewModel.updateUserProfile(userProfile)
                 }
             }
         )

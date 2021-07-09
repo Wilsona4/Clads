@@ -20,7 +20,7 @@ interface UserProfileDao {
     fun readUserProfile(): Flow<UserProfileEntity>
 
     @Update
-    fun updateUserProfile(userProfile: UserProfileEntity)
+    suspend fun updateUserProfile(userProfile: UserProfileEntity)
 
     /*Delete userProfile in the Database*/
     @Query("DELETE FROM user_profile_table")

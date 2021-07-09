@@ -50,29 +50,16 @@ class UserProfileRepositoryImpl(
         }
     }
 
-    override suspend fun updateUserProfile(userProfile: UserProfile): Flow<Resource<UserProfile>> =
-        networkBoundResource(
-            fetchFromLocal = {
-                database.userProfileDao().readUserProfile().map {
-                    userProfileEntityMapper.mapToDomainModel(it)
-                }
-            },
-            shouldFetchFromRemote = {
-                true
-            },
-            fetchFromRemote = {
-                delay(2000)
-                apiService.updateUserProfile(userProfileDTOMapper.mapFromDomainModel(userProfile))
-            },
-            saveToLocalDB = {
-                database.withTransaction {
-                    database.userProfileDao().deleteUserProfile()
-                    database.userProfileDao().addUserProfile(
-                        userProfileEntityMapper.mapFromDomainModel(it.payload)
-                    )
-                }
-            }
-        )
+    override suspend fun updateUserProfile(userProfile: UserProfile) {
+        val response = safeApiCall {
+            apiService.updateUserProfile(userProfileDTOMapper.mapFromDomainModel(userProfile))
+        }
+        response.data?.payload?.let {
+            database.userProfileDao().updateUserProfile(
+                userProfileEntityMapper.mapFromDomainModel(it)
+            )
+        }
+    }
 
     override suspend fun saveUserProfileToLocalDatabase() {
         val response = safeApiCall {
