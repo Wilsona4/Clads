@@ -125,17 +125,16 @@ class AccountFragment : BaseFragment() {
                             accountFragmentPhoneNumberValueTextView.text = userProfile.phoneNumber
                             accountFragmentGenderValueTextView.text = userProfile.gender
                             accountFragmentStateValueTextView.text =
-                                userProfile.workshopAddress?.state
-                                    ?: getString(R.string.lagos)
+                                userProfile.workshopAddress?.state ?: getString(R.string.lagos)
                             accountFragmentWorkshopAddressCityValueTextView.text =
                                 userProfile.workshopAddress?.city
-                                    ?: getString(R.string.lagos)
+                                ?: getString(R.string.lagos)
                             accountFragmentWorkshopAddressStreetValueTextView.text =
                                 userProfile.workshopAddress?.street
-                                    ?: getString(R.string.enter_address)
+                                ?: getString(R.string.enter_address)
                             accountFragmentShowroomAddressValueTextView.text =
                                 userProfile.showroomAddress?.state
-                                    ?: getString(R.string.enter_address)
+                                ?: getString(R.string.enter_address)
                             accountFragmentNameOfUnionValueTextView.text = userProfile.union?.name
                                 ?: getString(R.string.enter_union_name)
                             accountFragmentWardValueTextView.text = userProfile.union?.ward
