@@ -741,6 +741,7 @@ class ProfileManagementDialogFragments(
                     }
                 }
             }
+
             R.layout.account_union_state_dialog_fragment -> {
                 /*Initialise binding*/
                 val binding = AccountUnionStateDialogFragmentBinding.bind(view)

@@ -9,7 +9,7 @@ import com.decagonhq.clads.databinding.SpecialtyFragmentRecyclerItemBinding
 class SpecialtyFragmentRecyclerAdapter :
     RecyclerView.Adapter<SpecialtyFragmentRecyclerAdapter.SpecialtyViewHolder>() {
 
-    private var specialtyList = arrayListOf<SpecialtyModel>()
+    private var specialtyList = listOf<SpecialtyModel>()
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): SpecialtyViewHolder {
         val viewBinding = SpecialtyFragmentRecyclerItemBinding
@@ -35,7 +35,7 @@ class SpecialtyFragmentRecyclerAdapter :
         }
     }
 
-    fun populateList(list: ArrayList<SpecialtyModel>) {
+    fun populateList(list: List<SpecialtyModel>) {
         this.specialtyList = list
         notifyDataSetChanged()
     }
