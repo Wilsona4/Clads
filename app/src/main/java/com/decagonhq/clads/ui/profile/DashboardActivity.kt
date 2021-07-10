@@ -5,14 +5,12 @@ import android.app.NotificationManager
 import android.app.PendingIntent
 import android.content.Context
 import android.content.Intent
-import android.net.Uri
 import android.os.Build
 import android.os.Bundle
 import android.view.View
 import android.view.WindowManager
 import android.widget.ImageView
 import android.widget.TextView
-import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
@@ -20,7 +18,6 @@ import androidx.core.app.NotificationCompat
 import androidx.core.view.GravityCompat
 import androidx.drawerlayout.widget.DrawerLayout
 import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.NavController
 import androidx.navigation.findNavController
 import androidx.navigation.ui.AppBarConfiguration
@@ -29,17 +26,28 @@ import androidx.navigation.ui.setupActionBarWithNavController
 import androidx.navigation.ui.setupWithNavController
 import com.bumptech.glide.Glide
 import com.decagonhq.clads.R
+import com.decagonhq.clads.data.domain.images.UserProfileImage
 import com.decagonhq.clads.databinding.DashboardActivityBinding
 import com.decagonhq.clads.ui.authentication.MainActivity
 import com.decagonhq.clads.ui.profile.bottomnav.MessagesFragment
 import com.decagonhq.clads.util.Constants
+import com.decagonhq.clads.util.CustomProgressDialog
+import com.decagonhq.clads.util.Resource
 import com.decagonhq.clads.util.SessionManager
+import com.decagonhq.clads.util.handleApiError
 import com.decagonhq.clads.viewmodels.ImageUploadViewModel
 import com.decagonhq.clads.viewmodels.UserProfileViewModel
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.android.material.navigation.NavigationView
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
+import retrofit2.Retrofit
 import javax.inject.Inject
+import javax.inject.Named
 
 @AndroidEntryPoint
 class DashboardActivity : AppCompatActivity() {
@@ -56,20 +64,32 @@ class DashboardActivity : AppCompatActivity() {
     private lateinit var toolbarUserName: TextView
     private lateinit var toolbarFragmentName: TextView
     private lateinit var drawerCloseIcon: ImageView
-    private lateinit var imageUploadViewModel: ImageUploadViewModel
-    lateinit var profileImage: ImageView
-    private var selectedImage: Uri? = null
+    private lateinit var profileImage: ImageView
+    private lateinit var progressDialog: CustomProgressDialog
     private lateinit var navigationView: NavigationView
     private lateinit var profileName: TextView
 
     @Inject
     lateinit var sessionManager: SessionManager
 
+    @Inject
+    @Named(Constants.IMAGE_RETROFIT)
+    lateinit var imageRetrofit: Retrofit
+
     private val userProfileViewModel: UserProfileViewModel by viewModels()
+    private val imageUploadViewModel: ImageUploadViewModel by viewModels()
 
     override fun onStart() {
         super.onStart()
         userProfileViewModel.saveUserProfileToLocalDatabase()
+//        userProfileViewModel.getUserProfile()
+        imageUploadViewModel.getUserImage()
+        GlobalScope.launch {
+            delay(5000L)
+            withContext(Dispatchers.Main) {
+                userProfileViewModel.getLocalDatabaseUserProfile()
+            }
+        }
     }
 
     @RequiresApi(Build.VERSION_CODES.M)
@@ -79,7 +99,6 @@ class DashboardActivity : AppCompatActivity() {
         setContentView(binding.root)
 
         setSupportActionBar(binding.appBarDashboard.dashboardActivityToolbar)
-        val imageUploadViewModel = ViewModelProvider(this).get(ImageUploadViewModel::class.java)
 
         /*Set Status bar Color*/
         window?.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS)
@@ -93,14 +112,16 @@ class DashboardActivity : AppCompatActivity() {
         editProfile = navViewHeader.findViewById(R.id.nav_drawer_edit_profile_text_view)
         drawerCloseIcon = navViewHeader.findViewById(R.id.nav_drawer_close_icon_image_view)
         profileImage = navViewHeader.findViewById(R.id.nav_drawer_profile_avatar_image_view)
-        val imageUrl = sessionManager.loadFromSharedPref(Constants.IMAGE_URL)
+
+        progressDialog = CustomProgressDialog(this)
 
         /*Initialize Toolbar Views*/
         toolbarNotificationIcon =
             binding.appBarDashboard.dashboardActivityToolbarNotificationImageView
         toolbarProfilePicture = binding.appBarDashboard.dashboardActivityToolbarProfileImageView
         toolbarUserName = binding.appBarDashboard.dashboardActivityToolbarHiIjeomaTextView
-        toolbarFragmentName = binding.appBarDashboard.dashboardActivityToolbarFragmentNameTextView
+        toolbarFragmentName =
+            binding.appBarDashboard.dashboardActivityToolbarFragmentNameTextView
         bottomNavigationView =
             binding.appBarDashboard.contentDashboard.dashboardActivityBottomNavigationView
         navigationView = binding.navView
@@ -126,11 +147,6 @@ class DashboardActivity : AppCompatActivity() {
             navController.navigate(R.id.editProfileFragment)
         }
 
-        /*load profile image from shared pref*/
-        Glide.with(this)
-            .load(imageUrl)
-            .into(profileImage)
-
         /*Close Drawer Icon*/
         drawerCloseIcon.setOnClickListener {
             drawerLayout.closeDrawer(GravityCompat.START)
@@ -144,17 +160,50 @@ class DashboardActivity : AppCompatActivity() {
             toolbarNotificationIcon.visibility = View.GONE
         }
 
-        imageUploadViewModel.getUserImage()
+        /*Observing the user profile to display the user name*/
+        userProfileViewModel.userProfile.observe(
+            this,
+            Observer {
+                it.data.let { userProfile ->
+                    binding.appBarDashboard.dashboardActivityToolbarHiIjeomaTextView.text =
+                        getString(
+                            R.string.hi,
+                            userProfile?.firstName ?: getString(R.string.ijeoma)
+                        )
+
+                    val fullName = "${userProfile?.firstName ?: getString(R.string.ijeoma)} ${
+                    userProfile?.lastName ?: getString(R.string.babangida)
+                    }"
+                    profileName.text = fullName
+                }
+            }
+        )
+
+        /*Handling the response from the retrofit*/
         imageUploadViewModel.userProfileImage.observe(
             this,
             Observer {
-                if (it != null) {
-
-                    Glide.with(this)
-                        .load(imageUrl)
-                        .into(toolbarProfilePicture)
+                if (it is Resource.Loading<UserProfileImage> && it.data?.downloadUri.isNullOrEmpty()) {
+                    it.message?.let { message ->
+                        progressDialog.showDialogFragment(message)
+                    }
+                } else if (it is Resource.Error) {
+                    progressDialog.hideProgressDialog()
+                    handleApiError(it, imageRetrofit, toolbarFragmentName)
                 } else {
-                    Toast.makeText(this, "NULLLL", Toast.LENGTH_SHORT).show()
+                    progressDialog.hideProgressDialog()
+                    it.data?.downloadUri?.let { imageUrl ->
+                        Glide.with(this)
+                            .load(imageUrl)
+                            .placeholder(R.drawable.nav_drawer_profile_avatar)
+                            .into(toolbarProfilePicture)
+
+                        /*load profile image from shared pref*/
+                        Glide.with(this)
+                            .load(imageUrl)
+                            .placeholder(R.drawable.nav_drawer_profile_avatar)
+                            .into(profileImage)
+                    }
                 }
             }
         )
@@ -194,23 +243,6 @@ class DashboardActivity : AppCompatActivity() {
         }
     }
 
-    /*Observing the user profile to display the user name*/
-    private fun getUserProfile() {
-        userProfileViewModel.userProfile.observe(
-            this,
-            Observer {
-                it.data.let { userProfile ->
-                    binding.appBarDashboard.dashboardActivityToolbarHiIjeomaTextView.text =
-                        getString(R.string.hi, userProfile?.firstName ?: getString(R.string.ijeoma))
-                    val fullName = "${userProfile?.firstName ?: getString(R.string.ijeoma)} ${
-                    userProfile?.lastName ?: getString(R.string.babangida)
-                    }"
-                    profileName.text = fullName
-                }
-            }
-        )
-    }
-
     /*CLose Nav Drawer if open, on back press*/
     override fun onBackPressed() {
         if (drawerLayout.isDrawerOpen(GravityCompat.START)) {
@@ -222,9 +254,6 @@ class DashboardActivity : AppCompatActivity() {
 
     override fun onResume() {
         super.onResume()
-        /*Observing the user profile to display the user name*/
-        getUserProfile()
-
         navController.addOnDestinationChangedListener(listener)
     }
 
@@ -252,7 +281,12 @@ class DashboardActivity : AppCompatActivity() {
 
             // get the pending intent
             val notifyPendingIntent =
-                PendingIntent.getActivity(this, 0, notifyIntent, PendingIntent.FLAG_UPDATE_CURRENT)
+                PendingIntent.getActivity(
+                    this,
+                    0,
+                    notifyIntent,
+                    PendingIntent.FLAG_UPDATE_CURRENT
+                )
             val builder = NotificationCompat.Builder(this, "ID")
                 .setContentTitle("My notification")
                 .setSmallIcon(R.drawable.clads_logo_blue)

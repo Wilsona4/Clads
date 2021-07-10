@@ -57,7 +57,7 @@ dependencies {
     testImplementation 'junit:junit:4.13.2'
     androidTestImplementation 'androidx.test.ext:junit:1.1.2'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.3.0'
-    implementation 'com.google.android.material:material:1.4.0-rc01'
+    implementation 'com.google.android.material:material:1.5.0-alpha01'
     implementation 'com.github.PhilJay:MPAndroidChart:v2.2.2'
     implementation 'com.amulyakhare:com.amulyakhare.textdrawable:1.0.1'
     implementation 'net.gotev:uploadservice:2.1'
@@ -75,7 +75,7 @@ dependencies {
     implementation platform("com.google.firebase:firebase-bom:$versions.firebase_version")
     implementation "com.google.android.gms:play-services-auth:$versions.play_service_auth"
 
-    //navigation controller
+    //Navigation Controller
     implementation "androidx.navigation:navigation-fragment-ktx:$versions.nav_version"
     implementation "androidx.navigation:navigation-ui-ktx:$versions.nav_version"
     androidTestImplementation "androidx.navigation:navigation-testing:$versions.nav_version"

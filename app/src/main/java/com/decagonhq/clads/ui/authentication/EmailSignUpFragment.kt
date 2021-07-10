@@ -80,7 +80,7 @@ class EmailSignUpFragment : BaseFragment() {
             Observer {
                 when (it) {
                     is Resource.Success -> {
-                        it.data?.payload?.let { userProfile ->
+                        it.data?.payload?.let {
                             userProfileViewModel.saveUserProfileToLocalDatabase()
                         }
                         progressDialog.hideProgressDialog()

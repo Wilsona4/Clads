@@ -3,7 +3,7 @@ package com.decagonhq.clads.di
 import com.decagonhq.clads.data.local.CladsDatabase
 import com.decagonhq.clads.data.local.UserProfileEntityMapper
 import com.decagonhq.clads.data.remote.ApiService
-import com.decagonhq.clads.data.remote.ImageDTOMapper
+import com.decagonhq.clads.data.remote.images.ImageDTOMapper
 import com.decagonhq.clads.data.remote.login.LoginCredentialsDTOMapper
 import com.decagonhq.clads.data.remote.profile.UserProfileDTOMapper
 import com.decagonhq.clads.data.remote.registration.UserRegDTOMapper
@@ -56,8 +56,9 @@ object RepositoryModule {
     @Provides
     fun provideImageRepository(
         @Named(IMAGE_API_SERVICE) apiService: ApiService,
-        imageDTOMapper: ImageDTOMapper
+        imageDTOMapper: ImageDTOMapper,
+        database: CladsDatabase
     ): ImageRepository {
-        return ImageRepositoryImpl(apiService, imageDTOMapper)
+        return ImageRepositoryImpl(apiService, imageDTOMapper, database)
     }
 }

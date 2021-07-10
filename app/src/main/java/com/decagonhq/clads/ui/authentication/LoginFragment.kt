@@ -55,9 +55,6 @@ class LoginFragment : BaseFragment() {
     private lateinit var cladsSignInClient: GoogleSignInClient
     private var GOOGLE_SIGNIN_RQ_CODE = 100
 
-//    @Inject
-//    lateinit var sessionManager: SessionManager
-
     private val viewModel: AuthenticationViewModel by activityViewModels()
 
     override fun onCreateView(

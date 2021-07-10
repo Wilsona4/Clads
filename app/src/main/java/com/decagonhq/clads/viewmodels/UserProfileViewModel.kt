@@ -26,8 +26,23 @@ class UserProfileViewModel @Inject constructor(
 
     fun getUserProfile() {
         viewModelScope.launch {
-            val response = userProfileRepository.getUserProfile()
-            response.collect {
+            userProfileRepository.getUserProfile().collect {
+                _userProfile.value = it
+            }
+        }
+    }
+
+    /* update users endpoint data */
+    fun updateUserProfile(userProfile: UserProfile) {
+        viewModelScope.launch {
+            userProfileRepository.updateUserProfile(userProfile)
+        }
+    }
+
+    /*Get user profile data in the local database*/
+    fun getLocalDatabaseUserProfile() {
+        viewModelScope.launch {
+            userProfileRepository.getLocalDatabaseUserProfile().collect {
                 _userProfile.value = it
             }
         }

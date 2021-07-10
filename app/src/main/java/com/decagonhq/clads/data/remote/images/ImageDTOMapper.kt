@@ -1,4 +1,4 @@
-package com.decagonhq.clads.data.remote
+package com.decagonhq.clads.data.remote.images
 
 import com.decagonhq.clads.data.domain.images.UserProfileImage
 import com.decagonhq.clads.util.DomainMapper
