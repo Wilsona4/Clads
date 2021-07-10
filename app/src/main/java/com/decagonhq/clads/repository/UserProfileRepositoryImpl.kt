@@ -52,12 +52,18 @@ class UserProfileRepositoryImpl(
 
     override suspend fun updateUserProfile(userProfile: UserProfile) {
         val response = safeApiCall {
-            apiService.updateUserProfile(userProfileDTOMapper.mapFromDomainModel(userProfile))
+            apiService.updateUserProfile(userProfile)
         }
-        response.data?.payload?.let {
-            database.userProfileDao().updateUserProfile(
-                userProfileEntityMapper.mapFromDomainModel(it)
-            )
+        if (response is Resource.Success) {
+            database.withTransaction {
+                database.userProfileDao().deleteUserProfile()
+                response.data?.payload?.let { userProfileEntityMapper.mapFromDomainModel(it) }
+                    ?.let {
+                        database.userProfileDao().addUserProfile(
+                            it
+                        )
+                    }
+            }
         }
     }
 

@@ -6,6 +6,9 @@ import android.graphics.drawable.ColorDrawable
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.LifecycleOwner
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.Observer
 import com.decagonhq.clads.R
 import retrofit2.Retrofit
 
@@ -42,6 +45,20 @@ fun <T> Fragment.handleApiError(
     }
 }
 
+/*Extension function to observe Live Data only once*/
+fun <T> LiveData<T>.observeOnce(lifecycleOwner: LifecycleOwner, observer: Observer<T>) {
+    observe(
+        lifecycleOwner,
+        object : Observer<T> {
+            override fun onChanged(t: T?) {
+                observer.onChanged(t)
+                removeObserver(this)
+            }
+        }
+    )
+}
+
+/*Function to Show Progress Dialog*/
 fun Fragment.showLoadingBar(message: String): Dialog {
     val dialog by lazy {
         Dialog(requireContext(), R.style.Theme_MaterialComponents_Dialog).apply {

@@ -31,6 +31,7 @@ import com.decagonhq.clads.ui.BaseFragment
 import com.decagonhq.clads.ui.profile.dialogfragment.ProfileManagementDialogFragments.Companion.createProfileDialogFragment
 import com.decagonhq.clads.util.Resource
 import com.decagonhq.clads.util.handleApiError
+import com.decagonhq.clads.util.observeOnce
 import com.decagonhq.clads.util.saveBitmap
 import com.decagonhq.clads.util.uriToBitmap
 import com.decagonhq.clads.viewmodels.ImageUploadViewModel
@@ -100,6 +101,7 @@ class AccountFragment : BaseFragment() {
         }
 
         /*Get users profile*/
+        userProfileViewModel.getLocalDatabaseUserProfile()
         imageUploadViewModel.getUserImage()
         getUserProfile()
     }
@@ -124,16 +126,16 @@ class AccountFragment : BaseFragment() {
                             accountFragmentGenderValueTextView.text = userProfile.gender
                             accountFragmentStateValueTextView.text =
                                 userProfile.workshopAddress?.state
-                                ?: getString(R.string.lagos)
+                                    ?: getString(R.string.lagos)
                             accountFragmentWorkshopAddressCityValueTextView.text =
                                 userProfile.workshopAddress?.city
-                                ?: getString(R.string.lagos)
+                                    ?: getString(R.string.lagos)
                             accountFragmentWorkshopAddressStreetValueTextView.text =
                                 userProfile.workshopAddress?.street
-                                ?: getString(R.string.enter_address)
+                                    ?: getString(R.string.enter_address)
                             accountFragmentShowroomAddressValueTextView.text =
                                 userProfile.showroomAddress?.state
-                                ?: getString(R.string.enter_address)
+                                    ?: getString(R.string.enter_address)
                             accountFragmentNameOfUnionValueTextView.text = userProfile.union?.name
                                 ?: getString(R.string.enter_union_name)
                             accountFragmentWardValueTextView.text = userProfile.union?.ward
@@ -150,7 +152,7 @@ class AccountFragment : BaseFragment() {
     }
 
     private fun updateUserProfile() {
-        userProfileViewModel.userProfile.observe(
+        userProfileViewModel.userProfile.observeOnce(
             viewLifecycleOwner,
             Observer {
                 it.data?.let { profile ->

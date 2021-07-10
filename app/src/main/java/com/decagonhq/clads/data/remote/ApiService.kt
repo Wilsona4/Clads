@@ -5,7 +5,6 @@ import com.decagonhq.clads.data.domain.images.UserProfileImage
 import com.decagonhq.clads.data.domain.login.UserRole
 import com.decagonhq.clads.data.domain.profile.UserProfile
 import com.decagonhq.clads.data.remote.login.LoginCredentialsDTO
-import com.decagonhq.clads.data.remote.profile.UserProfileDTO
 import com.decagonhq.clads.data.remote.registration.UserRegistrationDTO
 import okhttp3.MultipartBody
 import retrofit2.http.Body
@@ -47,5 +46,5 @@ interface ApiService {
 
     /*Update User Profile*/
     @PUT("me/profile")
-    suspend fun updateUserProfile(@Body userProfile: UserProfileDTO): GenericResponseClass<UserProfile>
+    suspend fun updateUserProfile(@Body userProfile: UserProfile): GenericResponseClass<UserProfile>
 }
