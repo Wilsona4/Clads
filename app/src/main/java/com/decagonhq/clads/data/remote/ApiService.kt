@@ -1,6 +1,7 @@
 package com.decagonhq.clads.data.remote
 
 import com.decagonhq.clads.data.domain.GenericResponseClass
+import com.decagonhq.clads.data.domain.images.UserGalleryImage
 import com.decagonhq.clads.data.domain.images.UserProfileImage
 import com.decagonhq.clads.data.domain.login.UserRole
 import com.decagonhq.clads.data.domain.profile.UserProfile
@@ -42,9 +43,6 @@ interface ApiService {
     @GET("download")
     fun getUploadedImage(): GenericResponseClass<UserProfileImage>
 
-    @GET("download/images")
-    fun getGalleryImages(): GenericResponseClass<List<UserProfileImage>>
-
     /*Get User Profile*/
     @GET("me/profile")
     suspend fun getUserProfile(): GenericResponseClass<UserProfile>
@@ -53,10 +51,10 @@ interface ApiService {
     @PUT("me/profile")
     suspend fun updateUserProfile(@Body userProfile: UserProfileDTO): GenericResponseClass<UserProfile>
 
-    @Multipart
     @POST("upload")
-    suspend fun uploadGalleryImage(@Part image: MultipartBody.Part, @Body description: String): GenericResponseClass<UserProfileImage>
+    suspend fun uploadGallery(@Body requestBody: RequestBody): GenericResponseClass<UserGalleryImage>
 
-    @POST("upload")
-    suspend fun uploadGallery(@Body requestBody: RequestBody): GenericResponseClass<UserProfileImage>
+    @GET("download/images")
+    fun getGalleryImages(): GenericResponseClass<List<UserGalleryImage>>
+
 }

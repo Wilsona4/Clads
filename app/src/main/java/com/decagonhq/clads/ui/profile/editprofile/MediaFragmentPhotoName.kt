@@ -73,14 +73,10 @@ class MediaFragmentPhotoName : BaseFragment() {
             imageData = args.imageData
             val imageUri = imageData.toUri()
 
-            DataListener.imageListener.value = true
 
-            val bundle =
-                bundleOf(IMAGE_NAME_BUNDLE_KEY to imageName, IMAGE_DATA_BUNDLE_KEY to imageData)
             if (imageName.isEmpty()) {
                 Toast.makeText(requireContext(), "Enter Image Name", Toast.LENGTH_SHORT).show()
             } else {
-//                findNavController().previousBackStackEntry?.savedStateHandle?.set(IMAGE_KEY, bundle)
                 uploadGalleryImage(imageUri, imageName)
 
                 imageUploadViewModel.uploadGallery.observe(
@@ -105,7 +101,7 @@ class MediaFragmentPhotoName : BaseFragment() {
             }
         }
     }
-    fun uploadGalleryImage(uri: Uri, description: String) {
+    private fun uploadGalleryImage(uri: Uri, description: String) {
         // create RequestBody instance from file
         val convertedImageUriToBitmap = uriToBitmap(uri)
         val bitmapToFile = saveBitmap(convertedImageUriToBitmap)

@@ -4,6 +4,7 @@ import android.Manifest
 import android.content.pm.PackageManager
 import android.net.Uri
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -16,12 +17,18 @@ import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.core.net.toUri
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
+import androidx.lifecycle.Observer
 import androidx.lifecycle.observe
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
 import com.decagonhq.clads.data.domain.PhotoGalleryModel
+import com.decagonhq.clads.data.domain.images.UserGalleryImage
+import com.decagonhq.clads.data.domain.images.UserProfileImage
 import com.decagonhq.clads.databinding.MediaFragmentBinding
+import com.decagonhq.clads.ui.BaseFragment
 import com.decagonhq.clads.ui.profile.adapter.PhotoGalleryRecyclerAdapter
+import com.decagonhq.clads.util.Constants.TOKEN
 import com.decagonhq.clads.util.DataListener
 import com.decagonhq.clads.util.GRID_SIZE
 import com.decagonhq.clads.util.IMAGE_DATA_BUNDLE_KEY
@@ -29,11 +36,14 @@ import com.decagonhq.clads.util.IMAGE_KEY
 import com.decagonhq.clads.util.IMAGE_NAME_BUNDLE_KEY
 import com.decagonhq.clads.util.PERMISSION_DENIED
 import com.decagonhq.clads.util.REQUEST_CODE
+import com.decagonhq.clads.util.Resource
+import com.decagonhq.clads.util.handleApiError
 import com.decagonhq.clads.util.hideView
 import com.decagonhq.clads.util.photosProvidersList
 import com.decagonhq.clads.util.showView
+import com.decagonhq.clads.viewmodels.ImageUploadViewModel
 
-class MediaFragment : Fragment() {
+class MediaFragment : BaseFragment() {
 
     private var _binding: MediaFragmentBinding? = null
 
@@ -43,6 +53,7 @@ class MediaFragment : Fragment() {
     private lateinit var noPhotoImageView: ImageView
     private lateinit var noPhotoTextView: TextView
     private lateinit var photoGalleryModel: PhotoGalleryModel
+    private val imageUploadViewModel: ImageUploadViewModel by viewModels()
 
     private val pickImages = registerForActivityResult(ActivityResultContracts.GetContent()) { uri: Uri? ->
         uri?.let { it ->
@@ -79,51 +90,73 @@ class MediaFragment : Fragment() {
         noPhotoImageView = binding.mediaFragmentPhotoIconImageView
         noPhotoTextView = binding.mediaFragmentYouHaveNoPhotoInGalleryTextView
 
-        findNavController().currentBackStackEntry?.savedStateHandle?.getLiveData<Bundle>(IMAGE_KEY)
-            ?.observe(viewLifecycleOwner) {
-                val imageName = it.getString(IMAGE_NAME_BUNDLE_KEY)
-                val imageData = it.getString(IMAGE_DATA_BUNDLE_KEY)
-                val imageDataUri = imageData?.toUri()
+        imageUploadViewModel.uploadGallery.observe(
+            requireActivity(),
+            Observer {
+                when (it) {
+                    is Resource.Success -> {
+                        val myList = it.data as MutableList<UserGalleryImage>
+                        progressDialog.hideProgressDialog()
 
-                photoGalleryModel =
-                    PhotoGalleryModel(
-                        imageDataUri,
-                        imageName
-                    )
+                        binding.apply {
+                            mediaFragmentPhotoRecyclerView.apply {
+                                photoGalleryRecyclerAdapter =
+                                    PhotoGalleryRecyclerAdapter(myList, sessionManager.loadFromSharedPref(TOKEN))
+                                adapter = photoGalleryRecyclerAdapter
+                                photoGalleryRecyclerAdapter.notifyDataSetChanged()
+                                layoutManager = GridLayoutManager(requireContext(), GRID_SIZE)
+                            }
 
-                if (DataListener.imageListener.value == true) {
-
-                    photosProvidersList.add(photoGalleryModel)
-                    photoGalleryRecyclerAdapter.notifyDataSetChanged()
+                            if (myList.isEmpty()) {
+                                noPhotoImageView.showView()
+                                noPhotoTextView.showView()
+                                mediaFragmentPhotoRecyclerView.hideView()
+                            } else {
+                                noPhotoImageView.hideView()
+                                noPhotoTextView.hideView()
+                                mediaFragmentPhotoRecyclerView.showView()
+                            }
+                        }
+                    }
+                    is Resource.Error -> {
+                        progressDialog.hideProgressDialog()
+                        Toast.makeText(requireContext(), "${it.errorBody}", Toast.LENGTH_SHORT)
+                            .show()
+                        handleApiError(it, imageRetrofit, requireView())
+                    }
+                    is Resource.Loading -> {
+                        it.message?.let { it1 -> progressDialog.showDialogFragment(it1) }
+                    }
                 }
-
-                binding.apply {
-                    noPhotoImageView.hideView()
-                    noPhotoTextView.hideView()
-                    mediaFragmentPhotoRecyclerView.showView()
-                }
             }
+        )
 
-        binding.apply {
 
-            mediaFragmentPhotoRecyclerView.apply {
-                photoGalleryRecyclerAdapter =
-                    PhotoGalleryRecyclerAdapter(photosProvidersList)
-                adapter = photoGalleryRecyclerAdapter
-                layoutManager = GridLayoutManager(requireContext(), GRID_SIZE)
-                photoGalleryRecyclerAdapter.notifyDataSetChanged()
-            }
+//        findNavController().currentBackStackEntry?.savedStateHandle?.getLiveData<Bundle>(IMAGE_KEY)
+//            ?.observe(viewLifecycleOwner) {
+//                val imageName = it.getString(IMAGE_NAME_BUNDLE_KEY)
+//                val imageData = it.getString(IMAGE_DATA_BUNDLE_KEY)
+//                val imageDataUri = imageData?.toUri()
+//
+//                photoGalleryModel =
+//                    PhotoGalleryModel(
+//                        imageDataUri,
+//                        imageName
+//                    )
+//
+//                if (DataListener.imageListener.value == true) {
+//
+//                    photosProvidersList.add(photoGalleryModel)
+//                    photoGalleryRecyclerAdapter.notifyDataSetChanged()
+//                }
+//
+//                binding.apply {
+//                    noPhotoImageView.hideView()
+//                    noPhotoTextView.hideView()
+//                    mediaFragmentPhotoRecyclerView.showView()
+//                }
+//            }
 
-            if (photosProvidersList.isEmpty()) {
-                noPhotoImageView.showView()
-                noPhotoTextView.showView()
-                mediaFragmentPhotoRecyclerView.hideView()
-            } else {
-                noPhotoImageView.hideView()
-                noPhotoTextView.hideView()
-                mediaFragmentPhotoRecyclerView.showView()
-            }
-        }
 
         /*add onclick listener to the fab to ask for permission and open gallery intent*/
         binding.mediaFragmentAddPhotoFab.setOnClickListener {
@@ -212,4 +245,26 @@ class MediaFragment : Fragment() {
         super.onDestroyView()
         _binding = null
     }
+//
+//    override fun onItemClickToDelete(position: Int, photoArrayList: MutableList<UserGalleryImage>) {
+//
+//        Toast.makeText(requireContext(), "Description clicked", Toast.LENGTH_SHORT).show()
+//        val imageUri = photoArrayList[position].downloadUri
+//        val imageName = photoArrayList[position].description
+//
+//        // use actions to pass data from one fragment to the other
+//        val action =
+//            MediaFragmentDirections.actionNavMediaToMediaFragmentPhotoName(imageUri)
+//        findNavController().navigate(action)
+//    }
+//
+//    override fun onItemClickToEdit(position: Int, photoArrayList: MutableList<UserGalleryImage>) {
+//        val imageUri = photoArrayList[position].downloadUri
+//        val imageName = photoArrayList[position].description
+//
+//        // use actions to pass data from one fragment to the other
+//        val action =
+//            MediaFragmentDirections.actionNavMediaToPhotoGalleryEditImageFragment(imageUri, imageName)
+//        findNavController().navigate(action)
+//    }
 }
