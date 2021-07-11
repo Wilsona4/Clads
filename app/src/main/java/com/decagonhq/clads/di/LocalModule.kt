@@ -43,4 +43,5 @@ object LocalModule {
     fun providesProfileImageDAO(cladsDatabase: CladsDatabase): ProfileImageDao {
         return cladsDatabase.profileImageDao()
     }
+
 }

@@ -4,6 +4,7 @@ import com.decagonhq.clads.data.domain.GenericResponseClass
 import com.decagonhq.clads.data.domain.images.UserProfileImage
 import com.decagonhq.clads.data.domain.login.UserRole
 import com.decagonhq.clads.data.domain.profile.UserProfile
+import com.decagonhq.clads.data.remote.client.Client
 import com.decagonhq.clads.data.remote.login.LoginCredentialsDTO
 import com.decagonhq.clads.data.remote.registration.UserRegistrationDTO
 import okhttp3.MultipartBody
@@ -31,6 +32,14 @@ interface ApiService {
     suspend fun googleLogin(
         @Body userRole: UserRole
     ): GenericResponseClass<String>
+
+    @GET("clients")
+    suspend fun getClients(): GenericResponseClass<List<Client>>
+
+    @POST("client")
+    suspend fun addClient(
+        @Body client: Client
+    ): GenericResponseClass<Client>
 
     /*Upload Profile Picture*/
     @Multipart

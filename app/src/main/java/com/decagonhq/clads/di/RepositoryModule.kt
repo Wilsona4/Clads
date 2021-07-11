@@ -1,6 +1,7 @@
 package com.decagonhq.clads.di
 
 import com.decagonhq.clads.data.local.CladsDatabase
+import com.decagonhq.clads.data.local.ClientEntityMapper
 import com.decagonhq.clads.data.local.UserProfileEntityMapper
 import com.decagonhq.clads.data.remote.ApiService
 import com.decagonhq.clads.data.remote.images.ImageDTOMapper
@@ -9,6 +10,8 @@ import com.decagonhq.clads.data.remote.profile.UserProfileDTOMapper
 import com.decagonhq.clads.data.remote.registration.UserRegDTOMapper
 import com.decagonhq.clads.repository.AuthRepository
 import com.decagonhq.clads.repository.AuthRepositoryImpl
+import com.decagonhq.clads.repository.ClientRepositoryImpl
+import com.decagonhq.clads.repository.ClientsRepository
 import com.decagonhq.clads.repository.ImageRepository
 import com.decagonhq.clads.repository.ImageRepositoryImpl
 import com.decagonhq.clads.repository.UserProfileRepository
@@ -60,5 +63,15 @@ object RepositoryModule {
         database: CladsDatabase
     ): ImageRepository {
         return ImageRepositoryImpl(apiService, imageDTOMapper, database)
+    }
+
+    @Singleton
+    @Provides
+    fun provideClientRepository(
+        @Named(MAIN_API_SERVICE) apiService: ApiService,
+        clientEntityMapper:ClientEntityMapper,
+        database: CladsDatabase
+    ): ClientsRepository {
+        return ClientRepositoryImpl(apiService, clientEntityMapper, database)
     }
 }
