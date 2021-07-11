@@ -131,9 +131,9 @@ class SignUpOptionsFragment : BaseFragment() {
 
     private fun updateUi(email: String) {
         val userEmail = email
-        val action =
-            SignupChoicesFragmentDirections.actionSignupChoicesFragmentToSignupEmailFragment()
-        navigateTo(action)
+//        val action =
+//            SignupChoicesFragmentDirections.actionSignupChoicesFragmentToSignupEmailFragment()
+        navigateTo(R.id.login_fragment)
     }
 
     /*remove the binding from the view to prevent memory leak*/
