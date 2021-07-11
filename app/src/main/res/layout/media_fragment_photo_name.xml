@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <ImageView
+        android:id="@+id/photoGalleryImage"
+        android:layout_width="@dimen/margin_0dp"
+        android:layout_height="@dimen/margin_0dp"
+        android:background="@color/black"
+        android:paddingVertical="@dimen/padding_16dp"
+        android:src="@drawable/elegant_suit_photo"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+
+    <EditText
+        android:id="@+id/media_fragment_photo_name_edit_text"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/margin_16dp"
+        android:layout_marginEnd="@dimen/margin_8dp"
+        android:layout_marginBottom="@dimen/margin_24dp"
+        android:background="@drawable/media_fragment_rename_photo_edit_text_background"
+        android:backgroundTint="@color/grey_100"
+        android:fontFamily="@font/roboto"
+        android:hint="@string/enter_name"
+        android:paddingHorizontal="@dimen/padding_16dp"
+        android:paddingVertical="@dimen/margin_10dp"
+        android:textColor="@color/black"
+        android:textCursorDrawable="@null"
+        android:textSize="@dimen/text_size_16sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/media_fragment_photo_name_send_button"
+        app:layout_constraintStart_toStartOf="@+id/photoGalleryImage" />
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/media_fragment_photo_name_send_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="@dimen/margin_8dp"
+        android:layout_marginBottom="@dimen/margin_24dp"
+        android:backgroundTint="@color/deep_sky_blue"
+        android:clickable="true"
+        android:contentDescription="@string/add_client"
+        android:focusable="true"
+        android:src="@drawable/fab_send_icon"
+        android:tint="@color/deep_sky_blue"
+        app:backgroundTint="@color/deep_sky_blue"
+        app:fabSize="mini"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@id/media_fragment_photo_name_edit_text"
+        app:layout_constraintTop_toTopOf="@+id/media_fragment_photo_name_edit_text"
+        app:layout_constraintVertical_bias="0.466"
+        app:tint="@color/white" />
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

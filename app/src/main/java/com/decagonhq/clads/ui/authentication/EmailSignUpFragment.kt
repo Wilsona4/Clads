@@ -7,28 +7,42 @@ import android.view.ViewGroup
 import android.widget.ArrayAdapter
 import android.widget.AutoCompleteTextView
 import android.widget.TextView
+import android.widget.Toast
 import androidx.core.widget.doOnTextChanged
-import androidx.fragment.app.Fragment
+import androidx.fragment.app.activityViewModels
+import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
 import com.decagonhq.clads.R
+import com.decagonhq.clads.data.domain.registration.UserRegistration
 import com.decagonhq.clads.databinding.EmailSignUpFragmentBinding
+import com.decagonhq.clads.ui.BaseFragment
+import com.decagonhq.clads.util.Resource
+import com.decagonhq.clads.util.ValidationObject.jdValidatePhoneNumber
 import com.decagonhq.clads.util.ValidationObject.validateAccountCategory
 import com.decagonhq.clads.util.ValidationObject.validateEmail
 import com.decagonhq.clads.util.ValidationObject.validatePasswordMismatch
+import com.decagonhq.clads.util.handleApiError
+import com.decagonhq.clads.viewmodels.AuthenticationViewModel
+import com.decagonhq.clads.viewmodels.UserProfileViewModel
 import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.auth.api.signin.GoogleSignInClient
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions
 import com.google.android.material.button.MaterialButton
 import com.google.android.material.textfield.TextInputEditText
+import dagger.hilt.android.AndroidEntryPoint
 
-class EmailSignUpFragment : Fragment() {
+@AndroidEntryPoint
+class EmailSignUpFragment : BaseFragment() {
     private lateinit var cladsGoogleSignInClient: GoogleSignInClient
     private var _binding: EmailSignUpFragmentBinding? = null
     private val binding get() = _binding!!
 
+    private val authenticationViewModel: AuthenticationViewModel by activityViewModels()
+    private val userProfileViewModel: UserProfileViewModel by activityViewModels()
+
     private lateinit var firstNameEditText: TextInputEditText
     private lateinit var lastNameEditText: TextInputEditText
-    private lateinit var otherNameEditText: TextInputEditText
+    private lateinit var phoneNumberEditText: TextInputEditText
     private lateinit var emailEditText: TextInputEditText
     private lateinit var accountCategoryDropDown: AutoCompleteTextView
     private lateinit var passwordEditText: TextInputEditText
@@ -51,7 +65,7 @@ class EmailSignUpFragment : Fragment() {
         /*Initialize Views*/
         firstNameEditText = binding.emailSignUpFragmentFirstNameEditText
         lastNameEditText = binding.emailSignUpFragmentLastNameEditText
-        otherNameEditText = binding.emailSignUpFragmentOtherNameEditText
+        phoneNumberEditText = binding.emailSignUpFragmentPhoneNumberEditText
         emailEditText = binding.emailSignUpFragmentEmailEditText
         accountCategoryDropDown = binding.emailSignUpFragmentAccountCategoryTextView
         passwordEditText = binding.emailSignUpFragmentPasswordEditText
@@ -60,6 +74,39 @@ class EmailSignUpFragment : Fragment() {
         loginButton = binding.emailSignUpFragmentLoginTextView
 
         getUserRemoteData()
+
+        authenticationViewModel.userRegData.observe(
+            viewLifecycleOwner,
+            Observer {
+                when (it) {
+                    is Resource.Success -> {
+                        it.data?.payload?.let {
+                            userProfileViewModel.saveUserProfileToLocalDatabase()
+                        }
+                        progressDialog.hideProgressDialog()
+                        sessionManager.saveToSharedPref(
+                            getString(R.string.user_name),
+                            firstNameEditText.text.toString()
+                        )
+                        Toast.makeText(
+                            requireContext(),
+                            "Registered successfully",
+                            Toast.LENGTH_SHORT
+                        ).show()
+                        findNavController().navigate(R.id.action_emailSignUpFragment_to_emailConfirmationFragment)
+                    }
+                    is Resource.Error -> {
+                        progressDialog.hideProgressDialog()
+                        handleApiError(it, mainRetrofit, requireView())
+                    }
+                    is Resource.Loading -> {
+                        it.message?.let { message ->
+                            progressDialog.showDialogFragment(message)
+                        }
+                    }
+                }
+            }
+        )
 
         loginButton.setOnClickListener {
             findNavController().navigate(R.id.login_fragment)
@@ -71,7 +118,7 @@ class EmailSignUpFragment : Fragment() {
             /*Initialize User Inputs*/
             val firstName = firstNameEditText.text.toString().trim()
             val lastName = lastNameEditText.text.toString().trim()
-            val otherName = otherNameEditText.text.toString().trim()
+            val phoneNumber = phoneNumberEditText.text.toString().trim()
             val email = emailEditText.text.toString().trim()
             val accountCategory = accountCategoryDropDown.text.toString().trim()
             val password = passwordEditText.text.toString().trim()
@@ -92,6 +139,16 @@ class EmailSignUpFragment : Fragment() {
                 email.isEmpty() -> {
                     binding.emailSignUpFragmentEmailEditTextLayout.error =
                         getString(R.string.all_email_cant_be_empty)
+                    return@setOnClickListener
+                }
+                !binding.emailSignUpFragmentPhoneNumberEditText.jdValidatePhoneNumber(phoneNumber) -> {
+                    binding.emailSignUpFragmentPhoneNumberEditTextLayout.error =
+                        getString(R.string.invalid_phone_number)
+                    return@setOnClickListener
+                }
+                phoneNumber.isEmpty() -> {
+                    binding.emailSignUpFragmentPhoneNumberEditTextLayout.error =
+                        getString(R.string.all_phone_number_is_required)
                     return@setOnClickListener
                 }
                 !validateEmail(email) -> {
@@ -121,7 +178,22 @@ class EmailSignUpFragment : Fragment() {
                 }
                 else -> {
                     if (validateSignUpFieldsOnTextChange()) {
-                        findNavController().navigate(R.id.email_confirmation_fragment)
+                        val newRegisteredUser = UserRegistration(
+                            firstName = firstName,
+                            lastName = lastName,
+                            email = email,
+                            phoneNumber = phoneNumber,
+                            category = accountCategory,
+                            role = getString(R.string.tailor),
+                            password = password,
+                            deliveryAddress = getString(R.string.null_all),
+                            gender = getString(R.string.male),
+                            country = getString(R.string.nigeria),
+                            thumbnail = getString(R.string.null_all)
+                        )
+                        authenticationViewModel.registerUser(newRegisteredUser)
+                    } else {
+                        return@setOnClickListener
                     }
                 }
             }

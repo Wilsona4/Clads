@@ -1,6 +1,5 @@
 package com.decagonhq.clads.ui.authentication
 
-import android.app.ProgressDialog
 import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -8,27 +7,39 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import android.widget.Toast
-import androidx.fragment.app.Fragment
-import androidx.navigation.fragment.findNavController
 import com.decagonhq.clads.R
 import com.decagonhq.clads.databinding.SignUpOptionsFragmentBinding
+import com.decagonhq.clads.ui.BaseFragment
+import com.decagonhq.clads.util.Constants.GOOGLE_SIGN_IN_REQUEST_CODE
+import com.decagonhq.clads.util.navigateTo
 import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount
 import com.google.android.gms.auth.api.signin.GoogleSignInClient
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions
 import com.google.android.gms.common.api.ApiException
 import com.google.android.gms.tasks.Task
+import dagger.hilt.android.AndroidEntryPoint
+import timber.log.Timber
 
-class SignUpOptionsFragment : Fragment() {
+@AndroidEntryPoint
+class SignUpOptionsFragment : BaseFragment() {
     private var _binding: SignUpOptionsFragmentBinding? = null
     private val binding get() = _binding!!
     private lateinit var emailSignUpButton: TextView
     private lateinit var googleSignUpButton: TextView
-    lateinit var progressDialog: ProgressDialog
     private lateinit var loginButton: TextView
     private lateinit var cladsGoogleSignInClient: GoogleSignInClient
-    private var GOOGLE_SIGN_IN_REQ_CODE = 100
 
+    override fun onStart() {
+        super.onStart()
+        if (
+            sessionManager.loadFromSharedPref(getString(R.string.login_status)) ==
+            getString(R.string.logout) &&
+            sessionManager.loadFromSharedPref(getString(R.string.login_status)).isNotEmpty()
+        ) {
+            navigateTo(R.id.login_fragment)
+        }
+    }
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -46,8 +57,9 @@ class SignUpOptionsFragment : Fragment() {
         loginButton = binding.signUpOptionsFragmentLoginTextView
 
         emailSignUpButton.setOnClickListener {
-            findNavController().navigate(R.id.email_sign_up_fragment)
+            navigateTo(R.id.email_sign_up_fragment)
         }
+
         /*call the googleSignInClient method*/
         googleSignInClient()
 
@@ -55,8 +67,9 @@ class SignUpOptionsFragment : Fragment() {
         googleSignUpButton.setOnClickListener {
             signIn()
         }
+
         loginButton.setOnClickListener {
-            findNavController().navigate(R.id.login_fragment)
+            navigateTo(R.id.login_fragment)
         }
     }
 
@@ -71,20 +84,33 @@ class SignUpOptionsFragment : Fragment() {
         cladsGoogleSignInClient = GoogleSignIn.getClient(requireContext(), googleSignInOptions)
     }
 
-    /*launch the login screen*/
+    /*Launch the login screen*/
     private fun signIn() {
         cladsGoogleSignInClient.signOut()
         val signInIntent = cladsGoogleSignInClient.signInIntent
-        startActivityForResult(signInIntent, GOOGLE_SIGN_IN_REQ_CODE)
+        startActivityForResult(signInIntent, GOOGLE_SIGN_IN_REQUEST_CODE)
     }
-    /*gets the result of successful authentication*/
+
+    /*Gets the result of successful authentication*/
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
-        if (requestCode == GOOGLE_SIGN_IN_REQ_CODE) {
+        if (requestCode == GOOGLE_SIGN_IN_REQUEST_CODE) {
             val task = GoogleSignIn.getSignedInAccountFromIntent(data)
-            handleSignUpResult(task)
+//            handleSignUpResult(task)
+            try {
+                // Google Sign In was successful,
+                val account = task.getResult(ApiException::class.java)!!
+                Timber.d("firebaseAuthWithGoogle: ${account.id}")
+                account.email?.let { updateUi(it) }
+            } catch (e: ApiException) {
+                Toast.makeText(
+                    requireContext(), "Login Failed: ${e.message}",
+                    Toast.LENGTH_SHORT
+                ).show()
+            }
         }
     }
+
     /*handles the result of successful signUp with google*/
     private fun handleSignUpResult(completedTask: Task<GoogleSignInAccount>) {
         try {
@@ -95,15 +121,33 @@ class SignUpOptionsFragment : Fragment() {
             Toast.makeText(requireContext(), "Cancelled", Toast.LENGTH_SHORT).show()
         }
     }
+
     /*load the emailSignUpFragment*/
     private fun loadEmailSignUpFragment(account: GoogleSignInAccount?) {
         if (account != null) {
-            findNavController().navigate(R.id.email_sign_up_fragment)
+            navigateTo(R.id.email_sign_up_fragment)
         }
     }
+
+    private fun updateUi(email: String) {
+        val userEmail = email
+        val action =
+            SignupChoicesFragmentDirections.actionSignupChoicesFragmentToSignupEmailFragment()
+        navigateTo(action)
+    }
+
     /*remove the binding from the view to prevent memory leak*/
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
     }
 }
+
+//    override fun onStart() {
+//        super.onStart()
+//        // Check if user is signed in (non-null) and update UI accordingly.
+//        val account = GoogleSignIn.getLastSignedInAccount(requireContext())
+//        if (account != null) {
+//            moveTo(R.id.signup_email_fragment)
+//        }
+//    }

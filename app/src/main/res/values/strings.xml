@@ -72,6 +72,7 @@
     <string name="resources">Resources</string>
     <string name="subscription">Subscription</string>
     <string name="logout">Logout</string>
+    <string name="login_status">LOGIN_STATUS</string>
     <string name="edit_profile">Edit Profile</string>
     <string name="ijeoma_ibukun_babangida">Ijeoma Ibukun Babangida</string>
     <string name="version_1_0">version 1.0</string>
@@ -163,7 +164,7 @@
         <item>Zamfara</item>
         <item>FCT</item>
     </string-array>
-<!-- String extractions -->
+    <!-- String extractions -->
     <string name="tag">Dialog tag</string>
     <string name="request_key_keyClicked">keyClicked</string>
     <string name="key_bundleKey">bundleKey</string>
@@ -176,7 +177,7 @@
     <string name="dialog_alert_confirmation_yes">Yes</string>
     <string name="dialog_alert_confirmation_cancle">Cancel</string>
 
-<!--  Temporary string used for dummy array -->
+    <!--  Temporary string used for dummy array -->
     <string name="arm">Arm</string>
     <string name="leg">Leg</string>
     <string name="neck">Neck</string>
@@ -184,7 +185,7 @@
     <string name="sholder">Sholder</string>
     <string name="elbow">Elbow</string>
 
-<!-- Validation strings -->
+    <!-- Validation strings -->
     <string name="enter_the_delivery_address_validation">Please, enter the delivery address</string>
     <string name="enter_city_validation">Please, enter a city</string>
     <string name="enter_state_validation">Please, select a state</string>
@@ -300,12 +301,56 @@
     <string name="city">City</string>
     <string name="lagos">Lagos</string>
     <string name="street">Street</string>
-    <string name="no_7_decabon_way_lekki">No 7 Decabon way, lekki</string>
+    <string name="no_7_decabon_way_lekki">No 7 Decagon way, Lekki</string>
     <string name="_2020">2020</string>
     <string name="required">Required</string>
     <string name="tag_employee_number_dialog_fragment">Employee Number dialog fragment</string>
     <string name="frstname_dialog_fragment">FirstName Dialog Fragment</string>
 
+    <string name="you_have_no_photo_in_your_gallery">You have no photo in your gallery</string>
+    <string name="media_share">Share</string>
+    <string name="media_edit">Edit</string>
+    <string name="media_delete">Delete</string>
+    <string name="send_to">SEND</string>
+    <string name="enter_name">Enter image name</string>
+
+    <string name="phone">08154343448</string>
+    <string name="nigeria">Nigeria</string>
+    <string name="null_all">null</string>
+
+    <string name="videos">Videos</string>
+    <string name="view_all">View All</string>
+    <string name="hour_30_min">1 hours 30 mins</string>
+    <string name="pope_hope">Pope Hope</string>
+    <string name="stitching_neatly">Stitching Neatly</string>
+    <string name="article_publications">Article/Publications</string>
+    <string name="articles">Articles</string>
+    <string name="please_wait">Please wait...</string>
+    <string name="invalid_phone_number">Invalid Phone number</string>
+    <string name="all_phone_number_is_required">Phone Number is required</string>
+
+
+    <string name="signed_up">SIGNED_UP</string>
+    <string name="user_name">USER_NAME</string>
+    <string name="log_in">LOGIN</string>
+    <string name="log_out">LOGOUT</string>
+
+    <string name="how_to_perfectly_sew_attire">How to perfectly sew attire</string>
+    <string name="posted_1_month_ago">Posted 1 month ago</string>
+    <string name="how_to_sew_attire">How to sew attire</string>
+    <string name="_1_hour_30_minutes">1 hour 30 minutes</string>
+    <string name="individual_video">Individual Video</string>
+    <string name="permision_to_access">\Permission to access your \</string>
+    <string name="is_required_to_use_this_app">\ is required to use this app\</string>
+    <string name="hi">Hi %s</string>
+    <string name="confirk_email_hi">Hi</string>
+    <string name="confirm_email_you_are_ready_to_go">, you are almost ready to start enjoying clads. Simply click the blue button below to verify your email address</string>
+
+    <string name="resource_view_individual_article_fragment_article_link_key">articleItem</string>
+    <string name="enter_address">Enter Address</string>
+    <string name="enter_union_resource">Enter Union Details</string>
+    <string name="enter_union_name">Enter Union Name</string>
+    <string name="enter_union_ward">Enter Union Ward</string>
 
     <string-array name="account_category">
         <item>Tailor</item>

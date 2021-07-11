@@ -57,9 +57,10 @@ dependencies {
     testImplementation 'junit:junit:4.13.2'
     androidTestImplementation 'androidx.test.ext:junit:1.1.2'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.3.0'
-    implementation 'com.google.android.material:material:1.4.0-rc01'
+    implementation 'com.google.android.material:material:1.5.0-alpha01'
     implementation 'com.github.PhilJay:MPAndroidChart:v2.2.2'
     implementation 'com.amulyakhare:com.amulyakhare.textdrawable:1.0.1'
+    implementation 'net.gotev:uploadservice:2.1'
 
     //androidx.test
     androidTestImplementation "androidx.test:runner:$versions.androidx_test"
@@ -74,10 +75,16 @@ dependencies {
     implementation platform("com.google.firebase:firebase-bom:$versions.firebase_version")
     implementation "com.google.android.gms:play-services-auth:$versions.play_service_auth"
 
-    //navigation controller
+    //Navigation Controller
     implementation "androidx.navigation:navigation-fragment-ktx:$versions.nav_version"
     implementation "androidx.navigation:navigation-ui-ktx:$versions.nav_version"
     androidTestImplementation "androidx.navigation:navigation-testing:$versions.nav_version"
+
+//    Room Database
+    implementation "androidx.room:room-runtime:$versions.room_version"
+    annotationProcessor "androidx.room:room-compiler:$versions.room_version"
+    kapt "androidx.room:room-compiler:$versions.room_version"
+    implementation "androidx.room:room-ktx:$versions.room_version"
 
     //Retrofit
     implementation "com.squareup.retrofit2:retrofit:$versions.retrofit_version"
@@ -87,6 +94,7 @@ dependencies {
 
     //Dagger-hilt
     implementation "com.google.dagger:hilt-android:$versions.hilt_version"
+    annotationProcessor "androidx.room:room-compiler:$versions.room_version"
     kapt "com.google.dagger:hilt-android-compiler:$versions.hilt_version"
     implementation "androidx.hilt:hilt-lifecycle-viewmodel:$versions.hilt_life_cycle_version"
     kapt "androidx.hilt:hilt-compiler:$versions.hilt_compiler_version"
@@ -98,11 +106,7 @@ dependencies {
     //fragment Ktx
     implementation "androidx.fragment:fragment-ktx:$versions.fragment_version"
     debugImplementation "androidx.fragment:fragment-testing:$versions.fragment_version"
-
-    //Glide
-    implementation "com.github.bumptech.glide:glide:$versions.glide_version"
-    kapt "com.github.bumptech.glide:compiler:$versions.glide_version"
-
+    
     implementation "com.jakewharton.timber:timber:$versions.timber_version"
 
     //Mockito
@@ -111,4 +115,22 @@ dependencies {
 
 //    Circle Image View
     implementation "de.hdodenhof:circleimageview:$versions.circle_iv_version"
+
+//    Dependency for exoplayer
+    implementation "com.google.android.exoplayer:exoplayer-core:$versions.exoplayer_version"
+    implementation "com.google.android.exoplayer:exoplayer-dash:$versions.exoplayer_version"
+    implementation "com.google.android.exoplayer:exoplayer-ui:$versions.exoplayer_version"
+    implementation "com.google.android.exoplayer:exoplayer:$versions.exoplayer_version"
+
+
+    //Glide
+    implementation "com.github.bumptech.glide:glide:$versions.glide_version"
+    kapt "com.github.bumptech.glide:compiler:$versions.glide_version"
+    implementation "com.github.bumptech.glide:glide:$versions.glide_version"
+    annotationProcessor "com.github.bumptech.glide:compiler:$versions.glide_version"
+
+
+    // Image crop
+    api "com.theartofdev.edmodo:android-image-cropper:$versions.crop_image"
+
 }

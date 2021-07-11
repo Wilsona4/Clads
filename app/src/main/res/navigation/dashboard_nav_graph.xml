@@ -18,8 +18,15 @@
     <fragment
         android:id="@+id/nav_media"
         android:name="com.decagonhq.clads.ui.profile.bottomnav.MediaFragment"
-        android:label="@string/menu_media"
-        tools:layout="@layout/media_fragment" />
+        android:label="Photo Gallery"
+        tools:layout="@layout/media_fragment">
+        <action
+            android:id="@+id/action_nav_media_to_photoGalleryEditImageFragment"
+            app:destination="@id/photoGalleryEditImageFragment" />
+        <action
+            android:id="@+id/action_nav_media_to_mediaFragmentPhotoName"
+            app:destination="@id/mediaFragmentPhotoName" />
+    </fragment>
 
     <fragment
         android:id="@+id/nav_messages"
@@ -28,10 +35,23 @@
         tools:layout="@layout/messages_fragment" />
 
     <fragment
-        android:id="@+id/resourcesFragment"
-        android:name="com.decagonhq.clads.ui.resource.ResourcesFragment"
+        android:id="@+id/resourceGeneralFragment"
+        android:name="com.decagonhq.clads.ui.resource.ResourceGeneralFragment"
         android:label="@string/resources"
-        tools:layout="@layout/resources_fragment" />
+        tools:layout="@layout/resource_general_fragment">
+        <action
+            android:id="@+id/action_resourcesFragment_to_resourceVideosFragment"
+            app:destination="@id/resourceVideosFragment" />
+        <action
+            android:id="@+id/action_resourceGeneralFragment_to_resourceArticlesFragment"
+            app:destination="@id/resourceArticlesFragment" />
+        <action
+            android:id="@+id/action_resourceGeneralFragment_to_individualVideoScreenFragment"
+            app:destination="@id/individualVideoScreenFragment" />
+        <action
+            android:id="@+id/action_resourceGeneralFragment_to_resourceArticlesFragment2"
+            app:destination="@id/resourceArticlesFragment" />
+    </fragment>
     <fragment
         android:id="@+id/subscriptionFragment"
         android:name="com.decagonhq.clads.ui.subscription.SubscriptionFragment"
@@ -52,28 +72,31 @@
         android:id="@+id/measurementsFragment"
         android:name="com.decagonhq.clads.ui.client.MeasurementsFragment"
         android:label="measurements_fragment"
-        tools:layout="@layout/measurements_fragment" >
+        tools:layout="@layout/measurements_fragment">
+
         <argument
             android:name="dress_measurement"
-            app:argType="com.decagonhq.clads.model.DressMeasurementModel" />
+            app:argType="com.decagonhq.clads.data.domain.DressMeasurementModel" />
     </fragment>
     <fragment
         android:id="@+id/deliveryAddressFragment"
         android:name="com.decagonhq.clads.ui.client.DeliveryAddressFragment"
         android:label="@string/add_client"
-        tools:layout="@layout/delivery_address_fragment" >
+        tools:layout="@layout/delivery_address_fragment">
         <argument
             android:name="delivery_address"
-            app:argType="com.decagonhq.clads.model.DeliveryAddressModel"
-            app:nullable="true"
-            android:defaultValue="@null"/>
+            android:defaultValue="@null"
+            app:argType="com.decagonhq.clads.data.domain.DeliveryAddressModel"
+            app:nullable="true" />
+
+
     </fragment>
 
     <fragment
         android:id="@+id/addAddressFragment"
         android:name="com.decagonhq.clads.ui.client.AddAddressFragment"
         android:label="@string/add_client"
-        tools:layout="@layout/add_address_fragment" >
+        tools:layout="@layout/add_address_fragment">
         <action
             android:id="@+id/action_addAddressFragment_to_deliveryAddressFragment"
             app:destination="@id/deliveryAddressFragment" />
@@ -82,7 +105,7 @@
     <fragment
         android:id="@+id/paymentMethodFragment"
         android:name="com.decagonhq.clads.ui.profile.editprofile.PaymentMethodFragment"
-        android:label="payment_method_fragment"
+        android:label="@string/payment_method"
         tools:layout="@layout/payment_method_fragment" />
 
     <fragment
@@ -98,5 +121,59 @@
             app:popEnterAnim="@android:anim/slide_in_left"
             app:popExitAnim="@android:anim/slide_out_right" />
     </fragment>
+    <fragment
+        android:id="@+id/photoGalleryEditImageFragment"
+        android:name="com.decagonhq.clads.ui.profile.bottomnav.PhotoGalleryEditImageFragment"
+        android:label="Elegant suit for men"
+        tools:layout="@layout/photo_gallery_edit_image_fragment">
+        <argument android:name="imageUri" />
+        <action
+            android:id="@+id/action_mediaFragmentRecyclerViewItemClicked_to_nav_media"
+            app:destination="@id/nav_media" />
+        <argument
+            android:name="imageName"
+            app:argType="string" />
+    </fragment>
+    <fragment
+        android:id="@+id/mediaFragmentPhotoName"
+        android:name="com.decagonhq.clads.ui.profile.editprofile.MediaFragmentPhotoName"
+        android:label="MediaFragmentPhotoName">
+        <argument
+            android:name="imageData"
+            app:argType="string" />
+        <action
+            android:id="@+id/action_mediaFragmentPhotoName_to_nav_media"
+            app:destination="@id/nav_media"
+            app:launchSingleTop="false"
+            app:popUpTo="@id/nav_media"
+            app:popUpToInclusive="true" />
+    </fragment>
+    <fragment
+        android:id="@+id/resourceVideosFragment"
+        android:name="com.decagonhq.clads.ui.resource.ResourceVideosFragment"
+        android:label="@string/videos"
+        tools:layout="@layout/resource_videos_fragment" >
+        <action
+            android:id="@+id/action_resourceVideosFragment_to_individualVideoScreenFragment"
+            app:destination="@id/individualVideoScreenFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/resourceArticlesFragment"
+        android:name="com.decagonhq.clads.ui.resource.ResourceArticlesFragment"
+        android:label="@string/articles"
+        tools:layout="@layout/resource_articles_fragment" >
+        <action
+            android:id="@+id/action_resourceArticlesFragment_to_resourceViewIndividualArticleFragment"
+            app:destination="@id/resourceViewIndividualArticleFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/individualVideoScreenFragment"
+        android:name="com.decagonhq.clads.ui.resource.IndividualVideoScreenFragment"
+        android:label="@string/individual_video"
+        tools:layout="@layout/individual_video_screen_fragment" />
+    <fragment
+        android:id="@+id/resourceViewIndividualArticleFragment"
+        android:name="com.decagonhq.clads.ui.resource.ResourceIndividualArticleWebViewFragment"
+        android:label="Article/Publications" />
 
 </navigation>

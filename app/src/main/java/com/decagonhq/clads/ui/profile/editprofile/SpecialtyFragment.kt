@@ -6,18 +6,15 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.decagonhq.clads.R
+import com.decagonhq.clads.data.domain.SpecialtyModel
 import com.decagonhq.clads.databinding.SpecialtyFragmentBinding
-import com.decagonhq.clads.model.SpecialtyModel
 import com.decagonhq.clads.ui.profile.adapter.SpecialtyFragmentRecyclerAdapter
 import com.decagonhq.clads.ui.profile.dialogfragment.ProfileManagementDialogFragments.Companion.createProfileDialogFragment
-import com.decagonhq.clads.viewmodels.ProfileManagementViewModel
 
 class SpecialtyFragment : Fragment() {
     private var _binding: SpecialtyFragmentBinding? = null
-    private lateinit var profileManagementViewModel: ProfileManagementViewModel
 
     private val recyclerViewAdapter by lazy { SpecialtyFragmentRecyclerAdapter() }
 
@@ -31,8 +28,8 @@ class SpecialtyFragment : Fragment() {
         // Inflate the layout for this fragment
         _binding = SpecialtyFragmentBinding.inflate(inflater, container, false)
 
-        profileManagementViewModel =
-            ViewModelProvider(requireActivity()).get(ProfileManagementViewModel::class.java)
+//        profileManagementViewModel =
+//            ViewModelProvider(requireActivity()).get(ProfileManagementViewModel::class.java)
         return binding.root
     }
 
@@ -60,14 +57,16 @@ class SpecialtyFragment : Fragment() {
         ) { key, bundle ->
             // collect input values from dialog fragment and update the union name text of user
             val obiomaTrainedValue = bundle.getString(SPECIAL_OBIOMA_TRAINED_BUNDLE_KEY)
-            binding.specialtyFragmentObiomaTrainedAndCertifiedValueTextView.text = obiomaTrainedValue
+            binding.specialtyFragmentObiomaTrainedAndCertifiedValueTextView.text =
+                obiomaTrainedValue
         }
 
         // when delivery time value is clicked
         binding.specialtyFragmentObiomaTrainedAndCertifiedValueTextView.setOnClickListener {
             val currentObiomaTrainedValue =
                 binding.specialtyFragmentObiomaTrainedAndCertifiedValueTextView.text.toString()
-            val bundle = bundleOf(CURRENT_SPECIAL_OBIOMA_TRAINED_BUNDLE_KEY to currentObiomaTrainedValue)
+            val bundle =
+                bundleOf(CURRENT_SPECIAL_OBIOMA_TRAINED_BUNDLE_KEY to currentObiomaTrainedValue)
             createProfileDialogFragment(
                 R.layout.specialty_obioma_trained_dialog_fragment,
                 bundle
@@ -150,11 +149,13 @@ class SpecialtyFragment : Fragment() {
     companion object {
         const val SPECIAL_DELIVERY_TIME_REQUEST_KEY = "SPECIAL DELIVERY TIME REQUEST KEY"
         const val SPECIAL_DELIVERY_TIME_BUNDLE_KEY = "SPECIAL DELIVERY TIME BUNDLE KEY"
-        const val CURRENT_SPECIAL_DELIVERY_TIME_BUNDLE_KEY = "CURRENT SPECIAL DELIVERY TIME BUNDLE KEY"
+        const val CURRENT_SPECIAL_DELIVERY_TIME_BUNDLE_KEY =
+            "CURRENT SPECIAL DELIVERY TIME BUNDLE KEY"
 
         const val SPECIAL_OBIOMA_TRAINED_REQUEST_KEY = "SPECIAL OBIOMA TRAINED REQUEST KEY"
         const val SPECIAL_OBIOMA_TRAINED_BUNDLE_KEY = "SPECIAL OBIOMA TRAINED BUNDLE KEY"
-        const val CURRENT_SPECIAL_OBIOMA_TRAINED_BUNDLE_KEY = "CURRENT SPECIAL OBIOMA TRAINED BUNDLE KEY"
+        const val CURRENT_SPECIAL_OBIOMA_TRAINED_BUNDLE_KEY =
+            "CURRENT SPECIAL OBIOMA TRAINED BUNDLE KEY"
 
         const val ADD_SPECIALTY_REQUEST_KEY = "SPECIAL OBIOMA TRAINED REQUEST KEY"
         const val ADD_SPECIALTY_BUNDLE_KEY = "SPECIAL OBIOMA TRAINED BUNDLE KEY"
