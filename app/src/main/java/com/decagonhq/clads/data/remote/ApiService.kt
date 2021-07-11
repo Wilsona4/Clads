@@ -39,11 +39,11 @@ interface ApiService {
     @POST("upload")
     suspend fun uploadImage(@Part image: MultipartBody.Part): GenericResponseClass<UserProfileImage>
 
-    @POST("upload")
-    suspend fun uploadGallery(@Body requestBody: RequestBody): GenericResponseClass<UserProfileImage>
-
     @GET("download")
     fun getUploadedImage(): GenericResponseClass<UserProfileImage>
+
+    @GET("download/images")
+    fun getGalleryImages(): GenericResponseClass<List<UserProfileImage>>
 
     /*Get User Profile*/
     @GET("me/profile")
@@ -52,4 +52,11 @@ interface ApiService {
     /*Update User Profile*/
     @PUT("me/profile")
     suspend fun updateUserProfile(@Body userProfile: UserProfileDTO): GenericResponseClass<UserProfile>
+
+    @Multipart
+    @POST("upload")
+    suspend fun uploadGalleryImage(@Part image: MultipartBody.Part, @Body description: String): GenericResponseClass<UserProfileImage>
+
+    @POST("upload")
+    suspend fun uploadGallery(@Body requestBody: RequestBody): GenericResponseClass<UserProfileImage>
 }
