@@ -26,6 +26,9 @@
         <action
             android:id="@+id/action_signUpOptionsFragment_to_emailSignUpFragment"
             app:destination="@id/email_sign_up_fragment" />
+        <action
+            android:id="@+id/action_sign_up_options_fragment_to_login_fragment"
+            app:destination="@id/login_fragment" />
     </fragment>
     <fragment
         android:id="@+id/email_sign_up_fragment"
@@ -35,6 +38,9 @@
         <action
             android:id="@+id/action_emailSignUpFragment_to_emailConfirmationFragment"
             app:destination="@id/email_confirmation_fragment" />
+        <action
+            android:id="@+id/action_email_sign_up_fragment_to_login_fragment"
+            app:destination="@id/login_fragment" />
 
     </fragment>
     <fragment
@@ -55,6 +61,11 @@
         <deepLink
             android:id="@+id/emailConfirmationDeepLink"
             app:uri="https://clads-service.herokuapp.com/api/v1/confirm" />
+        <action
+            android:id="@+id/action_login_fragment_to_sign_up_options_fragment"
+            app:destination="@id/sign_up_options_fragment"
+            app:popUpTo="@id/sign_up_options_fragment"
+            app:popUpToInclusive="true" />
     </fragment>
     <fragment
         android:id="@+id/reset_password_fragment"
