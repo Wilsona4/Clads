@@ -8,6 +8,7 @@ import com.decagonhq.clads.data.remote.login.LoginCredentialsDTO
 import com.decagonhq.clads.data.remote.profile.UserProfileDTO
 import com.decagonhq.clads.data.remote.registration.UserRegistrationDTO
 import okhttp3.MultipartBody
+import okhttp3.RequestBody
 import retrofit2.http.Body
 import retrofit2.http.GET
 import retrofit2.http.Multipart
@@ -37,6 +38,9 @@ interface ApiService {
     @Multipart
     @POST("upload")
     suspend fun uploadImage(@Part image: MultipartBody.Part): GenericResponseClass<UserProfileImage>
+
+    @POST("upload")
+    suspend fun uploadGallery(@Body requestBody: RequestBody): GenericResponseClass<UserProfileImage>
 
     @GET("download")
     fun getUploadedImage(): GenericResponseClass<UserProfileImage>
