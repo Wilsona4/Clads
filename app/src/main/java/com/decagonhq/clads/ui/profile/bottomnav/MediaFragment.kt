@@ -17,6 +17,7 @@ import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.core.net.toUri
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import androidx.lifecycle.observe
@@ -53,7 +54,7 @@ class MediaFragment : BaseFragment() {
     private lateinit var noPhotoImageView: ImageView
     private lateinit var noPhotoTextView: TextView
     private lateinit var photoGalleryModel: PhotoGalleryModel
-    private val imageUploadViewModel: ImageUploadViewModel by viewModels()
+    private val imageUploadViewModel: ImageUploadViewModel by activityViewModels()
 
     private val pickImages = registerForActivityResult(ActivityResultContracts.GetContent()) { uri: Uri? ->
         uri?.let { it ->
@@ -89,6 +90,8 @@ class MediaFragment : BaseFragment() {
 
         noPhotoImageView = binding.mediaFragmentPhotoIconImageView
         noPhotoTextView = binding.mediaFragmentYouHaveNoPhotoInGalleryTextView
+
+        imageUploadViewModel.getLocalDatabaseGalleryImages()
 
         imageUploadViewModel.uploadGallery.observe(
             requireActivity(),

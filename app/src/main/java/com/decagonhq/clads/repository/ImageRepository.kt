@@ -12,6 +12,7 @@ interface ImageRepository {
 
     suspend fun uploadMediaImage(image: MultipartBody.Part): Flow<Resource<UserProfileImage>>
     suspend fun getUserImage(): Flow<Resource<UserProfileImage>>
-    suspend fun getGalleryImage(): Flow<Resource<List<UserGalleryImage>>>
-    suspend fun uploadGallery(requestBody: RequestBody): Flow<Resource<List<UserGalleryImage>>>
+    suspend fun getRemoteGalleryImage()
+    suspend fun uploadGallery(requestBody: RequestBody)
+    suspend fun getLocalDatabaseGalleryImages(): Flow<Resource<List<UserGalleryImage>>>
 }

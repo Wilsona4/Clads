@@ -83,7 +83,9 @@ class DashboardActivity : AppCompatActivity() {
         super.onStart()
         userProfileViewModel.saveUserProfileToLocalDatabase()
 //        userProfileViewModel.getUserProfile()
-        imageUploadViewModel.getUserImage()
+        imageUploadViewModel.getUserProfileImage()
+        imageUploadViewModel.getRemoteGalleryImages()
+
         GlobalScope.launch {
             delay(5000L)
             withContext(Dispatchers.Main) {

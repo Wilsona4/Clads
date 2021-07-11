@@ -4,7 +4,6 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.decagonhq.clads.data.domain.GenericResponseClass
 import com.decagonhq.clads.data.domain.images.UserGalleryImage
 import com.decagonhq.clads.data.domain.images.UserProfileImage
 import com.decagonhq.clads.repository.ImageRepository
@@ -29,8 +28,8 @@ class ImageUploadViewModel @Inject constructor(
 
 
     init {
-        getUserImage()
-        getGalleryImage()
+        getUserProfileImage()
+        getRemoteGalleryImages()
     }
 
     /*Upload Profile Picture*/
@@ -45,7 +44,7 @@ class ImageUploadViewModel @Inject constructor(
     }
 
     /*Get Profile Picture from Room Data*/
-    fun getUserImage() {
+    fun getUserProfileImage() {
         viewModelScope.launch {
             val response = imageRepository.getUserImage()
             response.collect {
@@ -55,23 +54,26 @@ class ImageUploadViewModel @Inject constructor(
     }
 
     /*Get Gallery Images*/
-    fun getGalleryImage(){
+    fun getRemoteGalleryImages() {
         viewModelScope.launch {
-            val response = imageRepository.getGalleryImage()
-            response.collect{
-                _uploadGallery.value = it
-            }
+            imageRepository.getRemoteGalleryImage()
         }
     }
 
     /*Upload Gallery Image*/
     fun uploadGallery(requestBody: RequestBody) {
         viewModelScope.launch {
-            _uploadGallery.value = Resource.Loading(null, "uploading...")
-            val response = imageRepository.uploadGallery(requestBody)
-            response.collect {
+//            _uploadGallery.value = Resource.Loading(null, "uploading...")
+            imageRepository.uploadGallery(requestBody)
+        }
+    }
+
+    fun getLocalDatabaseGalleryImages() {
+        viewModelScope.launch {
+            imageRepository.getLocalDatabaseGalleryImages().collect {
                 _uploadGallery.value = it
             }
         }
     }
+
 }

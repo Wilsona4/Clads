@@ -1,7 +1,6 @@
 package com.decagonhq.clads.repository
 
 import androidx.room.withTransaction
-import com.decagonhq.clads.data.domain.GenericResponseClass
 import com.decagonhq.clads.data.domain.images.UserGalleryImage
 import com.decagonhq.clads.data.domain.images.UserProfileImage
 import com.decagonhq.clads.data.local.CladsDatabase
@@ -13,7 +12,6 @@ import com.decagonhq.clads.util.networkBoundResource
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.collect
-import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.map
 import okhttp3.MultipartBody
 import okhttp3.RequestBody
@@ -48,31 +46,6 @@ class ImageRepositoryImpl(
             }
         )
 
-    override suspend fun getGalleryImage(): Flow<Resource<List<UserGalleryImage>>> {
-        return database.galleryImageDao().readUserGalleryImage().map{
-            Resource.Success(it)
-        }
-    }
-
-//        networkBoundResource(
-//            fetchFromLocal = {
-//                database.galleryImageDao().readUserGalleryImage().map {
-//                    it
-//                }
-//            },
-//            shouldFetchFromRemote = {
-//                true
-//            },
-//            fetchFromRemote = {
-//                mainApiService.getGalleryImages()
-//            },
-//            saveToLocalDB = { galleryImageList ->
-//                for (galleryImage in galleryImageList.payload) {
-//                    database.galleryImageDao().addUserGalleryImage(galleryImage)
-//                }
-//            }
-//        )
-
 
     override suspend fun getUserImage(): Flow<Resource<UserProfileImage>> {
         return database.profileImageDao().readUserProfileImage().map {
@@ -80,36 +53,32 @@ class ImageRepositoryImpl(
         }
     }
 
-    override suspend fun uploadGallery(requestBody: RequestBody): Flow<Resource<List<UserGalleryImage>>> =
-//        flow {
-//            val response = safeApiCall {
-//                mainApiService.uploadGallery(requestBody)
-//            }
-//            if (response is Resource.Success) {
-//                response.data?.payload?.let {
-//                    database.galleryImageDao().addUserGalleryImage(it)
-//                }
-//
-//                database.galleryImageDao().readUserGalleryImage().collect {
-//                    emit(Resource.Success(it))
-//                }
-//            }
-//        }
-
-        networkBoundResource(
-            fetchFromLocal = {
-                database.galleryImageDao().readUserGalleryImage().map {
-                    it
+    override suspend fun getRemoteGalleryImage() {
+        val response = safeApiCall {
+            mainApiService.getGalleryImages()
+        }
+        database.withTransaction {
+            response.data?.payload?.let { galleryImageList ->
+                for (galleryImage in galleryImageList) {
+                    database.galleryImageDao().addUserGalleryImage(galleryImage)
                 }
-            },
-            shouldFetchFromRemote = {
-                true
-            },
-            fetchFromRemote = {
-                mainApiService.uploadGallery(requestBody)
-            },
-            saveToLocalDB = {
-                database.galleryImageDao().addUserGalleryImage(it.payload)
             }
-        )
+        }
+    }
+
+    override suspend fun uploadGallery(requestBody: RequestBody) {
+        val response = safeApiCall {
+            mainApiService.uploadGallery(requestBody)
+        }
+
+        response.data?.payload?.let {
+            database.galleryImageDao().addUserGalleryImage(it)
+        }
+    }
+
+    override suspend fun getLocalDatabaseGalleryImages(): Flow<Resource<List<UserGalleryImage>>> {
+        return database.galleryImageDao().readUserGalleryImage().map {
+            Resource.Success(it)
+        }
+    }
 }
