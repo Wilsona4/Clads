@@ -4,6 +4,7 @@ import android.Manifest
 import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
+import android.graphics.Bitmap
 import android.net.Uri
 import android.os.Build
 import android.os.Bundle
@@ -19,6 +20,7 @@ import androidx.core.content.ContextCompat
 import androidx.core.os.bundleOf
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.Observer
+import androidx.lifecycle.lifecycleScope
 import com.bumptech.glide.Glide
 import com.decagonhq.clads.R
 import com.decagonhq.clads.data.domain.images.UserProfileImage
@@ -38,6 +40,12 @@ import com.decagonhq.clads.viewmodels.ImageUploadViewModel
 import com.decagonhq.clads.viewmodels.UserProfileViewModel
 import com.theartofdev.edmodo.cropper.CropImage
 import dagger.hilt.android.AndroidEntryPoint
+import id.zelory.compressor.Compressor
+import id.zelory.compressor.constraint.format
+import id.zelory.compressor.constraint.quality
+import id.zelory.compressor.constraint.resolution
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import okhttp3.MultipartBody
 import okhttp3.RequestBody.Companion.asRequestBody
@@ -111,7 +119,7 @@ class AccountFragment : BaseFragment() {
             viewLifecycleOwner,
             Observer {
                 if (it is Resource.Loading && it.data?.firstName.isNullOrEmpty()) {
-                    progressDialog.showDialogFragment("uploading...")
+                    progressDialog.showDialogFragment("Updating..")
                 } else if (it is Resource.Error) {
                     progressDialog.hideProgressDialog()
                     handleApiError(it, mainRetrofit, requireView())
@@ -280,10 +288,18 @@ class AccountFragment : BaseFragment() {
         val convertedImageUriToBitmap = uriToBitmap(uri)
         val bitmapToFile = saveBitmap(convertedImageUriToBitmap)
 
-        val imageBody = bitmapToFile?.asRequestBody("image/jpg".toMediaTypeOrNull())
-        val image = MultipartBody.Part.createFormData("file", bitmapToFile?.name, imageBody!!)
+        /*Compress Image then Upload Image*/
+        lifecycleScope.launch {
+            val compressedImage = Compressor.compress(requireContext(), bitmapToFile!!){
+//                resolution(1280, 720)
+//                quality(50)
+//                format(Bitmap.CompressFormat.WEBP)
+            }
+            val imageBody = compressedImage.asRequestBody("image/jpg".toMediaTypeOrNull())
+            val image = MultipartBody.Part.createFormData("file", bitmapToFile?.name, imageBody!!)
+            imageUploadViewModel.mediaImageUpload(image)
+        }
 
-        imageUploadViewModel.mediaImageUpload(image)
 
         /*Handling the response from the retrofit*/
         imageUploadViewModel.userProfileImage.observe(
@@ -302,9 +318,6 @@ class AccountFragment : BaseFragment() {
                             .load(imageUrl)
                             .placeholder(R.drawable.nav_drawer_profile_avatar)
                             .into(binding.accountFragmentEditProfileIconImageView)
-
-                        Toast.makeText(requireContext(), "Upload Successful", Toast.LENGTH_SHORT)
-                            .show()
                     }
                 }
             }
