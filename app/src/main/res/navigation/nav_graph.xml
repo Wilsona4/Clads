@@ -17,7 +17,8 @@
             app:enterAnim="@anim/slide_in_right"
             app:exitAnim="@anim/slide_out_left"
             app:popEnterAnim="@anim/slide_in_right"
-            app:popExitAnim="@android:anim/fade_out" />
+            app:popExitAnim="@android:anim/fade_out"
+            app:popUpTo="@id/landing_screen_fragment" />
         <action
             android:id="@+id/action_landing_screen_fragment_to_login_fragment"
             app:destination="@id/login_fragment"
@@ -44,7 +45,8 @@
             app:enterAnim="@anim/slide_in_right"
             app:exitAnim="@anim/slide_out_left"
             app:popEnterAnim="@anim/slide_in_right"
-            app:popExitAnim="@anim/slide_out_left" />
+            app:popExitAnim="@anim/slide_out_left"
+            app:popUpTo="@id/landing_screen_fragment" />
     </fragment>
     <fragment
         android:id="@+id/email_sign_up_fragment"
@@ -96,8 +98,7 @@
             app:exitAnim="@anim/slide_out_left"
             app:popEnterAnim="@anim/slide_in_right"
             app:popExitAnim="@anim/slide_out_left"
-            app:popUpTo="@id/sign_up_options_fragment"
-            app:popUpToInclusive="true" />
+            app:popUpTo="@id/landing_screen_fragment" />
     </fragment>
     <fragment
         android:id="@+id/reset_password_fragment"
