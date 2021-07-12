@@ -4,7 +4,6 @@ import android.Manifest
 import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
-import android.graphics.Bitmap
 import android.net.Uri
 import android.os.Build
 import android.os.Bundle
@@ -41,10 +40,6 @@ import com.decagonhq.clads.viewmodels.UserProfileViewModel
 import com.theartofdev.edmodo.cropper.CropImage
 import dagger.hilt.android.AndroidEntryPoint
 import id.zelory.compressor.Compressor
-import id.zelory.compressor.constraint.format
-import id.zelory.compressor.constraint.quality
-import id.zelory.compressor.constraint.resolution
-import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import okhttp3.MultipartBody
@@ -290,7 +285,7 @@ class AccountFragment : BaseFragment() {
 
         /*Compress Image then Upload Image*/
         lifecycleScope.launch {
-            val compressedImage = Compressor.compress(requireContext(), bitmapToFile!!){
+            val compressedImage = Compressor.compress(requireContext(), bitmapToFile!!) {
 //                resolution(1280, 720)
 //                quality(50)
 //                format(Bitmap.CompressFormat.WEBP)
@@ -299,7 +294,6 @@ class AccountFragment : BaseFragment() {
             val image = MultipartBody.Part.createFormData("file", bitmapToFile?.name, imageBody!!)
             imageUploadViewModel.mediaImageUpload(image)
         }
-
 
         /*Handling the response from the retrofit*/
         imageUploadViewModel.userProfileImage.observe(
