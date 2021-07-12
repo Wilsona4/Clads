@@ -117,7 +117,7 @@ class LoginFragment : BaseFragment() {
                         Observer {
                             when (it) {
                                 is Resource.Loading -> {
-                                    it.message?.let { it1 -> progressDialog.showDialogFragment(it1) }
+                                    progressDialog.showDialogFragment("Loading...")
                                 }
                                 is Resource.Success -> {
                                     val successResponse = it.data?.payload

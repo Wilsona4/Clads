@@ -90,7 +90,7 @@ class EmailSignUpFragment : BaseFragment() {
                         )
                         Toast.makeText(
                             requireContext(),
-                            "Registered successfully",
+                            "Registered Successfully",
                             Toast.LENGTH_SHORT
                         ).show()
                         findNavController().navigate(R.id.action_emailSignUpFragment_to_emailConfirmationFragment)
@@ -100,9 +100,7 @@ class EmailSignUpFragment : BaseFragment() {
                         handleApiError(it, mainRetrofit, requireView())
                     }
                     is Resource.Loading -> {
-                        it.message?.let { message ->
-                            progressDialog.showDialogFragment(message)
-                        }
+                        progressDialog.showDialogFragment("Signing Up...")
                     }
                 }
             }

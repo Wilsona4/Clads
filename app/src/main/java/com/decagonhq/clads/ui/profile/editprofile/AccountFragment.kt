@@ -111,9 +111,7 @@ class AccountFragment : BaseFragment() {
             viewLifecycleOwner,
             Observer {
                 if (it is Resource.Loading && it.data?.firstName.isNullOrEmpty()) {
-                    it.message?.let { message ->
-                        progressDialog.showDialogFragment(message)
-                    }
+                    progressDialog.showDialogFragment("uploading...")
                 } else if (it is Resource.Error) {
                     progressDialog.hideProgressDialog()
                     handleApiError(it, mainRetrofit, requireView())
@@ -292,10 +290,8 @@ class AccountFragment : BaseFragment() {
             viewLifecycleOwner,
             Observer {
 
-                if (it is Resource.Loading<UserProfileImage> && it.data?.downloadUri.isNullOrEmpty()) {
-                    it.message?.let { message ->
-                        progressDialog.showDialogFragment(message)
-                    }
+                if (it is Resource.Loading<UserProfileImage>) {
+                    progressDialog.showDialogFragment("Uploading...")
                 } else if (it is Resource.Error) {
                     progressDialog.hideProgressDialog()
                     handleApiError(it, imageRetrofit, requireView())
@@ -322,10 +318,8 @@ class AccountFragment : BaseFragment() {
         imageUploadViewModel.userProfileImage.observe(
             viewLifecycleOwner,
             Observer {
-                if (it is Resource.Loading<UserProfileImage> && it.data?.downloadUri.isNullOrEmpty()) {
-                    it.message?.let { message ->
-                        progressDialog.showDialogFragment(message)
-                    }
+                if (it is Resource.Loading<UserProfileImage>) {
+                    progressDialog.showDialogFragment("Uploading...")
                 } else if (it is Resource.Error) {
                     progressDialog.hideProgressDialog()
                     handleApiError(it, imageRetrofit, requireView())
