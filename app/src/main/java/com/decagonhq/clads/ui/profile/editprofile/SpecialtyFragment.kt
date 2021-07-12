@@ -297,7 +297,7 @@ class SpecialtyFragment : Fragment(), SpecialtyAdapterClickListener {
     /*simpleCallBack method for swipping the recycler view items so as to update the info
     * dragdirection is zero because we are not dragging*/
     private var simpleCallback = object :
-        ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.LEFT or (ItemTouchHelper.RIGHT)) {
+        ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.RIGHT) {
         override fun onMove(
             recyclerView: RecyclerView,
             viewHolder: RecyclerView.ViewHolder,
@@ -314,8 +314,7 @@ class SpecialtyFragment : Fragment(), SpecialtyAdapterClickListener {
             // getting the current contact swipped
 
             /*checking the direction swipped */
-
-            if (direction == ItemTouchHelper.LEFT) {
+            if (direction == ItemTouchHelper.RIGHT) {
                 AlertDialog.Builder(requireContext()).also {
                     it.setTitle("Are you sure you want to delete this specialty?")
                     it.setPositiveButton("Yes") { dialog, which ->
@@ -323,8 +322,8 @@ class SpecialtyFragment : Fragment(), SpecialtyAdapterClickListener {
                         binding.specialtyFragmentRecyclerView.adapter?.notifyItemRemoved(position)
                         // below line is to display our snackbar with action.
                         Snackbar.make(
-                            binding.root,
-                            currentSpecialty,
+                            binding.specialtyFragmentRecyclerView,
+                            "do you want to delete $currentSpecialty",
                             Snackbar.LENGTH_LONG
                         ).setAction("Undo",) {
                             // adding on click listener to our action of snack bar.
@@ -335,7 +334,7 @@ class SpecialtyFragment : Fragment(), SpecialtyAdapterClickListener {
                             // added to our adapter class.
                             recyclerViewAdapter.notifyItemInserted(position);
 
-                        }
+                        }.show()
                     }.create().show()
                 }
                 binding.specialtyFragmentRecyclerView.adapter?.notifyDataSetChanged()

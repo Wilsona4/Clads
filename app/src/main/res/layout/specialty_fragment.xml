@@ -10,6 +10,7 @@
     tools:context=".ui.profile.editprofile.SpecialtyFragment">
 
     <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/specialty_fragment_contraint_layout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:backgroundTint="@color/email_confirmatory_background_color">
