@@ -1,7 +1,5 @@
 package com.decagonhq.clads.data.domain.profile
 
-import com.decagonhq.clads.data.domain.SpecialtyModel
-
 data class UserProfile(
     val country: String,
     val deliveryTime: String? = null,
@@ -15,7 +13,7 @@ data class UserProfile(
     val role: String,
     val workshopAddress: WorkshopAddress? = null,
     val showroomAddress: ShowroomAddress? = null,
-    val specialties: List<SpecialtyModel>? = null,
+    val specialties: List<String>? = null,
     val thumbnail: String,
     val trained: Boolean,
     val union: Union? = null,

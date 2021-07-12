@@ -14,16 +14,28 @@
         android:layout_height="match_parent"
         android:backgroundTint="@color/email_confirmatory_background_color">
 
+        <ProgressBar
+            android:id="@+id/specialty_fragment_upload_progressbar"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:visibility="gone"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.44"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.258" />
+
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/specialty_fragment_recycler_view"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             app:layout_constraintBottom_toTopOf="@+id/specialty_fragment_add_new_specialty_icon"
             app:layout_constraintEnd_toEndOf="parent"
-            tools:listitem="@layout/specialty_fragment_recycler_item"
-            tools:itemCount="5"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toTopOf="parent"
+            tools:itemCount="5"
+            tools:listitem="@layout/specialty_fragment_recycler_item" />
 
         <androidx.appcompat.widget.AppCompatImageButton
             android:id="@+id/specialty_fragment_add_new_specialty_icon"
@@ -269,6 +281,7 @@
             app:layout_constraintEnd_toEndOf="parent" />
 
         <com.google.android.material.button.MaterialButton
+            android:id="@+id/specialty_fragment_save_changes_material_button"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="@dimen/margin_25dp"

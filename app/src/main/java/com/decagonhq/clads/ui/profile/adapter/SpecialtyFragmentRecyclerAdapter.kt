@@ -1,15 +1,27 @@
 package com.decagonhq.clads.ui.profile.adapter
 
+import android.app.AlertDialog
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import android.widget.Toast
+import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.RecyclerView
-import com.decagonhq.clads.data.domain.SpecialtyModel
 import com.decagonhq.clads.databinding.SpecialtyFragmentRecyclerItemBinding
 
-class SpecialtyFragmentRecyclerAdapter :
+class SpecialtyFragmentRecyclerAdapter(private val listener: SpecialtyAdapterClickListener) :
     RecyclerView.Adapter<SpecialtyFragmentRecyclerAdapter.SpecialtyViewHolder>() {
 
-    private var specialtyList = listOf<SpecialtyModel>()
+    var specialtyList = arrayListOf<String>()
+
+    inner class SpecialtyViewHolder(var itemBinding: SpecialtyFragmentRecyclerItemBinding) :
+        RecyclerView.ViewHolder(itemBinding.root) {
+
+        fun bind(specialty: String) = with(itemBinding) {
+            specialtyFragmentYorubaAttiresCheckBox.text = specialty
+            specialtyFragmentYorubaAttiresCheckBox.isChecked = true
+
+        }
+    }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): SpecialtyViewHolder {
         val viewBinding = SpecialtyFragmentRecyclerItemBinding
@@ -20,23 +32,20 @@ class SpecialtyFragmentRecyclerAdapter :
     override fun onBindViewHolder(holder: SpecialtyViewHolder, position: Int) {
         val specialty = specialtyList[position]
         holder.bind(specialty)
+        holder.itemBinding.specialtyFragmentYorubaAttiresCheckBox.setOnClickListener {
+            val check = holder.itemBinding.specialtyFragmentYorubaAttiresCheckBox.isChecked
+            val position = position
+            listener.onItemChecked(check,position)
+        }
     }
 
     override fun getItemCount(): Int {
         return specialtyList.size
     }
 
-    class SpecialtyViewHolder(private val itemBinding: SpecialtyFragmentRecyclerItemBinding) :
-        RecyclerView.ViewHolder(itemBinding.root) {
-
-        fun bind(specialtyModel: SpecialtyModel) = with(itemBinding) {
-            specialtyFragmentYorubaAttiresCheckBox.text = specialtyModel.specialtyName
-            specialtyFragmentYorubaAttiresCheckBox.isChecked = specialtyModel.checked
-        }
-    }
-
-    fun populateList(list: List<SpecialtyModel>) {
-        this.specialtyList = list
+    fun populateList(specialty: String) {
+        this.specialtyList.add(specialty)
         notifyDataSetChanged()
     }
+
 }
