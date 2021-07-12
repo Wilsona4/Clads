@@ -9,6 +9,7 @@ import com.decagonhq.clads.util.Constants.IMAGE_RETROFIT
 import com.decagonhq.clads.util.Constants.MAIN_API_SERVICE
 import com.decagonhq.clads.util.Constants.MAIN_RETROFIT
 import com.decagonhq.clads.util.Constants.TOKEN
+import com.decagonhq.clads.util.Constants.timeOutSec
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -19,6 +20,7 @@ import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Converter
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
+import java.util.concurrent.TimeUnit
 import javax.inject.Named
 import javax.inject.Singleton
 
@@ -54,6 +56,7 @@ object NetworkModule {
         return OkHttpClient.Builder()
             .addInterceptor(headerAuthorization)
             .addInterceptor(logger)
+//            .connectTimeout(timeOutSec, TimeUnit.MILLISECONDS)
             .build()
     }
 

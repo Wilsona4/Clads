@@ -54,7 +54,7 @@ interface ApiService {
     @POST("upload")
     suspend fun uploadGallery(@Body requestBody: RequestBody): GenericResponseClass<UserGalleryImage>
 
-    @GET("download/images")
+    @GET("images")
     fun getGalleryImages(): GenericResponseClass<List<UserGalleryImage>>
 
 }

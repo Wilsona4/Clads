@@ -16,7 +16,8 @@ import com.decagonhq.clads.ui.profile.bottomnav.MediaFragmentDirections
 
 class PhotoGalleryRecyclerAdapter(
     var photoArrayList: MutableList<UserGalleryImage>,
-    var token: String
+    var token: String, var listener1: RecyclerClickListener,
+    var listener2: RecyclerClickListener
 ) : RecyclerView.Adapter<PhotoGalleryRecyclerAdapter.ViewHolder>() {
     // inner class
     inner class ViewHolder(val binding: MediaFragmentPhotoRecyclerViewItemBinding) :
@@ -52,10 +53,10 @@ class PhotoGalleryRecyclerAdapter(
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         holder.bind(photoArrayList[position])
         holder.binding.mediaFragmentPhotoRecyclerViewItemUploadedPhotoImageView.setOnClickListener {
-//            listener1.onItemClickToEdit(holder.adapterPosition, photoArrayList)
+            listener1.onItemClickToEdit(holder.adapterPosition, photoArrayList)
         }
         holder.binding.mediaFragmentPhotoRecyclerViewItemImageTitleTextView.setOnClickListener {
-//            listener2.onItemClickToDelete(holder.adapterPosition, photoArrayList)
+            listener2.onItemClickToDelete(holder.adapterPosition, photoArrayList)
         }
     }
 

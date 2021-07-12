@@ -12,6 +12,7 @@ import com.decagonhq.clads.util.networkBoundResource
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.map
 import okhttp3.MultipartBody
 import okhttp3.RequestBody
@@ -76,9 +77,9 @@ class ImageRepositoryImpl(
         }
     }
 
-    override suspend fun getLocalDatabaseGalleryImages(): Flow<Resource<List<UserGalleryImage>>> {
-        return database.galleryImageDao().readUserGalleryImage().map {
-            Resource.Success(it)
+    override suspend fun getLocalDatabaseGalleryImages(): Flow<Resource<List<UserGalleryImage>>> = flow {
+        database.galleryImageDao().readUserGalleryImage().collect {
+            emit(Resource.Success(it))
         }
     }
 }

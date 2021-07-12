@@ -63,7 +63,7 @@ class ImageUploadViewModel @Inject constructor(
     /*Upload Gallery Image*/
     fun uploadGallery(requestBody: RequestBody) {
         viewModelScope.launch {
-//            _uploadGallery.value = Resource.Loading(null, "uploading...")
+            _uploadGallery.value = Resource.Loading(null, "uploading...")
             imageRepository.uploadGallery(requestBody)
         }
     }

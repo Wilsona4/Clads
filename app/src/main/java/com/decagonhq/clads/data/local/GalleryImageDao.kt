@@ -16,11 +16,12 @@ interface GalleryImageDao {
     suspend fun addUserGalleryImage(userGalleryImage: UserGalleryImage)
 
     /*Get User Gallery in the Database*/
+    @Transaction
     @Query("SELECT * FROM gallery_image_table")
     fun readUserGalleryImage(): Flow<List<UserGalleryImage>>
 
     @Update
-    fun updateUserGalleryImage(userGalleryImage: UserGalleryImage)
+    suspend fun updateUserGalleryImage(userGalleryImage: UserGalleryImage)
 
     /*Delete userGallery Image in the Database*/
     @Query("DELETE FROM gallery_image_table")

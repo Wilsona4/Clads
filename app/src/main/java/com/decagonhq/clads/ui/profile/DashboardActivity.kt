@@ -82,7 +82,7 @@ class DashboardActivity : AppCompatActivity() {
     override fun onStart() {
         super.onStart()
         userProfileViewModel.saveUserProfileToLocalDatabase()
-//        userProfileViewModel.getUserProfile()
+//       userProfileViewModel.getUserProfile()
         imageUploadViewModel.getUserProfileImage()
         imageUploadViewModel.getRemoteGalleryImages()
 

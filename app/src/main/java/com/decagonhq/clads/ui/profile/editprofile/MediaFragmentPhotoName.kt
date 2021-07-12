@@ -14,6 +14,9 @@ import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import com.bumptech.glide.Glide
+import com.decagonhq.clads.R
+import com.decagonhq.clads.data.domain.images.UserGalleryImage
+import com.decagonhq.clads.data.domain.images.UserProfileImage
 import com.decagonhq.clads.databinding.MediaFragmentPhotoNameBinding
 import com.decagonhq.clads.ui.BaseFragment
 import com.decagonhq.clads.util.DataListener
@@ -82,20 +85,35 @@ class MediaFragmentPhotoName : BaseFragment() {
                 imageUploadViewModel.uploadGallery.observe(
                     requireActivity(),
                     androidx.lifecycle.Observer {
-                        when (it) {
-                            is Resource.Success -> {
-                                progressDialog.hideProgressDialog()
-                                Toast.makeText(requireContext(), "Upload successful", Toast.LENGTH_SHORT).show()
+//                        when (it) {
+//                            is Resource.Success -> {
+//                                progressDialog.hideProgressDialog()
+//                                Toast.makeText(requireContext(), "Upload successful", Toast.LENGTH_SHORT).show()
+//                                findNavController().popBackStack()
+//                            }
+//                            is Resource.Error -> {
+//                                progressDialog.hideProgressDialog()
+//                                handleApiError(it, imageRetrofit, requireView())
+//                            }
+//                            is Resource.Loading -> {
+//                                progressDialog.showDialogFragment("Uploading...")
+//                            }
+//                        }
+
+                        if (it is Resource.Loading<List<UserGalleryImage>>/* && it.data.isNullOrEmpty()*/) {
+                            progressDialog.showDialogFragment("Uploading...")
+                        } else if (it is Resource.Error) {
+                            progressDialog.hideProgressDialog()
+                            handleApiError(it, imageRetrofit, requireView())
+                        } else {
+                            progressDialog.hideProgressDialog()
+                            it.data?.let { imageUrl ->
+                                Toast.makeText(requireContext(), "Upload Successful", Toast.LENGTH_SHORT)
+                                    .show()
                                 findNavController().popBackStack()
                             }
-                            is Resource.Error -> {
-                                progressDialog.hideProgressDialog()
-                                handleApiError(it, imageRetrofit, requireView())
-                            }
-                            is Resource.Loading -> {
-                                progressDialog.showDialogFragment("Uploading...")
-                            }
                         }
+
                     }
                 )
             }
