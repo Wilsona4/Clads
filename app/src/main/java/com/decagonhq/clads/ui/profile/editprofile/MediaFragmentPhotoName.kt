@@ -11,6 +11,7 @@ import android.widget.Toast
 import androidx.core.net.toUri
 import androidx.core.os.bundleOf
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import com.bumptech.glide.Glide
@@ -108,7 +109,11 @@ class MediaFragmentPhotoName : BaseFragment() {
                         } else {
                             progressDialog.hideProgressDialog()
                             it.data?.let { imageUrl ->
-                                Toast.makeText(requireContext(), "Upload Successful", Toast.LENGTH_SHORT)
+                                Toast.makeText(
+                                    requireContext(),
+                                    "Upload Successful",
+                                    Toast.LENGTH_SHORT
+                                )
                                     .show()
                                 findNavController().popBackStack()
                             }
@@ -119,15 +124,11 @@ class MediaFragmentPhotoName : BaseFragment() {
             }
         }
     }
+
     private fun uploadGalleryImage(uri: Uri, description: String) {
         // create RequestBody instance from file
         val convertedImageUriToBitmap = uriToBitmap(uri)
         val bitmapToFile = saveBitmap(convertedImageUriToBitmap)
-
-//        val imageBody = bitmapToFile?.asRequestBody("image/jpg".toMediaTypeOrNull())
-//        val image = MultipartBody.Part.createFormData("file", bitmapToFile?.name, imageBody!!)
-//        imageUploadViewModel.uploadGalleryImage(image, description)
-
         val requestBody = bitmapToFile?.asRequestBody("image/jpg".toMediaTypeOrNull())
 
         val reqBody = MultipartBody.Builder()
@@ -137,5 +138,51 @@ class MediaFragmentPhotoName : BaseFragment() {
             .build()
 
         imageUploadViewModel.uploadGallery(reqBody)
+
+        imageUploadViewModel.uploadGallery.observe(
+            viewLifecycleOwner,
+            Observer {
+
+                if (it is Resource.Loading<List<UserGalleryImage>>/* && it.data.isNullOrEmpty()*/) {
+                    progressDialog.showDialogFragment("Uploading...")
+                } else if (it is Resource.Error) {
+                    progressDialog.hideProgressDialog()
+                    handleApiError(it, imageRetrofit, requireView())
+                } else {
+                    progressDialog.hideProgressDialog()
+                    it.data?.let { imageUrl ->
+                        Toast.makeText(requireContext(), "Upload Successful", Toast.LENGTH_SHORT)
+                            .show()
+                        findNavController().popBackStack()
+                    }
+                }
+
+            }
+        )
+    }
+
+    override fun onResume() {
+        super.onResume()
+
+        imageUploadViewModel.uploadGallery.observe(
+            viewLifecycleOwner,
+            Observer {
+
+                if (it is Resource.Loading<List<UserGalleryImage>>/* && it.data.isNullOrEmpty()*/) {
+                    progressDialog.showDialogFragment("Uploading...")
+                } else if (it is Resource.Error) {
+                    progressDialog.hideProgressDialog()
+                    handleApiError(it, imageRetrofit, requireView())
+                } else {
+                    progressDialog.hideProgressDialog()
+                    it.data?.let { imageUrl ->
+                        Toast.makeText(requireContext(), "Upload Successful", Toast.LENGTH_SHORT)
+                            .show()
+                        findNavController().popBackStack()
+                    }
+                }
+
+            }
+        )
     }
 }

@@ -67,7 +67,32 @@ class ImageRepositoryImpl(
         }
     }
 
-    override suspend fun uploadGallery(requestBody: RequestBody) {
+    override suspend fun uploadGallery(requestBody: RequestBody): Flow<Resource<List<UserGalleryImage>>> =
+        networkBoundResource(
+    fetchFromLocal = {
+        database.galleryImageDao().readUserGalleryImage().map {
+            it
+        }
+    },
+    shouldFetchFromRemote = {
+        true
+    },
+    fetchFromRemote = {
+        delay(2000)
+        mainApiService.uploadGallery(requestBody)
+    },
+    saveToLocalDB = {
+        database.withTransaction {
+            database.galleryImageDao().deleteUserGalleryImage()
+            database.galleryImageDao().addUserGalleryImage(
+                it.payload
+            )
+        }
+    }
+    )
+
+
+    /* {
         val response = safeApiCall {
             mainApiService.uploadGallery(requestBody)
         }
@@ -75,7 +100,7 @@ class ImageRepositoryImpl(
         response.data?.payload?.let {
             database.galleryImageDao().addUserGalleryImage(it)
         }
-    }
+    }*/
 
     override suspend fun getLocalDatabaseGalleryImages(): Flow<Resource<List<UserGalleryImage>>> = flow {
         database.galleryImageDao().readUserGalleryImage().collect {
