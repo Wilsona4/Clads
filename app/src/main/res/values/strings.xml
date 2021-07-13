@@ -306,6 +306,7 @@
     <string name="required">Required</string>
     <string name="tag_employee_number_dialog_fragment">Employee Number dialog fragment</string>
     <string name="frstname_dialog_fragment">FirstName Dialog Fragment</string>
+    <string name="rename_description_dialog_fragment">Rename Description Dialog Fragment</string>
 
     <string name="you_have_no_photo_in_your_gallery">You have no photo in your gallery</string>
     <string name="media_share">Share</string>
@@ -351,6 +352,7 @@
     <string name="enter_union_resource">Enter Union Details</string>
     <string name="enter_union_name">Enter Union Name</string>
     <string name="enter_union_ward">Enter Union Ward</string>
+    <string name="rename_description">Rename description</string>
 
     <string-array name="account_category">
         <item>Tailor</item>

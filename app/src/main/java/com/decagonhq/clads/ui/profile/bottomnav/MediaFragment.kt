@@ -14,16 +14,20 @@ import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AlertDialog
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
+import androidx.core.os.bundleOf
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
+import com.decagonhq.clads.R
 import com.decagonhq.clads.data.domain.PhotoGalleryModel
 import com.decagonhq.clads.data.domain.images.UserGalleryImage
 import com.decagonhq.clads.databinding.MediaFragmentBinding
 import com.decagonhq.clads.ui.BaseFragment
 import com.decagonhq.clads.ui.profile.adapter.PhotoGalleryRecyclerAdapter
 import com.decagonhq.clads.ui.profile.adapter.RecyclerClickListener
+import com.decagonhq.clads.ui.profile.dialogfragment.ProfileManagementDialogFragments
+import com.decagonhq.clads.ui.profile.editprofile.AccountFragment
 import com.decagonhq.clads.util.Constants.TOKEN
 import com.decagonhq.clads.util.GRID_SIZE
 import com.decagonhq.clads.util.PERMISSION_DENIED
@@ -34,7 +38,7 @@ import com.decagonhq.clads.util.hideView
 import com.decagonhq.clads.util.photosProvidersList
 import com.decagonhq.clads.util.showView
 import com.decagonhq.clads.viewmodels.ImageUploadViewModel
-import kotlinx.coroutines.launch
+import okhttp3.MultipartBody
 
 class MediaFragment : BaseFragment(), RecyclerClickListener {
 
@@ -221,31 +225,47 @@ class MediaFragment : BaseFragment(), RecyclerClickListener {
     }
 
     override fun onItemClickToDelete(position: Int, photoArrayList: MutableList<UserGalleryImage>) {
-
-        Toast.makeText(requireContext(), "Description clicked", Toast.LENGTH_SHORT).show()
-        val imageUri = photoArrayList[position].downloadUri
-        val imageName = photoArrayList[position].description
+        val currentDescription = photoArrayList[position].description
+        val fileId = photoArrayList[position].fileId
 
         // use actions to pass data from one fragment to the other
-        val action =
-            MediaFragmentDirections.actionNavMediaToMediaFragmentPhotoName(imageUri)
-        findNavController().navigate(action)
-    }
+        // when first name value is clicked
+        childFragmentManager.setFragmentResultListener(
+            AccountFragment.RENAME_DESCRIPTION_REQUEST_KEY,
+            requireActivity()
+        ) { key, bundle ->
+            // collect input values from dialog fragment and update the firstname text of user
+            val description = bundle.getString(AccountFragment.RENAME_DESCRIPTION_BUNDLE_KEY)
+            val reqBody = MultipartBody.Builder()
+                .setType(MultipartBody.FORM)
+                .addFormDataPart("description", description!!)
+                .build()
+            imageUploadViewModel.editGalleryImage(fileId, reqBody)
+        }
 
-    override fun onItemClickToEdit(position: Int, photoArrayList: MutableList<UserGalleryImage>) {
-        val imageUri = photoArrayList[position].downloadUri
-        val imageName = photoArrayList[position].description
-
-        // use actions to pass data from one fragment to the other
-        val action =
-            MediaFragmentDirections.actionNavMediaToPhotoGalleryEditImageFragment(
-                imageUri,
-                imageName
-            )
-        findNavController().navigate(action)
+        val bundle = bundleOf(AccountFragment.CURRENT_ACCOUNT_RENAME_DESCRIPTION_BUNDLE_KEY to currentDescription)
+        ProfileManagementDialogFragments.createProfileDialogFragment(
+            R.layout.rename_gallery_image_dialog_fragment,
+            bundle
+        ).show(
+            childFragmentManager, getString(R.string.rename_description_dialog_fragment)
+        )
+//        }
     }
 
 //    override fun onDestroyView() {
+
+    override fun onItemClickToEdit(position: Int, photoArrayList: MutableList<UserGalleryImage>) {
+
+        val imageUri = photoArrayList[position].downloadUri
+        val description = photoArrayList[position].description
+        val fileId = photoArrayList[position].fileId
+
+        // use actions to pass data from one fragment to the other
+        val action =
+            MediaFragmentDirections.actionNavMediaToPhotoGalleryEditImageFragment(imageUri, description, fileId)
+        findNavController().navigate(action)
+    }
 //        super.onDestroyView()
 //        _binding = null
 //    }

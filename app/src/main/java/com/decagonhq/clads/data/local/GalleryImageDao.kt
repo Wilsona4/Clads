@@ -1,6 +1,7 @@
 package com.decagonhq.clads.data.local
 
 import androidx.room.Dao
+import androidx.room.Delete
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
@@ -24,6 +25,6 @@ interface GalleryImageDao {
     suspend fun updateUserGalleryImage(userGalleryImage: UserGalleryImage)
 
     /*Delete userGallery Image in the Database*/
-    @Query("DELETE FROM gallery_image_table")
-    suspend fun deleteUserGalleryImage()
+    @Query("DELETE FROM gallery_image_table WHERE fileId = :fileId")
+    suspend fun deleteUserGalleryImage(fileId: String)
 }

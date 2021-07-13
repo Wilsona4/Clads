@@ -10,23 +10,32 @@ import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
 import androidx.core.net.toUri
+import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import com.bumptech.glide.Glide
 import com.decagonhq.clads.R
 import com.decagonhq.clads.data.domain.PhotoGalleryModel
 import com.decagonhq.clads.databinding.PhotoGalleryEditImageFragmentBinding
+import com.decagonhq.clads.ui.profile.dialogfragment.ProfileManagementDialogFragments
+import com.decagonhq.clads.ui.profile.editprofile.AccountFragment
 import com.decagonhq.clads.util.DataListener
 import com.decagonhq.clads.util.photosProvidersList
+import com.decagonhq.clads.viewmodels.ImageUploadViewModel
+import okhttp3.MultipartBody
 
 class PhotoGalleryEditImageFragment : Fragment() {
     private var _binding: PhotoGalleryEditImageFragmentBinding? = null
+
+    private val imageUploadViewModel: ImageUploadViewModel by activityViewModels()
 
     // This property is only valid between onCreateView and onDestroyView.
     private val binding get() = _binding!!
     private lateinit var photoIV: Uri
     private lateinit var imageName: String
+    private lateinit var fileId:String
     private val args: PhotoGalleryEditImageFragmentArgs by navArgs()
 
     override fun onCreateView(
@@ -47,6 +56,7 @@ class PhotoGalleryEditImageFragment : Fragment() {
         val photoImageView = binding.mediaFragmentRecyclerViewPhotoImageView
         photoIV = args.imageUri.toUri()
         imageName = args.imageName
+        fileId = args.fileId
 
         DataListener.imageListener.value = false
 
@@ -65,7 +75,7 @@ class PhotoGalleryEditImageFragment : Fragment() {
             R.id.media_share -> sharePhoto()
             R.id.media_edit -> editPhoto()
             R.id.media_delete -> {
-                deletePhoto()
+                imageUploadViewModel.deleteGalleryImage(fileId)
                 findNavController().popBackStack()
             }
         }
@@ -82,16 +92,35 @@ class PhotoGalleryEditImageFragment : Fragment() {
     }
 
     // delete photo
-    private fun deletePhoto() {
-        val photoGalleryModel = PhotoGalleryModel(photoIV, imageName)
-        photosProvidersList.remove(photoGalleryModel)
-    }
+//    private fun deletePhoto() {
+//
+////        https://clads-service.herokuapp.com/api/v1/upload/{fileId}
+////        val photoGalleryModel = PhotoGalleryModel(photoIV, imageName)
+////        photosProvidersList.remove(photoGalleryModel)
+//    }
 
     // method to edit photo
     private fun editPhoto() {
-        val intent = Intent(Intent.ACTION_PICK)
-        intent.type = "image/*"
-        startActivityForResult(intent, REQUEST_CODE)
+        childFragmentManager.setFragmentResultListener(
+            AccountFragment.RENAME_DESCRIPTION_REQUEST_KEY,
+            requireActivity()
+        ) { key, bundle ->
+            // collect input values from dialog fragment and update the firstname text of user
+            val description = bundle.getString(AccountFragment.RENAME_DESCRIPTION_BUNDLE_KEY)
+            val reqBody = MultipartBody.Builder()
+                .setType(MultipartBody.FORM)
+                .addFormDataPart("description", description!!)
+                .build()
+            imageUploadViewModel.editGalleryImage(fileId, reqBody)
+        }
+
+        val bundle = bundleOf(AccountFragment.CURRENT_ACCOUNT_RENAME_DESCRIPTION_BUNDLE_KEY to imageName)
+        ProfileManagementDialogFragments.createProfileDialogFragment(
+            R.layout.rename_gallery_image_dialog_fragment,
+            bundle
+        ).show(
+            childFragmentManager, getString(R.string.rename_description_dialog_fragment)
+        )
     }
 
     companion object {

@@ -11,11 +11,14 @@ import com.decagonhq.clads.data.remote.registration.UserRegistrationDTO
 import okhttp3.MultipartBody
 import okhttp3.RequestBody
 import retrofit2.http.Body
+import retrofit2.http.DELETE
 import retrofit2.http.GET
 import retrofit2.http.Multipart
+import retrofit2.http.PATCH
 import retrofit2.http.POST
 import retrofit2.http.PUT
 import retrofit2.http.Part
+import retrofit2.http.Path
 
 interface ApiService {
 
@@ -56,4 +59,10 @@ interface ApiService {
 
     @GET("images")
     fun getGalleryImages(): GenericResponseClass<List<UserGalleryImage>>
+
+    @PATCH("upload/{fileId}")
+    suspend fun editDescription(@Path("fileId") fileId:String, @Body requestBody: RequestBody):  GenericResponseClass<UserGalleryImage>
+
+    @DELETE("upload/{fileId}")
+    suspend fun deleteGalleryImage(@Path("fileId") fileId:String):  GenericResponseClass<UserGalleryImage>
 }

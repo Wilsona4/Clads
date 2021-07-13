@@ -1,6 +1,7 @@
 package com.decagonhq.clads.repository
 
 import androidx.room.withTransaction
+import com.decagonhq.clads.data.domain.GenericResponseClass
 import com.decagonhq.clads.data.domain.images.UserGalleryImage
 import com.decagonhq.clads.data.domain.images.UserProfileImage
 import com.decagonhq.clads.data.local.CladsDatabase
@@ -82,7 +83,6 @@ class ImageRepositoryImpl(
             },
             saveToLocalDB = {
                 database.withTransaction {
-                    database.galleryImageDao().deleteUserGalleryImage()
                     database.galleryImageDao().addUserGalleryImage(
                         it.payload
                     )
@@ -90,19 +90,44 @@ class ImageRepositoryImpl(
             }
         )
 
-    /* {
+    override suspend fun getLocalDatabaseGalleryImages(): Flow<Resource<List<UserGalleryImage>>> =
+        flow {
+            database.galleryImageDao().readUserGalleryImage().collect {
+                emit(Resource.Success(it))
+            }
+        }
+
+    override suspend fun editDescription(
+        fileId: String,
+        requestBody: RequestBody
+    ): Flow<Resource<List<UserGalleryImage>>> =
+        networkBoundResource(
+            fetchFromLocal = {
+                database.galleryImageDao().readUserGalleryImage().map {
+                    it
+                }
+            },
+            shouldFetchFromRemote = {
+                true
+            },
+            fetchFromRemote = {
+                mainApiService.editDescription(fileId, requestBody)
+            },
+            saveToLocalDB = {
+                database.withTransaction {
+                    database.galleryImageDao().updateUserGalleryImage(
+                        it.payload
+                    )
+                }
+            }
+        )
+
+    override suspend fun deleteGalleryImage(fileId: String) {
         val response = safeApiCall {
-            mainApiService.uploadGallery(requestBody)
+            mainApiService.deleteGalleryImage(fileId)
         }
-
-        response.data?.payload?.let {
-            database.galleryImageDao().addUserGalleryImage(it)
-        }
-    }*/
-
-    override suspend fun getLocalDatabaseGalleryImages(): Flow<Resource<List<UserGalleryImage>>> = flow {
-        database.galleryImageDao().readUserGalleryImage().collect {
-            emit(Resource.Success(it))
+        if (response is Resource.Success) {
+            database.galleryImageDao().deleteUserGalleryImage(fileId)
         }
     }
 }

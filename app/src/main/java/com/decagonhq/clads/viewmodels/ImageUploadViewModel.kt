@@ -78,4 +78,21 @@ class ImageUploadViewModel @Inject constructor(
             }
         }
     }
+
+    fun deleteGalleryImage(fileId: String) {
+        viewModelScope.launch {
+            _uploadGallery.value = Resource.Loading(null, "Deleting...")
+            val response = imageRepository.deleteGalleryImage(fileId)
+        }
+    }
+
+    fun editGalleryImage(fileId: String, requestBody: RequestBody) {
+        viewModelScope.launch {
+            _uploadGallery.value = Resource.Loading(null, "uploading...")
+            val response = imageRepository.editDescription(fileId,  requestBody)
+            response.collect {
+                _uploadGallery.value = it
+            }
+        }
+    }
 }
