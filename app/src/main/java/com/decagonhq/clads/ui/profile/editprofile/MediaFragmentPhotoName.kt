@@ -153,6 +153,7 @@ class MediaFragmentPhotoName : BaseFragment() {
                     it.data?.let { imageUrl ->
                         Toast.makeText(requireContext(), "Upload Successful", Toast.LENGTH_SHORT)
                             .show()
+                        findNavController().navigate(R.id.nav_media)
                         findNavController().popBackStack()
                     }
                 }
@@ -161,28 +162,4 @@ class MediaFragmentPhotoName : BaseFragment() {
         )
     }
 
-    override fun onResume() {
-        super.onResume()
-
-        imageUploadViewModel.uploadGallery.observe(
-            viewLifecycleOwner,
-            Observer {
-
-                if (it is Resource.Loading<List<UserGalleryImage>>/* && it.data.isNullOrEmpty()*/) {
-                    progressDialog.showDialogFragment("Uploading...")
-                } else if (it is Resource.Error) {
-                    progressDialog.hideProgressDialog()
-                    handleApiError(it, imageRetrofit, requireView())
-                } else {
-                    progressDialog.hideProgressDialog()
-                    it.data?.let { imageUrl ->
-                        Toast.makeText(requireContext(), "Upload Successful", Toast.LENGTH_SHORT)
-                            .show()
-                        findNavController().popBackStack()
-                    }
-                }
-
-            }
-        )
-    }
 }

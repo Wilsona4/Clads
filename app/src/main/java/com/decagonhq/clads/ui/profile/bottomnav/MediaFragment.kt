@@ -141,32 +141,6 @@ class MediaFragment : BaseFragment(), RecyclerClickListener {
         )
 
 
-//        findNavController().currentBackStackEntry?.savedStateHandle?.getLiveData<Bundle>(IMAGE_KEY)
-//            ?.observe(viewLifecycleOwner) {
-//                val imageName = it.getString(IMAGE_NAME_BUNDLE_KEY)
-//                val imageData = it.getString(IMAGE_DATA_BUNDLE_KEY)
-//                val imageDataUri = imageData?.toUri()
-//
-//                photoGalleryModel =
-//                    PhotoGalleryModel(
-//                        imageDataUri,
-//                        imageName
-//                    )
-//
-//                if (DataListener.imageListener.value == true) {
-//
-//                    photosProvidersList.add(photoGalleryModel)
-//                    photoGalleryRecyclerAdapter.notifyDataSetChanged()
-//                }
-//
-//                binding.apply {
-//                    noPhotoImageView.hideView()
-//                    noPhotoTextView.hideView()
-//                    mediaFragmentPhotoRecyclerView.showView()
-//                }
-//            }
-
-
         /*add onclick listener to the fab to ask for permission and open gallery intent*/
         binding.mediaFragmentAddPhotoFab.setOnClickListener {
             if (checkPermission()) {
