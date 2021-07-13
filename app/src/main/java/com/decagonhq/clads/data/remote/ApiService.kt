@@ -61,8 +61,8 @@ interface ApiService {
     fun getGalleryImages(): GenericResponseClass<List<UserGalleryImage>>
 
     @PATCH("upload/{fileId}")
-    suspend fun editDescription(@Path("fileId") fileId:String, @Body requestBody: RequestBody):  GenericResponseClass<UserGalleryImage>
+    suspend fun editDescription(@Path("fileId") fileId: String, @Body requestBody: RequestBody): GenericResponseClass<UserGalleryImage>
 
     @DELETE("upload/{fileId}")
-    suspend fun deleteGalleryImage(@Path("fileId") fileId:String):  GenericResponseClass<UserGalleryImage>
+    suspend fun deleteGalleryImage(@Path("fileId") fileId: String): GenericResponseClass<UserGalleryImage>
 }

@@ -17,12 +17,10 @@ import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import com.bumptech.glide.Glide
 import com.decagonhq.clads.R
-import com.decagonhq.clads.data.domain.PhotoGalleryModel
 import com.decagonhq.clads.databinding.PhotoGalleryEditImageFragmentBinding
 import com.decagonhq.clads.ui.profile.dialogfragment.ProfileManagementDialogFragments
 import com.decagonhq.clads.ui.profile.editprofile.AccountFragment
 import com.decagonhq.clads.util.DataListener
-import com.decagonhq.clads.util.photosProvidersList
 import com.decagonhq.clads.viewmodels.ImageUploadViewModel
 import okhttp3.MultipartBody
 
@@ -35,7 +33,7 @@ class PhotoGalleryEditImageFragment : Fragment() {
     private val binding get() = _binding!!
     private lateinit var photoIV: Uri
     private lateinit var imageName: String
-    private lateinit var fileId:String
+    private lateinit var fileId: String
     private val args: PhotoGalleryEditImageFragmentArgs by navArgs()
 
     override fun onCreateView(
@@ -94,9 +92,9 @@ class PhotoGalleryEditImageFragment : Fragment() {
     // delete photo
 //    private fun deletePhoto() {
 //
-////        https://clads-service.herokuapp.com/api/v1/upload/{fileId}
-////        val photoGalleryModel = PhotoGalleryModel(photoIV, imageName)
-////        photosProvidersList.remove(photoGalleryModel)
+// //        https://clads-service.herokuapp.com/api/v1/upload/{fileId}
+// //        val photoGalleryModel = PhotoGalleryModel(photoIV, imageName)
+// //        photosProvidersList.remove(photoGalleryModel)
 //    }
 
     // method to edit photo

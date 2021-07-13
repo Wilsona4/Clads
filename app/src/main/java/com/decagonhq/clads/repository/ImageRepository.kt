@@ -1,6 +1,5 @@
 package com.decagonhq.clads.repository
 
-import com.decagonhq.clads.data.domain.GenericResponseClass
 import com.decagonhq.clads.data.domain.images.UserGalleryImage
 import com.decagonhq.clads.data.domain.images.UserProfileImage
 import com.decagonhq.clads.util.Resource
@@ -15,6 +14,6 @@ interface ImageRepository {
     suspend fun getRemoteGalleryImage()
     suspend fun uploadGallery(requestBody: RequestBody): Flow<Resource<List<UserGalleryImage>>>
     suspend fun getLocalDatabaseGalleryImages(): Flow<Resource<List<UserGalleryImage>>>
-    suspend fun editDescription(fileId:String, requestBody: RequestBody): Flow<Resource<List<UserGalleryImage>>>
-    suspend fun deleteGalleryImage(fileId:String)
+    suspend fun editDescription(fileId: String, requestBody: RequestBody): Flow<Resource<List<UserGalleryImage>>>
+    suspend fun deleteGalleryImage(fileId: String)
 }

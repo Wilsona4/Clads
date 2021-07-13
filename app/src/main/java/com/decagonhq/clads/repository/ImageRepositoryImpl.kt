@@ -1,7 +1,6 @@
 package com.decagonhq.clads.repository
 
 import androidx.room.withTransaction
-import com.decagonhq.clads.data.domain.GenericResponseClass
 import com.decagonhq.clads.data.domain.images.UserGalleryImage
 import com.decagonhq.clads.data.domain.images.UserProfileImage
 import com.decagonhq.clads.data.local.CladsDatabase
