@@ -56,5 +56,4 @@ interface ApiService {
 
     @GET("images")
     fun getGalleryImages(): GenericResponseClass<List<UserGalleryImage>>
-
 }

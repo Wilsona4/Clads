@@ -26,7 +26,6 @@ class ImageUploadViewModel @Inject constructor(
     private var _uploadGallery = MutableLiveData<Resource<List<UserGalleryImage>>>()
     val uploadGallery: LiveData<Resource<List<UserGalleryImage>>> get() = _uploadGallery
 
-
     init {
         getUserProfileImage()
         getRemoteGalleryImages()
@@ -66,7 +65,7 @@ class ImageUploadViewModel @Inject constructor(
             _uploadGallery.value = Resource.Loading(null, "uploading...")
 //            imageRepository.uploadGallery(requestBody)
             val response = imageRepository.uploadGallery(requestBody)
-            response.collect{
+            response.collect {
                 _uploadGallery.value = it
             }
         }
@@ -79,5 +78,4 @@ class ImageUploadViewModel @Inject constructor(
             }
         }
     }
-
 }

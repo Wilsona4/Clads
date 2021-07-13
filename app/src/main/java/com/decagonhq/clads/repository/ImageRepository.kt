@@ -1,6 +1,5 @@
 package com.decagonhq.clads.repository
 
-import com.decagonhq.clads.data.domain.GenericResponseClass
 import com.decagonhq.clads.data.domain.images.UserGalleryImage
 import com.decagonhq.clads.data.domain.images.UserProfileImage
 import com.decagonhq.clads.util.Resource

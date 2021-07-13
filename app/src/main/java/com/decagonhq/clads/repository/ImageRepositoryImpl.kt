@@ -47,7 +47,6 @@ class ImageRepositoryImpl(
             }
         )
 
-
     override suspend fun getUserImage(): Flow<Resource<UserProfileImage>> {
         return database.profileImageDao().readUserProfileImage().map {
             Resource.Success(it)
@@ -69,28 +68,27 @@ class ImageRepositoryImpl(
 
     override suspend fun uploadGallery(requestBody: RequestBody): Flow<Resource<List<UserGalleryImage>>> =
         networkBoundResource(
-    fetchFromLocal = {
-        database.galleryImageDao().readUserGalleryImage().map {
-            it
-        }
-    },
-    shouldFetchFromRemote = {
-        true
-    },
-    fetchFromRemote = {
-        delay(2000)
-        mainApiService.uploadGallery(requestBody)
-    },
-    saveToLocalDB = {
-        database.withTransaction {
-            database.galleryImageDao().deleteUserGalleryImage()
-            database.galleryImageDao().addUserGalleryImage(
-                it.payload
-            )
-        }
-    }
-    )
-
+            fetchFromLocal = {
+                database.galleryImageDao().readUserGalleryImage().map {
+                    it
+                }
+            },
+            shouldFetchFromRemote = {
+                true
+            },
+            fetchFromRemote = {
+                delay(2000)
+                mainApiService.uploadGallery(requestBody)
+            },
+            saveToLocalDB = {
+                database.withTransaction {
+                    database.galleryImageDao().deleteUserGalleryImage()
+                    database.galleryImageDao().addUserGalleryImage(
+                        it.payload
+                    )
+                }
+            }
+        )
 
     /* {
         val response = safeApiCall {

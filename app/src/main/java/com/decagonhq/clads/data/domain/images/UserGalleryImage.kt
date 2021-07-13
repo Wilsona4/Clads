@@ -4,7 +4,7 @@ import androidx.room.Entity
 import androidx.room.PrimaryKey
 
 @Entity(tableName = "gallery_image_table")
-data class UserGalleryImage (
+data class UserGalleryImage(
     val downloadUri: String,
     @PrimaryKey
     val fileId: String,

@@ -34,8 +34,6 @@ import com.decagonhq.clads.util.hideView
 import com.decagonhq.clads.util.photosProvidersList
 import com.decagonhq.clads.util.showView
 import com.decagonhq.clads.viewmodels.ImageUploadViewModel
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
 class MediaFragment : BaseFragment(), RecyclerClickListener {
@@ -92,7 +90,6 @@ class MediaFragment : BaseFragment(), RecyclerClickListener {
 
         imageUploadViewModel.getLocalDatabaseGalleryImages()
 
-
         imageUploadViewModel.uploadGallery.observe(
             requireActivity(),
             Observer {
@@ -140,7 +137,6 @@ class MediaFragment : BaseFragment(), RecyclerClickListener {
             }
         )
 
-
         /*add onclick listener to the fab to ask for permission and open gallery intent*/
         binding.mediaFragmentAddPhotoFab.setOnClickListener {
             if (checkPermission()) {
@@ -158,10 +154,10 @@ class MediaFragment : BaseFragment(), RecyclerClickListener {
     /* Check for user permission to read external storage*/
     private fun checkPermission(): Boolean {
         return (
-                ContextCompat.checkSelfPermission(
-                    requireContext(), Manifest.permission.READ_EXTERNAL_STORAGE
-                ) == PackageManager.PERMISSION_GRANTED
-                )
+            ContextCompat.checkSelfPermission(
+                requireContext(), Manifest.permission.READ_EXTERNAL_STORAGE
+            ) == PackageManager.PERMISSION_GRANTED
+            )
     }
 
     /* requestPermission for user permission to read external storage*/
@@ -223,7 +219,6 @@ class MediaFragment : BaseFragment(), RecyclerClickListener {
         val dialog: AlertDialog = builder.create()
         dialog.show()
     }
-
 
     override fun onItemClickToDelete(position: Int, photoArrayList: MutableList<UserGalleryImage>) {
 

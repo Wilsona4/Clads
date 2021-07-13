@@ -9,7 +9,6 @@ import android.widget.EditText
 import android.widget.ImageView
 import android.widget.Toast
 import androidx.core.net.toUri
-import androidx.core.os.bundleOf
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
@@ -17,12 +16,8 @@ import androidx.navigation.fragment.navArgs
 import com.bumptech.glide.Glide
 import com.decagonhq.clads.R
 import com.decagonhq.clads.data.domain.images.UserGalleryImage
-import com.decagonhq.clads.data.domain.images.UserProfileImage
 import com.decagonhq.clads.databinding.MediaFragmentPhotoNameBinding
 import com.decagonhq.clads.ui.BaseFragment
-import com.decagonhq.clads.util.DataListener
-import com.decagonhq.clads.util.IMAGE_DATA_BUNDLE_KEY
-import com.decagonhq.clads.util.IMAGE_NAME_BUNDLE_KEY
 import com.decagonhq.clads.util.Resource
 import com.decagonhq.clads.util.handleApiError
 import com.decagonhq.clads.util.saveBitmap
@@ -77,7 +72,6 @@ class MediaFragmentPhotoName : BaseFragment() {
             imageData = args.imageData
             val imageUri = imageData.toUri()
 
-
             if (imageName.isEmpty()) {
                 Toast.makeText(requireContext(), "Enter Image Name", Toast.LENGTH_SHORT).show()
             } else {
@@ -118,7 +112,6 @@ class MediaFragmentPhotoName : BaseFragment() {
                                 findNavController().popBackStack()
                             }
                         }
-
                     }
                 )
             }
@@ -157,9 +150,7 @@ class MediaFragmentPhotoName : BaseFragment() {
                         findNavController().popBackStack()
                     }
                 }
-
             }
         )
     }
-
 }

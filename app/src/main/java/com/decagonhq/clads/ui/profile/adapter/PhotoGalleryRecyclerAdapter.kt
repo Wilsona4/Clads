@@ -1,22 +1,18 @@
 package com.decagonhq.clads.ui.profile.adapter
 
 import android.view.LayoutInflater
-import android.view.View
 import android.view.ViewGroup
-import androidx.navigation.findNavController
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.model.GlideUrl
 import com.bumptech.glide.load.model.LazyHeaders
-import com.decagonhq.clads.data.domain.PhotoGalleryModel
 import com.decagonhq.clads.data.domain.images.UserGalleryImage
-import com.decagonhq.clads.data.domain.images.UserProfileImage
 import com.decagonhq.clads.databinding.MediaFragmentPhotoRecyclerViewItemBinding
-import com.decagonhq.clads.ui.profile.bottomnav.MediaFragmentDirections
 
 class PhotoGalleryRecyclerAdapter(
     var photoArrayList: MutableList<UserGalleryImage>,
-    var token: String, var listener1: RecyclerClickListener,
+    var token: String,
+    var listener1: RecyclerClickListener,
     var listener2: RecyclerClickListener
 ) : RecyclerView.Adapter<PhotoGalleryRecyclerAdapter.ViewHolder>() {
     // inner class
