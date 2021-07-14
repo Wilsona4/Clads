@@ -94,7 +94,7 @@ class SpecialtyFragment : Fragment() {
                 R.layout.specialty_add_specialty_dialog_fragment
             ).show(
                 childFragmentManager,
-                SpecialtyFragment::class.java.simpleName
+               SpecialtyFragment::class.java.simpleName
             )
         }
     }
