@@ -4,6 +4,7 @@ import com.decagonhq.clads.data.domain.GenericResponseClass
 import com.decagonhq.clads.data.domain.images.UserProfileImage
 import com.decagonhq.clads.data.domain.login.UserRole
 import com.decagonhq.clads.data.domain.profile.UserProfile
+import com.decagonhq.clads.data.local.UserProfileEntity
 import com.decagonhq.clads.data.remote.login.LoginCredentialsDTO
 import com.decagonhq.clads.data.remote.registration.UserRegistrationDTO
 import okhttp3.MultipartBody
@@ -42,7 +43,7 @@ interface ApiService {
 
     /*Get User Profile*/
     @GET("me/profile")
-    suspend fun getUserProfile(): GenericResponseClass<UserProfile>
+    suspend fun getUserProfile(): GenericResponseClass<UserProfileEntity>
 
     /*Update User Profile*/
     @PUT("me/profile")

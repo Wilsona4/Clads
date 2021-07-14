@@ -42,7 +42,6 @@ import com.google.android.material.navigation.NavigationView
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
-import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import retrofit2.Retrofit
@@ -81,11 +80,11 @@ class DashboardActivity : AppCompatActivity() {
 
     override fun onStart() {
         super.onStart()
-        userProfileViewModel.saveUserProfileToLocalDatabase()
-//        userProfileViewModel.getUserProfile()
+//        userProfileViewModel.saveUserProfileToLocalDatabase()
+        userProfileViewModel.getUserProfile()
         imageUploadViewModel.getUserImage()
         GlobalScope.launch {
-            delay(5000L)
+//            delay(5000L)
             withContext(Dispatchers.Main) {
                 userProfileViewModel.getLocalDatabaseUserProfile()
             }
