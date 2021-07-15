@@ -61,7 +61,7 @@ class LoginFragment : BaseFragment() {
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
 
         // Inflate the layout for this fragment
         _binding = LoginFragmentBinding.inflate(inflater, container, false)

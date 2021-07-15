@@ -6,15 +6,15 @@ import com.decagonhq.clads.data.domain.profile.Union
 import com.decagonhq.clads.data.domain.profile.WorkshopAddress
 
 data class UserProfileDTO(
-    val country: String,
+    val country: String?,
     val deliveryTime: String? = null,
     val email: String,
     val firstName: String,
-    val gender: String,
+    val gender: String?,
     val genderFocus: List<String>,
     val lastName: String,
     val measurementOption: MeasurementOption,
-    val phoneNumber: String,
+    val phoneNumber: String?,
     val role: String,
     val workshopAddress: WorkshopAddress? = null,
     val showroomAddress: ShowroomAddress? = null,

@@ -52,6 +52,7 @@
             android:id="@+id/action_resourceGeneralFragment_to_resourceArticlesFragment2"
             app:destination="@id/resourceArticlesFragment" />
     </fragment>
+
     <fragment
         android:id="@+id/subscriptionFragment"
         android:name="com.decagonhq.clads.ui.subscription.SubscriptionFragment"
@@ -78,6 +79,7 @@
             android:name="dress_measurement"
             app:argType="com.decagonhq.clads.data.domain.DressMeasurementModel" />
     </fragment>
+
     <fragment
         android:id="@+id/deliveryAddressFragment"
         android:name="com.decagonhq.clads.ui.client.DeliveryAddressFragment"

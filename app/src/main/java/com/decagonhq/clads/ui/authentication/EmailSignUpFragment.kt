@@ -93,7 +93,8 @@ class EmailSignUpFragment : BaseFragment() {
                             "Registered successfully",
                             Toast.LENGTH_SHORT
                         ).show()
-                        findNavController().navigate(R.id.action_emailSignUpFragment_to_emailConfirmationFragment)
+                        findNavController()
+                            .navigate(R.id.action_emailSignUpFragment_to_emailConfirmationFragment)
                     }
                     is Resource.Error -> {
                         progressDialog.hideProgressDialog()
