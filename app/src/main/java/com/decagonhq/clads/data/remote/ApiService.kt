@@ -48,6 +48,6 @@ interface ApiService {
     /* Verify auth token */
     @GET("confirm")
     suspend fun verifyAuthToken(
-       @Query("token") token: String
-    ) : GenericResponseClass<String>
+        @Query("token") token: String
+    ): GenericResponseClass<String>
 }

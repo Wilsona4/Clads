@@ -1,6 +1,5 @@
 package com.decagonhq.clads.viewmodels
 
-import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -13,10 +12,8 @@ import com.decagonhq.clads.data.domain.registration.UserRegistration
 import com.decagonhq.clads.repository.AuthRepository
 import com.decagonhq.clads.util.Resource
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
 import javax.inject.Inject
 
 @HiltViewModel
@@ -69,13 +66,13 @@ class AuthenticationViewModel @Inject constructor(
     }
 
     /* Verify authentication token from sign up */
-    fun verifyAuthToken(token: String){
+    fun verifyAuthToken(token: String) {
         _authenticationToken.value = Resource.Loading(null, "Verifying email")
-        viewModelScope.launch{
+        viewModelScope.launch {
             val response = authRepository.verifyAuthToken(token)
-                response.collect {
-                    _authenticationToken.value = it
-                }
+            response.collect {
+                _authenticationToken.value = it
             }
         }
     }
+}

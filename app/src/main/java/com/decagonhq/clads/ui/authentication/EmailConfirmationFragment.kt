@@ -64,43 +64,43 @@ class EmailConfirmationFragment : BaseFragment() {
 
         if (activationToken != null) {
             viewModel.verifyAuthToken(activationToken)
-            viewModel.authenticationToken.observe(viewLifecycleOwner, {
+            viewModel.authenticationToken.observe(
+                viewLifecycleOwner,
+                {
 
-                when (it) {
+                    when (it) {
 
-                    is Resource.Success -> {
-                        if (it.data?.payload != null) {
-                            sessionManager.saveToSharedPref(Constants.TOKEN, activationToken)
-                            sessionManager.saveToSharedPref(
-                                getString(R.string.login_status),
-                                getString(
-                                    R.string.log_in
+                        is Resource.Success -> {
+                            if (it.data?.payload != null) {
+                                sessionManager.saveToSharedPref(Constants.TOKEN, activationToken)
+                                sessionManager.saveToSharedPref(
+                                    getString(R.string.login_status),
+                                    getString(
+                                        R.string.log_in
+                                    )
                                 )
-                            )
+                            }
+
+                            progressDialog.hideProgressDialog()
+                            Toast.makeText(requireContext(), "Email Verified Successfully", Toast.LENGTH_SHORT).show()
+                            val intent =
+                                Intent(requireContext(), DashboardActivity::class.java)
+                            startActivity(intent)
+                            activity?.finish()
                         }
 
-                        progressDialog.hideProgressDialog()
-                        Toast.makeText(requireContext(), "Email Verified Successfully", Toast.LENGTH_SHORT).show()
-                        val intent =
-                            Intent(requireContext(), DashboardActivity::class.java)
-                        startActivity(intent)
-                        activity?.finish()
-                    }
+                        is Resource.Error -> {
+                            progressDialog.hideProgressDialog()
+                            handleApiError(it, mainRetrofit, requireView())
+                        }
 
-                    is Resource.Error -> {
-                        progressDialog.hideProgressDialog()
-                        handleApiError(it, mainRetrofit, requireView())
+                        is Resource.Loading -> {
+                            progressDialog.showDialogFragment("Verifying Email")
+                        }
                     }
-
-                    is Resource.Loading -> {
-                        progressDialog.showDialogFragment("Verifying Email")
-                    }
-
                 }
-
-            })
+            )
         }
-
     }
 
     override fun onDestroyView() {

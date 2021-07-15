@@ -30,4 +30,3 @@ class RateLimiter<in KEY>(timeOut: Int, timeUnit: TimeUnit) {
         timeStamps.remove(key)
     }
 }
-
