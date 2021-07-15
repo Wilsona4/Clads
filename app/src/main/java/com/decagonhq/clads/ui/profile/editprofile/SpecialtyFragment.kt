@@ -28,8 +28,6 @@ class SpecialtyFragment : Fragment() {
         // Inflate the layout for this fragment
         _binding = SpecialtyFragmentBinding.inflate(inflater, container, false)
 
-//        profileManagementViewModel =
-//            ViewModelProvider(requireActivity()).get(ProfileManagementViewModel::class.java)
         return binding.root
     }
 

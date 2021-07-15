@@ -37,7 +37,7 @@ class UserProfileRepositoryImpl(
             },
             saveToLocalDB = {
                 database.withTransaction {
-//                    database.userProfileDao().deleteUserProfile()
+                    database.userProfileDao().deleteUserProfile()
                     database.userProfileDao().addUserProfile(
                         it.payload
 //                        userProfileEntityMapper.mapFromDomainModel(it.payload)

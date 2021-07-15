@@ -86,6 +86,7 @@ class AccountFragment : BaseFragment() {
         accountOtherNameEditDialog()
 //        accountLegalStatusDialog()
 
+        /*Initialize Image Cropper*/
         cropActivityResultLauncher = registerForActivityResult(cropActivityResultContract) {
             it?.let { uri ->
                 binding.accountFragmentEditProfileIconImageView.imageAlpha = 140
@@ -109,6 +110,7 @@ class AccountFragment : BaseFragment() {
         getUserProfile()
     }
 
+    /*Get User Profile*/
     private fun getUserProfile() {
         userProfileViewModel.userProfile.observe(
             viewLifecycleOwner,
@@ -119,6 +121,7 @@ class AccountFragment : BaseFragment() {
                     progressDialog.hideProgressDialog()
                     handleApiError(it, mainRetrofit, requireView())
                 } else {
+                    progressDialog.hideProgressDialog()
                     it.data?.let { userProfile ->
                         binding.apply {
                             accountFragmentFirstNameValueTextView.text = userProfile.firstName
@@ -151,51 +154,60 @@ class AccountFragment : BaseFragment() {
         )
     }
 
+    /*Update User Profile*/
     private fun updateUserProfile() {
         userProfileViewModel.userProfile.observeOnce(
             viewLifecycleOwner,
             Observer {
-                it.data?.let { profile ->
-                    val userProfile = UserProfile(
-                        country = profile.country,
-                        deliveryTime = profile.deliveryTime,
-                        email = profile.email,
-                        firstName = binding.accountFragmentFirstNameValueTextView.text.toString(),
-                        gender = binding.accountFragmentGenderValueTextView.text.toString(),
-                        genderFocus = profile.genderFocus,
-                        lastName = binding.accountFragmentLastNameValueTextView.text.toString(),
-                        measurementOption = profile.measurementOption,
-                        phoneNumber = binding.accountFragmentPhoneNumberValueTextView.text.toString(),
-                        role = profile.role,
-                        workshopAddress = WorkshopAddress(
-                            street = binding.accountFragmentWorkshopAddressStreetValueTextView.text.toString(),
-                            state = binding.accountFragmentShowroomAddressValueTextView.text.toString(),
-                            city = binding.accountFragmentWorkshopAddressCityValueTextView.text.toString(),
-                        ),
-                        showroomAddress = ShowroomAddress(
-                            street = binding.accountFragmentWorkshopAddressCityValueTextView.text.toString(),
-                            city = binding.accountFragmentWorkshopAddressCityValueTextView.text.toString(),
-                            state = binding.accountFragmentShowroomAddressValueTextView.text.toString(),
-                        ),
-                        specialties = profile.specialties,
-                        thumbnail = profile.thumbnail,
-                        trained = profile.trained,
-                        union = Union(
-                            name = binding.accountFragmentNameOfUnionValueTextView.text.toString(),
-                            ward = binding.accountFragmentWardValueTextView.text.toString(),
-                            lga = binding.accountFragmentLocalGovtAreaValueTextView.text.toString(),
-                            state = binding.accountFragmentStateValueTextView.text.toString(),
-                        ),
-                        paymentTerms = profile.paymentTerms,
-                        paymentOptions = profile.paymentOptions
-                    )
+                if (it is Resource.Loading && it.data?.firstName.isNullOrEmpty()) {
+                    progressDialog.showDialogFragment("Updating..")
+                } else if (it is Resource.Error) {
+                    progressDialog.hideProgressDialog()
+                    handleApiError(it, mainRetrofit, requireView())
+                } else {
+                    it.data?.let { profile ->
+                        val userProfile = UserProfile(
+                            country = profile.country,
+                            deliveryTime = profile.deliveryTime,
+                            email = profile.email,
+                            firstName = binding.accountFragmentFirstNameValueTextView.text.toString(),
+                            gender = binding.accountFragmentGenderValueTextView.text.toString(),
+                            genderFocus = profile.genderFocus,
+                            lastName = binding.accountFragmentLastNameValueTextView.text.toString(),
+                            measurementOption = profile.measurementOption,
+                            phoneNumber = binding.accountFragmentPhoneNumberValueTextView.text.toString(),
+                            role = profile.role,
+                            workshopAddress = WorkshopAddress(
+                                street = binding.accountFragmentWorkshopAddressStreetValueTextView.text.toString(),
+                                state = binding.accountFragmentShowroomAddressValueTextView.text.toString(),
+                                city = binding.accountFragmentWorkshopAddressCityValueTextView.text.toString(),
+                            ),
+                            showroomAddress = ShowroomAddress(
+                                street = binding.accountFragmentWorkshopAddressCityValueTextView.text.toString(),
+                                city = binding.accountFragmentWorkshopAddressCityValueTextView.text.toString(),
+                                state = binding.accountFragmentShowroomAddressValueTextView.text.toString(),
+                            ),
+                            specialties = profile.specialties,
+                            thumbnail = profile.thumbnail,
+                            trained = profile.trained,
+                            union = Union(
+                                name = binding.accountFragmentNameOfUnionValueTextView.text.toString(),
+                                ward = binding.accountFragmentWardValueTextView.text.toString(),
+                                lga = binding.accountFragmentLocalGovtAreaValueTextView.text.toString(),
+                                state = binding.accountFragmentStateValueTextView.text.toString(),
+                            ),
+                            paymentTerms = profile.paymentTerms,
+                            paymentOptions = profile.paymentOptions
+                        )
 
-                    userProfileViewModel.updateUserProfile(userProfile)
+                        userProfileViewModel.updateUserProfile(userProfile)
+                    }
                 }
             }
         )
     }
 
+    /*Check for Gallery Permission*/
     private fun String.checkForPermission(name: String, requestCode: Int) {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             when {
@@ -277,6 +289,7 @@ class AccountFragment : BaseFragment() {
         }
     }
 
+    /*Upload Profile Picture*/
     private fun uploadImageToServer(uri: Uri) {
 
         // create RequestBody instance from file
@@ -285,11 +298,7 @@ class AccountFragment : BaseFragment() {
 
         /*Compress Image then Upload Image*/
         lifecycleScope.launch {
-            val compressedImage = Compressor.compress(requireContext(), bitmapToFile!!) {
-//                resolution(1280, 720)
-//                quality(50)
-//                format(Bitmap.CompressFormat.WEBP)
-            }
+            val compressedImage = Compressor.compress(requireContext(), bitmapToFile!!)
             val imageBody = compressedImage.asRequestBody("image/jpg".toMediaTypeOrNull())
             val image = MultipartBody.Part.createFormData("file", bitmapToFile?.name, imageBody!!)
             imageUploadViewModel.mediaImageUpload(image)
@@ -308,6 +317,7 @@ class AccountFragment : BaseFragment() {
                 } else {
                     progressDialog.hideProgressDialog()
                     it.data?.downloadUri?.let { imageUrl ->
+
                         Glide.with(this)
                             .load(imageUrl)
                             .placeholder(R.drawable.nav_drawer_profile_avatar)
