@@ -51,7 +51,9 @@
             app:uri="https://clads-service.herokuapp.com/api/v1/confirm?token={token}" />
         <argument
             android:name="token"
-            app:argType="string" />
+            app:argType="string"
+            app:nullable="true"
+            android:defaultValue="null" />
 
     </fragment>
     <fragment
