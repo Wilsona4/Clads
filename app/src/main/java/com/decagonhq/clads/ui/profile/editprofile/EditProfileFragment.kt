@@ -4,15 +4,15 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.fragment.app.Fragment
 import androidx.viewpager2.widget.ViewPager2
 import com.decagonhq.clads.R
 import com.decagonhq.clads.databinding.EditProfileFragmentBinding
+import com.decagonhq.clads.ui.BaseFragment
 import com.decagonhq.clads.ui.profile.adapter.EditProfilePagerAdapter
 import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayoutMediator
 
-class EditProfileFragment : Fragment() {
+class EditProfileFragment : BaseFragment() {
     private var _binding: EditProfileFragmentBinding? = null
     private lateinit var viewPager2: ViewPager2
     private lateinit var tabLayout: TabLayout

@@ -7,17 +7,20 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.* // ktlint-disable no-wildcard-imports
+import android.widget.CheckBox
+import android.widget.RadioButton
+import android.widget.RadioGroup
+import android.widget.TextView
 import androidx.core.content.ContextCompat
-import androidx.fragment.app.Fragment
 import com.decagonhq.clads.R
 import com.decagonhq.clads.databinding.AddPaymentTermsDialogFragmentBinding
 import com.decagonhq.clads.databinding.PaymentMethodFragmentBinding
 import com.decagonhq.clads.databinding.PaymentOptionsDialogFragmentBinding
 import com.decagonhq.clads.databinding.PaymentTermsDialogFragmentBinding
+import com.decagonhq.clads.ui.BaseFragment
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 
-class PaymentMethodFragment : Fragment() {
+class PaymentMethodFragment : BaseFragment() {
     private var _binding: PaymentMethodFragmentBinding? = null
     private lateinit var paymentTermsList: TextView
     private lateinit var paymentOptionsList: TextView
@@ -49,7 +52,11 @@ class PaymentMethodFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         // fake payment terms
-        val availablePaymentTerms = arrayListOf("100% Deposit", "50% Deposit and 50% balance on delivery", "0% Deposit and 100% balance on delivery")
+        val availablePaymentTerms = arrayListOf(
+            "100% Deposit",
+            "50% Deposit and 50% balance on delivery",
+            "0% Deposit and 100% balance on delivery"
+        )
 
         // creating an instance of my alert dialog builder
         addPaymentTermsDialogBinding = AddPaymentTermsDialogFragmentBinding.inflate(layoutInflater)
@@ -89,7 +96,12 @@ class PaymentMethodFragment : Fragment() {
                 paymentTermsRadioButton.text = i
                 paymentTermsRadioButton.setPadding(16, 7, 0, 7)
                 paymentTermsRadioButton.setTextColor(resources.getColor(R.color.navy_blue))
-                paymentTermsRadioButton.buttonTintList = ColorStateList.valueOf(ContextCompat.getColor(requireContext(), R.color.deep_sky_blue))
+                paymentTermsRadioButton.buttonTintList = ColorStateList.valueOf(
+                    ContextCompat.getColor(
+                        requireContext(),
+                        R.color.deep_sky_blue
+                    )
+                )
                 paymentTermsRadioButton.setOnClickListener() {
                     selectedPaymentTerm = i
                 }
@@ -120,7 +132,8 @@ class PaymentMethodFragment : Fragment() {
 
         // Setting onClick listener to the payment options textView
         paymentOptionsList.setOnClickListener() {
-            paymentOptionsDialogBinding = PaymentOptionsDialogFragmentBinding.inflate(layoutInflater)
+            paymentOptionsDialogBinding =
+                PaymentOptionsDialogFragmentBinding.inflate(layoutInflater)
 
             // Initializing payment options checkBoxes
             nairaCheckBox = paymentOptionsDialogBinding.paymentOptionsFragmentCheckbox1

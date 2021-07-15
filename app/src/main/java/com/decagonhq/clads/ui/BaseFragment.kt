@@ -3,6 +3,7 @@ package com.decagonhq.clads.ui
 import android.os.Bundle
 import android.view.View
 import androidx.fragment.app.Fragment
+import com.decagonhq.clads.data.local.CladsDatabase
 import com.decagonhq.clads.util.Constants.IMAGE_RETROFIT
 import com.decagonhq.clads.util.Constants.MAIN_RETROFIT
 import com.decagonhq.clads.util.CustomProgressDialog
@@ -14,7 +15,9 @@ import javax.inject.Named
 
 @AndroidEntryPoint
 abstract class BaseFragment : Fragment() {
+
     lateinit var progressDialog: CustomProgressDialog
+
     @Inject
     @Named(MAIN_RETROFIT)
     lateinit var mainRetrofit: Retrofit
@@ -25,6 +28,9 @@ abstract class BaseFragment : Fragment() {
 
     @Inject
     lateinit var sessionManager: SessionManager
+
+    @Inject
+    lateinit var database: CladsDatabase
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)

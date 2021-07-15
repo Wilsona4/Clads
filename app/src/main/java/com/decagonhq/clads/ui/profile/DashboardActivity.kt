@@ -27,14 +27,15 @@ import androidx.navigation.ui.setupWithNavController
 import com.bumptech.glide.Glide
 import com.decagonhq.clads.R
 import com.decagonhq.clads.data.domain.images.UserProfileImage
+import com.decagonhq.clads.data.local.CladsDatabase
 import com.decagonhq.clads.databinding.DashboardActivityBinding
-import com.decagonhq.clads.ui.authentication.MainActivity
 import com.decagonhq.clads.ui.profile.bottomnav.MessagesFragment
 import com.decagonhq.clads.util.Constants
 import com.decagonhq.clads.util.CustomProgressDialog
 import com.decagonhq.clads.util.Resource
 import com.decagonhq.clads.util.SessionManager
 import com.decagonhq.clads.util.handleApiError
+import com.decagonhq.clads.util.logOut
 import com.decagonhq.clads.viewmodels.ImageUploadViewModel
 import com.decagonhq.clads.viewmodels.UserProfileViewModel
 import com.google.android.material.bottomnavigation.BottomNavigationView
@@ -70,6 +71,9 @@ class DashboardActivity : AppCompatActivity() {
 
     @Inject
     lateinit var sessionManager: SessionManager
+
+    @Inject
+    lateinit var database: CladsDatabase
 
     @Inject
     @Named(Constants.IMAGE_RETROFIT)
@@ -188,7 +192,7 @@ class DashboardActivity : AppCompatActivity() {
                     }
                 } else if (it is Resource.Error) {
                     progressDialog.hideProgressDialog()
-                    handleApiError(it, imageRetrofit, toolbarFragmentName)
+                    handleApiError(it, imageRetrofit, toolbarFragmentName, sessionManager, database)
                 } else {
                     progressDialog.hideProgressDialog()
                     it.data?.downloadUri?.let { imageUrl ->
@@ -225,16 +229,22 @@ class DashboardActivity : AppCompatActivity() {
                     return@setNavigationItemSelectedListener true
                 }
                 R.id.logout -> {
+                    logOut(sessionManager, database)
 
-                    Intent(this, MainActivity::class.java).also {
-                        sessionManager.clearSharedPref()
-                        sessionManager.saveToSharedPref(
-                            getString(R.string.login_status),
-                            getString(R.string.log_out)
-                        )
-                        startActivity(it)
-                        finish()
-                    }
+//                    Intent(this, MainActivity::class.java).also {
+//                        sessionManager.clearSharedPref()
+//                        sessionManager.saveToSharedPref(
+//                            getString(R.string.login_status),
+//                            getString(R.string.log_out)
+//                        )
+//                        lifecycleScope.launch {
+//                            withContext(Dispatchers.IO){
+//                                database.clearAllTables()
+//                            }
+//                        }
+//                        startActivity(it)
+//                        finish()
+//                    }
                     return@setNavigationItemSelectedListener true
                 }
                 else -> return@setNavigationItemSelectedListener true

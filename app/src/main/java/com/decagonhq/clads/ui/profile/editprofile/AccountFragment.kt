@@ -119,7 +119,7 @@ class AccountFragment : BaseFragment() {
                     progressDialog.showDialogFragment("Updating..")
                 } else if (it is Resource.Error) {
                     progressDialog.hideProgressDialog()
-                    handleApiError(it, mainRetrofit, requireView())
+                    handleApiError(it, mainRetrofit, requireView(), sessionManager, database)
                 } else {
                     progressDialog.hideProgressDialog()
                     it.data?.let { userProfile ->
@@ -163,7 +163,7 @@ class AccountFragment : BaseFragment() {
                     progressDialog.showDialogFragment("Updating..")
                 } else if (it is Resource.Error) {
                     progressDialog.hideProgressDialog()
-                    handleApiError(it, mainRetrofit, requireView())
+                    handleApiError(it, mainRetrofit, requireView(), sessionManager, database)
                 } else {
                     it.data?.let { profile ->
                         val userProfile = UserProfile(
@@ -313,7 +313,7 @@ class AccountFragment : BaseFragment() {
                     progressDialog.showDialogFragment("Uploading...")
                 } else if (it is Resource.Error) {
                     progressDialog.hideProgressDialog()
-                    handleApiError(it, imageRetrofit, requireView())
+                    handleApiError(it, mainRetrofit, requireView(), sessionManager, database)
                 } else {
                     progressDialog.hideProgressDialog()
                     it.data?.downloadUri?.let { imageUrl ->
@@ -339,7 +339,7 @@ class AccountFragment : BaseFragment() {
                     progressDialog.showDialogFragment("Uploading...")
                 } else if (it is Resource.Error) {
                     progressDialog.hideProgressDialog()
-                    handleApiError(it, imageRetrofit, requireView())
+                    handleApiError(it, mainRetrofit, requireView(), sessionManager, database)
                 } else {
                     progressDialog.hideProgressDialog()
                     it.data?.downloadUri?.let { imageUrl ->

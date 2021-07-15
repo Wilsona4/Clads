@@ -15,12 +15,12 @@ import androidx.appcompat.app.AlertDialog
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.core.net.toUri
-import androidx.fragment.app.Fragment
 import androidx.lifecycle.observe
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
 import com.decagonhq.clads.data.domain.PhotoGalleryModel
 import com.decagonhq.clads.databinding.MediaFragmentBinding
+import com.decagonhq.clads.ui.BaseFragment
 import com.decagonhq.clads.ui.profile.adapter.PhotoGalleryRecyclerAdapter
 import com.decagonhq.clads.util.DataListener
 import com.decagonhq.clads.util.GRID_SIZE
@@ -33,7 +33,7 @@ import com.decagonhq.clads.util.hideView
 import com.decagonhq.clads.util.photosProvidersList
 import com.decagonhq.clads.util.showView
 
-class MediaFragment : Fragment() {
+class MediaFragment : BaseFragment() {
 
     private var _binding: MediaFragmentBinding? = null
 
@@ -44,25 +44,28 @@ class MediaFragment : Fragment() {
     private lateinit var noPhotoTextView: TextView
     private lateinit var photoGalleryModel: PhotoGalleryModel
 
-    private val pickImages = registerForActivityResult(ActivityResultContracts.GetContent()) { uri: Uri? ->
-        uri?.let { it ->
+    private val pickImages =
+        registerForActivityResult(ActivityResultContracts.GetContent()) { uri: Uri? ->
+            uri?.let { it ->
 
-            val imageData = uri.toString()
-            val action = MediaFragmentDirections.actionNavMediaToMediaFragmentPhotoName(imageData)
-            findNavController().navigate(action)
+                val imageData = uri.toString()
+                val action =
+                    MediaFragmentDirections.actionNavMediaToMediaFragmentPhotoName(imageData)
+                findNavController().navigate(action)
 
-            if (photosProvidersList.isEmpty()) {
-                noPhotoImageView.showView()
-                noPhotoTextView.showView()
-                binding.mediaFragmentPhotoRecyclerView.hideView()
-            } else {
-                noPhotoImageView.hideView()
-                noPhotoTextView.hideView()
-                binding.mediaFragmentPhotoRecyclerView.showView()
-                photoGalleryRecyclerAdapter.notifyDataSetChanged()
+                if (photosProvidersList.isEmpty()) {
+                    noPhotoImageView.showView()
+                    noPhotoTextView.showView()
+                    binding.mediaFragmentPhotoRecyclerView.hideView()
+                } else {
+                    noPhotoImageView.hideView()
+                    noPhotoTextView.hideView()
+                    binding.mediaFragmentPhotoRecyclerView.showView()
+                    photoGalleryRecyclerAdapter.notifyDataSetChanged()
+                }
             }
         }
-    }
+
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
