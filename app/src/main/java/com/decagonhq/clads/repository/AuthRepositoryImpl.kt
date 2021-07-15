@@ -45,4 +45,14 @@ class AuthRepositoryImpl(
                 }
             )
         }
+
+    override suspend fun verifyAuthToken(token: String): Flow<Resource<GenericResponseClass<String>>> =
+        flow {
+            emit(
+                safeApiCall {
+                    apiService.verifyAuthToken(token)
+                }
+            )
+        }
+
 }

@@ -9,8 +9,11 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.Observer
+import androidx.room.RoomDatabase
 import com.decagonhq.clads.R
+import com.decagonhq.clads.data.local.CladsDatabase
 import retrofit2.Retrofit
+import javax.inject.Inject
 
 fun Fragment.showView(view: View) {
 
