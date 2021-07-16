@@ -352,6 +352,8 @@
     <string name="enter_union_name">Enter Union Name</string>
     <string name="enter_union_ward">Enter Union Ward</string>
 
+    <string name="fragment_add_delivery_address_save_text_on_button">Add Address</string>
+
     <string-array name="account_category">
         <item>Tailor</item>
         <item>Weaver</item>
