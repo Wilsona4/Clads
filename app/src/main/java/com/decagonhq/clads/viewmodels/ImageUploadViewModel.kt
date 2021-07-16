@@ -21,9 +21,9 @@ class ImageUploadViewModel @Inject constructor(
     private var _userProfileImage = MutableLiveData<Resource<UserProfileImage>>()
     val userProfileImage: LiveData<Resource<UserProfileImage>> get() = _userProfileImage
 
-    init {
-        getUserImage()
-    }
+//    init {
+//        getUserImage()
+//    }
 
     fun mediaImageUpload(image: MultipartBody.Part) {
         viewModelScope.launch {

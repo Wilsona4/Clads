@@ -27,6 +27,7 @@ import com.decagonhq.clads.data.domain.profile.ShowroomAddress
 import com.decagonhq.clads.data.domain.profile.Union
 import com.decagonhq.clads.data.domain.profile.UserProfile
 import com.decagonhq.clads.data.domain.profile.WorkshopAddress
+import com.decagonhq.clads.data.local.UserProfileEntity
 import com.decagonhq.clads.databinding.AccountFragmentBinding
 import com.decagonhq.clads.ui.BaseFragment
 import com.decagonhq.clads.ui.profile.dialogfragment.ProfileManagementDialogFragments.Companion.createProfileDialogFragment
@@ -106,7 +107,6 @@ class AccountFragment : BaseFragment() {
 
         /*Get users profile*/
         userProfileViewModel.getLocalDatabaseUserProfile()
-        imageUploadViewModel.getUserImage()
         getUserProfile()
     }
 
@@ -147,6 +147,10 @@ class AccountFragment : BaseFragment() {
                                 ?: getString(R.string.enter_union_resource)
                             accountFragmentStateValueTextView.text = userProfile.union?.state
                                 ?: getString(R.string.enter_union_resource)
+                            Glide.with(this@AccountFragment)
+                                .load(userProfile.thumbnail)
+                                .placeholder(R.drawable.nav_drawer_profile_avatar)
+                                .into(binding.accountFragmentEditProfileIconImageView)
                         }
                     }
                 }
@@ -196,6 +200,47 @@ class AccountFragment : BaseFragment() {
                                 lga = binding.accountFragmentLocalGovtAreaValueTextView.text.toString(),
                                 state = binding.accountFragmentStateValueTextView.text.toString(),
                             ),
+                            paymentTerms = profile.paymentTerms,
+                            paymentOptions = profile.paymentOptions
+                        )
+
+                        userProfileViewModel.updateUserProfile(userProfile)
+                    }
+                }
+            }
+        )
+    }
+
+    /*Update User Profile Picture*/
+    private fun updateUserProfilePicture(downloadUri: String) {
+        userProfileViewModel.userProfile.observeOnce(
+            viewLifecycleOwner,
+            Observer {
+                if (it is Resource.Loading<UserProfileEntity>) {
+                    progressDialog.showDialogFragment("Uploading...")
+                } else if (it is Resource.Error) {
+                    progressDialog.hideProgressDialog()
+                    handleApiError(it, mainRetrofit, requireView(), sessionManager, database)
+                } else {
+                    progressDialog.hideProgressDialog()
+                    it.data?.let { profile ->
+                        val userProfile = UserProfile(
+                            country = profile.country,
+                            deliveryTime = profile.deliveryTime,
+                            email = profile.email,
+                            firstName = profile.firstName,
+                            gender = profile.gender,
+                            genderFocus = profile.genderFocus,
+                            lastName = profile.lastName,
+                            measurementOption = profile.measurementOption,
+                            phoneNumber = profile.phoneNumber,
+                            role = profile.role,
+                            workshopAddress = profile.workshopAddress,
+                            showroomAddress = profile.showroomAddress,
+                            specialties = profile.specialties,
+                            thumbnail = downloadUri,
+                            trained = profile.trained,
+                            union = profile.union,
                             paymentTerms = profile.paymentTerms,
                             paymentOptions = profile.paymentOptions
                         )
@@ -308,7 +353,6 @@ class AccountFragment : BaseFragment() {
         imageUploadViewModel.userProfileImage.observe(
             viewLifecycleOwner,
             Observer {
-
                 if (it is Resource.Loading<UserProfileImage>) {
                     progressDialog.showDialogFragment("Uploading...")
                 } else if (it is Resource.Error) {
@@ -316,37 +360,9 @@ class AccountFragment : BaseFragment() {
                     handleApiError(it, mainRetrofit, requireView(), sessionManager, database)
                 } else {
                     progressDialog.hideProgressDialog()
+                    Toast.makeText(requireContext(), "Upload Successful", Toast.LENGTH_SHORT).show()
                     it.data?.downloadUri?.let { imageUrl ->
-
-                        Glide.with(this)
-                            .load(imageUrl)
-                            .placeholder(R.drawable.nav_drawer_profile_avatar)
-                            .into(binding.accountFragmentEditProfileIconImageView)
-                    }
-                }
-            }
-        )
-    }
-
-    /*load the image from shared pref on resume of the account fragment class*/
-    override fun onResume() {
-        super.onResume()
-        /*Handling the response from the retrofit*/
-        imageUploadViewModel.userProfileImage.observe(
-            viewLifecycleOwner,
-            Observer {
-                if (it is Resource.Loading<UserProfileImage>) {
-                    progressDialog.showDialogFragment("Uploading...")
-                } else if (it is Resource.Error) {
-                    progressDialog.hideProgressDialog()
-                    handleApiError(it, mainRetrofit, requireView(), sessionManager, database)
-                } else {
-                    progressDialog.hideProgressDialog()
-                    it.data?.downloadUri?.let { imageUrl ->
-                        Glide.with(this)
-                            .load(imageUrl)
-                            .placeholder(R.drawable.nav_drawer_profile_avatar)
-                            .into(binding.accountFragmentEditProfileIconImageView)
+                        updateUserProfilePicture(imageUrl)
                     }
                 }
             }

@@ -27,7 +27,6 @@ class UserProfileViewModel @Inject constructor(
 
     fun getUserProfile() {
         viewModelScope.launch {
-            Resource.Loading(null, "Loading")
             userProfileRepository.getUserProfile().collect {
                 _userProfile.value = it
             }
@@ -36,7 +35,7 @@ class UserProfileViewModel @Inject constructor(
 
     /* update users endpoint data */
     fun updateUserProfile(userProfile: UserProfile) {
-        Resource.Loading(null, "Updating")
+        _userProfile.value = Resource.Loading(null, "Updating")
         viewModelScope.launch {
             userProfileRepository.updateUserProfile(userProfile)
         }

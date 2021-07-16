@@ -28,15 +28,12 @@ import androidx.navigation.ui.setupActionBarWithNavController
 import androidx.navigation.ui.setupWithNavController
 import com.bumptech.glide.Glide
 import com.decagonhq.clads.R
-import com.decagonhq.clads.data.domain.images.UserProfileImage
 import com.decagonhq.clads.data.local.CladsDatabase
 import com.decagonhq.clads.databinding.DashboardActivityBinding
 import com.decagonhq.clads.ui.profile.bottomnav.MessagesFragment
 import com.decagonhq.clads.util.Constants
 import com.decagonhq.clads.util.CustomProgressDialog
-import com.decagonhq.clads.util.Resource
 import com.decagonhq.clads.util.SessionManager
-import com.decagonhq.clads.util.handleApiError
 import com.decagonhq.clads.util.logOut
 import com.decagonhq.clads.viewmodels.ImageUploadViewModel
 import com.decagonhq.clads.viewmodels.UserProfileViewModel
@@ -88,7 +85,7 @@ class DashboardActivity : AppCompatActivity() {
         super.onStart()
 //        userProfileViewModel.saveUserProfileToLocalDatabase()
         userProfileViewModel.getUserProfile()
-        imageUploadViewModel.getUserImage()
+//        imageUploadViewModel.getUserImage()
         GlobalScope.launch {
 //            delay(5000L)
             withContext(Dispatchers.Main) {
@@ -180,38 +177,49 @@ class DashboardActivity : AppCompatActivity() {
                     userProfile?.lastName ?: getString(R.string.babangida)
                     }"
                     profileName.text = fullName
+
+                    Glide.with(this)
+                        .load(userProfile?.thumbnail)
+                        .placeholder(R.drawable.nav_drawer_profile_avatar)
+                        .into(toolbarProfilePicture)
+
+                    /*load profile image from shared pref*/
+                    Glide.with(this)
+                        .load(userProfile?.thumbnail)
+                        .placeholder(R.drawable.nav_drawer_profile_avatar)
+                        .into(profileImage)
                 }
             }
         )
 
         /*Handling the response from the retrofit*/
-        imageUploadViewModel.userProfileImage.observe(
-            this,
-            Observer {
-                if (it is Resource.Loading<UserProfileImage> && it.data?.downloadUri.isNullOrEmpty()) {
-                    it.message?.let { message ->
-                        progressDialog.showDialogFragment(message)
-                    }
-                } else if (it is Resource.Error) {
-                    progressDialog.hideProgressDialog()
-                    handleApiError(it, imageRetrofit, toolbarFragmentName, sessionManager, database)
-                } else {
-                    progressDialog.hideProgressDialog()
-                    it.data?.downloadUri?.let { imageUrl ->
-                        Glide.with(this)
-                            .load(imageUrl)
-                            .placeholder(R.drawable.nav_drawer_profile_avatar)
-                            .into(toolbarProfilePicture)
-
-                        /*load profile image from shared pref*/
-                        Glide.with(this)
-                            .load(imageUrl)
-                            .placeholder(R.drawable.nav_drawer_profile_avatar)
-                            .into(profileImage)
-                    }
-                }
-            }
-        )
+//        imageUploadViewModel.userProfileImage.observe(
+//            this,
+//            Observer {
+//                if (it is Resource.Loading<UserProfileImage> && it.data?.downloadUri.isNullOrEmpty()) {
+//                    it.message?.let { message ->
+//                        progressDialog.showDialogFragment(message)
+//                    }
+//                } else if (it is Resource.Error) {
+//                    progressDialog.hideProgressDialog()
+//                    handleApiError(it, imageRetrofit, toolbarFragmentName, sessionManager, database)
+//                } else {
+//                    progressDialog.hideProgressDialog()
+//                    it.data?.downloadUri?.let { imageUrl ->
+//                        Glide.with(this)
+//                            .load(imageUrl)
+//                            .placeholder(R.drawable.nav_drawer_profile_avatar)
+//                            .into(toolbarProfilePicture)
+//
+//                        /*load profile image from shared pref*/
+//                        Glide.with(this)
+//                            .load(imageUrl)
+//                            .placeholder(R.drawable.nav_drawer_profile_avatar)
+//                            .into(profileImage)
+//                    }
+//                }
+//            }
+//        )
 
         navigationView.setNavigationItemSelectedListener { it ->
             when (it.itemId) {
