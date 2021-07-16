@@ -48,10 +48,12 @@ class EmailConfirmationFragment : BaseFragment() {
         binding.emailConfirmationFragmentVerifyEmailAddressButton.setOnClickListener {
             val intent = Intent(Intent.ACTION_MAIN).apply {
                 addCategory(Intent.CATEGORY_APP_EMAIL)
-                addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+//                addFlags(Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK)
+                flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
             }
 
             startActivity(intent)
+            requireActivity().finish()
         }
 
         binding.emailConfirmationFragmentVerifyEmailTextTextView.text =
@@ -67,7 +69,6 @@ class EmailConfirmationFragment : BaseFragment() {
             viewModel.authenticationToken.observe(
                 viewLifecycleOwner,
                 {
-
                     when (it) {
 
                         is Resource.Success -> {

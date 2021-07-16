@@ -11,6 +11,7 @@ import com.decagonhq.clads.data.domain.profile.UserProfile
 import com.decagonhq.clads.data.domain.registration.UserRegistration
 import com.decagonhq.clads.repository.AuthRepository
 import com.decagonhq.clads.util.Resource
+import com.decagonhq.clads.util.SingleLiveEvent
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
@@ -30,7 +31,7 @@ class AuthenticationViewModel @Inject constructor(
     private var _loginUserWithGoogle = MutableLiveData<Resource<GenericResponseClass<String>>>()
     val loginUserWithGoogle: LiveData<Resource<GenericResponseClass<String>>> get() = _loginUserWithGoogle
 
-    private val _authenticationToken = MutableLiveData<Resource<GenericResponseClass<String>>>()
+    private val _authenticationToken = SingleLiveEvent<Resource<GenericResponseClass<String>>>()
     val authenticationToken: LiveData<Resource<GenericResponseClass<String>>> = _authenticationToken
 
     fun registerUser(user: UserRegistration) {
