@@ -110,7 +110,7 @@ class EmailSignUpFragment : BaseFragment() {
         )
 
         loginButton.setOnClickListener {
-            val action  = EmailSignUpFragmentDirections.actionEmailSignUpFragmentToLoginFragment()
+            val action = EmailSignUpFragmentDirections.actionEmailSignUpFragmentToLoginFragment()
             findNavController().navigate(action)
         }
 
