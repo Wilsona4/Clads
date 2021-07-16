@@ -82,15 +82,21 @@
             app:popEnterAnim="@anim/slide_in_right"
             app:popExitAnim="@anim/slide_out_left" />
 
+        <deepLink
+            android:id="@+id/emailConfirmationDeepLink"
+            app:uri="https://clads-service.herokuapp.com/api/v1/confirm?token={token}" />
+        <argument
+            android:name="token"
+            android:defaultValue="null"
+            app:argType="string"
+            app:nullable="true" />
+
     </fragment>
     <fragment
         android:id="@+id/login_fragment"
         android:name="com.decagonhq.clads.ui.authentication.LoginFragment"
         android:label="fragment_login"
         tools:layout="@layout/login_fragment">
-        <deepLink
-            android:id="@+id/emailConfirmationDeepLink"
-            app:uri="https://clads-service.herokuapp.com/api/v1/confirm" />
         <action
             android:id="@+id/action_login_fragment_to_sign_up_options_fragment"
             app:destination="@id/sign_up_options_fragment"
