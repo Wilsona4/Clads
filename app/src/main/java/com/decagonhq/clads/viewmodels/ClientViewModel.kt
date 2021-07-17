@@ -13,11 +13,10 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 import javax.inject.Inject
-import javax.inject.Singleton
 
 @HiltViewModel
 class ClientViewModel @Inject constructor(
-    private val clientsRepository:ClientsRepository
+    private val clientsRepository: ClientsRepository
 ) : ViewModel() {
 
     private var _client = MutableLiveData<Resource<List<Client>>>()
@@ -25,7 +24,6 @@ class ClientViewModel @Inject constructor(
 
     private var _deleteClientResponse = MutableLiveData<Resource<GenericResponseClass<List<Client>>>>()
     val deleteClientResponse: LiveData<Resource<GenericResponseClass<List<Client>>>> get() = _deleteClientResponse
-
 
     private var _addClientResponse = MutableLiveData<Resource<Client>>()
     val addClientResponse: LiveData<Resource<Client>> get() = _addClientResponse
@@ -44,17 +42,17 @@ class ClientViewModel @Inject constructor(
         }
     }
 
-    fun addClient(client:Client) {
+    fun addClient(client: Client) {
         viewModelScope.launch(Dispatchers.IO) {
-            clientsRepository.addClientToServer(client).collect{
+            clientsRepository.addClientToServer(client).collect {
                 _addClientResponse.postValue(it)
             }
         }
     }
 
-    fun deleteClient(clientId:Int) {
+    fun deleteClient(clientId: Int) {
         viewModelScope.launch(Dispatchers.IO) {
-            clientsRepository.deleteClient(clientId).collect{
+            clientsRepository.deleteClient(clientId).collect {
                 _deleteClientResponse.postValue(it)
             }
         }
@@ -66,10 +64,9 @@ class ClientViewModel @Inject constructor(
         }
     }
 
-    fun addClientToDb(client:Client) {
+    fun addClientToDb(client: Client) {
         viewModelScope.launch(Dispatchers.IO) {
             _addToDBResponse.postValue(clientsRepository.addClientToDb(client))
         }
     }
-    
 }

@@ -1,7 +1,6 @@
 package com.decagonhq.clads.ui.profile.bottomnav
 
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -12,10 +11,8 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.decagonhq.clads.R
 import com.decagonhq.clads.databinding.HomeFragmentBinding
 import com.decagonhq.clads.ui.BaseFragment
-import com.decagonhq.clads.ui.client.adapter.ClientListRecyclerViewAdapter
 import com.decagonhq.clads.ui.profile.adapter.HomeFragmentClientsRecyclerAdapter
 import com.decagonhq.clads.util.ChartData.chartData
-import com.decagonhq.clads.util.DummyDataUtil
 import com.decagonhq.clads.viewmodels.ClientViewModel
 import com.decagonhq.clads.viewmodels.UserProfileViewModel
 import dagger.hilt.android.AndroidEntryPoint

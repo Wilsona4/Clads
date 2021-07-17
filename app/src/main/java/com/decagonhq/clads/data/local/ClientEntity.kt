@@ -8,8 +8,8 @@ import com.decagonhq.clads.data.remote.client.Measurement
 @Entity(tableName = "client_details_table")
 class ClientEntity(
     @PrimaryKey(autoGenerate = false)
-    val id:Int,
-    val artisanId:Int,
+    val id: Int,
+    val artisanId: Int,
     val deliveryAddresses: List<DeliveryAddressModel>? = null,
     val email: String,
     val fullName: String,

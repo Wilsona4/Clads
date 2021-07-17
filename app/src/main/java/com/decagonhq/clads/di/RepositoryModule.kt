@@ -69,7 +69,7 @@ object RepositoryModule {
     @Provides
     fun provideClientRepository(
         @Named(MAIN_API_SERVICE) apiService: ApiService,
-        clientEntityMapper:ClientEntityMapper,
+        clientEntityMapper: ClientEntityMapper,
         database: CladsDatabase
     ): ClientsRepository {
         return ClientRepositoryImpl(apiService, clientEntityMapper, database)

@@ -26,7 +26,6 @@ import com.decagonhq.clads.viewmodels.ClientViewModel
 import com.google.android.material.snackbar.Snackbar
 import dagger.hilt.android.AndroidEntryPoint
 
-
 @AndroidEntryPoint
 class ClientFragment : BaseFragment() {
 
@@ -38,7 +37,6 @@ class ClientFragment : BaseFragment() {
     private val clientViewModel: ClientViewModel by activityViewModels()
     private var swiped = false
     private var itemToDeletePosition: Int? = null
-
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -80,9 +78,12 @@ class ClientFragment : BaseFragment() {
 
     private fun setObservers() {
 
-        clientViewModel.client.observe(viewLifecycleOwner, {
-            it.data?.let { it1 -> displayRecyclerviewOrNoClientText(it1) }
-        })
+        clientViewModel.client.observe(
+            viewLifecycleOwner,
+            {
+                it.data?.let { it1 -> displayRecyclerviewOrNoClientText(it1) }
+            }
+        )
 
         clientViewModel.deleteClientResponse.observe(viewLifecycleOwner) {
 
@@ -100,93 +101,90 @@ class ClientFragment : BaseFragment() {
                     progressDialog.hideProgressDialog()
                     handleApiError(it, mainRetrofit, requireView())
                 }
-
             }
         }
 
+        clientViewModel.deleteFromDBResponse.observe(
+            viewLifecycleOwner,
+            {
 
-        clientViewModel.deleteFromDBResponse.observe(viewLifecycleOwner, {
+                when (it) {
 
-            when (it) {
+                    is Resource.Success -> {
 
-                is Resource.Success -> {
+                        progressDialog.hideProgressDialog()
 
-                progressDialog.hideProgressDialog()
+                        adapter.deleteItem(itemToDeletePosition!!)
 
-                        adapter . deleteItem (itemToDeletePosition!!)
-
-                        Snackbar . make (
-                        requireView(),
-                "Client Deleted Successfully",
-                Snackbar.LENGTH_SHORT
-                    )
-                    .show()
-
-            }else -> {
-                Snackbar.make(
-                    requireView(),
-                    it.message!!,
-                    Snackbar.LENGTH_SHORT
-                ).show()
+                        Snackbar.make(
+                            requireView(),
+                            "Client Deleted Successfully",
+                            Snackbar.LENGTH_SHORT
+                        )
+                            .show()
+                    } else -> {
+                        Snackbar.make(
+                            requireView(),
+                            it.message!!,
+                            Snackbar.LENGTH_SHORT
+                        ).show()
+                    }
+                }
             }
+        )
 
-        }
+        clientViewModel.addClientResponse.observe(
+            viewLifecycleOwner,
+            {
+                when (it) {
 
-        })
+                    is Resource.Success -> {
 
-        clientViewModel.addClientResponse.observe(viewLifecycleOwner,{
-            when (it) {
-
-                is Resource.Success -> {
-
-              clientViewModel.addClientToDb(it.data!!)
-
-                }else -> {
-                Snackbar.make(
-                    requireView(),
-                    it.message!!,
-                    Snackbar.LENGTH_SHORT
-                ).show()
+                        clientViewModel.addClientToDb(it.data!!)
+                    } else -> {
+                        Snackbar.make(
+                            requireView(),
+                            it.message!!,
+                            Snackbar.LENGTH_SHORT
+                        ).show()
+                    }
+                }
             }
+        )
 
+        clientViewModel.addToDBResponse.observe(
+            viewLifecycleOwner,
+            {
+                when (it) {
+
+                    is Resource.Success -> {
+
+                        progressDialog.hideProgressDialog()
+
+                        adapter.addItem(it.data!!)
+
+                        Snackbar.make(
+                            requireView(),
+                            "Client added Successfully",
+                            Snackbar.LENGTH_SHORT
+                        )
+                            .show()
+                    } else -> {
+                        Snackbar.make(
+                            requireView(),
+                            it.message!!,
+                            Snackbar.LENGTH_SHORT
+                        ).show()
+                    }
+                }
             }
-        })
-
-        clientViewModel.addToDBResponse.observe(viewLifecycleOwner,{
-            when (it) {
-
-                is Resource.Success -> {
-
-                    progressDialog.hideProgressDialog()
-
-                    adapter .addItem(it.data!!)
-
-                    Snackbar . make (
-                        requireView(),
-                        "Client added Successfully",
-                        Snackbar.LENGTH_SHORT
-                    )
-                        .show()
-
-
-                }else -> {
-                Snackbar.make(
-                    requireView(),
-                    it.message!!,
-                    Snackbar.LENGTH_SHORT
-                ).show()
-            }
-
-            }
-        })
+        )
     }
 
     private fun setEventListeners() {
         binding.clientFragmentAddClientFab.setOnClickListener {
             findNavController().navigate(R.id.action_clientFragment_to_addClientFragment)
         }
-
-
     }
 
     private fun init() {
@@ -237,8 +235,7 @@ class ClientFragment : BaseFragment() {
 
                 val itemView = viewHolder.itemView
                 val backgroundCornerOffset =
-                    20 //so background is behind the rounded corners of itemView
-
+                    20 // so background is behind the rounded corners of itemView
 
                 val iconMargin = (itemView.height - icon.intrinsicHeight) / 2
                 val iconTop = itemView.top + (itemView.height - icon.intrinsicHeight) / 2
@@ -266,12 +263,7 @@ class ClientFragment : BaseFragment() {
 
                 background.draw(c)
                 icon.draw(c)
-
             }
         }).attachToRecyclerView(_binding?.clientListScreenRecyclerView)
-
-
     }
-
-
 }

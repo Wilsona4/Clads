@@ -6,30 +6,24 @@ import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
 import androidx.room.Transaction
-import com.decagonhq.clads.data.remote.client.Client
-import com.decagonhq.clads.util.Resource
 import kotlinx.coroutines.flow.Flow
-import retrofit2.http.DELETE
 
 @Dao
-interface ClientDao{
+interface ClientDao {
     /*Add Clients to Database*/
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    suspend fun addClients( clients: List<ClientEntity>)
+    suspend fun addClients(clients: List<ClientEntity>)
 
     /*Get User in the Database*/
     @Transaction
     @Query("SELECT * FROM client_details_table")
     fun readClients(): Flow<List<ClientEntity>>
 
-
     @Query("SELECT * FROM client_details_table WHERE id LIKE:clientId")
-    fun readClient(clientId:Int): Flow<List<ClientEntity>>
-
+    fun readClient(clientId: Int): Flow<List<ClientEntity>>
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    fun addClient(client:ClientEntity):Long
-
+    fun addClient(client: ClientEntity): Long
 
     /*Delete userProfile in the Database*/
     @Query("DELETE FROM client_details_table")
@@ -37,5 +31,5 @@ interface ClientDao{
 
     /*Delete userProfile in the Database*/
     @Delete
-    suspend fun deleteClient(client: ClientEntity):Int
+    suspend fun deleteClient(client: ClientEntity): Int
 }

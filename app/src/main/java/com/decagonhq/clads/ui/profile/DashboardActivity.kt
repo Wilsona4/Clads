@@ -17,7 +17,6 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.NotificationCompat
 import androidx.core.view.GravityCompat
 import androidx.drawerlayout.widget.DrawerLayout
-import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.Observer
 import androidx.navigation.NavController
 import androidx.navigation.findNavController
@@ -426,9 +425,7 @@ class DashboardActivity : AppCompatActivity() {
             }
     }
 
-    private fun fetchClients(){
+    private fun fetchClients() {
         clientViewModel.getClients()
     }
-
-
 }

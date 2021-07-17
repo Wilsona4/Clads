@@ -7,7 +7,7 @@ import com.decagonhq.clads.data.domain.images.UserProfileImage
 import com.decagonhq.clads.util.TypeConverter
 
 /*Add List of Entities*/
-@Database(entities = [UserProfileEntity::class, UserProfileImage::class,ClientEntity::class], version = 1, exportSchema = false)
+@Database(entities = [UserProfileEntity::class, UserProfileImage::class, ClientEntity::class], version = 1, exportSchema = false)
 @TypeConverters(TypeConverter::class)
 abstract class CladsDatabase : RoomDatabase() {
 

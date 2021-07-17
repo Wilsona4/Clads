@@ -10,7 +10,6 @@ import android.text.Spanned
 import android.text.method.LinkMovementMethod
 import android.text.style.ClickableSpan
 import android.text.style.ForegroundColorSpan
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -33,7 +32,6 @@ import com.decagonhq.clads.util.Resource
 import com.decagonhq.clads.util.ValidationObject.validateEmail
 import com.decagonhq.clads.util.handleApiError
 import com.decagonhq.clads.viewmodels.AuthenticationViewModel
-import com.decagonhq.clads.viewmodels.ClientViewModel
 import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount
 import com.google.android.gms.auth.api.signin.GoogleSignInClient
@@ -58,7 +56,6 @@ class LoginFragment : BaseFragment() {
     private var GOOGLE_SIGNIN_RQ_CODE = 100
 
     private val viewModel: AuthenticationViewModel by activityViewModels()
-
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -134,10 +131,10 @@ class LoginFragment : BaseFragment() {
                                         )
                                     }
 
-                                            progressDialog.hideProgressDialog()
-                                            val intent = Intent(requireContext(), DashboardActivity::class.java)
-                                            startActivity(intent)
-                                            activity?.finish()
+                                    progressDialog.hideProgressDialog()
+                                    val intent = Intent(requireContext(), DashboardActivity::class.java)
+                                    startActivity(intent)
+                                    activity?.finish()
                                 }
 
                                 is Resource.Error -> {
@@ -235,11 +232,10 @@ class LoginFragment : BaseFragment() {
                                 sessionManager.saveToSharedPref(TOKEN, successResponse)
                             }
 
-
-                                    progressDialog.hideProgressDialog()
-                                    val intent = Intent(requireContext(), DashboardActivity::class.java)
-                                    startActivity(intent)
-                                    activity?.finish()
+                            progressDialog.hideProgressDialog()
+                            val intent = Intent(requireContext(), DashboardActivity::class.java)
+                            startActivity(intent)
+                            activity?.finish()
                         }
 
                         is Resource.Error -> {
@@ -315,8 +311,4 @@ class LoginFragment : BaseFragment() {
         super.onDestroy()
         _binding = null
     }
-
-
-
-
 }
