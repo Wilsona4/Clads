@@ -108,26 +108,27 @@ class ClientFragment : BaseFragment() {
             viewLifecycleOwner,
             {
 
-                when (it) {
+                if (swiped) {
+                    when (it) {
 
-                    is Resource.Success -> {
+                        is Resource.Success -> {
 
-                        progressDialog.hideProgressDialog()
+                            progressDialog.hideProgressDialog()
 
-                        adapter.deleteItem(itemToDeletePosition!!)
+                            itemToDeletePosition?.let { it1 -> adapter.deleteItem(it1) }
 
-                        Snackbar.make(
-                            requireView(),
-                            "Client Deleted Successfully",
-                            Snackbar.LENGTH_SHORT
-                        )
-                            .show()
-                    } else -> {
-                        Snackbar.make(
-                            requireView(),
-                            it.message!!,
-                            Snackbar.LENGTH_SHORT
-                        ).show()
+                            Snackbar.make(
+                                requireView(),
+                                "Client Deleted Successfully",
+                                Snackbar.LENGTH_SHORT
+                            ).show()
+                        } else -> {
+                            Snackbar.make(
+                                requireView(),
+                                it.message!!,
+                                Snackbar.LENGTH_SHORT
+                            ).show()
+                        }
                     }
                 }
             }
