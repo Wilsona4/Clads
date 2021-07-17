@@ -6,6 +6,7 @@ import kotlinx.coroutines.flow.Flow
 
 interface UserProfileRepository {
     suspend fun getUserProfile(): Flow<Resource<UserProfile>>
-    suspend fun updateUserProfile(userProfile: UserProfile): Flow<Resource<UserProfile>>
+    suspend fun getLocalDatabaseUserProfile(): Flow<Resource<UserProfile>>
+    suspend fun updateUserProfile(userProfile: UserProfile)
     suspend fun saveUserProfileToLocalDatabase()
 }

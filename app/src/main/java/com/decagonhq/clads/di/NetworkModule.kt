@@ -77,20 +77,6 @@ object NetworkModule {
             .build()
     }
 
-//    @Named("Image Retrofit")
-//    @Provides
-//    @Singleton
-//    fun provideImageRetrofitService(
-//        client: OkHttpClient,
-//        converterFactory: Converter.Factory
-//    ): Retrofit {
-//        return Retrofit.Builder()
-//            .baseUrl(IMAGE_BASE_URL)
-//            .addConverterFactory(converterFactory)
-//            .client(client)
-//            .build()
-//    }
-
     @Named(MAIN_API_SERVICE)
     @Provides
     @Singleton
@@ -118,11 +104,4 @@ object NetworkModule {
     fun provideImageApiService(@Named(IMAGE_RETROFIT) retrofit: Retrofit): ApiService {
         return retrofit.create(ApiService::class.java)
     }
-
-//    @Named("Image ApiService")
-//    @Provides
-//    @Singleton
-//    fun provideImageApiService(retrofit: Retrofit): ApiService {
-//        return retrofit.create(ApiService::class.java)
-//    }
 }

@@ -25,7 +25,8 @@
                 android:id="@+id/client_account_fragment_client_first_name_input"
                 style="@style/input_text_style"
                 android:layout_width="match_parent"
-                android:paddingLeft="@dimen/padding_0dp"                android:layout_height="wrap_content"
+                android:paddingLeft="@dimen/padding_0dp"
+                android:layout_height="wrap_content"
                 android:hint="@string/all_first_name" />
 
             <View

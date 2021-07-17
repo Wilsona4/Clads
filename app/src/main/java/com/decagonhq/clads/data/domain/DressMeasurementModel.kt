@@ -6,6 +6,8 @@ import java.math.BigDecimal
 
 @Parcelize
 data class DressMeasurementModel(
-    val measurementName: String,
-    val measurement: BigDecimal
+//    val measurementName: String,
+//    val measurement: BigDecimal
+    val title: String,
+    val value: Int
 ) : Parcelable

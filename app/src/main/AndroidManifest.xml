@@ -19,17 +19,20 @@
         <activity
             android:name=".ui.profile.DashboardActivity"
             android:label="@string/title_activity_dashboard"
+            android:screenOrientation="portrait"
             android:theme="@style/Theme.Clads.NoActionBar" />
         <activity
             android:name=".ui.authentication.SplashScreenActivity"
-            android:theme="@style/SplashTheme">
+            android:theme="@style/SplashTheme"
+            android:screenOrientation="portrait">
 
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".ui.authentication.MainActivity">
+        <activity android:name=".ui.authentication.MainActivity"
+            android:screenOrientation="portrait">
             <nav-graph android:value="@navigation/nav_graph" />
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />

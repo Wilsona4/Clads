@@ -1,4 +1,4 @@
-package com.decagonhq.clads.data.remote
+package com.decagonhq.clads.data.remote.images
 
 data class ImageDTO(
     val downloadUri: String,

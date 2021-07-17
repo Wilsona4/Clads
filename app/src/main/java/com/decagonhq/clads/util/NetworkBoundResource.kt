@@ -12,7 +12,7 @@ inline fun <DB, REMOTE> networkBoundResource(
     crossinline fetchFromLocal: suspend () -> Flow<DB>,
     crossinline fetchFromRemote: suspend () -> REMOTE,
     crossinline saveToLocalDB: suspend (REMOTE) -> Unit,
-    crossinline shouldFetchFromRemote: (DB) -> Boolean = { true },
+    crossinline shouldFetchFromRemote: (DB) -> Boolean = { true }
 ) = flow {
 
     val localData = fetchFromLocal().first()

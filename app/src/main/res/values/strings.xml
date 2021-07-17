@@ -72,7 +72,7 @@
     <string name="resources">Resources</string>
     <string name="subscription">Subscription</string>
     <string name="logout">Logout</string>
-    <string name="login_status">LOGIN_STATU</string>
+    <string name="login_status">LOGIN_STATUS</string>
     <string name="edit_profile">Edit Profile</string>
     <string name="ijeoma_ibukun_babangida">Ijeoma Ibukun Babangida</string>
     <string name="version_1_0">version 1.0</string>
@@ -112,6 +112,7 @@
     <string name="delivery_address_state">State</string>
     <string name="there_are_no_delivery_address">There are no delivery address for this client</string>
     <string name="add_address">Add Address</string>
+    <string name="save_client">Save Client</string>
     <string name="add_address_fragment">Add address</string>
     <string name="edit_measurement">Edit measurement</string>
 

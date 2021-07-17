@@ -6,23 +6,24 @@ import androidx.room.OnConflictStrategy
 import androidx.room.Query
 import androidx.room.Transaction
 import androidx.room.Update
+import com.decagonhq.clads.data.domain.images.UserProfileImage
 import kotlinx.coroutines.flow.Flow
 
 @Dao
-interface UserProfileDao {
+interface ProfileImageDao {
     /*Add User to Database*/
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    suspend fun addUserProfile(userProfile: UserProfileEntity)
+    suspend fun addUserProfileImage(userProfileImage: UserProfileImage)
 
     /*Get User in the Database*/
     @Transaction
-    @Query("SELECT * FROM user_profile_table")
-    fun readUserProfile(): Flow<UserProfileEntity>
+    @Query("SELECT * FROM profile_image_table")
+    fun readUserProfileImage(): Flow<UserProfileImage>
 
     @Update
-    suspend fun updateUserProfile(userProfile: UserProfileEntity)
+    fun updateUserProfileImage(userProfile: UserProfileImage)
 
     /*Delete userProfile in the Database*/
-    @Query("DELETE FROM user_profile_table")
-    suspend fun deleteUserProfile()
+    @Query("DELETE FROM profile_image_table")
+    suspend fun deleteUserProfileImage()
 }

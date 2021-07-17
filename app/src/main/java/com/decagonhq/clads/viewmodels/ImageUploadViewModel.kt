@@ -1,9 +1,8 @@
 package com.decagonhq.clads.viewmodels
 
-import android.app.Application
-import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.decagonhq.clads.data.domain.GenericResponseClass
 import com.decagonhq.clads.data.domain.images.UserProfileImage
@@ -19,11 +18,14 @@ import javax.inject.Inject
 @HiltViewModel
 class ImageUploadViewModel @Inject constructor(
     private val imageRepository: ImageRepository
-) : AndroidViewModel(Application()) {
-    private var _userProfileImage = MutableLiveData<Resource<GenericResponseClass<UserProfileImage>>>()
-    val userProfileImage: LiveData<Resource<GenericResponseClass<UserProfileImage>>> get() = _userProfileImage
-    private var _uploadGalleryImage = MutableLiveData<Resource<GenericResponseClass<UserProfileImage>>>()
+) : ViewModel() {
+
+    private var _userProfileImage = MutableLiveData<Resource<UserProfileImage>>()
+    val userProfileImage: LiveData<Resource<UserProfileImage>> get() = _userProfileImage
+    private var _uploadGalleryImage =
+        MutableLiveData<Resource<GenericResponseClass<UserProfileImage>>>()
     val uploadGalleryImage: LiveData<Resource<GenericResponseClass<UserProfileImage>>> get() = _uploadGalleryImage
+
 
     init {
         getUserImage()
@@ -41,7 +43,6 @@ class ImageUploadViewModel @Inject constructor(
 
     fun getUserImage() {
         viewModelScope.launch {
-            _userProfileImage.value = Resource.Loading(null, "Loading...")
             val response = imageRepository.getUserImage()
             response.collect {
                 _userProfileImage.value = it

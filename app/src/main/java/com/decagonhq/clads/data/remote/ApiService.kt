@@ -1,19 +1,20 @@
 package com.decagonhq.clads.data.remote
 
 import com.decagonhq.clads.data.domain.GenericResponseClass
+import com.decagonhq.clads.data.domain.client.Client
 import com.decagonhq.clads.data.domain.images.UserProfileImage
 import com.decagonhq.clads.data.domain.login.UserRole
 import com.decagonhq.clads.data.domain.profile.UserProfile
+import com.decagonhq.clads.data.remote.client.ClientDTO
 import com.decagonhq.clads.data.remote.login.LoginCredentialsDTO
-import com.decagonhq.clads.data.remote.profile.UserProfileDTO
 import com.decagonhq.clads.data.remote.registration.UserRegistrationDTO
 import okhttp3.MultipartBody
 import okhttp3.RequestBody
 import retrofit2.http.Body
 import retrofit2.http.GET
 import retrofit2.http.Multipart
-import retrofit2.http.PATCH
 import retrofit2.http.POST
+import retrofit2.http.PUT
 import retrofit2.http.Part
 
 interface ApiService {
@@ -39,17 +40,26 @@ interface ApiService {
     @POST("upload")
     suspend fun uploadImage(@Part image: MultipartBody.Part): GenericResponseClass<UserProfileImage>
 
-    @GET("upload")
+    @GET("download")
     fun getUploadedImage(): GenericResponseClass<UserProfileImage>
 
     /*Get User Profile*/
     @GET("me/profile")
     suspend fun getUserProfile(): GenericResponseClass<UserProfile>
 
-    /*Update User Profile*/
-    @PATCH("me/profile")
-    suspend fun updateUserProfile(@Body userProfile: UserProfileDTO): GenericResponseClass<UserProfile>
-
     @POST("upload")
     suspend fun uploadGalleryImage(@Body requestBody: RequestBody): GenericResponseClass<UserProfileImage>
+
+    /*Update User Profile*/
+    @PUT("me/profile")
+    suspend fun updateUserProfile(@Body userProfile: UserProfile): GenericResponseClass<UserProfile>
+
+    @POST ("client")
+    suspend fun addClient( @Body client: Client): GenericResponseClass<Client>
+
+
+    @GET("clients")
+    suspend fun getClients(): GenericResponseClass<List<ClientDTO>>
+
+
 }

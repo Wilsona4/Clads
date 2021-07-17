@@ -18,18 +18,23 @@ import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.core.os.bundleOf
 import androidx.fragment.app.activityViewModels
-import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import com.bumptech.glide.Glide
 import com.decagonhq.clads.R
+import com.decagonhq.clads.data.domain.images.UserProfileImage
+import com.decagonhq.clads.data.domain.profile.ShowroomAddress
+import com.decagonhq.clads.data.domain.profile.Union
+import com.decagonhq.clads.data.domain.profile.UserProfile
+import com.decagonhq.clads.data.domain.profile.WorkshopAddress
 import com.decagonhq.clads.databinding.AccountFragmentBinding
 import com.decagonhq.clads.ui.BaseFragment
 import com.decagonhq.clads.ui.profile.dialogfragment.ProfileManagementDialogFragments.Companion.createProfileDialogFragment
-import com.decagonhq.clads.util.Constants.IMAGE_URL
 import com.decagonhq.clads.util.Resource
 import com.decagonhq.clads.util.handleApiError
+import com.decagonhq.clads.util.observeOnce
 import com.decagonhq.clads.util.saveBitmap
 import com.decagonhq.clads.util.uriToBitmap
+import com.decagonhq.clads.viewmodels.ClientsRegisterViewModel
 import com.decagonhq.clads.viewmodels.ImageUploadViewModel
 import com.decagonhq.clads.viewmodels.UserProfileViewModel
 import com.theartofdev.edmodo.cropper.CropImage
@@ -46,7 +51,7 @@ class AccountFragment : BaseFragment() {
     // This property is only valid between onCreateView and onDestroyView.
     private val binding get() = _binding!!
 
-    private val imageUploadViewModel: ImageUploadViewModel by viewModels()
+    private val imageUploadViewModel: ImageUploadViewModel by activityViewModels()
     private val userProfileViewModel: UserProfileViewModel by activityViewModels()
     private lateinit var cropActivityResultLauncher: ActivityResultLauncher<Any?>
 
@@ -77,7 +82,7 @@ class AccountFragment : BaseFragment() {
         accountWorkshopCityDialog()
         accountWorkshopStateDialog()
         accountOtherNameEditDialog()
-        accountLegalStatusDialog()
+//        accountLegalStatusDialog()
 
         cropActivityResultLauncher = registerForActivityResult(cropActivityResultContract) {
             it?.let { uri ->
@@ -87,15 +92,22 @@ class AccountFragment : BaseFragment() {
         }
 
         /*Select profile image*/
-        binding.accountFragmentChangePictureTextView.setOnClickListener {
+        binding.accountFragmentEditProfileIconImageView.setOnClickListener {
             Manifest.permission.READ_EXTERNAL_STORAGE.checkForPermission(NAME, READ_IMAGE_STORAGE)
         }
+
+        /* Update User Profile */
+        binding.accountFragmentSaveChangesButton.setOnClickListener {
+            updateUserProfile()
+        }
+
         /*Get users profile*/
+        userProfileViewModel.getLocalDatabaseUserProfile()
+        imageUploadViewModel.getUserImage()
         getUserProfile()
     }
 
     private fun getUserProfile() {
-        userProfileViewModel.getUserProfile()
         userProfileViewModel.userProfile.observe(
             viewLifecycleOwner,
             Observer {
@@ -108,15 +120,13 @@ class AccountFragment : BaseFragment() {
                     handleApiError(it, mainRetrofit, requireView())
                 } else {
                     it.data?.let { userProfile ->
-
                         binding.apply {
                             accountFragmentFirstNameValueTextView.text = userProfile.firstName
                             accountFragmentLastNameValueTextView.text = userProfile.lastName
                             accountFragmentPhoneNumberValueTextView.text = userProfile.phoneNumber
                             accountFragmentGenderValueTextView.text = userProfile.gender
                             accountFragmentStateValueTextView.text =
-                                userProfile.workshopAddress?.state
-                                ?: getString(R.string.lagos)
+                                userProfile.workshopAddress?.state ?: getString(R.string.lagos)
                             accountFragmentWorkshopAddressCityValueTextView.text =
                                 userProfile.workshopAddress?.city
                                 ?: getString(R.string.lagos)
@@ -135,11 +145,52 @@ class AccountFragment : BaseFragment() {
                             accountFragmentStateValueTextView.text = userProfile.union?.state
                                 ?: getString(R.string.enter_union_resource)
                         }
-
-//                                Glide.with(requireContext())
-//                                        .load(userProfile.thumbnail.toUri())
-//                                        .into(binding.accountFragmentEditProfileIconImageView)
                     }
+                }
+            }
+        )
+    }
+
+    private fun updateUserProfile() {
+        userProfileViewModel.userProfile.observeOnce(
+            viewLifecycleOwner,
+            Observer {
+                it.data?.let { profile ->
+                    val userProfile = UserProfile(
+                        country = profile.country,
+                        deliveryTime = profile.deliveryTime,
+                        email = profile.email,
+                        firstName = binding.accountFragmentFirstNameValueTextView.text.toString(),
+                        gender = binding.accountFragmentGenderValueTextView.text.toString(),
+                        genderFocus = profile.genderFocus,
+                        lastName = binding.accountFragmentLastNameValueTextView.text.toString(),
+                        measurementOption = profile.measurementOption,
+                        phoneNumber = binding.accountFragmentPhoneNumberValueTextView.text.toString(),
+                        role = profile.role,
+                        workshopAddress = WorkshopAddress(
+                            street = binding.accountFragmentWorkshopAddressStreetValueTextView.text.toString(),
+                            state = binding.accountFragmentShowroomAddressValueTextView.text.toString(),
+                            city = binding.accountFragmentWorkshopAddressCityValueTextView.text.toString(),
+                        ),
+                        showroomAddress = ShowroomAddress(
+                            street = binding.accountFragmentWorkshopAddressCityValueTextView.text.toString(),
+                            city = binding.accountFragmentWorkshopAddressCityValueTextView.text.toString(),
+                            state = binding.accountFragmentShowroomAddressValueTextView.text.toString(),
+                        ),
+                        specialties = profile.specialties,
+                        thumbnail = profile.thumbnail,
+                        trained = profile.trained,
+                        union = Union(
+                            name = binding.accountFragmentNameOfUnionValueTextView.text.toString(),
+                            ward = binding.accountFragmentWardValueTextView.text.toString(),
+                            lga = binding.accountFragmentLocalGovtAreaValueTextView.text.toString(),
+                            state = binding.accountFragmentStateValueTextView.text.toString(),
+                        ),
+                        paymentTerms = profile.paymentTerms,
+                        paymentOptions = profile.paymentOptions
+                    )
+
+                    userProfileViewModel.updateUserProfile(userProfile)
                 }
             }
         )
@@ -241,26 +292,24 @@ class AccountFragment : BaseFragment() {
         imageUploadViewModel.userProfileImage.observe(
             viewLifecycleOwner,
             Observer {
-                when (it) {
-                    is Resource.Success -> {
-                        progressDialog.hideProgressDialog()
 
-                        it.data?.payload?.downloadUri?.let { imageUrl ->
+                if (it is Resource.Loading<UserProfileImage> && it.data?.downloadUri.isNullOrEmpty()) {
+                    it.message?.let { message ->
+                        progressDialog.showDialogFragment(message)
+                    }
+                } else if (it is Resource.Error) {
+                    progressDialog.hideProgressDialog()
+                    handleApiError(it, imageRetrofit, requireView())
+                } else {
+                    progressDialog.hideProgressDialog()
+                    it.data?.downloadUri?.let { imageUrl ->
+                        Glide.with(this)
+                            .load(imageUrl)
+                            .placeholder(R.drawable.nav_drawer_profile_avatar)
+                            .into(binding.accountFragmentEditProfileIconImageView)
 
-                            sessionManager.saveToSharedPref(IMAGE_URL, imageUrl)
-                        }
                         Toast.makeText(requireContext(), "Upload Successful", Toast.LENGTH_SHORT)
                             .show()
-                    }
-                    is Resource.Error -> {
-                        progressDialog.hideProgressDialog()
-                        Toast.makeText(requireContext(), "${it.errorBody}", Toast.LENGTH_SHORT)
-                            .show()
-                        handleApiError(it, imageRetrofit, requireView())
-                    }
-
-                    is Resource.Loading -> {
-                        it.message?.let { it1 -> progressDialog.showDialogFragment(it1) }
                     }
                 }
             }
@@ -270,13 +319,28 @@ class AccountFragment : BaseFragment() {
     /*load the image from shared pref on resume of the account fragment class*/
     override fun onResume() {
         super.onResume()
-
-        val imageUrl = sessionManager.loadFromSharedPref(IMAGE_URL)
-
-        Glide.with(this)
-            .load(imageUrl)
-            .placeholder(R.drawable.nav_drawer_profile_avatar)
-            .into(binding.accountFragmentEditProfileIconImageView)
+        /*Handling the response from the retrofit*/
+        imageUploadViewModel.userProfileImage.observe(
+            viewLifecycleOwner,
+            Observer {
+                if (it is Resource.Loading<UserProfileImage> && it.data?.downloadUri.isNullOrEmpty()) {
+                    it.message?.let { message ->
+                        progressDialog.showDialogFragment(message)
+                    }
+                } else if (it is Resource.Error) {
+                    progressDialog.hideProgressDialog()
+                    handleApiError(it, imageRetrofit, requireView())
+                } else {
+                    progressDialog.hideProgressDialog()
+                    it.data?.downloadUri?.let { imageUrl ->
+                        Glide.with(this)
+                            .load(imageUrl)
+                            .placeholder(R.drawable.nav_drawer_profile_avatar)
+                            .into(binding.accountFragmentEditProfileIconImageView)
+                    }
+                }
+            }
+        )
     }
 
     private fun accountLegalStatusDialog() {

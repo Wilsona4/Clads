@@ -10,7 +10,7 @@ import com.decagonhq.clads.R
 import com.decagonhq.clads.data.domain.DressMeasurementModel
 
 class AddMeasurementAdapter(
-    private val currentList: MutableList<DressMeasurementModel>,
+    private var currentList: MutableList<DressMeasurementModel>,
     private val listener1: RecyclerClickListener,
     private val listener2: RecyclerClickListener
 ) : RecyclerView.Adapter<AddMeasurementAdapter.CardViewHolder>() {
@@ -21,7 +21,8 @@ class AddMeasurementAdapter(
         val delete: ImageView = itemView.findViewById(R.id.measurementment_recyclerview_item_delete_button)
 //        Binding the data with the view
         fun bind(dressMeasurementModel: DressMeasurementModel) {
-            display.text = "${dressMeasurementModel.measurementName} ${dressMeasurementModel.measurement}"
+            //display.text = "${dressMeasurementModel.measurementName} ${dressMeasurementModel.measurement}"
+             display.text = "${dressMeasurementModel.title} ${dressMeasurementModel.value}"
         }
     }
 
@@ -45,6 +46,20 @@ class AddMeasurementAdapter(
     // Getting the item cout size
     override fun getItemCount(): Int {
         return currentList.size
+    }
+
+    fun updateList(measurementList:MutableList<DressMeasurementModel>){
+        this.currentList = measurementList
+        this.notifyDataSetChanged()
+    }
+
+    fun deleteMeasurement(position:Int){
+        this.currentList.removeAt(position)
+        this.notifyDataSetChanged()
+    }
+
+    fun replaceMeasurement(position:Int,measurement:DressMeasurementModel){
+        this.currentList[position] = measurement
     }
 }
 

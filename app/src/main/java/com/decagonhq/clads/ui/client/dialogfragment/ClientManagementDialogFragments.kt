@@ -7,23 +7,25 @@ import android.view.ViewGroup
 import androidx.core.os.bundleOf
 import androidx.core.widget.doOnTextChanged
 import androidx.fragment.app.DialogFragment
+import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.setFragmentResult
 import com.decagonhq.clads.R
 import com.decagonhq.clads.data.domain.DressMeasurementModel
 import com.decagonhq.clads.databinding.AddMeasurementDialogFragmentBinding
 import com.decagonhq.clads.databinding.EditMeasurementDialogFragmentBinding
-import com.decagonhq.clads.ui.client.MeasurementsFragment.Companion.ADD_MEASUREMENT_BUNDLE_KEY
-import com.decagonhq.clads.ui.client.MeasurementsFragment.Companion.ADD_MEASUREMENT_REQUEST_KEY
 import com.decagonhq.clads.ui.client.MeasurementsFragment.Companion.EDITED_MEASUREMENT_BUNDLE_KEY
 import com.decagonhq.clads.ui.client.MeasurementsFragment.Companion.EDITED_MEASUREMENT_REQUEST_KEY
 import com.decagonhq.clads.ui.client.MeasurementsFragment.Companion.EDIT_MEASUREMENT_BUNDLE_KEY
 import com.decagonhq.clads.ui.client.MeasurementsFragment.Companion.EDIT_MEASUREMENT_BUNDLE_POSITION
 import com.decagonhq.clads.util.ClientMeasurementData
+import com.decagonhq.clads.viewmodels.ClientsRegisterViewModel
 
 class ClientManagementDialogFragments(
     private var dialogLayoutId: Int,
     private var bundle: Bundle? = null
 ) : DialogFragment() {
+
+    private val registerClientViewModel: ClientsRegisterViewModel by activityViewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -40,6 +42,7 @@ class ClientManagementDialogFragments(
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
         /*Inflate Dialog Fragment Layouts based on Id*/
         when (dialogLayoutId) {
             /*Add Measurement Dialog Fragment*/
@@ -50,6 +53,8 @@ class ClientManagementDialogFragments(
                 val measurementNameEditText = binding.addAddressFragmentMeasurementNameEditText
                 val measurementEditText = binding.addMeasurementFragmentAddMeasureEditText
                 val addMeasurementButton = binding.addMeasurementFragmentAddMeasurementButton
+
+
                 /*Add new measurement*/
                 addMeasurementButton.setOnClickListener {
                     val measurementName = measurementNameEditText.text
@@ -74,15 +79,17 @@ class ClientManagementDialogFragments(
                             return@setOnClickListener
                         }
                         else -> {
-                            val bundle =
+                            registerClientViewModel.addMeasurements(
                                 DressMeasurementModel(
                                     measurementName.toString(),
-                                    measurement.toString().toBigDecimal()
+                                    //measurement.toString().toBigDecimal()
+                                    measurement.toString().toInt()
                                 )
-                            setFragmentResult(
-                                ADD_MEASUREMENT_REQUEST_KEY,
-                                bundleOf(ADD_MEASUREMENT_BUNDLE_KEY to bundle)
                             )
+//                                    setFragmentResult(
+//                                ADD_MEASUREMENT_REQUEST_KEY,
+//                                bundleOf(ADD_MEASUREMENT_BUNDLE_KEY to bundle)
+//                            )
                             dismiss()
                         }
                     }
@@ -133,8 +140,10 @@ class ClientManagementDialogFragments(
                     bundle?.getParcelable<DressMeasurementModel>(EDIT_MEASUREMENT_BUNDLE_KEY)
 
                 /*Attaching the data*/
-                measurementNameEditText.setText(retrievedMeasurement?.measurementName)
-                measurementEditText.setText(retrievedMeasurement?.measurement.toString())
+//                measurementNameEditText.setText(retrievedMeasurement?.measurementName)
+//                measurementEditText.setText(retrievedMeasurement?.measurement.toString())
+                measurementNameEditText.setText(retrievedMeasurement?.title)
+                measurementEditText.setText(retrievedMeasurement?.value.toString())
 
                 /*Saving the changes for the measurement*/
                 editMeasurementButton.setOnClickListener {
@@ -160,15 +169,20 @@ class ClientManagementDialogFragments(
                             val editedDataModel =
                                 DressMeasurementModel(
                                     measurementName.toString(),
-                                    measurement.toString().toBigDecimal()
+                                    //measurement.toString().toBigDecimal()
+                                    measurement.toString().toInt()
                                 )
-                            ClientMeasurementData.currentList[itemPosition!!] = editedDataModel
-                            setFragmentResult(
-                                EDITED_MEASUREMENT_REQUEST_KEY,
-                                bundleOf(
-                                    EDITED_MEASUREMENT_BUNDLE_KEY to editedDataModel
-                                )
-                            )
+
+                            if (itemPosition != null) {
+                                registerClientViewModel.editMeasurement(itemPosition,editedDataModel)
+                            }
+//                            ClientMeasurementData.currentList[itemPosition!!] = editedDataModel
+//                            setFragmentResult(
+//                                EDITED_MEASUREMENT_REQUEST_KEY,
+//                                bundleOf(
+//                                    EDITED_MEASUREMENT_BUNDLE_KEY to editedDataModel
+//                                )
+//                            )
                             dismiss()
                         }
                     }
@@ -218,4 +232,6 @@ class ClientManagementDialogFragments(
             return ClientManagementDialogFragments(layoutId, bundle)
         }
     }
+
+
 }

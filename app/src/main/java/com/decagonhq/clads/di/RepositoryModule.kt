@@ -1,14 +1,17 @@
 package com.decagonhq.clads.di
 
 import com.decagonhq.clads.data.local.CladsDatabase
+import com.decagonhq.clads.data.local.ClientEntityMapper
 import com.decagonhq.clads.data.local.UserProfileEntityMapper
 import com.decagonhq.clads.data.remote.ApiService
-import com.decagonhq.clads.data.remote.ImageDTOMapper
+import com.decagonhq.clads.data.remote.images.ImageDTOMapper
 import com.decagonhq.clads.data.remote.login.LoginCredentialsDTOMapper
 import com.decagonhq.clads.data.remote.profile.UserProfileDTOMapper
 import com.decagonhq.clads.data.remote.registration.UserRegDTOMapper
 import com.decagonhq.clads.repository.AuthRepository
 import com.decagonhq.clads.repository.AuthRepositoryImpl
+import com.decagonhq.clads.repository.ClientsRepository
+import com.decagonhq.clads.repository.ClientsRepositoryImpl
 import com.decagonhq.clads.repository.ImageRepository
 import com.decagonhq.clads.repository.ImageRepositoryImpl
 import com.decagonhq.clads.repository.UserProfileRepository
@@ -56,8 +59,19 @@ object RepositoryModule {
     @Provides
     fun provideImageRepository(
         @Named(IMAGE_API_SERVICE) apiService: ApiService,
-        imageDTOMapper: ImageDTOMapper
+        imageDTOMapper: ImageDTOMapper,
+        database: CladsDatabase
     ): ImageRepository {
-        return ImageRepositoryImpl(apiService, imageDTOMapper)
+        return ImageRepositoryImpl(apiService, imageDTOMapper, database)
+    }
+
+    @Singleton
+    @Provides
+    fun provideClientRepository(
+        @Named(MAIN_API_SERVICE) apiService: ApiService,
+        entityMapper: ClientEntityMapper,
+        database: CladsDatabase
+    ): ClientsRepository {
+        return ClientsRepositoryImpl(apiService,  entityMapper, database)
     }
 }
