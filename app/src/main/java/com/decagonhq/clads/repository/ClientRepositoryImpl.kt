@@ -1,24 +1,32 @@
 package com.decagonhq.clads.repository
 
+import android.util.Log
+import androidx.lifecycle.LiveData
 import androidx.room.withTransaction
+import com.decagonhq.clads.data.domain.GenericResponseClass
 import com.decagonhq.clads.data.local.CladsDatabase
 import com.decagonhq.clads.data.local.ClientEntityMapper
 import com.decagonhq.clads.data.remote.ApiService
 import com.decagonhq.clads.data.remote.client.Client
-import com.decagonhq.clads.util.RateLimiter
 import com.decagonhq.clads.util.Resource
 import com.decagonhq.clads.util.SafeApiCall
 import com.decagonhq.clads.util.networkBoundResource
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.flowOf
-
+import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.runBlocking
+import kotlinx.coroutines.withContext
+import javax.inject.Inject
 
-class ClientRepositoryImpl(
-    private val apiService: ApiService,
-    private val clientEntityMapper: ClientEntityMapper,
-    private val database: CladsDatabase
+class ClientRepositoryImpl @Inject constructor(
+   private val apiService: ApiService,
+   private val clientEntityMapper: ClientEntityMapper,
+   private val database: CladsDatabase
 ) : ClientsRepository, SafeApiCall() {
 
     override suspend fun getClients(): Flow<Resource<List<Client>>> =
@@ -45,34 +53,54 @@ class ClientRepositoryImpl(
             }
         )
 
-    override suspend fun addClient(client: Client): Flow<Resource<List<Client>>> {
+    override suspend fun addClientToServer(client: Client): Flow<Resource<Client>> {
 
-        val response = safeApiCall {
+       return flow{
+           safeApiCall {
             apiService.addClient(client)
         }
-        if (response is Resource.Success) {
+       }
 
-            val clientList = mutableListOf<Client>()
-            database.withTransaction {
-                response.data?.payload?.let {
-                    clientList.add(it)
-                    clientEntityMapper.mapFromDomainModel(clientList)
+    }
+
+    override suspend fun deleteClient(clientId: Int): Flow<Resource<GenericResponseClass<List<Client>>>> {
+        return flow {
+            emit(
+                safeApiCall {
+                    apiService.deleteClient(clientId)
                 }
-                    ?.let {
-                        database.clientDao().addClients(
-                            it
-                        )
-                    }
-            }
-
-        }
-        return database.clientDao().readClients().map {
-            Resource.Success(ClientEntityMapper().mapToDomainModel(it))
+            )
         }
     }
 
 
+
+     override suspend fun deleteClientFromDb(clients: List<Client>): Resource<Int>{
+
+         val clientEntityMapped = clientEntityMapper.mapFromDomainModel(clients)
+
+         return safeApiCall {database.clientDao().deleteClient(clientEntityMapped[0])  }
+
+    }
+
+    override suspend fun addClientToDb(client: Client): Resource<Client> {
+
+            val clientList = mutableListOf<Client>()
+            clientList.add(client)
+            val result = safeApiCall {
+               database.clientDao().addClient( clientEntityMapper.mapFromDomainModel(clientList )[0])
+           }
+
+        return if(result.data!! > 0){
+            Resource.Success(client)
+        } else {
+            Resource.Error(isNetworkError = false,null,message = result.message!!)
+        }
 }
+
+}
+
+
 
 
 

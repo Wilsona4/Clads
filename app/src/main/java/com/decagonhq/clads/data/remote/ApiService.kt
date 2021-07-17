@@ -9,11 +9,13 @@ import com.decagonhq.clads.data.remote.login.LoginCredentialsDTO
 import com.decagonhq.clads.data.remote.registration.UserRegistrationDTO
 import okhttp3.MultipartBody
 import retrofit2.http.Body
+import retrofit2.http.DELETE
 import retrofit2.http.GET
 import retrofit2.http.Multipart
 import retrofit2.http.POST
 import retrofit2.http.PUT
 import retrofit2.http.Part
+import retrofit2.http.Path
 
 interface ApiService {
 
@@ -37,9 +39,14 @@ interface ApiService {
     suspend fun getClients(): GenericResponseClass<List<Client>>
 
     @POST("client")
-    suspend fun addClient(
-        @Body client: Client
-    ): GenericResponseClass<Client>
+    suspend fun addClient(@Body client: Client): GenericResponseClass<Client>
+
+    @DELETE("client/{clientId}")
+    suspend fun deleteClient(@Path("clientId") clientId: Int): GenericResponseClass<List<Client>>
+
+    /*Update User Profile*/
+    @PUT("client/{clientId}")
+    suspend fun updateClient(@Path("clientId") @Body client: Client): GenericResponseClass<Client>
 
     /*Upload Profile Picture*/
     @Multipart

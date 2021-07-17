@@ -1,35 +1,65 @@
 package com.decagonhq.clads.ui.client.adapter
 
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
+import com.amulyakhare.textdrawable.TextDrawable
+import com.amulyakhare.textdrawable.util.ColorGenerator
 import com.decagonhq.clads.data.remote.client.Client
 import com.decagonhq.clads.databinding.ClientFragmentBinding
+import com.decagonhq.clads.databinding.ClientsRecyclerViewItemBinding
 
 
-
-class ClientListRecyclerViewAdapter(var clientList:List<Client>):RecyclerView.Adapter<ClientListRecyclerViewAdapter.ClientsViewHolder>() {
+class ClientListRecyclerViewAdapter(private var clientList:MutableList<Client>):RecyclerView.Adapter<ClientListRecyclerViewAdapter.ClientsViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ClientsViewHolder {
-        val binding = ClientFragmentBinding.inflate(LayoutInflater.from(parent.context), parent, false)
+        val binding = ClientsRecyclerViewItemBinding.inflate(LayoutInflater.from(parent.context), parent, false)
         return ClientsViewHolder(binding)
     }
 
     override fun onBindViewHolder(holder: ClientsViewHolder, position: Int) {
-     holder.itemView
+        holder.binding.clientsRecyclerViewItemClientNameTextView.text = clientList[position].fullName
+        holder.binding.clientsRecyclerViewItemLocationTextView.text = clientList[position].deliveryAddresses?.get(0)?.city
+        val clientInitials = clientList[position].fullName.split(" ")[0].substring(0, 1) +
+                clientList[position].fullName.split(" ")[1].substring(0, 1)
+        val generator: ColorGenerator = ColorGenerator.MATERIAL
+        val color = generator.randomColor
+        val drawable = TextDrawable.builder().beginConfig()
+            .width(150)
+            .height(150)
+            .fontSize(55)
+            .endConfig()
+            .buildRound(clientInitials, color)
+
+        holder.binding.clientsRecyclerViewItemInitialCircleImageView.setImageDrawable(drawable)
     }
 
     override fun getItemCount(): Int {
        return clientList.size
     }
 
-    private fun updateList(clientList:List<Client>){
+     fun updateList(clientList:MutableList<Client>){
         this.clientList = clientList
+         notifyDataSetChanged()
     }
 
-    inner class ClientsViewHolder(val binding: ClientFragmentBinding): RecyclerView.ViewHolder(binding.root){
-        val clientName = binding.
-        val notificationBody = binding.messagesFragmentLoremIpsumTextView
+    fun  deleteItem(itemPosition:Int){
+        this.clientList.removeAt(itemPosition)
+        notifyDataSetChanged()
+    }
+
+    fun  addItem(client:Client){
+        this.clientList.add(client)
+        notifyDataSetChanged()
+    }
+
+    fun getItem(itemPosition:Int):Client{
+        return this.clientList[itemPosition]
+    }
+
+    inner class ClientsViewHolder(val binding: ClientsRecyclerViewItemBinding): RecyclerView.ViewHolder(binding.root){
+
     }
 }

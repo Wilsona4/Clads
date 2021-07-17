@@ -29,8 +29,9 @@
             android:layout_height="wrap_content"
             android:layout_marginVertical="@dimen/margin_16dp"
             android:layout_marginStart="@dimen/margin_24dp"
+            android:fontFamily="@font/poppins_medium"
             android:text="@string/ola_machiavelli"
-            android:textSize="@dimen/text_size_12sp"
+            android:textSize="@dimen/text_size_14sp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toEndOf="@id/clients_recycler_view_item_initial_circle_image_view"
             app:layout_constraintTop_toTopOf="parent" />
@@ -38,8 +39,8 @@
 
         <ImageView
             android:id="@+id/clients_recycler_view_item_location_image_view"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="@dimen/margin_20dp"
+            android:layout_height="@dimen/margin_20dp"
             android:layout_marginHorizontal="@dimen/margin_9dp"
             android:src="@drawable/location_icon"
             app:layout_constraintBottom_toBottomOf="parent"
@@ -51,8 +52,9 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/margin_12dp"
+            android:fontFamily="@font/poppins_medium"
             android:text="@string/lagos"
-            android:textSize="@dimen/text_size_10sp"
+            android:textSize="14sp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toEndOf="@+id/clients_recycler_view_item_location_image_view"
             app:layout_constraintTop_toTopOf="parent" />

@@ -10,6 +10,7 @@ import android.text.Spanned
 import android.text.method.LinkMovementMethod
 import android.text.style.ClickableSpan
 import android.text.style.ForegroundColorSpan
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -57,7 +58,7 @@ class LoginFragment : BaseFragment() {
     private var GOOGLE_SIGNIN_RQ_CODE = 100
 
     private val viewModel: AuthenticationViewModel by activityViewModels()
-    private val clientViewModel: ClientViewModel by activityViewModels()
+
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -133,8 +134,12 @@ class LoginFragment : BaseFragment() {
                                         )
                                     }
 
-                                    fetchClients()
+                                            progressDialog.hideProgressDialog()
+                                            val intent = Intent(requireContext(), DashboardActivity::class.java)
+                                            startActivity(intent)
+                                            activity?.finish()
                                 }
+
                                 is Resource.Error -> {
                                     progressDialog.hideProgressDialog()
                                     handleApiError(it, mainRetrofit, requireView())
@@ -229,9 +234,14 @@ class LoginFragment : BaseFragment() {
                             if (successResponse != null) {
                                 sessionManager.saveToSharedPref(TOKEN, successResponse)
                             }
-                           fetchClients()
 
+
+                                    progressDialog.hideProgressDialog()
+                                    val intent = Intent(requireContext(), DashboardActivity::class.java)
+                                    startActivity(intent)
+                                    activity?.finish()
                         }
+
                         is Resource.Error -> {
                             progressDialog.hideProgressDialog()
                             handleApiError(it, mainRetrofit, requireView())
@@ -306,26 +316,7 @@ class LoginFragment : BaseFragment() {
         _binding = null
     }
 
-    private fun fetchClients(){
 
-        clientViewModel.client.observe(
-           viewLifecycleOwner ,{
-              when(it){
-                  is Resource.Success -> {
-                      progressDialog.hideProgressDialog()
-                      val intent = Intent(requireContext(), DashboardActivity::class.java)
-                      startActivity(intent)
-                      activity?.finish()
-                  }
-                  is Resource.Error -> {
-                      progressDialog.hideProgressDialog()
-                  }
-                  else -> {}
-              }
-            })
-
-        clientViewModel.getClients()
-        }
 
 
 }

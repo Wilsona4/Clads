@@ -17,6 +17,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.NotificationCompat
 import androidx.core.view.GravityCompat
 import androidx.drawerlayout.widget.DrawerLayout
+import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.Observer
 import androidx.navigation.NavController
 import androidx.navigation.findNavController
@@ -35,6 +36,7 @@ import com.decagonhq.clads.util.CustomProgressDialog
 import com.decagonhq.clads.util.Resource
 import com.decagonhq.clads.util.SessionManager
 import com.decagonhq.clads.util.handleApiError
+import com.decagonhq.clads.viewmodels.ClientViewModel
 import com.decagonhq.clads.viewmodels.ImageUploadViewModel
 import com.decagonhq.clads.viewmodels.UserProfileViewModel
 import com.google.android.material.bottomnavigation.BottomNavigationView
@@ -78,9 +80,11 @@ class DashboardActivity : AppCompatActivity() {
 
     private val userProfileViewModel: UserProfileViewModel by viewModels()
     private val imageUploadViewModel: ImageUploadViewModel by viewModels()
+    private val clientViewModel: ClientViewModel by viewModels()
 
     override fun onStart() {
         super.onStart()
+        fetchClients()
         userProfileViewModel.saveUserProfileToLocalDatabase()
 //        userProfileViewModel.getUserProfile()
         imageUploadViewModel.getUserImage()
@@ -421,4 +425,10 @@ class DashboardActivity : AppCompatActivity() {
                 }
             }
     }
+
+    private fun fetchClients(){
+        clientViewModel.getClients()
+    }
+
+
 }

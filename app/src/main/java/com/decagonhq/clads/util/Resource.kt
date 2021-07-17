@@ -13,7 +13,8 @@ sealed class Resource<T>(
     class Error<T>(
         isNetworkError: Boolean,
         errorBody: Response<Any>?,
-        data: T? = null
+        data: T? = null,
+        message: String? = null
     ) :
         Resource<T>(data, errorBody, isNetworkError)
 }
