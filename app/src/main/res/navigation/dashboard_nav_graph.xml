@@ -22,7 +22,9 @@
         tools:layout="@layout/media_fragment">
         <action
             android:id="@+id/action_nav_media_to_photoGalleryEditImageFragment"
-            app:destination="@id/photoGalleryEditImageFragment" />
+            app:destination="@id/photoGalleryEditImageFragment"
+            app:popUpTo="@id/nav_media"
+            app:popUpToInclusive="false" />
         <action
             android:id="@+id/action_nav_media_to_mediaFragmentPhotoName"
             app:destination="@id/mediaFragmentPhotoName" />
@@ -127,15 +129,17 @@
         android:label="Elegant suit for men"
         tools:layout="@layout/photo_gallery_edit_image_fragment">
         <argument android:name="imageUri" />
-        <action
-            android:id="@+id/action_mediaFragmentRecyclerViewItemClicked_to_nav_media"
-            app:destination="@id/nav_media" />
         <argument
             android:name="imageName"
             app:argType="string" />
         <argument
             android:name="fileId"
             app:argType="string" />
+        <action
+            android:id="@+id/action_photoGalleryEditImageFragment_to_nav_media"
+            app:destination="@id/nav_media"
+            app:popUpTo="@id/nav_media"
+            app:popUpToInclusive="true" />
     </fragment>
     <fragment
         android:id="@+id/mediaFragmentPhotoName"

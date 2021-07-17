@@ -25,6 +25,7 @@ class ImageUploadViewModel @Inject constructor(
 
     private var _uploadGallery = MutableLiveData<Resource<List<UserGalleryImage>>>()
     val uploadGallery: LiveData<Resource<List<UserGalleryImage>>> get() = _uploadGallery
+    var imageResponseCallback: MutableLiveData<String> = MutableLiveData<String>()
 
     init {
         getUserProfileImage()
@@ -63,7 +64,6 @@ class ImageUploadViewModel @Inject constructor(
     fun uploadGallery(requestBody: RequestBody) {
         viewModelScope.launch {
             _uploadGallery.value = Resource.Loading(null, "uploading...")
-//            imageRepository.uploadGallery(requestBody)
             val response = imageRepository.uploadGallery(requestBody)
             response.collect {
                 _uploadGallery.value = it
@@ -82,7 +82,7 @@ class ImageUploadViewModel @Inject constructor(
     fun deleteGalleryImage(fileId: String) {
         viewModelScope.launch {
             _uploadGallery.value = Resource.Loading(null, "Deleting...")
-            val response = imageRepository.deleteGalleryImage(fileId)
+            val response = imageRepository.deleteGalleryImage(fileId, imageResponseCallback)
         }
     }
 

@@ -80,21 +80,6 @@ class MediaFragmentPhotoName : BaseFragment() {
                 imageUploadViewModel.uploadGallery.observe(
                     requireActivity(),
                     androidx.lifecycle.Observer {
-//                        when (it) {
-//                            is Resource.Success -> {
-//                                progressDialog.hideProgressDialog()
-//                                Toast.makeText(requireContext(), "Upload successful", Toast.LENGTH_SHORT).show()
-//                                findNavController().popBackStack()
-//                            }
-//                            is Resource.Error -> {
-//                                progressDialog.hideProgressDialog()
-//                                handleApiError(it, imageRetrofit, requireView())
-//                            }
-//                            is Resource.Loading -> {
-//                                progressDialog.showDialogFragment("Uploading...")
-//                            }
-//                        }
-
                         if (it is Resource.Loading<List<UserGalleryImage>>/* && it.data.isNullOrEmpty()*/) {
                             progressDialog.showDialogFragment("Uploading...")
                         } else if (it is Resource.Error) {
@@ -131,7 +116,6 @@ class MediaFragmentPhotoName : BaseFragment() {
             .build()
 
         imageUploadViewModel.uploadGallery(reqBody)
-
         imageUploadViewModel.uploadGallery.observe(
             viewLifecycleOwner,
             Observer {
@@ -152,5 +136,10 @@ class MediaFragmentPhotoName : BaseFragment() {
                 }
             }
         )
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
     }
 }

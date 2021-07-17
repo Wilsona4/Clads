@@ -1,5 +1,6 @@
 package com.decagonhq.clads.repository
 
+import androidx.lifecycle.MutableLiveData
 import androidx.room.withTransaction
 import com.decagonhq.clads.data.domain.images.UserGalleryImage
 import com.decagonhq.clads.data.domain.images.UserProfileImage
@@ -98,7 +99,7 @@ class ImageRepositoryImpl(
 
     override suspend fun editDescription(
         fileId: String,
-        requestBody: RequestBody
+        requestBody: RequestBody,
     ): Flow<Resource<List<UserGalleryImage>>> =
         networkBoundResource(
             fetchFromLocal = {
@@ -121,12 +122,13 @@ class ImageRepositoryImpl(
             }
         )
 
-    override suspend fun deleteGalleryImage(fileId: String) {
+    override suspend fun deleteGalleryImage(fileId: String, result: MutableLiveData<String>) {
         val response = safeApiCall {
             mainApiService.deleteGalleryImage(fileId)
         }
         if (response is Resource.Success) {
             database.galleryImageDao().deleteUserGalleryImage(fileId)
+            result.postValue("Deleted successfully")
         }
     }
 }

@@ -20,7 +20,6 @@ import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
 import com.decagonhq.clads.R
-import com.decagonhq.clads.data.domain.PhotoGalleryModel
 import com.decagonhq.clads.data.domain.images.UserGalleryImage
 import com.decagonhq.clads.databinding.MediaFragmentBinding
 import com.decagonhq.clads.ui.BaseFragment
@@ -51,7 +50,6 @@ class MediaFragment : BaseFragment(), RecyclerClickListener {
     private lateinit var photoGalleryRecyclerAdapter: PhotoGalleryRecyclerAdapter
     private lateinit var noPhotoImageView: ImageView
     private lateinit var noPhotoTextView: TextView
-    private lateinit var photoGalleryModel: PhotoGalleryModel
     private val imageUploadViewModel: ImageUploadViewModel by activityViewModels()
 
     private val pickImages =
@@ -97,10 +95,10 @@ class MediaFragment : BaseFragment(), RecyclerClickListener {
         imageUploadViewModel.uploadGallery.observe(
             requireActivity(),
             Observer {
-
                 when (it) {
                     is Resource.Success -> {
-                        val myList = it.data as MutableList<UserGalleryImage>
+                        val myList: MutableList<UserGalleryImage> =
+                            it.data as MutableList<UserGalleryImage>
                         progressDialog.hideProgressDialog()
 
                         binding.apply {
@@ -114,7 +112,8 @@ class MediaFragment : BaseFragment(), RecyclerClickListener {
                                     )
                                 adapter = photoGalleryRecyclerAdapter
                                 photoGalleryRecyclerAdapter.notifyDataSetChanged()
-                                layoutManager = GridLayoutManager(requireContext(), GRID_SIZE)
+                                layoutManager =
+                                    GridLayoutManager(requireContext(), GRID_SIZE)
                             }
 
                             if (myList.isEmpty()) {
@@ -130,12 +129,24 @@ class MediaFragment : BaseFragment(), RecyclerClickListener {
                     }
                     is Resource.Error -> {
                         progressDialog.hideProgressDialog()
-                        Toast.makeText(requireContext(), "${it.errorBody}", Toast.LENGTH_SHORT)
+                        Toast.makeText(
+                            requireContext(),
+                            "${it.errorBody}",
+                            Toast.LENGTH_SHORT
+                        )
                             .show()
-                        handleApiError(it, imageRetrofit, requireView())
+                        handleApiError(
+                            it,
+                            imageRetrofit,
+                            requireView()
+                        )
                     }
                     is Resource.Loading -> {
-                        it.message?.let { it1 -> progressDialog.showDialogFragment(it1) }
+                        it.message?.let { it1 ->
+                            progressDialog.showDialogFragment(
+                                it1
+                            )
+                        }
                     }
                 }
             }
@@ -241,9 +252,32 @@ class MediaFragment : BaseFragment(), RecyclerClickListener {
                 .addFormDataPart("description", description!!)
                 .build()
             imageUploadViewModel.editGalleryImage(fileId, reqBody)
+            imageUploadViewModel.uploadGallery.observe(
+                viewLifecycleOwner,
+                Observer {
+                    imageUploadViewModel.uploadGallery.observe(
+                        viewLifecycleOwner,
+                        Observer {
+                            if (it is Resource.Loading<List<UserGalleryImage>>/* && it.data.isNullOrEmpty()*/) {
+                                progressDialog.showDialogFragment("Uploading...")
+                            } else if (it is Resource.Error) {
+                                progressDialog.hideProgressDialog()
+                                handleApiError(it, imageRetrofit, requireView())
+                            } else {
+                                progressDialog.hideProgressDialog()
+                                it.data?.let { imageUrl ->
+                                    Toast.makeText(requireContext(), "Upload Successful", Toast.LENGTH_SHORT)
+                                        .show()
+                                }
+                            }
+                        }
+                    )
+                }
+            )
         }
 
-        val bundle = bundleOf(AccountFragment.CURRENT_ACCOUNT_RENAME_DESCRIPTION_BUNDLE_KEY to currentDescription)
+        val bundle =
+            bundleOf(AccountFragment.CURRENT_ACCOUNT_RENAME_DESCRIPTION_BUNDLE_KEY to currentDescription)
         ProfileManagementDialogFragments.createProfileDialogFragment(
             R.layout.rename_gallery_image_dialog_fragment,
             bundle
@@ -253,8 +287,6 @@ class MediaFragment : BaseFragment(), RecyclerClickListener {
 //        }
     }
 
-//    override fun onDestroyView() {
-
     override fun onItemClickToEdit(position: Int, photoArrayList: MutableList<UserGalleryImage>) {
 
         val imageUri = photoArrayList[position].downloadUri
@@ -263,9 +295,15 @@ class MediaFragment : BaseFragment(), RecyclerClickListener {
 
         // use actions to pass data from one fragment to the other
         val action =
-            MediaFragmentDirections.actionNavMediaToPhotoGalleryEditImageFragment(imageUri, description, fileId)
+            MediaFragmentDirections.actionNavMediaToPhotoGalleryEditImageFragment(
+                imageUri,
+                description,
+                fileId
+            )
         findNavController().navigate(action)
     }
+
+//        override fun onDestroyView() {
 //        super.onDestroyView()
 //        _binding = null
 //    }
