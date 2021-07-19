@@ -288,7 +288,7 @@ class MediaFragment : BaseFragment(), RecyclerClickListener {
 //        }
     }
 
-    /*This is for delete and not edit (Don't mind the name) */
+    /*This is for delete and not edit  */
     override fun onItemClickToEdit(position: Int, photoArrayList: MutableList<UserGalleryImage>) {
 
         val imageUri = photoArrayList[position].downloadUri
