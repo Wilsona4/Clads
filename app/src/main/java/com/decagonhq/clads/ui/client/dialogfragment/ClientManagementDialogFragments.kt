@@ -11,6 +11,7 @@ import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.setFragmentResult
 import com.decagonhq.clads.R
 import com.decagonhq.clads.data.domain.DressMeasurementModel
+import com.decagonhq.clads.data.remote.client.Measurement
 import com.decagonhq.clads.databinding.AddMeasurementDialogFragmentBinding
 import com.decagonhq.clads.databinding.EditMeasurementDialogFragmentBinding
 import com.decagonhq.clads.ui.client.MeasurementsFragment.Companion.EDITED_MEASUREMENT_BUNDLE_KEY
@@ -80,7 +81,7 @@ class ClientManagementDialogFragments(
                         }
                         else -> {
                             registerClientViewModel.addMeasurements(
-                                DressMeasurementModel(
+                                Measurement(
                                     measurementName.toString(),
                                     //measurement.toString().toBigDecimal()
                                     measurement.toString().toInt()
@@ -167,7 +168,7 @@ class ClientManagementDialogFragments(
                         }
                         else -> {
                             val editedDataModel =
-                                DressMeasurementModel(
+                                Measurement(
                                     measurementName.toString(),
                                     //measurement.toString().toBigDecimal()
                                     measurement.toString().toInt()

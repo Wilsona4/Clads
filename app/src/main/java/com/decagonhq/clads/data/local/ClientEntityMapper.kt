@@ -1,11 +1,14 @@
 package com.decagonhq.clads.data.local
-import com.decagonhq.clads.data.domain.client.Client
-import com.decagonhq.clads.data.remote.client.ClientDTO
+
+
+
+import com.decagonhq.clads.data.remote.client.Client
 import com.decagonhq.clads.util.DomainMapper
 import javax.inject.Inject
 
 class ClientEntityMapper @Inject constructor() :
     DomainMapper<List<ClientEntity>, List<Client>> {
+
     override fun mapToDomainModel(model: List<ClientEntity>): List<Client> {
         val clientList = mutableListOf<Client>()
         for (clientEntity in model) {
@@ -36,12 +39,13 @@ class ClientEntityMapper @Inject constructor() :
                     phoneNumber = client.phoneNumber,
                     deliveryAddresses = client.deliveryAddresses,
                     measurements = client.measurements,
-                    id = client.id!!,
-                    artisanId = client.artisanId!!
+                    artisanId = client.artisanId!!,
+                    id = client.id!!
                 )
             )
         }
         return clientEntityList
     }
+
 
 }

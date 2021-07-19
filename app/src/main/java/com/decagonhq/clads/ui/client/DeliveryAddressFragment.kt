@@ -7,33 +7,37 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
 import android.widget.TextView
-import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.Observer
+import androidx.lifecycle.observe
 import androidx.navigation.fragment.findNavController
 import com.decagonhq.clads.R
-import com.decagonhq.clads.data.domain.DressMeasurementModel
-import com.decagonhq.clads.data.domain.client.Client
+import com.decagonhq.clads.data.domain.DeliveryAddressModel
 import com.decagonhq.clads.data.domain.client.ClientReg
-import com.decagonhq.clads.data.domain.client.DeliveryAddress
+import com.decagonhq.clads.data.remote.client.Client
+import com.decagonhq.clads.data.remote.client.Measurement
 import com.decagonhq.clads.databinding.DeliveryAddressFragmentBinding
 import com.decagonhq.clads.ui.BaseFragment
+import com.decagonhq.clads.util.Resource
+import com.decagonhq.clads.viewmodels.ClientViewModel
 import com.decagonhq.clads.viewmodels.ClientsRegisterViewModel
+import com.google.android.material.snackbar.Snackbar
 
 class DeliveryAddressFragment : BaseFragment(){
     private var _binding: DeliveryAddressFragmentBinding? = null
     private lateinit var addDeliveryAddressButton: Button
     private  lateinit var saveClientButton: Button
-//    private val args:DeliveryAddressFragmentArgs by navArgs()
+
 
     private lateinit var addressTextView: TextView
 
     private lateinit var clientObserve: ClientReg
-    private lateinit var measurementObserve: List<DressMeasurementModel>
+    private lateinit var measurementObserve: List<Measurement>
 
     // This property is only valid between onCreateView and onDestroyView.
     private val binding get() = _binding!!
-    private val clientsRegisterViewModel: ClientsRegisterViewModel by activityViewModels()
+    private val backingFieldsViewModel: ClientsRegisterViewModel by activityViewModels()
+    private val clientsRegisterViewModel: ClientViewModel by activityViewModels()
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -47,16 +51,7 @@ class DeliveryAddressFragment : BaseFragment(){
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
-
-        clientsRegisterViewModel.clientData.observe(viewLifecycleOwner, Observer {
-            clientObserve = it
-        })
-
-        clientsRegisterViewModel.measurementData.observe(viewLifecycleOwner, Observer { it ->
-            measurementObserve = it
-        })
-
+        setObservers()
 
         // checking if the data has been entered
         val args = arguments
@@ -64,8 +59,9 @@ class DeliveryAddressFragment : BaseFragment(){
             val addressFragmentArgs = DeliveryAddressFragmentArgs.fromBundle(args)
             // parse measurementArgs
             addressTextView = binding.deliveryAddressFragmentAddressTextView
-            addressTextView.text = "${addressFragmentArgs.deliveryAddress!!.deliveryAddress}," +
-                " ${addressFragmentArgs.deliveryAddress!!.state}, ${addressFragmentArgs.deliveryAddress!!.city}, Nigeria"
+            addressTextView.text =
+                "${addressFragmentArgs.deliveryAddress!!.street}, " +
+                        "${addressFragmentArgs.deliveryAddress!!.city}, ${addressFragmentArgs.deliveryAddress!!.state}, Nigeria"
         }
 
         addDeliveryAddressButton = binding.deliveryAddressFragmentAddButton
@@ -81,8 +77,7 @@ class DeliveryAddressFragment : BaseFragment(){
             if (args != null) {
                 val addressFragmentArgs = DeliveryAddressFragmentArgs.fromBundle(args)
 
-                //register client
-                if(clientObserve!=null && measurementObserve!=null){
+
                 val newClient = Client(
                     fullName = clientObserve.fullName,
                     email = clientObserve.email,
@@ -90,20 +85,25 @@ class DeliveryAddressFragment : BaseFragment(){
                     gender = clientObserve.gender,
                     measurements = measurementObserve,
                     deliveryAddresses = arrayListOf(
-                        DeliveryAddress(
-                            addressFragmentArgs.deliveryAddress?.deliveryAddress,
-                            addressFragmentArgs.deliveryAddress?.city,
-                            addressFragmentArgs.deliveryAddress?.state
-                        )
+                                 DeliveryAddressModel(
+                                     addressFragmentArgs.deliveryAddress?.street,
+                                     addressFragmentArgs.deliveryAddress?.city,
+                                     addressFragmentArgs.deliveryAddress?.state
+                                                    )
+
                     )
                 )
 
-                clientsRegisterViewModel.registerClient(newClient)
+                //register client
+
+                clientsRegisterViewModel.addClient(newClient)
+                progressDialog.showDialogFragment("Saving...Please wait")
 
 
-                //Log.i("See", newClient.toString())
-            }}
-            else{}
+            }
+            else{
+                Snackbar.make(requireView(),"Some Fields have not been entered",Snackbar.LENGTH_SHORT).show()
+            }
 
 
         }
@@ -113,5 +113,92 @@ class DeliveryAddressFragment : BaseFragment(){
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
+    }
+
+    private fun setObservers(){
+
+//        clientsRegisterViewModel.addClientResponse.observe(viewLifecycleOwner) {
+//            when(it){
+//                is Resource.Success ->{
+//                    it.data?.let { it1 -> clientsRegisterViewModel.addClientToDb(it1)
+//                    }
+//                }
+//                is Resource.Loading-> { }
+//                else ->{
+//                    progressDialog.hideProgressDialog()
+//                    Snackbar.make(requireView(),it.message!!,Snackbar.LENGTH_SHORT).show()
+//                }
+//            }
+//        }
+
+
+        clientsRegisterViewModel.addClientResponse.observe(
+            viewLifecycleOwner
+        ) {
+
+            when (it) {
+
+                is Resource.Success -> {
+                    it.data?.payload?.let { it1 -> clientsRegisterViewModel.addClientToDb(it1) }
+                }
+                else -> {
+                    Snackbar.make(
+                        requireView(),
+                        it.message!!,
+                        Snackbar.LENGTH_SHORT
+                    ).show()
+                }
+            }
+        }
+
+        clientsRegisterViewModel.addToDBResponse.observe(
+            viewLifecycleOwner
+        ) {
+
+
+            when (it) {
+
+                is Resource.Success -> {
+
+                    progressDialog.hideProgressDialog()
+                    Snackbar.make(
+                        requireView(),
+                        "Client added Successfully",
+                        Snackbar.LENGTH_SHORT
+                    )
+                        .show()
+
+                    findNavController().navigate(R.id.clientFragment)
+                } else -> {
+                Snackbar.make(
+                    requireView(),
+                    it.message!!,
+                    Snackbar.LENGTH_SHORT
+                ).show()
+            }
+            }
+        }
+
+//        clientsRegisterViewModel.addToDBResponse.observe(viewLifecycleOwner) {
+//            progressDialog.hideProgressDialog()
+//            when(it){
+//                is Resource.Success -> {
+//                    Snackbar.make(requireView(),it.message!!,Snackbar.LENGTH_SHORT).show()
+//                    findNavController().navigate(R.id.clientFragment)
+//                }
+//                else -> {
+//                    Snackbar.make(requireView(),it.message!!,Snackbar.LENGTH_SHORT).show()
+//                }
+//            }
+//        }
+
+
+        backingFieldsViewModel.clientData.observe(viewLifecycleOwner, Observer {
+            clientObserve = it
+        })
+
+        backingFieldsViewModel.measurementData.observe(viewLifecycleOwner, Observer { it ->
+            measurementObserve = it
+        })
     }
 }

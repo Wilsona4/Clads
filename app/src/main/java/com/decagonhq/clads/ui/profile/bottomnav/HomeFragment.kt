@@ -13,9 +13,11 @@ import com.decagonhq.clads.databinding.HomeFragmentBinding
 import com.decagonhq.clads.ui.BaseFragment
 import com.decagonhq.clads.ui.profile.adapter.HomeFragmentClientsRecyclerAdapter
 import com.decagonhq.clads.util.ChartData.chartData
-import com.decagonhq.clads.util.DummyDataUtil
+import com.decagonhq.clads.viewmodels.ClientViewModel
 import com.decagonhq.clads.viewmodels.UserProfileViewModel
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class HomeFragment : BaseFragment() {
 
     private var _binding: HomeFragmentBinding? = null
@@ -23,9 +25,10 @@ class HomeFragment : BaseFragment() {
     // This property is only valid between onCreateView and onDestroyView.
     private val binding get() = _binding!!
     private lateinit var homeFragmentYearDropdown: AutoCompleteTextView
+    private lateinit var adapter: HomeFragmentClientsRecyclerAdapter
 
     private val userProfileViewModel: UserProfileViewModel by activityViewModels()
-
+    private val clientViewModel: ClientViewModel by activityViewModels()
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -38,16 +41,17 @@ class HomeFragment : BaseFragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-//        /*Get User profile*/
-//        userProfileViewModel.saveUserProfileToLocalDatabase()
+        adapter = HomeFragmentClientsRecyclerAdapter(arrayListOf())
+
+        clientViewModel.client.observe(viewLifecycleOwner) {
+            this.adapter.updateList(it.data!!.toMutableList())
+            binding.homeFragmentClientListRecyclerView.adapter?.notifyDataSetChanged()
+        }
 
         binding.apply {
             homeFragmentClientListRecyclerView.apply {
 
-                adapter =
-                    HomeFragmentClientsRecyclerAdapter(
-                        DummyDataUtil.populateClient()
-                    )
+                adapter = this@HomeFragment.adapter
                 layoutManager =
                     LinearLayoutManager(
                         requireContext(),

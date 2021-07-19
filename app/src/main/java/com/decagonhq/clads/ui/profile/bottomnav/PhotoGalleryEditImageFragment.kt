@@ -1,5 +1,7 @@
 package com.decagonhq.clads.ui.profile.bottomnav
 
+import android.app.AlertDialog
+import android.content.DialogInterface
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
@@ -65,8 +67,7 @@ class PhotoGalleryEditImageFragment : Fragment() {
             R.id.media_share -> sharePhoto()
             R.id.media_edit -> editPhoto()
             R.id.media_delete -> {
-                deletePhoto()
-                findNavController().popBackStack()
+                imageDeleteConfirmationRequest()
             }
         }
         return super.onOptionsItemSelected(item)
@@ -85,6 +86,7 @@ class PhotoGalleryEditImageFragment : Fragment() {
     private fun deletePhoto() {
         val photoGalleryModel = PhotoGalleryModel(photoIV, imageName)
         photosProvidersList.remove(photoGalleryModel)
+        findNavController().popBackStack()
     }
 
     // method to edit photo
@@ -92,6 +94,19 @@ class PhotoGalleryEditImageFragment : Fragment() {
         val intent = Intent(Intent.ACTION_PICK)
         intent.type = "image/*"
         startActivityForResult(intent, REQUEST_CODE)
+    }
+
+    private fun imageDeleteConfirmationRequest() {
+        val confirmation = AlertDialog.Builder(requireContext())
+        confirmation.setMessage(getString(R.string.delete_image_confirmation))
+        confirmation.setNegativeButton(getString(R.string.cancel)) {
+            _: DialogInterface, _: Int ->
+        }
+        confirmation.setPositiveButton(getString(R.string.logout_confirmation_yes)) {
+            _: DialogInterface, _: Int ->
+            deletePhoto()
+        }
+        confirmation.create().show()
     }
 
     companion object {

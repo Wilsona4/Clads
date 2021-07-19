@@ -15,6 +15,7 @@ import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.StaggeredGridLayoutManager
 import com.decagonhq.clads.R
 import com.decagonhq.clads.data.domain.DressMeasurementModel
+import com.decagonhq.clads.data.remote.client.Measurement
 import com.decagonhq.clads.databinding.MeasurementsFragmentBinding
 import com.decagonhq.clads.ui.client.adapter.AddMeasurementAdapter
 import com.decagonhq.clads.ui.client.adapter.RecyclerClickListener
@@ -50,47 +51,12 @@ class MeasurementsFragment : Fragment(), RecyclerClickListener {
         init()
         setEventListeners()
         setObserver()
-
-//        /*Adding client measurement*/
-//        addClientMeasurement()
-//
-//        /*Edit client measurement*/
-//        editClientMeasurement()
-//
-//        /*Open dialog fragment*/
-
-
-
     }
 
-//    private fun editClientMeasurement() {
-//        childFragmentManager.setFragmentResultListener(
-//            EDITED_MEASUREMENT_REQUEST_KEY,
-//            requireActivity()
-//        ) { key, bundle ->
-//            myAdapter.notifyDataSetChanged()
-//        }
-//    }
-//
-////    /*Adding client measurement*/
-//    private fun addClientMeasurement() {
-//        childFragmentManager.setFragmentResultListener(
-//            ADD_MEASUREMENT_REQUEST_KEY,
-//            requireActivity()
-//        ) { key, bundle ->
-//            val editTextString =
-//                bundle.getParcelable<DressMeasurementModel>(ADD_MEASUREMENT_BUNDLE_KEY)
-//            // Do something with the string
-//            currentList.add(0, editTextString!!)
-//            listMessageDisplay.visibility = View.GONE
-//            myAdapter.notifyDataSetChanged()
-//        }
-//    }
 
-    override fun onItemClickToEdit(position: Int, currentList: MutableList<DressMeasurementModel>) {
-        val data = DressMeasurementModel(
-//            currentList[position].measurementName,
-//            currentList[position].measurement
+
+    override fun onItemClickToEdit(position: Int, currentList: MutableList<Measurement>) {
+        val data = Measurement(
             currentList[position].title,
             currentList[position].value
         )
@@ -105,7 +71,7 @@ class MeasurementsFragment : Fragment(), RecyclerClickListener {
 
     override fun onItemClickToDelete(
         position: Int,
-        currentList: MutableList<DressMeasurementModel>
+        currentList: MutableList<Measurement>
     ) {
         val alertDialog: AlertDialog.Builder = AlertDialog.Builder(requireContext())
         alertDialog.setTitle(getString(R.string.delete_measurement)) // for set Title
