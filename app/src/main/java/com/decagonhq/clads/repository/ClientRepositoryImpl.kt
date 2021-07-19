@@ -51,6 +51,7 @@ class ClientRepositoryImpl @Inject constructor(
             safeApiCall {
                 apiService.addClient(client)
             }
+
         }
     }
 

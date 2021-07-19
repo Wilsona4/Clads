@@ -3,8 +3,8 @@ package com.decagonhq.clads.data.remote.client
 import com.decagonhq.clads.data.domain.DeliveryAddressModel
 
 data class Client(
-    val id: Int,
-    val artisanId: Int,
+    val id: Int? = null,
+    val artisanId: Int? = null,
     val fullName: String,
     val phoneNumber: String,
     val email: String,
