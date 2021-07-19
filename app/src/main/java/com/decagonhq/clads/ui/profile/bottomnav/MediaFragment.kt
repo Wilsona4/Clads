@@ -235,6 +235,7 @@ class MediaFragment : BaseFragment(), RecyclerClickListener {
         dialog.show()
     }
 
+    /*This is edit and not delete functions (Don't mind the name)*/
     override fun onItemClickToDelete(position: Int, photoArrayList: MutableList<UserGalleryImage>) {
         val currentDescription = photoArrayList[position].description
         val fileId = photoArrayList[position].fileId
@@ -287,6 +288,7 @@ class MediaFragment : BaseFragment(), RecyclerClickListener {
 //        }
     }
 
+    /*This is for delete and not edit (Don't mind the name) */
     override fun onItemClickToEdit(position: Int, photoArrayList: MutableList<UserGalleryImage>) {
 
         val imageUri = photoArrayList[position].downloadUri
