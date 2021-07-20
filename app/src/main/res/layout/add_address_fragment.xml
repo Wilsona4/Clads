@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:paddingBottom="@dimen/margin_24dp"
     tools:context=".ui.client.AddAddressFragment">
 
     <TextView
@@ -32,7 +33,6 @@
         app:counterOverflowTextAppearance="@color/red"
         app:counterOverflowTextColor="@color/red"
         app:hintEnabled="false"
-
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.542"
         app:layout_constraintStart_toStartOf="parent"
@@ -58,7 +58,7 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginHorizontal="@dimen/margin_27dp"
-        android:layout_marginTop="@dimen/margin_16dp"
+        android:layout_marginTop="@dimen/margin_20dp"
         app:boxStrokeColor="@color/deep_sky_blue"
         app:boxStrokeWidth="@dimen/margin_2dp"
         app:counterOverflowTextAppearance="@color/red"
@@ -90,7 +90,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginHorizontal="@dimen/margin_27dp"
-        android:layout_marginTop="@dimen/padding_10dp"
+        android:layout_marginTop="@dimen/margin_20dp"
         app:endIconDrawable="@drawable/ic_polygon"
         app:layout_constraintEnd_toEndOf="@+id/add_address_fragment_city_address_edit_text_layout"
         app:layout_constraintStart_toStartOf="@+id/add_address_fragment_city_address_edit_text_layout"

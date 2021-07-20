@@ -32,7 +32,8 @@ class SignUpOptionsFragment : BaseFragment() {
     override fun onStart() {
         super.onStart()
         if (sessionManager.loadFromSharedPref(getString(R.string.login_status)) == getString(R.string.logout) && sessionManager.loadFromSharedPref(getString(R.string.login_status)).isNotEmpty()) {
-            findNavController().navigate(R.id.login_fragment)
+            val action = SignUpOptionsFragmentDirections.actionSignUpOptionsFragmentToLoginFragment()
+            findNavController().navigate(action)
         }
     }
     override fun onCreateView(
@@ -52,7 +53,8 @@ class SignUpOptionsFragment : BaseFragment() {
         loginButton = binding.signUpOptionsFragmentLoginTextView
 
         emailSignUpButton.setOnClickListener {
-            findNavController().navigate(R.id.email_sign_up_fragment)
+            val action = SignUpOptionsFragmentDirections.actionSignUpOptionsFragmentToEmailSignUpFragment()
+            findNavController().navigate(action)
         }
         /*call the googleSignInClient method*/
         googleSignInClient()
@@ -62,7 +64,8 @@ class SignUpOptionsFragment : BaseFragment() {
             signIn()
         }
         loginButton.setOnClickListener {
-            findNavController().navigate(R.id.login_fragment)
+            val action = SignUpOptionsFragmentDirections.actionSignUpOptionsFragmentToLoginFragment()
+            findNavController().navigate(action)
         }
     }
 
@@ -104,7 +107,8 @@ class SignUpOptionsFragment : BaseFragment() {
     /*load the emailSignUpFragment*/
     private fun loadEmailSignUpFragment(account: GoogleSignInAccount?) {
         if (account != null) {
-            findNavController().navigate(R.id.email_sign_up_fragment)
+            val action = SignUpOptionsFragmentDirections.actionSignUpOptionsFragmentToEmailSignUpFragment()
+            findNavController().navigate(action)
         }
     }
     /*remove the binding from the view to prevent memory leak*/

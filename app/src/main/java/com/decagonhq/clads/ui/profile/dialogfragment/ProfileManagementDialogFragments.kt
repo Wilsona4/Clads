@@ -108,8 +108,7 @@ class ProfileManagementDialogFragments(
                 val okButton = binding.accountEmployeeNumberDialogFragmentOkButton
                 val cancelButton = binding.accountEmployeeNumberDialogFragmentCancelButton
 
-                val retrievedArgs =
-                    bundle?.getString(CURRENT_ACCOUNT_EMPLOYEE_BUNDLE_KEY)
+                val retrievedArgs = bundle?.getString(CURRENT_ACCOUNT_EMPLOYEE_BUNDLE_KEY)
 
                 /*Attaching the data*/
                 employeeNumberEditText.setText(retrievedArgs)

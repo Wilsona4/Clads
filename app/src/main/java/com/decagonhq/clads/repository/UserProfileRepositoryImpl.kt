@@ -1,6 +1,5 @@
 package com.decagonhq.clads.repository
 
-import android.util.Log
 import androidx.room.withTransaction
 import com.decagonhq.clads.data.domain.profile.UserProfile
 import com.decagonhq.clads.data.local.CladsDatabase
@@ -53,13 +52,18 @@ class UserProfileRepositoryImpl(
 
     override suspend fun updateUserProfile(userProfile: UserProfile) {
         val response = safeApiCall {
-            Log.d(TAG, "update user: $userProfile")
-            apiService.updateUserProfile(userProfileDTOMapper.mapFromDomainModel(userProfile))
+            apiService.updateUserProfile(userProfile)
         }
-        response.data?.payload?.let {
-            database.userProfileDao().updateUserProfile(
-                userProfileEntityMapper.mapFromDomainModel(it)
-            )
+        if (response is Resource.Success) {
+            database.withTransaction {
+                database.userProfileDao().deleteUserProfile()
+                response.data?.payload?.let { userProfileEntityMapper.mapFromDomainModel(it) }
+                    ?.let {
+                        database.userProfileDao().addUserProfile(
+                            it
+                        )
+                    }
+            }
         }
     }
 
