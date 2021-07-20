@@ -360,6 +360,7 @@
     <string name="logout_confirmation_yes">YES</string>
 
     <string name="fragment_add_delivery_address_save_text_on_button">Add Address</string>
+    <string name="rename">Rename</string>
 
     <string-array name="account_category">
         <item>Tailor</item>
