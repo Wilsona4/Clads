@@ -8,7 +8,7 @@ import com.decagonhq.clads.databinding.SpecialtyFragmentRecyclerItemBinding
 class SpecialtyFragmentRecyclerAdapter :
     RecyclerView.Adapter<SpecialtyFragmentRecyclerAdapter.SpecialtyViewHolder>() {
 
-   private var _specialtyList = mutableListOf<String>()
+    private var _specialtyList = mutableListOf<String>()
     val specialtyList: List<String> get() = _specialtyList
 
     inner class SpecialtyViewHolder(var itemBinding: SpecialtyFragmentRecyclerItemBinding) :
@@ -17,7 +17,6 @@ class SpecialtyFragmentRecyclerAdapter :
         fun bind(specialty: String) = with(itemBinding) {
             specialtyFragmentYorubaAttiresCheckBox.text = specialty.trim()
             specialtyFragmentYorubaAttiresCheckBox.isChecked = true
-
         }
     }
 
@@ -41,19 +40,18 @@ class SpecialtyFragmentRecyclerAdapter :
         notifyDataSetChanged()
     }
 
-    fun addNewSpecialty(specialty: String){
+    fun addNewSpecialty(specialty: String) {
         _specialtyList.add(specialty)
         notifyDataSetChanged()
     }
 
-    fun removeSpecialty(position: Int){
+    fun removeSpecialty(position: Int) {
         _specialtyList.removeAt(position)
         notifyItemRemoved(position)
     }
 
-    fun undoRemove(position: Int, specialty: String){
+    fun undoRemove(position: Int, specialty: String) {
         _specialtyList.add(position, specialty)
         notifyItemInserted(position)
     }
-
 }

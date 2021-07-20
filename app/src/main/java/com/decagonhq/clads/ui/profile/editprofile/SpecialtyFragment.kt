@@ -36,8 +36,6 @@ class SpecialtyFragment : Fragment() {
 
     private val userProfileViewModel: UserProfileViewModel by activityViewModels()
 
-
-
     var specialtyList = arrayListOf(
         "Yoruba Attires",
         "Hausa Attires",
@@ -67,7 +65,6 @@ class SpecialtyFragment : Fragment() {
         addNewSpecialtyDialog()
         addSpecialDeliveryTime()
         savedInfoFromApi()
-
 
         /*simpleCallBAck object is passed as a parameter of the itemTouchHelper object*/
         val itemTouchHelper = ItemTouchHelper(simpleCallback)
@@ -172,41 +169,44 @@ class SpecialtyFragment : Fragment() {
     }
 
     private fun savedInfoFromApi() {
-        userProfileViewModel.userProfile.observe(viewLifecycleOwner, Observer {
-            var list = it.data?.specialties?.toMutableList()
-            if (list!!.isEmpty()) {
-                recyclerViewAdapter.populateList(specialtyList)
-            }else {
-                recyclerViewAdapter.populateList(list)
-            }
-            var genderFocusItem = it.data?.genderFocus!!
-            for (i in genderFocusItem) {
-                when {
-                    i.trim().toLowerCase() == "male" -> {
-                        binding.specialtyFragmentMaleCheckBox.isChecked = true
-                    }
-                    i.trim().toLowerCase() == "female" -> {
-                        binding.specialtyFragmentFemaleCheckBox.isChecked = true
-                    }
-                    i.trim().toLowerCase() == "kids" -> {
-                        binding.specialtyFragmentKidsCheckBox.isChecked = true
-                    }
-                    i.trim().toLowerCase() == "unisex" -> {
-                        binding.specialtyFragmentUnisexCheckBox.isChecked = true
+        userProfileViewModel.userProfile.observe(
+            viewLifecycleOwner,
+            Observer {
+                var list = it.data?.specialties?.toMutableList()
+                if (list!!.isEmpty()) {
+                    recyclerViewAdapter.populateList(specialtyList)
+                } else {
+                    recyclerViewAdapter.populateList(list)
+                }
+                var genderFocusItem = it.data?.genderFocus!!
+                for (i in genderFocusItem) {
+                    when {
+                        i.trim().toLowerCase() == "male" -> {
+                            binding.specialtyFragmentMaleCheckBox.isChecked = true
+                        }
+                        i.trim().toLowerCase() == "female" -> {
+                            binding.specialtyFragmentFemaleCheckBox.isChecked = true
+                        }
+                        i.trim().toLowerCase() == "kids" -> {
+                            binding.specialtyFragmentKidsCheckBox.isChecked = true
+                        }
+                        i.trim().toLowerCase() == "unisex" -> {
+                            binding.specialtyFragmentUnisexCheckBox.isChecked = true
+                        }
                     }
                 }
-            }
                 binding.specialtyFragmentObiomaTrainedAndCertifiedValueTextView.text = getString(R.string.yes)
 
-            binding.specialtyFragmentVisitUsForYourMeasurementValueCheckBox.isChecked =
-                it.data.measurementOption.visitForMeasurement!!
+                binding.specialtyFragmentVisitUsForYourMeasurementValueCheckBox.isChecked =
+                    it.data.measurementOption.visitForMeasurement!!
 
-            binding.specialtyFragmentWillAcceptSelfMeasurementValueCheckBox.isChecked =
-                it.data.measurementOption.acceptSelfMeasurement!!
+                binding.specialtyFragmentWillAcceptSelfMeasurementValueCheckBox.isChecked =
+                    it.data.measurementOption.acceptSelfMeasurement!!
 
-            binding.specialtyFragmentDeliveryLeadTimeValueTextView.text =
-                it.data.deliveryTime ?: getString(R.string.two_weeks)
-        })
+                binding.specialtyFragmentDeliveryLeadTimeValueTextView.text =
+                    it.data.deliveryTime ?: getString(R.string.two_weeks)
+            }
+        )
     }
 
     private fun updateUserProfile() {
@@ -261,23 +261,21 @@ class SpecialtyFragment : Fragment() {
 
         var selectedGenderFocus = arrayListOf<String>()
 
-        if(binding.specialtyFragmentMaleCheckBox.isChecked ){
-                selectedGenderFocus.add("male")
-            }
-        if (binding.specialtyFragmentFemaleCheckBox.isChecked){
-                selectedGenderFocus.add("female")
-            }
-        if (binding.specialtyFragmentKidsCheckBox.isChecked){
-                selectedGenderFocus.add("kids")
-            }
-        if (binding.specialtyFragmentUnisexCheckBox.isChecked){
-                selectedGenderFocus.add("unisex")
-            }
+        if (binding.specialtyFragmentMaleCheckBox.isChecked) {
+            selectedGenderFocus.add("male")
+        }
+        if (binding.specialtyFragmentFemaleCheckBox.isChecked) {
+            selectedGenderFocus.add("female")
+        }
+        if (binding.specialtyFragmentKidsCheckBox.isChecked) {
+            selectedGenderFocus.add("kids")
+        }
+        if (binding.specialtyFragmentUnisexCheckBox.isChecked) {
+            selectedGenderFocus.add("unisex")
+        }
 
         return selectedGenderFocus
     }
-
-
 
     /**
      * simpleCallBack method for swiping the recycler view items so as to update the info
@@ -334,14 +332,12 @@ class SpecialtyFragment : Fragment() {
                             // below line is to notify item is
                             // added to our adapter class.
                             recyclerViewAdapter.notifyItemInserted(position)
-
                         }.show()
                     }.create().show()
                 }
                 binding.specialtyFragmentRecyclerView.adapter?.notifyDataSetChanged()
             }
         }
-
     }
 
     companion object {
@@ -358,5 +354,4 @@ class SpecialtyFragment : Fragment() {
         const val ADD_NEW_SPECIALTY_REQUEST_KEY = "NANANA REQUEST KEY"
         const val ADD_NEW_SPECIALTY_BUNDLE_KEY = "NANANA BUNDLE KEY"
     }
-
 }
