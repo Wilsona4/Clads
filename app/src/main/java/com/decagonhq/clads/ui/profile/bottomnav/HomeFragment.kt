@@ -14,7 +14,6 @@ import com.decagonhq.clads.ui.BaseFragment
 import com.decagonhq.clads.ui.profile.adapter.HomeFragmentClientsRecyclerAdapter
 import com.decagonhq.clads.util.ChartData.chartData
 import com.decagonhq.clads.viewmodels.ClientViewModel
-import com.decagonhq.clads.viewmodels.UserProfileViewModel
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint

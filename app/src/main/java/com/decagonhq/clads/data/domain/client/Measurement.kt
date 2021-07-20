@@ -4,7 +4,8 @@ import androidx.room.ColumnInfo
 
 data class Measurement(
     @ColumnInfo(name = "measurement_title")
-    val title:String? = null,
+    val title: String? = null,
 
     @ColumnInfo(name = "measurement_value")
-    val value:Int)
+    val value: Int
+)

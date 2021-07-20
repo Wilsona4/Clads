@@ -34,7 +34,6 @@ import com.decagonhq.clads.util.handleApiError
 import com.decagonhq.clads.util.observeOnce
 import com.decagonhq.clads.util.saveBitmap
 import com.decagonhq.clads.util.uriToBitmap
-import com.decagonhq.clads.viewmodels.ClientsRegisterViewModel
 import com.decagonhq.clads.viewmodels.ImageUploadViewModel
 import com.decagonhq.clads.viewmodels.UserProfileViewModel
 import com.theartofdev.edmodo.cropper.CropImage

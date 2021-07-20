@@ -93,7 +93,8 @@ class EmailSignUpFragment : BaseFragment() {
                             "Registered successfully",
                             Toast.LENGTH_SHORT
                         ).show()
-                        findNavController().navigate(R.id.action_emailSignUpFragment_to_emailConfirmationFragment)
+                        val action = EmailSignUpFragmentDirections.actionEmailSignUpFragmentToEmailConfirmationFragment()
+                        findNavController().navigate(action)
                     }
                     is Resource.Error -> {
                         progressDialog.hideProgressDialog()
@@ -109,7 +110,8 @@ class EmailSignUpFragment : BaseFragment() {
         )
 
         loginButton.setOnClickListener {
-            findNavController().navigate(R.id.login_fragment)
+            val action = EmailSignUpFragmentDirections.actionEmailSignUpFragmentToLoginFragment()
+            findNavController().navigate(action)
         }
 
         /*Validate Email Sign Up*/

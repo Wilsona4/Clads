@@ -10,4 +10,5 @@ data class DeliveryAddress(
     val city: String? = null,
 
     @ColumnInfo(name = "deliveryaddress_state")
-    val state: String? = null)
+    val state: String? = null
+)

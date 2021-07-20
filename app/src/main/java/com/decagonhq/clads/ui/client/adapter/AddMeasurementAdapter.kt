@@ -7,7 +7,6 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.decagonhq.clads.R
-import com.decagonhq.clads.data.domain.DressMeasurementModel
 import com.decagonhq.clads.data.remote.client.Measurement
 
 class AddMeasurementAdapter(
@@ -22,8 +21,8 @@ class AddMeasurementAdapter(
         val delete: ImageView = itemView.findViewById(R.id.measurementment_recyclerview_item_delete_button)
 //        Binding the data with the view
         fun bind(dressMeasurementModel: Measurement) {
-            //display.text = "${dressMeasurementModel.measurementName} ${dressMeasurementModel.measurement}"
-             display.text = "${dressMeasurementModel.title} ${dressMeasurementModel.value}"
+            // display.text = "${dressMeasurementModel.measurementName} ${dressMeasurementModel.measurement}"
+            display.text = "${dressMeasurementModel.title} ${dressMeasurementModel.value}"
         }
     }
 
@@ -49,17 +48,17 @@ class AddMeasurementAdapter(
         return currentList.size
     }
 
-    fun updateList(measurementList:MutableList<Measurement>){
+    fun updateList(measurementList: MutableList<Measurement>) {
         this.currentList = measurementList
         this.notifyDataSetChanged()
     }
 
-    fun deleteMeasurement(position:Int){
+    fun deleteMeasurement(position: Int) {
         this.currentList.removeAt(position)
         this.notifyDataSetChanged()
     }
 
-    fun replaceMeasurement(position:Int,measurement:Measurement){
+    fun replaceMeasurement(position: Int, measurement: Measurement) {
         this.currentList[position] = measurement
     }
 }

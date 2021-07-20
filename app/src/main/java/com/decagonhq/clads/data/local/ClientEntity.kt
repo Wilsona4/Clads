@@ -1,12 +1,9 @@
 package com.decagonhq.clads.data.local
 
-
-
 import androidx.room.Entity
 import androidx.room.PrimaryKey
 import com.decagonhq.clads.data.domain.DeliveryAddressModel
 import com.decagonhq.clads.data.remote.client.Measurement
-
 
 @Entity(tableName = "client_details_table")
 class ClientEntity(
@@ -21,4 +18,3 @@ class ClientEntity(
     val measurements: List<Measurement>? = null
 
 )
-

@@ -19,7 +19,6 @@ import com.decagonhq.clads.util.ValidationObject.jdValidatePhoneNumber
 import com.decagonhq.clads.viewmodels.ClientsRegisterViewModel
 import com.google.android.material.tabs.TabLayout
 
-
 class ClientAccountFragment : BaseFragment() {
     private var _binding: ClientAccountFragmentBinding? = null
 
@@ -54,7 +53,6 @@ class ClientAccountFragment : BaseFragment() {
         emailEditText = binding.clientAccountFragmentClientEmailInput
         genderRadioGroup = binding.clientFragmentAccountTabRadioGroup
         nextButton = binding.clientAccountTabNextButton
-
 
 //        clientsRegisterViewModel.clientRegData.observe(
 //            viewLifecycleOwner,
@@ -127,8 +125,8 @@ class ClientAccountFragment : BaseFragment() {
                     return@setOnClickListener
                 }
                 gender.checkedRadioButtonId == -1 -> {
-                    //display msg
-                    //todo display select gender
+                    // display msg
+                    // todo display select gender
                     return@setOnClickListener
                 }
 
@@ -151,26 +149,24 @@ class ClientAccountFragment : BaseFragment() {
 //                            ))
 //
 //                        )
-                        //clientsRegisterViewModel.registerClient(newClient)
+                        // clientsRegisterViewModel.registerClient(newClient)
 
                         val newClient = ClientReg(
-                             fullName = "$firstName $lastName",
-                             email = email,
-                             phoneNumber = phoneNumber,
-                             gender = selectedGender
+                            fullName = "$firstName $lastName",
+                            email = email,
+                            phoneNumber = phoneNumber,
+                            gender = selectedGender
                         )
                         clientsRegisterViewModel.setClient(newClient)
 
                         val tabLayout = activity?.findViewById(R.id.add_client_tab_layout) as TabLayout
                         tabLayout.getTabAt(1)?.select()
-
                     } else {
                         return@setOnClickListener
                     }
                 }
             }
         }
-
     }
 
     /*Method to Validate All Fields*/
@@ -210,11 +206,8 @@ class ClientAccountFragment : BaseFragment() {
             }
         }
 
-
-
         return isValidated
     }
-
 
     override fun onDestroyView() {
         super.onDestroyView()

@@ -108,32 +108,31 @@ class ClientFragment : BaseFragment() {
             viewLifecycleOwner
         ) {
 
-                when (it) {
+            when (it) {
 
-                    is Resource.Success -> {
-                        itemToDeletePosition?.let { it1 -> adapter.deleteItem(it1)
-                            binding.clientListScreenRecyclerView.adapter?.notifyDataSetChanged()
-                            progressDialog.hideProgressDialog()
-                        }
-                        Snackbar.make(
-                            requireView(),
-                            "Client Deleted Successfully",
-                            Snackbar.LENGTH_SHORT
-                        ).show()
+                is Resource.Success -> {
+                    itemToDeletePosition?.let { it1 ->
+                        adapter.deleteItem(it1)
+                        binding.clientListScreenRecyclerView.adapter?.notifyDataSetChanged()
+                        progressDialog.hideProgressDialog()
                     }
+                    Snackbar.make(
+                        requireView(),
+                        "Client Deleted Successfully",
+                        Snackbar.LENGTH_SHORT
+                    ).show()
+                }
 
-                    is Resource.Error -> {
+                is Resource.Error -> {
                     Snackbar.make(
                         requireView(),
                         it.message!!,
                         Snackbar.LENGTH_SHORT
                     ).show()
-                    }
-                    else -> {}
                 }
-
+                else -> {}
+            }
         }
-
 
         clientViewModel.addToDBResponse.observe(viewLifecycleOwner) {
             when (it) {
@@ -142,9 +141,7 @@ class ClientFragment : BaseFragment() {
                     binding.clientListScreenRecyclerView.adapter?.notifyDataSetChanged()
                 } else -> { }
             }
-
         }
-
     }
 
     private fun setEventListeners() {
@@ -178,7 +175,6 @@ class ClientFragment : BaseFragment() {
                 adapter.getItem(itemToDeletePosition!!).id?.let { clientViewModel.deleteClient(it) }
                 swiped = true
                 progressDialog.showDialogFragment("Deleting Client...")
-
             }
 
             override fun onChildDraw(

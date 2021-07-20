@@ -4,21 +4,16 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.core.os.bundleOf
 import androidx.core.widget.doOnTextChanged
 import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.activityViewModels
-import androidx.fragment.app.setFragmentResult
 import com.decagonhq.clads.R
 import com.decagonhq.clads.data.domain.DressMeasurementModel
 import com.decagonhq.clads.data.remote.client.Measurement
 import com.decagonhq.clads.databinding.AddMeasurementDialogFragmentBinding
 import com.decagonhq.clads.databinding.EditMeasurementDialogFragmentBinding
-import com.decagonhq.clads.ui.client.MeasurementsFragment.Companion.EDITED_MEASUREMENT_BUNDLE_KEY
-import com.decagonhq.clads.ui.client.MeasurementsFragment.Companion.EDITED_MEASUREMENT_REQUEST_KEY
 import com.decagonhq.clads.ui.client.MeasurementsFragment.Companion.EDIT_MEASUREMENT_BUNDLE_KEY
 import com.decagonhq.clads.ui.client.MeasurementsFragment.Companion.EDIT_MEASUREMENT_BUNDLE_POSITION
-import com.decagonhq.clads.util.ClientMeasurementData
 import com.decagonhq.clads.viewmodels.ClientsRegisterViewModel
 
 class ClientManagementDialogFragments(
@@ -55,7 +50,6 @@ class ClientManagementDialogFragments(
                 val measurementEditText = binding.addMeasurementFragmentAddMeasureEditText
                 val addMeasurementButton = binding.addMeasurementFragmentAddMeasurementButton
 
-
                 /*Add new measurement*/
                 addMeasurementButton.setOnClickListener {
                     val measurementName = measurementNameEditText.text
@@ -83,7 +77,7 @@ class ClientManagementDialogFragments(
                             registerClientViewModel.addMeasurements(
                                 Measurement(
                                     measurementName.toString(),
-                                    //measurement.toString().toBigDecimal()
+                                    // measurement.toString().toBigDecimal()
                                     measurement.toString().toInt()
                                 )
                             )
@@ -170,12 +164,12 @@ class ClientManagementDialogFragments(
                             val editedDataModel =
                                 Measurement(
                                     measurementName.toString(),
-                                    //measurement.toString().toBigDecimal()
+                                    // measurement.toString().toBigDecimal()
                                     measurement.toString().toInt()
                                 )
 
                             if (itemPosition != null) {
-                                registerClientViewModel.editMeasurement(itemPosition,editedDataModel)
+                                registerClientViewModel.editMeasurement(itemPosition, editedDataModel)
                             }
 //                            ClientMeasurementData.currentList[itemPosition!!] = editedDataModel
 //                            setFragmentResult(
@@ -233,6 +227,4 @@ class ClientManagementDialogFragments(
             return ClientManagementDialogFragments(layoutId, bundle)
         }
     }
-
-
 }

@@ -1,9 +1,5 @@
 package com.decagonhq.clads.repository
 
-
-
-
-
 import com.decagonhq.clads.data.domain.GenericResponseClass
 import com.decagonhq.clads.data.remote.client.Client
 import com.decagonhq.clads.util.Resource
@@ -20,4 +16,3 @@ interface ClientsRepository {
 
     suspend fun addClientToDb(clients: Client): Resource<Client>
 }
-

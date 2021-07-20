@@ -1,6 +1,5 @@
 package com.decagonhq.clads.viewmodels
 
-import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -46,18 +45,16 @@ class ClientViewModel @Inject constructor(
     fun addClient(client: Client) {
         viewModelScope.launch(Dispatchers.IO) {
 
-                _addClientResponse.postValue( clientsRepository.addClientToServer(client))
-
+            _addClientResponse.postValue(clientsRepository.addClientToServer(client))
         }
     }
 
     fun deleteClient(clientId: Int) {
         viewModelScope.launch(Dispatchers.IO) {
 
-                _deleteClientResponse.postValue(clientsRepository.deleteClient(clientId))
-            }
+            _deleteClientResponse.postValue(clientsRepository.deleteClient(clientId))
         }
-
+    }
 
     fun deleteClientFromDb(clients: List<Client>) {
         viewModelScope.launch(Dispatchers.IO) {

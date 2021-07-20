@@ -14,7 +14,6 @@ import androidx.lifecycle.observe
 import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.StaggeredGridLayoutManager
 import com.decagonhq.clads.R
-import com.decagonhq.clads.data.domain.DressMeasurementModel
 import com.decagonhq.clads.data.remote.client.Measurement
 import com.decagonhq.clads.databinding.MeasurementsFragmentBinding
 import com.decagonhq.clads.ui.client.adapter.AddMeasurementAdapter
@@ -53,8 +52,6 @@ class MeasurementsFragment : Fragment(), RecyclerClickListener {
         setObserver()
     }
 
-
-
     override fun onItemClickToEdit(position: Int, currentList: MutableList<Measurement>) {
         val data = Measurement(
             currentList[position].title,
@@ -82,8 +79,8 @@ class MeasurementsFragment : Fragment(), RecyclerClickListener {
             // set your desired action here.
 //            currentList.remove(
 //                DressMeasurementModel(
-////                    currentList[position].measurementName,
-////                    currentList[position].measurement
+// //                    currentList[position].measurementName,
+// //                    currentList[position].measurement
 //                    currentList[position].title,
 //                    currentList[position].value
 //                )
@@ -97,7 +94,6 @@ class MeasurementsFragment : Fragment(), RecyclerClickListener {
 
             dialog.dismiss()
         }
-
 
         alertDialog.setNegativeButton(getText(R.string.dialog_alert_confirmation_cancle)) { dialog, id ->
             // set your desired action here.
@@ -130,8 +126,7 @@ class MeasurementsFragment : Fragment(), RecyclerClickListener {
         const val EDITED_MEASUREMENT_BUNDLE_KEY = "EDITED CLIENT MEASUREMENT BUNDLE KEY"
     }
 
-
-    private fun setObserver(){
+    private fun setObserver() {
 
         clientsRegisterViewModel.measurementData.observe(viewLifecycleOwner) {
             myAdapter.updateList(it.toMutableList())
@@ -139,8 +134,7 @@ class MeasurementsFragment : Fragment(), RecyclerClickListener {
         }
     }
 
-
-    private fun init(){
+    private fun init() {
         listMessageDisplay = binding.measurementsFragmentTestingTextView
         addMeasurementFab = binding.clientMeasurementFragmentAddMeasurementFab
         recyclerView = binding.measurementsFragmentRecyclerView
@@ -148,11 +142,9 @@ class MeasurementsFragment : Fragment(), RecyclerClickListener {
         myAdapter = AddMeasurementAdapter(currentList, this@MeasurementsFragment, this@MeasurementsFragment)
         recyclerView.adapter = myAdapter
         recyclerView.layoutManager = StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL)
-
     }
 
-
-    private fun setEventListeners(){
+    private fun setEventListeners() {
         addMeasurementFab.setOnClickListener {
             createClientDialogFragment(R.layout.add_measurement_dialog_fragment)
                 .show(childFragmentManager, MeasurementsFragment::class.simpleName)

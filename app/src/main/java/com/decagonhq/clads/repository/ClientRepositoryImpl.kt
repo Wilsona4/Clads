@@ -1,6 +1,5 @@
 package com.decagonhq.clads.repository
 
-
 import androidx.room.withTransaction
 import com.decagonhq.clads.data.domain.GenericResponseClass
 import com.decagonhq.clads.data.local.CladsDatabase
@@ -48,21 +47,15 @@ class ClientRepositoryImpl @Inject constructor(
     override suspend fun addClientToServer(client: Client): Resource<GenericResponseClass<Client>> {
 
         return safeApiCall {
-                apiService.addClient(client)
-
-            }
-
+            apiService.addClient(client)
         }
-
+    }
 
     override suspend fun deleteClient(clientId: Int): Resource<GenericResponseClass<List<Client>>> =
 
-                safeApiCall {
-                    apiService.deleteClient(clientId)
-                }
-
-
-
+        safeApiCall {
+            apiService.deleteClient(clientId)
+        }
 
     override suspend fun deleteClientFromDb(clients: List<Client>): Resource<Int> {
 
@@ -70,7 +63,6 @@ class ClientRepositoryImpl @Inject constructor(
 
         return safeApiCall { database.clientDao().deleteClient(clientEntityMapped[0]) }
     }
-
 
     override suspend fun addClientToDb(client: Client): Resource<Client> {
 
@@ -81,12 +73,10 @@ class ClientRepositoryImpl @Inject constructor(
             database.clientDao().addClient(clientEntityMapper.mapFromDomainModel(clientList)[0])
         }
 
-
         return if (result.data!! > 0) {
-            Resource.Success(data = client,message = "Client added successfully")
+            Resource.Success(data = client, message = "Client added successfully")
         } else {
-            Resource.Error(isNetworkError = false, errorBody = null, data = null,message = result.message!!)
+            Resource.Error(isNetworkError = false, errorBody = null, data = null, message = result.message!!)
         }
     }
 }
-

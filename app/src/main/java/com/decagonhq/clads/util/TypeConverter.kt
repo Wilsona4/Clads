@@ -1,15 +1,9 @@
 package com.decagonhq.clads.util
 
-
-import com.decagonhq.clads.data.domain.DeliveryAddressModel
 import androidx.room.TypeConverter
-import com.decagonhq.clads.data.domain.DressMeasurementModel
-import com.decagonhq.clads.data.domain.client.DeliveryAddress
+import com.decagonhq.clads.data.domain.DeliveryAddressModel
 import com.decagonhq.clads.data.domain.client.Measurement
 import com.google.gson.Gson
-
-
-
 
 /**
  * Converts a list of type string to string to enable room

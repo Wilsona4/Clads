@@ -12,15 +12,12 @@ import javax.inject.Inject
 @HiltViewModel
 class ClientsRegisterViewModel @Inject constructor(
     private val clientsRepository: ClientsRepository
-): ViewModel(){
-
-
+) : ViewModel() {
 
     private val _clientData = MutableLiveData<ClientReg>()
     val clientData: LiveData<ClientReg> get() = _clientData
 
     private val list = mutableListOf<Measurement>()
-
 
     fun setClient(client: ClientReg) {
         _clientData.value = client
@@ -29,21 +26,16 @@ class ClientsRegisterViewModel @Inject constructor(
     private val _measurementData = MutableLiveData<MutableList<Measurement>>()
     val measurementData: LiveData<MutableList<Measurement>> get() = _measurementData
 
-
     fun addMeasurements(measurement: Measurement) {
 
-        list.add( measurement)
+        list.add(measurement)
         _measurementData.value = list
-
     }
 
-    fun editMeasurement(position:Int,measurement: Measurement) {
+    fun editMeasurement(position: Int, measurement: Measurement) {
         list[position] = measurement
         _measurementData.value = list
     }
-
-
-
 
 //    /*Save To Local Db*/
 //    fun saveClientToLocalDatabase() {
@@ -51,5 +43,4 @@ class ClientsRegisterViewModel @Inject constructor(
 //            //clientsRepository.saveClientToLocalDatabase()
 //        }
 //    }
-
 }

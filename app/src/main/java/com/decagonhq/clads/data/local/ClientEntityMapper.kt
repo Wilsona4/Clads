@@ -1,7 +1,5 @@
 package com.decagonhq.clads.data.local
 
-
-
 import com.decagonhq.clads.data.remote.client.Client
 import com.decagonhq.clads.util.DomainMapper
 import javax.inject.Inject
@@ -46,6 +44,4 @@ class ClientEntityMapper @Inject constructor() :
         }
         return clientEntityList
     }
-
-
 }
