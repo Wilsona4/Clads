@@ -1,5 +1,7 @@
 package com.decagonhq.clads.data.local
 
+
+
 import com.decagonhq.clads.data.remote.client.Client
 import com.decagonhq.clads.util.DomainMapper
 import javax.inject.Inject
@@ -37,11 +39,13 @@ class ClientEntityMapper @Inject constructor() :
                     phoneNumber = client.phoneNumber,
                     deliveryAddresses = client.deliveryAddresses,
                     measurements = client.measurements,
-                    id = client.id,
-                    artisanId = client.artisanId
+                    artisanId = client.artisanId!!,
+                    id = client.id!!
                 )
             )
         }
         return clientEntityList
     }
+
+
 }

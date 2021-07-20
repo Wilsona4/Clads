@@ -1,5 +1,6 @@
 package com.decagonhq.clads.repository
 
+
 import androidx.room.withTransaction
 import com.decagonhq.clads.data.domain.GenericResponseClass
 import com.decagonhq.clads.data.local.CladsDatabase
@@ -11,7 +12,6 @@ import com.decagonhq.clads.util.SafeApiCall
 import com.decagonhq.clads.util.networkBoundResource
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.map
 import javax.inject.Inject
 
@@ -45,25 +45,24 @@ class ClientRepositoryImpl @Inject constructor(
             }
         )
 
-    override suspend fun addClientToServer(client: Client): Flow<Resource<Client>> {
+    override suspend fun addClientToServer(client: Client): Resource<GenericResponseClass<Client>> {
 
-        return flow {
-            safeApiCall {
+        return safeApiCall {
                 apiService.addClient(client)
+
             }
 
         }
-    }
 
-    override suspend fun deleteClient(clientId: Int): Flow<Resource<GenericResponseClass<List<Client>>>> {
-        return flow {
-            emit(
+
+    override suspend fun deleteClient(clientId: Int): Resource<GenericResponseClass<List<Client>>> =
+
                 safeApiCall {
                     apiService.deleteClient(clientId)
                 }
-            )
-        }
-    }
+
+
+
 
     override suspend fun deleteClientFromDb(clients: List<Client>): Resource<Int> {
 
@@ -72,18 +71,22 @@ class ClientRepositoryImpl @Inject constructor(
         return safeApiCall { database.clientDao().deleteClient(clientEntityMapped[0]) }
     }
 
+
     override suspend fun addClientToDb(client: Client): Resource<Client> {
 
         val clientList = mutableListOf<Client>()
         clientList.add(client)
         val result = safeApiCall {
+
             database.clientDao().addClient(clientEntityMapper.mapFromDomainModel(clientList)[0])
         }
 
+
         return if (result.data!! > 0) {
-            Resource.Success(client)
+            Resource.Success(data = client,message = "Client added successfully")
         } else {
-            Resource.Error(isNetworkError = false, null, message = result.message!!)
+            Resource.Error(isNetworkError = false, errorBody = null, data = null,message = result.message!!)
         }
     }
 }
+

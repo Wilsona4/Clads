@@ -27,7 +27,6 @@ class HomeFragment : BaseFragment() {
     private lateinit var homeFragmentYearDropdown: AutoCompleteTextView
     private lateinit var adapter: HomeFragmentClientsRecyclerAdapter
 
-    private val userProfileViewModel: UserProfileViewModel by activityViewModels()
     private val clientViewModel: ClientViewModel by activityViewModels()
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -44,9 +43,14 @@ class HomeFragment : BaseFragment() {
         adapter = HomeFragmentClientsRecyclerAdapter(arrayListOf())
 
         clientViewModel.client.observe(viewLifecycleOwner) {
-            this.adapter.updateList(it.data!!.toMutableList())
+            it.data?.let { it1 -> this.adapter.updateList(it1.toMutableList()) }
             binding.homeFragmentClientListRecyclerView.adapter?.notifyDataSetChanged()
         }
+
+//        clientViewModel.addToDBResponse.observe(viewLifecycleOwner) {
+//            it.data?.let { it1 -> this.adapter.addItem(it1)}
+//            binding.homeFragmentClientListRecyclerView.adapter?.notifyDataSetChanged()
+//        }
 
         binding.apply {
             homeFragmentClientListRecyclerView.apply {
@@ -67,7 +71,6 @@ class HomeFragment : BaseFragment() {
 
     override fun onResume() {
         super.onResume()
-        /*Set up Account Category Dropdown*/
         val chartYear = resources.getStringArray(R.array.Year)
         val accountCategoriesArrayAdapter =
             ArrayAdapter(requireContext(), R.layout.chart_year_dropdown_item, chartYear)

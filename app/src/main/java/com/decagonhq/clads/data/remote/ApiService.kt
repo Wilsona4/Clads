@@ -4,10 +4,12 @@ import com.decagonhq.clads.data.domain.GenericResponseClass
 import com.decagonhq.clads.data.domain.images.UserProfileImage
 import com.decagonhq.clads.data.domain.login.UserRole
 import com.decagonhq.clads.data.domain.profile.UserProfile
+import com.decagonhq.clads.data.remote.client.ClientDTO
 import com.decagonhq.clads.data.remote.client.Client
 import com.decagonhq.clads.data.remote.login.LoginCredentialsDTO
 import com.decagonhq.clads.data.remote.registration.UserRegistrationDTO
 import okhttp3.MultipartBody
+import okhttp3.RequestBody
 import retrofit2.http.Body
 import retrofit2.http.DELETE
 import retrofit2.http.GET
@@ -32,11 +34,6 @@ interface ApiService {
     @POST("login/google")
     suspend fun googleLogin(@Body userRole: UserRole): GenericResponseClass<String>
 
-    @GET("clients")
-    suspend fun getClients(): GenericResponseClass<List<Client>>
-
-    @POST("client")
-    suspend fun addClient(@Body client: Client): GenericResponseClass<Client>
 
     @DELETE("client/{clientId}")
     suspend fun deleteClient(@Path("clientId") clientId: Int): GenericResponseClass<List<Client>>
@@ -57,11 +54,23 @@ interface ApiService {
     @GET("me/profile")
     suspend fun getUserProfile(): GenericResponseClass<UserProfile>
 
+    @POST("upload")
+    suspend fun uploadGalleryImage(@Body requestBody: RequestBody): GenericResponseClass<UserProfileImage>
+
     /*Update User Profile*/
     @PUT("me/profile")
     suspend fun updateUserProfile(@Body userProfile: UserProfile): GenericResponseClass<UserProfile>
 
+
+    @POST ("client")
+    suspend fun addClient( @Body client: Client): GenericResponseClass<Client>
+
+
+    @GET("clients")
+    suspend fun getClients(): GenericResponseClass<List<Client>>
+
     /* Verify auth token */
     @GET("confirm")
     suspend fun verifyAuthToken(@Query("token") token: String): GenericResponseClass<String>
+
 }

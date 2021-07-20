@@ -1,5 +1,6 @@
 package com.decagonhq.clads.viewmodels
 
+import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -25,8 +26,8 @@ class ClientViewModel @Inject constructor(
     private var _deleteClientResponse = MutableLiveData<Resource<GenericResponseClass<List<Client>>>>()
     val deleteClientResponse: LiveData<Resource<GenericResponseClass<List<Client>>>> get() = _deleteClientResponse
 
-    private var _addClientResponse = MutableLiveData<Resource<Client>>()
-    val addClientResponse: LiveData<Resource<Client>> get() = _addClientResponse
+    private var _addClientResponse = MutableLiveData<Resource<GenericResponseClass<Client>>>()
+    val addClientResponse: LiveData<Resource<GenericResponseClass<Client>>> get() = _addClientResponse
 
     private var _deleteFromDBResponse = MutableLiveData<Resource<Int>>()
     val deleteFromDBResponse: LiveData<Resource<Int>> get() = _deleteFromDBResponse
@@ -44,19 +45,19 @@ class ClientViewModel @Inject constructor(
 
     fun addClient(client: Client) {
         viewModelScope.launch(Dispatchers.IO) {
-            clientsRepository.addClientToServer(client).collect {
-                _addClientResponse.postValue(it)
-            }
+
+                _addClientResponse.postValue( clientsRepository.addClientToServer(client))
+
         }
     }
 
     fun deleteClient(clientId: Int) {
         viewModelScope.launch(Dispatchers.IO) {
-            clientsRepository.deleteClient(clientId).collect {
-                _deleteClientResponse.postValue(it)
+
+                _deleteClientResponse.postValue(clientsRepository.deleteClient(clientId))
             }
         }
-    }
+
 
     fun deleteClientFromDb(clients: List<Client>) {
         viewModelScope.launch(Dispatchers.IO) {

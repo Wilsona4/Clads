@@ -1,6 +1,7 @@
 package com.decagonhq.clads.repository
 
 import androidx.room.withTransaction
+import com.decagonhq.clads.data.domain.GenericResponseClass
 import com.decagonhq.clads.data.domain.images.UserProfileImage
 import com.decagonhq.clads.data.local.CladsDatabase
 import com.decagonhq.clads.data.remote.ApiService
@@ -10,8 +11,10 @@ import com.decagonhq.clads.util.SafeApiCall
 import com.decagonhq.clads.util.networkBoundResource
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.map
 import okhttp3.MultipartBody
+import okhttp3.RequestBody
 
 class ImageRepositoryImpl(
     private val apiService: ApiService,
@@ -47,4 +50,16 @@ class ImageRepositoryImpl(
             Resource.Success(it)
         }
     }
+
+    override suspend fun uploadGalleryImage(requestBody: RequestBody): Flow<Resource<GenericResponseClass<UserProfileImage>>> =
+        flow {
+            emit(
+                safeApiCall {
+                    apiService.uploadGalleryImage(requestBody)
+                }
+            )
+        }
+
 }
+
+

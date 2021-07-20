@@ -72,6 +72,7 @@ object RepositoryModule {
         clientEntityMapper: ClientEntityMapper,
         database: CladsDatabase
     ): ClientsRepository {
-        return ClientRepositoryImpl(apiService, clientEntityMapper, database)
+        return ClientRepositoryImpl(apiService,  clientEntityMapper, database)
+
     }
 }

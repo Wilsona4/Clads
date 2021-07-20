@@ -1,5 +1,6 @@
 package com.decagonhq.clads.ui.profile.editprofile
 
+import android.net.Uri
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -7,6 +8,7 @@ import android.view.ViewGroup
 import android.widget.EditText
 import android.widget.ImageView
 import android.widget.Toast
+import androidx.core.net.toUri
 import androidx.core.os.bundleOf
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
@@ -16,11 +18,17 @@ import com.decagonhq.clads.databinding.MediaFragmentPhotoNameBinding
 import com.decagonhq.clads.ui.BaseFragment
 import com.decagonhq.clads.util.DataListener
 import com.decagonhq.clads.util.IMAGE_DATA_BUNDLE_KEY
-import com.decagonhq.clads.util.IMAGE_KEY
 import com.decagonhq.clads.util.IMAGE_NAME_BUNDLE_KEY
+import com.decagonhq.clads.util.Resource
+import com.decagonhq.clads.util.handleApiError
+import com.decagonhq.clads.util.saveBitmap
+import com.decagonhq.clads.util.uriToBitmap
 import com.decagonhq.clads.viewmodels.ImageUploadViewModel
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import dagger.hilt.android.AndroidEntryPoint
+import okhttp3.MediaType.Companion.toMediaTypeOrNull
+import okhttp3.MultipartBody
+import okhttp3.RequestBody.Companion.asRequestBody
 
 @AndroidEntryPoint
 class MediaFragmentPhotoName : BaseFragment() {
@@ -63,6 +71,7 @@ class MediaFragmentPhotoName : BaseFragment() {
         sendFab.setOnClickListener {
             imageName = imageNamed.text.toString()
             imageData = args.imageData
+            val imageUri = imageData.toUri()
 
             DataListener.imageListener.value = true
 
@@ -71,9 +80,42 @@ class MediaFragmentPhotoName : BaseFragment() {
             if (imageName.isEmpty()) {
                 Toast.makeText(requireContext(), "Enter Image Name", Toast.LENGTH_SHORT).show()
             } else {
-                findNavController().previousBackStackEntry?.savedStateHandle?.set(IMAGE_KEY, bundle)
-                findNavController().popBackStack()
+//                findNavController().previousBackStackEntry?.savedStateHandle?.set(IMAGE_KEY, bundle)
+                uploadGalleryImage(imageUri, imageName)
+
+                imageUploadViewModel.uploadGalleryImage.observe(
+                    requireActivity(),
+                    androidx.lifecycle.Observer {
+                        when (it) {
+                            is Resource.Success -> {
+                                progressDialog.hideProgressDialog()
+                                Toast.makeText(requireContext(), "Upload successful", Toast.LENGTH_SHORT).show()
+                                findNavController().popBackStack()
+                            }
+                            is Resource.Error -> {
+                                progressDialog.hideProgressDialog()
+                                handleApiError(it, imageRetrofit, requireView())
+                            }
+                            is Resource.Loading -> {
+                                progressDialog.showDialogFragment("Uploading...")
+                            }
+                        }
+                    }
+                )
             }
         }
+    }
+    fun uploadGalleryImage(uri: Uri, description: String) {
+        // create RequestBody instance from file
+        val convertedImageUriToBitmap = uriToBitmap(uri)
+        val bitmapToFile = saveBitmap(convertedImageUriToBitmap)
+        val requestBody = bitmapToFile?.asRequestBody("image/jpg".toMediaTypeOrNull())
+        val reqBody = MultipartBody.Builder()
+            .setType(MultipartBody.FORM)
+            .addFormDataPart("file", bitmapToFile?.name, requestBody!!)
+            .addFormDataPart("description", description)
+            .build()
+
+        imageUploadViewModel.uploadGalleryImage(reqBody)
     }
 }

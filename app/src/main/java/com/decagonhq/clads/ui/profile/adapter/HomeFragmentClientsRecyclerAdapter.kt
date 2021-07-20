@@ -31,6 +31,11 @@ class HomeFragmentClientsRecyclerAdapter(private var clientList: MutableList<Cli
         notifyDataSetChanged()
     }
 
+    fun addItem(client: Client) {
+        clientList.add(client)
+        notifyDataSetChanged()
+    }
+
     /*bind data with the view holder*/
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val model = clientList[position]

@@ -112,6 +112,7 @@
     <string name="delivery_address_state">State</string>
     <string name="there_are_no_delivery_address">There are no delivery address for this client</string>
     <string name="add_address">Add Address</string>
+    <string name="save_client">Save Client</string>
     <string name="add_address_fragment">Add address</string>
     <string name="edit_measurement">Edit measurement</string>
 

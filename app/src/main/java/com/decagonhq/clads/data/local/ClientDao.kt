@@ -14,10 +14,12 @@ interface ClientDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun addClients(clients: List<ClientEntity>)
 
+
     /*Get User in the Database*/
     @Transaction
     @Query("SELECT * FROM client_details_table")
     fun readClients(): Flow<List<ClientEntity>>
+
 
     @Query("SELECT * FROM client_details_table WHERE id LIKE:clientId")
     fun readClient(clientId: Int): Flow<List<ClientEntity>>
@@ -25,11 +27,14 @@ interface ClientDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     fun addClient(client: ClientEntity): Long
 
+
     /*Delete userProfile in the Database*/
     @Query("DELETE FROM client_details_table")
     suspend fun deleteClients()
+
 
     /*Delete userProfile in the Database*/
     @Delete
     suspend fun deleteClient(client: ClientEntity): Int
 }
+

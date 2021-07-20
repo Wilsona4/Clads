@@ -22,6 +22,7 @@ import androidx.recyclerview.widget.GridLayoutManager
 import com.decagonhq.clads.data.domain.PhotoGalleryModel
 import com.decagonhq.clads.databinding.MediaFragmentBinding
 import com.decagonhq.clads.ui.profile.adapter.PhotoGalleryRecyclerAdapter
+import com.decagonhq.clads.ui.profile.adapter.RecyclerClickListener
 import com.decagonhq.clads.util.DataListener
 import com.decagonhq.clads.util.GRID_SIZE
 import com.decagonhq.clads.util.IMAGE_DATA_BUNDLE_KEY
@@ -33,7 +34,7 @@ import com.decagonhq.clads.util.hideView
 import com.decagonhq.clads.util.photosProvidersList
 import com.decagonhq.clads.util.showView
 
-class MediaFragment : Fragment() {
+class MediaFragment : Fragment(), RecyclerClickListener {
 
     private var _binding: MediaFragmentBinding? = null
 
@@ -108,7 +109,7 @@ class MediaFragment : Fragment() {
 
             mediaFragmentPhotoRecyclerView.apply {
                 photoGalleryRecyclerAdapter =
-                    PhotoGalleryRecyclerAdapter(photosProvidersList)
+                    PhotoGalleryRecyclerAdapter(photosProvidersList, this@MediaFragment, this@MediaFragment)
                 adapter = photoGalleryRecyclerAdapter
                 layoutManager = GridLayoutManager(requireContext(), GRID_SIZE)
                 photoGalleryRecyclerAdapter.notifyDataSetChanged()
@@ -211,5 +212,14 @@ class MediaFragment : Fragment() {
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
+    }
+
+    override fun onItemClickToEdit(position: Int, photoArrayList: ArrayList<PhotoGalleryModel>) {
+
+        Toast.makeText(requireContext(), "Image Clicked", Toast.LENGTH_SHORT).show()
+    }
+
+    override fun onItemClickToDelete(position: Int, photoArrayList: ArrayList<PhotoGalleryModel>) {
+        Toast.makeText(requireContext(), "Description clicked", Toast.LENGTH_SHORT).show()
     }
 }

@@ -11,6 +11,7 @@ import android.view.ViewGroup
 import androidx.core.content.ContextCompat
 import androidx.core.view.isVisible
 import androidx.fragment.app.activityViewModels
+import androidx.lifecycle.observe
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -79,11 +80,10 @@ class ClientFragment : BaseFragment() {
     private fun setObservers() {
 
         clientViewModel.client.observe(
-            viewLifecycleOwner,
-            {
-                it.data?.let { it1 -> displayRecyclerviewOrNoClientText(it1) }
-            }
-        )
+            viewLifecycleOwner
+        ) {
+            it.data?.let { it1 -> displayRecyclerviewOrNoClientText(it1) }
+        }
 
         clientViewModel.deleteClientResponse.observe(viewLifecycleOwner) {
 
@@ -105,81 +105,46 @@ class ClientFragment : BaseFragment() {
         }
 
         clientViewModel.deleteFromDBResponse.observe(
-            viewLifecycleOwner,
-            {
+            viewLifecycleOwner
+        ) {
 
-                if (swiped) {
-                    when (it) {
+                when (it) {
 
-                        is Resource.Success -> {
-
+                    is Resource.Success -> {
+                        itemToDeletePosition?.let { it1 -> adapter.deleteItem(it1)
+                            binding.clientListScreenRecyclerView.adapter?.notifyDataSetChanged()
                             progressDialog.hideProgressDialog()
-
-                            itemToDeletePosition?.let { it1 -> adapter.deleteItem(it1) }
-
-                            Snackbar.make(
-                                requireView(),
-                                "Client Deleted Successfully",
-                                Snackbar.LENGTH_SHORT
-                            ).show()
-                        } else -> {
-                            Snackbar.make(
-                                requireView(),
-                                it.message!!,
-                                Snackbar.LENGTH_SHORT
-                            ).show()
                         }
-                    }
-                }
-            }
-        )
-
-        clientViewModel.addClientResponse.observe(
-            viewLifecycleOwner,
-            {
-                when (it) {
-
-                    is Resource.Success -> {
-
-                        clientViewModel.addClientToDb(it.data!!)
-                    } else -> {
                         Snackbar.make(
                             requireView(),
-                            it.message!!,
+                            "Client Deleted Successfully",
                             Snackbar.LENGTH_SHORT
                         ).show()
                     }
-                }
-            }
-        )
 
-        clientViewModel.addToDBResponse.observe(
-            viewLifecycleOwner,
-            {
-                when (it) {
-
-                    is Resource.Success -> {
-
-                        progressDialog.hideProgressDialog()
-
-                        adapter.addItem(it.data!!)
-
-                        Snackbar.make(
-                            requireView(),
-                            "Client added Successfully",
-                            Snackbar.LENGTH_SHORT
-                        )
-                            .show()
-                    } else -> {
-                        Snackbar.make(
-                            requireView(),
-                            it.message!!,
-                            Snackbar.LENGTH_SHORT
-                        ).show()
+                    is Resource.Error -> {
+                    Snackbar.make(
+                        requireView(),
+                        it.message!!,
+                        Snackbar.LENGTH_SHORT
+                    ).show()
                     }
+                    else -> {}
                 }
+
+        }
+
+
+        clientViewModel.addToDBResponse.observe(viewLifecycleOwner) {
+            when (it) {
+                is Resource.Success -> {
+                    it.data?.let { it1 -> adapter.addItem(it1) }
+                    binding.clientListScreenRecyclerView.adapter?.notifyDataSetChanged()
+                } else -> { }
             }
-        )
+
+        }
+
     }
 
     private fun setEventListeners() {
@@ -210,9 +175,10 @@ class ClientFragment : BaseFragment() {
 
             override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
                 itemToDeletePosition = viewHolder.adapterPosition
-                clientViewModel.deleteClient(adapter.getItem(itemToDeletePosition!!).id)
+                adapter.getItem(itemToDeletePosition!!).id?.let { clientViewModel.deleteClient(it) }
                 swiped = true
                 progressDialog.showDialogFragment("Deleting Client...")
+
             }
 
             override fun onChildDraw(
@@ -235,8 +201,7 @@ class ClientFragment : BaseFragment() {
                 )
 
                 val itemView = viewHolder.itemView
-                val backgroundCornerOffset =
-                    20 // so background is behind the rounded corners of itemView
+                val backgroundCornerOffset = 20 // so background is behind the rounded corners of itemView
 
                 val iconMargin = (itemView.height - icon.intrinsicHeight) / 2
                 val iconTop = itemView.top + (itemView.height - icon.intrinsicHeight) / 2

@@ -8,9 +8,10 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.decagonhq.clads.R
 import com.decagonhq.clads.data.domain.DressMeasurementModel
+import com.decagonhq.clads.data.remote.client.Measurement
 
 class AddMeasurementAdapter(
-    private val currentList: MutableList<DressMeasurementModel>,
+    private var currentList: MutableList<Measurement>,
     private val listener1: RecyclerClickListener,
     private val listener2: RecyclerClickListener
 ) : RecyclerView.Adapter<AddMeasurementAdapter.CardViewHolder>() {
@@ -20,8 +21,9 @@ class AddMeasurementAdapter(
         val display: TextView = itemView.findViewById(R.id.measurement_recyclerview_item)
         val delete: ImageView = itemView.findViewById(R.id.measurementment_recyclerview_item_delete_button)
 //        Binding the data with the view
-        fun bind(dressMeasurementModel: DressMeasurementModel) {
-            display.text = "${dressMeasurementModel.measurementName} ${dressMeasurementModel.measurement}"
+        fun bind(dressMeasurementModel: Measurement) {
+            //display.text = "${dressMeasurementModel.measurementName} ${dressMeasurementModel.measurement}"
+             display.text = "${dressMeasurementModel.title} ${dressMeasurementModel.value}"
         }
     }
 
@@ -46,9 +48,23 @@ class AddMeasurementAdapter(
     override fun getItemCount(): Int {
         return currentList.size
     }
+
+    fun updateList(measurementList:MutableList<Measurement>){
+        this.currentList = measurementList
+        this.notifyDataSetChanged()
+    }
+
+    fun deleteMeasurement(position:Int){
+        this.currentList.removeAt(position)
+        this.notifyDataSetChanged()
+    }
+
+    fun replaceMeasurement(position:Int,measurement:Measurement){
+        this.currentList[position] = measurement
+    }
 }
 
 interface RecyclerClickListener {
-    fun onItemClickToEdit(position: Int, currentList: MutableList<DressMeasurementModel>)
-    fun onItemClickToDelete(position: Int, currentList: MutableList<DressMeasurementModel>)
+    fun onItemClickToEdit(position: Int, currentList: MutableList<Measurement>)
+    fun onItemClickToDelete(position: Int, currentList: MutableList<Measurement>)
 }

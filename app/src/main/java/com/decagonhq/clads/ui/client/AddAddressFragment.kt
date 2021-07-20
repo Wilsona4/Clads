@@ -41,7 +41,7 @@ class AddAddressFragment : Fragment() {
         deliveryAddress = binding.addAddressFragmentEnterDeliveryAddressEditText
         cityAddress = binding.addAddressFragmentCityAddressEditText
 
-        /*Form submition*/
+        /*Form submission*/
         addAddressButton.setOnClickListener {
             val enterDeliveryAddress = deliveryAddress.text.toString()
             val cityAddress = cityAddress.text.toString()

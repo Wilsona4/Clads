@@ -88,6 +88,9 @@
             android:defaultValue="@null"
             app:argType="com.decagonhq.clads.data.domain.DeliveryAddressModel"
             app:nullable="true" />
+        <action
+            android:id="@+id/action_deliveryAddressFragment_to_clientFragment"
+            app:destination="@id/clientFragment" />
 
 
     </fragment>
