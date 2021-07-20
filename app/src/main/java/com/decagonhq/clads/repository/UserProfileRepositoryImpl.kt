@@ -19,7 +19,7 @@ class UserProfileRepositoryImpl(
     private val userProfileEntityMapper: UserProfileEntityMapper,
     private val database: CladsDatabase
 ) : UserProfileRepository, SafeApiCall() {
-
+    private val TAG = UserProfileRepositoryImpl::class.java.simpleName
     override suspend fun getUserProfile(): Flow<Resource<UserProfile>> =
         networkBoundResource(
             fetchFromLocal = {

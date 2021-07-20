@@ -103,6 +103,7 @@ class AccountFragment : BaseFragment() {
         /*Get users profile*/
         userProfileViewModel.getLocalDatabaseUserProfile()
         imageUploadViewModel.getUserImage()
+        userProfileViewModel.getUserProfile()
         getUserProfile()
     }
 
