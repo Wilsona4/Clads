@@ -351,7 +351,7 @@
     <string name="enter_union_resource">Enter Union Details</string>
     <string name="enter_union_name">Enter Union Name</string>
     <string name="enter_union_ward">Enter Union Ward</string>
-
+<string name="two_weeks">2 Weeks</string>
     <string-array name="account_category">
         <item>Tailor</item>
         <item>Weaver</item>

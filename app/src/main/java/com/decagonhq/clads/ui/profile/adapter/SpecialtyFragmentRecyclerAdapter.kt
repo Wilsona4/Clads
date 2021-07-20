@@ -1,23 +1,21 @@
 package com.decagonhq.clads.ui.profile.adapter
 
-import android.app.AlertDialog
 import android.view.LayoutInflater
 import android.view.ViewGroup
-import android.widget.Toast
-import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.RecyclerView
 import com.decagonhq.clads.databinding.SpecialtyFragmentRecyclerItemBinding
 
-class SpecialtyFragmentRecyclerAdapter(private val listener: SpecialtyAdapterClickListener) :
+class SpecialtyFragmentRecyclerAdapter :
     RecyclerView.Adapter<SpecialtyFragmentRecyclerAdapter.SpecialtyViewHolder>() {
 
-    var specialtyList = arrayListOf<String>()
+   private var _specialtyList = mutableListOf<String>()
+    val specialtyList: List<String> get() = _specialtyList
 
     inner class SpecialtyViewHolder(var itemBinding: SpecialtyFragmentRecyclerItemBinding) :
         RecyclerView.ViewHolder(itemBinding.root) {
 
         fun bind(specialty: String) = with(itemBinding) {
-            specialtyFragmentYorubaAttiresCheckBox.text = specialty
+            specialtyFragmentYorubaAttiresCheckBox.text = specialty.trim()
             specialtyFragmentYorubaAttiresCheckBox.isChecked = true
 
         }
@@ -30,22 +28,32 @@ class SpecialtyFragmentRecyclerAdapter(private val listener: SpecialtyAdapterCli
     }
 
     override fun onBindViewHolder(holder: SpecialtyViewHolder, position: Int) {
-        val specialty = specialtyList[position]
+        val specialty = _specialtyList[position]
         holder.bind(specialty)
-        holder.itemBinding.specialtyFragmentYorubaAttiresCheckBox.setOnClickListener {
-            val check = holder.itemBinding.specialtyFragmentYorubaAttiresCheckBox.isChecked
-            val position = position
-            listener.onItemChecked(check,position)
-        }
     }
 
     override fun getItemCount(): Int {
-        return specialtyList.size
+        return _specialtyList.size
     }
 
-    fun populateList(specialty: String) {
-        this.specialtyList.add(specialty)
+    fun populateList(list: MutableList<String>) {
+        _specialtyList = list
         notifyDataSetChanged()
+    }
+
+    fun addNewSpecialty(specialty: String){
+        _specialtyList.add(specialty)
+        notifyDataSetChanged()
+    }
+
+    fun removeSpecialty(position: Int){
+        _specialtyList.removeAt(position)
+        notifyItemRemoved(position)
+    }
+
+    fun undoRemove(position: Int, specialty: String){
+        _specialtyList.add(position, specialty)
+        notifyItemInserted(position)
     }
 
 }

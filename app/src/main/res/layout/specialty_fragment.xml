@@ -79,7 +79,7 @@
             android:layout_marginStart="@dimen/margin_16dp"
             android:layout_marginTop="@dimen/margin_12dp"
             android:buttonTint="@color/deep_sky_blue"
-            android:checked="true"
+            android:checked="false"
             android:text="@string/male"
             app:layout_constraintEnd_toStartOf="@+id/specialty_fragment_female_check_box"
             app:layout_constraintStart_toStartOf="parent"
@@ -90,7 +90,7 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:buttonTint="@color/deep_sky_blue"
-            android:checked="true"
+            android:checked="false"
             android:text="@string/female"
             app:layout_constraintBaseline_toBaselineOf="@+id/specialty_fragment_male_check_box"
             app:layout_constraintEnd_toStartOf="@+id/specialty_fragment_kids_check_box"
@@ -102,6 +102,7 @@
             android:layout_height="wrap_content"
             android:buttonTint="@color/deep_sky_blue"
             android:text="@string/kids"
+            android:checked="false"
             app:layout_constraintBaseline_toBaselineOf="@+id/specialty_fragment_female_check_box"
             app:layout_constraintEnd_toStartOf="@+id/specialty_fragment_unisex_check_box"
             app:layout_constraintStart_toEndOf="@+id/specialty_fragment_female_check_box" />
@@ -114,6 +115,7 @@
             android:layout_marginEnd="@dimen/margin_12dp"
             android:buttonTint="@color/deep_sky_blue"
             android:text="@string/unisex"
+            android:checked="false"
             app:layout_constraintBaseline_toBaselineOf="@+id/specialty_fragment_kids_check_box"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@+id/specialty_fragment_kids_check_box" />

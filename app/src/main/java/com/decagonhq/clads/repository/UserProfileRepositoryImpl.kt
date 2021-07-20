@@ -1,5 +1,6 @@
 package com.decagonhq.clads.repository
 
+import android.util.Log
 import androidx.room.withTransaction
 import com.decagonhq.clads.data.domain.profile.UserProfile
 import com.decagonhq.clads.data.local.CladsDatabase
@@ -19,7 +20,7 @@ class UserProfileRepositoryImpl(
     private val userProfileEntityMapper: UserProfileEntityMapper,
     private val database: CladsDatabase
 ) : UserProfileRepository, SafeApiCall() {
-
+private val TAG = UserProfileRepositoryImpl::class.java.simpleName
     override suspend fun getUserProfile(): Flow<Resource<UserProfile>> =
         networkBoundResource(
             fetchFromLocal = {
@@ -52,6 +53,7 @@ class UserProfileRepositoryImpl(
 
     override suspend fun updateUserProfile(userProfile: UserProfile) {
         val response = safeApiCall {
+            Log.d(TAG, "update user: $userProfile")
             apiService.updateUserProfile(userProfileDTOMapper.mapFromDomainModel(userProfile))
         }
         response.data?.payload?.let {

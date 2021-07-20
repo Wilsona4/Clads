@@ -21,7 +21,6 @@ import com.decagonhq.clads.data.domain.profile.Union
 import com.decagonhq.clads.data.domain.profile.UserProfile
 import com.decagonhq.clads.data.domain.profile.WorkshopAddress
 import com.decagonhq.clads.databinding.SpecialtyFragmentBinding
-import com.decagonhq.clads.ui.profile.adapter.SpecialtyAdapterClickListener
 import com.decagonhq.clads.ui.profile.adapter.SpecialtyFragmentRecyclerAdapter
 import com.decagonhq.clads.ui.profile.dialogfragment.ProfileManagementDialogFragments.Companion.createProfileDialogFragment
 import com.decagonhq.clads.viewmodels.UserProfileViewModel
@@ -29,14 +28,15 @@ import com.google.android.material.snackbar.Snackbar
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
-class SpecialtyFragment : Fragment(), SpecialtyAdapterClickListener {
+class SpecialtyFragment : Fragment() {
     private var _binding: SpecialtyFragmentBinding? = null
 
-    private val recyclerViewAdapter by lazy { SpecialtyFragmentRecyclerAdapter(this) }
+    private val TAG = SpecialtyFragment::class.java.simpleName
+    private val recyclerViewAdapter by lazy { SpecialtyFragmentRecyclerAdapter() }
 
     private val userProfileViewModel: UserProfileViewModel by activityViewModels()
 
-    var selectedGenderFocus = arrayListOf<String>()
+
 
     var specialtyList = arrayListOf(
         "Yoruba Attires",
@@ -55,7 +55,6 @@ class SpecialtyFragment : Fragment(), SpecialtyAdapterClickListener {
     ): View {
         // Inflate the layout for this fragment
         _binding = SpecialtyFragmentBinding.inflate(inflater, container, false)
-        retrieveSavedInfoFromApi()
 //        profileManagementViewModel =
 //            ViewModelProvider(requireActivity()).get(ProfileManagementViewModel::class.java)
         return binding.root
@@ -67,7 +66,9 @@ class SpecialtyFragment : Fragment(), SpecialtyAdapterClickListener {
         changeIfObiomaIsTrainedDialog()
         addNewSpecialtyDialog()
         addSpecialDeliveryTime()
-        getSelectedGenderFocusItem()
+        savedInfoFromApi()
+
+
         /*simpleCallBAck object is passed as a parameter of the itemTouchHelper object*/
         val itemTouchHelper = ItemTouchHelper(simpleCallback)
         /*attaching the item touch helper to our recycler view*/
@@ -75,12 +76,14 @@ class SpecialtyFragment : Fragment(), SpecialtyAdapterClickListener {
 
         binding.specialtyFragmentSaveChangesMaterialButton.setOnClickListener {
             updateUserProfile()
+            Toast.makeText(requireContext(), "Update SuccessFull", Toast.LENGTH_SHORT).show()
+            requireActivity().onBackPressed()
         }
     }
 
     private fun recyclerViewAdapterSetUp() {
         val recyclerView = binding.specialtyFragmentRecyclerView
-        recyclerViewAdapter.specialtyList.addAll(specialtyList)
+//        recyclerViewAdapter.specialtyList.addAll(specialtyList)
         recyclerView.adapter = recyclerViewAdapter
         recyclerView.layoutManager = LinearLayoutManager(context)
     }
@@ -94,8 +97,7 @@ class SpecialtyFragment : Fragment(), SpecialtyAdapterClickListener {
         ) { key, bundle ->
             // collect input values from dialog fragment and update the union name text of user
             val obiomaTrainedValue = bundle.getString(SPECIAL_OBIOMA_TRAINED_BUNDLE_KEY)
-            binding.specialtyFragmentObiomaTrainedAndCertifiedValueTextView.text =
-                obiomaTrainedValue
+            binding.specialtyFragmentObiomaTrainedAndCertifiedValueTextView.text = obiomaTrainedValue
         }
 
         // when delivery time value is clicked
@@ -117,12 +119,14 @@ class SpecialtyFragment : Fragment(), SpecialtyAdapterClickListener {
     private fun addNewSpecialtyDialog() {
         // when delivery time value is clicked
         childFragmentManager.setFragmentResultListener(
-            ADD_SPECIALTY_REQUEST_KEY,
+            ADD_NEW_SPECIALTY_REQUEST_KEY,
             requireActivity()
         ) { key, bundle ->
             // collect input values from dialog fragment and update the text of user
-            val newSpecialty = bundle.getString(ADD_SPECIALTY_BUNDLE_KEY)
-            recyclerViewAdapter.specialtyList.add(newSpecialty!!)
+            val newSpecialty = bundle.getString(ADD_NEW_SPECIALTY_BUNDLE_KEY)
+            if (newSpecialty != null) {
+                recyclerViewAdapter.addNewSpecialty(newSpecialty)
+            }
         }
 
         // when delivery time value is clicked
@@ -167,26 +171,14 @@ class SpecialtyFragment : Fragment(), SpecialtyAdapterClickListener {
         _binding = null
     }
 
-    companion object {
-        const val SPECIAL_DELIVERY_TIME_REQUEST_KEY = "SPECIAL DELIVERY TIME REQUEST KEY"
-        const val SPECIAL_DELIVERY_TIME_BUNDLE_KEY = "SPECIAL DELIVERY TIME BUNDLE KEY"
-        const val CURRENT_SPECIAL_DELIVERY_TIME_BUNDLE_KEY =
-            "CURRENT SPECIAL DELIVERY TIME BUNDLE KEY"
-
-        const val SPECIAL_OBIOMA_TRAINED_REQUEST_KEY = "SPECIAL OBIOMA TRAINED REQUEST KEY"
-        const val SPECIAL_OBIOMA_TRAINED_BUNDLE_KEY = "SPECIAL OBIOMA TRAINED BUNDLE KEY"
-        const val CURRENT_SPECIAL_OBIOMA_TRAINED_BUNDLE_KEY =
-            "CURRENT SPECIAL OBIOMA TRAINED BUNDLE KEY"
-
-        const val ADD_SPECIALTY_REQUEST_KEY = "SPECIAL OBIOMA TRAINED REQUEST KEY"
-        const val ADD_SPECIALTY_BUNDLE_KEY = "SPECIAL OBIOMA TRAINED BUNDLE KEY"
-    }
-
-    private fun retrieveSavedInfoFromApi() {
+    private fun savedInfoFromApi() {
         userProfileViewModel.userProfile.observe(viewLifecycleOwner, Observer {
-            var list = it.data?.specialties
-            specialtyList.addAll(list!!)
-//            recyclerViewAdapter.populateList(list!!.toList())
+            var list = it.data?.specialties?.toMutableList()
+            if (list!!.isEmpty()) {
+                recyclerViewAdapter.populateList(specialtyList)
+            }else {
+                recyclerViewAdapter.populateList(list)
+            }
             var genderFocusItem = it.data?.genderFocus!!
             for (i in genderFocusItem) {
                 when {
@@ -204,10 +196,7 @@ class SpecialtyFragment : Fragment(), SpecialtyAdapterClickListener {
                     }
                 }
             }
-
-            if (it.data!!.trained) {
-                binding.specialtyFragmentObiomaTrainedAndCertifiedValueTextView.text = "Yes"
-            }
+                binding.specialtyFragmentObiomaTrainedAndCertifiedValueTextView.text = getString(R.string.yes)
 
             binding.specialtyFragmentVisitUsForYourMeasurementValueCheckBox.isChecked =
                 it.data.measurementOption.visitForMeasurement!!
@@ -216,7 +205,7 @@ class SpecialtyFragment : Fragment(), SpecialtyAdapterClickListener {
                 it.data.measurementOption.acceptSelfMeasurement!!
 
             binding.specialtyFragmentDeliveryLeadTimeValueTextView.text =
-                it.data.deliveryTime ?: "2 Weeks"
+                it.data.deliveryTime ?: getString(R.string.two_weeks)
         })
     }
 
@@ -232,7 +221,7 @@ class SpecialtyFragment : Fragment(), SpecialtyAdapterClickListener {
                         email = profile.email,
                         firstName = profile.firstName,
                         gender = profile.gender,
-                        genderFocus = selectedGenderFocus.toList(),
+                        genderFocus = getSelectedGenderFocusItem(),
                         lastName = profile.lastName,
                         measurementOption = MeasurementOption(
                             binding.specialtyFragmentVisitUsForYourMeasurementValueCheckBox.isChecked,
@@ -250,52 +239,53 @@ class SpecialtyFragment : Fragment(), SpecialtyAdapterClickListener {
                             city = profile.showroomAddress?.city,
                             state = profile.showroomAddress?.state,
                         ),
-                        specialties = specialtyList,
+                        specialties = recyclerViewAdapter.specialtyList,
                         thumbnail = profile.thumbnail,
-                        trained = true,
+                        trained = binding.specialtyFragmentObiomaTrainedAndCertifiedValueTextView.text.toString().toLowerCase() == "yes",
                         union = Union(
-                            name = profile.union?.name,
-                            ward = profile.union?.ward,
-                            lga = profile.union?.lga,
-                            state = profile.union?.state,
+                            name = profile.union?.name ?: "null",
+                            ward = profile.union?.ward ?: "null",
+                            lga = profile.union?.lga ?: "null",
+                            state = profile.union?.state ?: "null",
                         ),
                         paymentTerms = profile.paymentTerms,
                         paymentOptions = profile.paymentOptions
                     )
                     userProfileViewModel.updateUserProfile(userProfile)
-                    binding.specialtyFragmentUploadProgressbar.isVisible = false
-
                 }
             }
         )
     }
 
-    private fun getSelectedGenderFocusItem() {
+    private fun getSelectedGenderFocusItem(): ArrayList<String> {
 
-        when {
-            binding.specialtyFragmentMaleCheckBox.isChecked -> {
+        var selectedGenderFocus = arrayListOf<String>()
+
+        if(binding.specialtyFragmentMaleCheckBox.isChecked ){
                 selectedGenderFocus.add("male")
             }
-            binding.specialtyFragmentFemaleCheckBox.isChecked -> {
+        if (binding.specialtyFragmentFemaleCheckBox.isChecked){
                 selectedGenderFocus.add("female")
             }
-            binding.specialtyFragmentKidsCheckBox.isChecked -> {
+        if (binding.specialtyFragmentKidsCheckBox.isChecked){
                 selectedGenderFocus.add("kids")
             }
-            binding.specialtyFragmentUnisexCheckBox.isChecked -> {
+        if (binding.specialtyFragmentUnisexCheckBox.isChecked){
                 selectedGenderFocus.add("unisex")
             }
-        }
+
+        return selectedGenderFocus
     }
 
-    override fun onItemChecked(status: Boolean, position: Int) {
-        if (!status) {
-            specialtyList.removeAt(position)
-        }
-    }
 
-    /*simpleCallBack method for swipping the recycler view items so as to update the info
-    * dragdirection is zero because we are not dragging*/
+
+    /**
+     * simpleCallBack method for swiping the recycler view items so as to update the info
+     * drag direction is zero because we are not dragging
+     * the swipe direction is only set to right because only action can be performed on the recyclerview item i.e delete
+     *
+     *
+     */
     private var simpleCallback = object :
         ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.RIGHT) {
         override fun onMove(
@@ -306,33 +296,44 @@ class SpecialtyFragment : Fragment(), SpecialtyAdapterClickListener {
             return true
         }
 
-        /*specifing the position of the contact*/
+        /*specifying the position of the contact*/
         override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
-            var position = viewHolder.adapterPosition
             // adapterPosition
-            var currentSpecialty = recyclerViewAdapter.specialtyList[position]
+            var position = viewHolder.adapterPosition
+
             // getting the current contact swipped
+            var currentSpecialty = recyclerViewAdapter.specialtyList[position]
 
             /*checking the direction swipped */
             if (direction == ItemTouchHelper.RIGHT) {
                 AlertDialog.Builder(requireContext()).also {
                     it.setTitle("Are you sure you want to delete this specialty?")
                     it.setPositiveButton("Yes") { dialog, which ->
-                        recyclerViewAdapter.specialtyList.removeAt(position)
-                        binding.specialtyFragmentRecyclerView.adapter?.notifyItemRemoved(position)
+
+                        // below is to delete an item from the array list at a position
+                        // the item was swiped.
+                        recyclerViewAdapter.removeSpecialty(position)
+
+                        // below line is to notify item is
+                        // deleted in our adapter class.
+//                        binding.specialtyFragmentRecyclerView.adapter?.notifyItemRemoved(position)
+
                         // below line is to display our snackbar with action.
                         Snackbar.make(
                             binding.specialtyFragmentRecyclerView,
                             "do you want to delete $currentSpecialty",
                             Snackbar.LENGTH_LONG
                         ).setAction("Undo",) {
+
                             // adding on click listener to our action of snack bar.
-                            // below line is to add our item to array list with a position.
-                            recyclerViewAdapter.specialtyList.add(position, currentSpecialty);
+                            // below line is to add our item to array list at the position the
+                            // item was deleted.
+                            recyclerViewAdapter.undoRemove(position, currentSpecialty)
+//                            recyclerViewAdapter.specialtyList.add(position, currentSpecialty)
 
                             // below line is to notify item is
                             // added to our adapter class.
-                            recyclerViewAdapter.notifyItemInserted(position);
+                            recyclerViewAdapter.notifyItemInserted(position)
 
                         }.show()
                     }.create().show()
@@ -342,4 +343,20 @@ class SpecialtyFragment : Fragment(), SpecialtyAdapterClickListener {
         }
 
     }
+
+    companion object {
+        const val SPECIAL_DELIVERY_TIME_REQUEST_KEY = "SPECIAL DELIVERY TIME REQUEST KEY"
+        const val SPECIAL_DELIVERY_TIME_BUNDLE_KEY = "SPECIAL DELIVERY TIME BUNDLE KEY"
+        const val CURRENT_SPECIAL_DELIVERY_TIME_BUNDLE_KEY =
+            "CURRENT SPECIAL DELIVERY TIME BUNDLE KEY"
+
+        const val SPECIAL_OBIOMA_TRAINED_REQUEST_KEY = "SPECIAL OBIOMA TRAINED REQUEST KEY"
+        const val SPECIAL_OBIOMA_TRAINED_BUNDLE_KEY = "SPECIAL OBIOMA TRAINED BUNDLE KEY"
+        const val CURRENT_SPECIAL_OBIOMA_TRAINED_BUNDLE_KEY =
+            "CURRENT SPECIAL OBIOMA TRAINED BUNDLE KEY"
+
+        const val ADD_NEW_SPECIALTY_REQUEST_KEY = "NANANA REQUEST KEY"
+        const val ADD_NEW_SPECIALTY_BUNDLE_KEY = "NANANA BUNDLE KEY"
+    }
+
 }
