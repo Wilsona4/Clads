@@ -54,6 +54,7 @@ object NetworkModule {
         return OkHttpClient.Builder()
             .addInterceptor(headerAuthorization)
             .addInterceptor(logger)
+//            .connectTimeout(timeOutSec, TimeUnit.MILLISECONDS)
             .build()
     }
 

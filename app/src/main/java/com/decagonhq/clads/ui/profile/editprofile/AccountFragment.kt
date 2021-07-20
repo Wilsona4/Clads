@@ -101,8 +101,10 @@ class AccountFragment : BaseFragment() {
         }
 
         /*Get users profile*/
+
+        imageUploadViewModel.getUserProfileImage()
+
         userProfileViewModel.getLocalDatabaseUserProfile()
-        imageUploadViewModel.getUserImage()
         userProfileViewModel.getUserProfile()
         getUserProfile()
     }
@@ -763,6 +765,10 @@ class AccountFragment : BaseFragment() {
         const val ACCOUNT_LEGAL_STATUS_BUNDLE_KEY = "ACCOUNT LEGAL STATUS BUNDLE KEY"
         const val CURRENT_ACCOUNT_LEGAL_STATUS_BUNDLE_KEY =
             "CURRENT ACCOUNT LEGAL STATUS BUNDLE KEY"
+
+        const val RENAME_DESCRIPTION_REQUEST_KEY = "ACCOUNT FIRST NAME REQUEST KEY"
+        const val RENAME_DESCRIPTION_BUNDLE_KEY = "ACCOUNT FIRST NAME BUNDLE KEY"
+        const val CURRENT_ACCOUNT_RENAME_DESCRIPTION_BUNDLE_KEY = "CURRENT ACCOUNT FIRST NAME BUNDLE KEY"
 
         const val READ_IMAGE_STORAGE = 102
         const val NAME = "CLads"

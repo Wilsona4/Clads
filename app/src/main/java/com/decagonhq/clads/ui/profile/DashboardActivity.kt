@@ -84,8 +84,10 @@ class DashboardActivity : AppCompatActivity() {
     override fun onStart() {
         super.onStart()
         userProfileViewModel.saveUserProfileToLocalDatabase()
-//        userProfileViewModel.getUserProfile()
-        imageUploadViewModel.getUserImage()
+//       userProfileViewModel.getUserProfile()
+        imageUploadViewModel.getUserProfileImage()
+        imageUploadViewModel.getRemoteGalleryImages()
+
         GlobalScope.launch {
             delay(5000L)
             withContext(Dispatchers.Main) {
@@ -139,6 +141,7 @@ class DashboardActivity : AppCompatActivity() {
         setupActionBarWithNavController(navController, appBarConfiguration)
         navView.setupWithNavController(navController)
         bottomNavigationView.setupWithNavController(navController)
+        hideCustomBarBarConstraintLayout()
 
         /*Set Up Navigation Change Listener*/
         onDestinationChangedListener()
@@ -433,5 +436,20 @@ class DashboardActivity : AppCompatActivity() {
                     }
                 }
             }
+    }
+
+    /*Set Toolbar Custom Title*/
+    fun setCustomActionBarTitle(message: String) {
+        binding.appBarDashboard.dashboardActivityToolbar.title = message
+    }
+
+    private fun hideCustomBarBarConstraintLayout() {
+        navController.addOnDestinationChangedListener { _, destination, _ ->
+            if (destination.id == R.id.photoGalleryEditImageFragment) {
+                binding.appBarDashboard.dashboardActivityToolbarCL.visibility = View.GONE
+            } else {
+                binding.appBarDashboard.dashboardActivityToolbarCL.visibility = View.VISIBLE
+            }
+        }
     }
 }
