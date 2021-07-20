@@ -170,7 +170,7 @@ class SpecialtyFragment : Fragment() {
             viewLifecycleOwner,
             Observer {
                 var list = it.data?.specialties?.toMutableList()
-                    recyclerViewAdapter.populateList(list!!)
+                recyclerViewAdapter.populateList(list!!)
 
                 var genderFocusItem = it.data?.genderFocus!!
                 for (i in genderFocusItem) {
