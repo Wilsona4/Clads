@@ -73,8 +73,8 @@ import com.decagonhq.clads.ui.profile.editprofile.AccountFragment.Companion.CURR
 import com.decagonhq.clads.ui.profile.editprofile.AccountFragment.Companion.CURRENT_ACCOUNT_WORKSHOP_STREET_BUNDLE_KEY
 import com.decagonhq.clads.ui.profile.editprofile.AccountFragment.Companion.RENAME_DESCRIPTION_BUNDLE_KEY
 import com.decagonhq.clads.ui.profile.editprofile.AccountFragment.Companion.RENAME_DESCRIPTION_REQUEST_KEY
-import com.decagonhq.clads.ui.profile.editprofile.SpecialtyFragment.Companion.ADD_SPECIALTY_BUNDLE_KEY
-import com.decagonhq.clads.ui.profile.editprofile.SpecialtyFragment.Companion.ADD_SPECIALTY_REQUEST_KEY
+import com.decagonhq.clads.ui.profile.editprofile.SpecialtyFragment.Companion.ADD_NEW_SPECIALTY_BUNDLE_KEY
+import com.decagonhq.clads.ui.profile.editprofile.SpecialtyFragment.Companion.ADD_NEW_SPECIALTY_REQUEST_KEY
 import com.decagonhq.clads.ui.profile.editprofile.SpecialtyFragment.Companion.CURRENT_SPECIAL_DELIVERY_TIME_BUNDLE_KEY
 import com.decagonhq.clads.ui.profile.editprofile.SpecialtyFragment.Companion.CURRENT_SPECIAL_OBIOMA_TRAINED_BUNDLE_KEY
 import com.decagonhq.clads.ui.profile.editprofile.SpecialtyFragment.Companion.SPECIAL_DELIVERY_TIME_BUNDLE_KEY
@@ -112,8 +112,7 @@ class ProfileManagementDialogFragments(
                 val okButton = binding.accountEmployeeNumberDialogFragmentOkButton
                 val cancelButton = binding.accountEmployeeNumberDialogFragmentCancelButton
 
-                val retrievedArgs =
-                    bundle?.getString(CURRENT_ACCOUNT_EMPLOYEE_BUNDLE_KEY)
+                val retrievedArgs = bundle?.getString(CURRENT_ACCOUNT_EMPLOYEE_BUNDLE_KEY)
 
                 /*Attaching the data*/
                 employeeNumberEditText.setText(retrievedArgs)
@@ -745,6 +744,7 @@ class ProfileManagementDialogFragments(
                     }
                 }
             }
+
             R.layout.account_union_state_dialog_fragment -> {
                 /*Initialise binding*/
                 val binding = AccountUnionStateDialogFragmentBinding.bind(view)
@@ -1052,9 +1052,9 @@ class ProfileManagementDialogFragments(
                         }
                         else -> {
                             setFragmentResult(
-                                ADD_SPECIALTY_REQUEST_KEY,
+                                ADD_NEW_SPECIALTY_REQUEST_KEY,
                                 bundleOf(
-                                    ADD_SPECIALTY_BUNDLE_KEY to inputValue
+                                    ADD_NEW_SPECIALTY_BUNDLE_KEY to inputValue
                                 )
                             )
                             dismiss()

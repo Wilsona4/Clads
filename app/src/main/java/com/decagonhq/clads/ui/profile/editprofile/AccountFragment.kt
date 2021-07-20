@@ -31,6 +31,7 @@ import com.decagonhq.clads.ui.BaseFragment
 import com.decagonhq.clads.ui.profile.dialogfragment.ProfileManagementDialogFragments.Companion.createProfileDialogFragment
 import com.decagonhq.clads.util.Resource
 import com.decagonhq.clads.util.handleApiError
+import com.decagonhq.clads.util.observeOnce
 import com.decagonhq.clads.util.saveBitmap
 import com.decagonhq.clads.util.uriToBitmap
 import com.decagonhq.clads.viewmodels.ImageUploadViewModel
@@ -100,7 +101,11 @@ class AccountFragment : BaseFragment() {
         }
 
         /*Get users profile*/
+
         imageUploadViewModel.getUserProfileImage()
+
+        userProfileViewModel.getLocalDatabaseUserProfile()
+        userProfileViewModel.getUserProfile()
         getUserProfile()
     }
 
@@ -123,8 +128,7 @@ class AccountFragment : BaseFragment() {
                             accountFragmentPhoneNumberValueTextView.text = userProfile.phoneNumber
                             accountFragmentGenderValueTextView.text = userProfile.gender
                             accountFragmentStateValueTextView.text =
-                                userProfile.workshopAddress?.state
-                                ?: getString(R.string.lagos)
+                                userProfile.workshopAddress?.state ?: getString(R.string.lagos)
                             accountFragmentWorkshopAddressCityValueTextView.text =
                                 userProfile.workshopAddress?.city
                                 ?: getString(R.string.lagos)
@@ -150,7 +154,7 @@ class AccountFragment : BaseFragment() {
     }
 
     private fun updateUserProfile() {
-        userProfileViewModel.userProfile.observe(
+        userProfileViewModel.userProfile.observeOnce(
             viewLifecycleOwner,
             Observer {
                 it.data?.let { profile ->

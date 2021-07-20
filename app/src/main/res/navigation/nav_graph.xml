@@ -13,10 +13,19 @@
         tools:layout="@layout/landing_screen_fragment">
         <action
             android:id="@+id/action_landingScreenFragment_to_signUpOptionsFragment"
-            app:destination="@id/sign_up_options_fragment" />
+            app:destination="@id/sign_up_options_fragment"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_in_right"
+            app:popExitAnim="@android:anim/fade_out"
+            app:popUpTo="@id/landing_screen_fragment" />
         <action
             android:id="@+id/action_landing_screen_fragment_to_login_fragment"
-            app:destination="@id/login_fragment" />
+            app:destination="@id/login_fragment"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_in_right"
+            app:popExitAnim="@android:anim/fade_out" />
     </fragment>
     <fragment
         android:id="@+id/sign_up_options_fragment"
@@ -25,7 +34,19 @@
         tools:layout="@layout/sign_up_options_fragment">
         <action
             android:id="@+id/action_signUpOptionsFragment_to_emailSignUpFragment"
-            app:destination="@id/email_sign_up_fragment" />
+            app:destination="@id/email_sign_up_fragment"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_in_right"
+            app:popExitAnim="@anim/slide_out_left" />
+        <action
+            android:id="@+id/action_sign_up_options_fragment_to_login_fragment"
+            app:destination="@id/login_fragment"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_in_right"
+            app:popExitAnim="@anim/slide_out_left"
+            app:popUpTo="@id/landing_screen_fragment" />
     </fragment>
     <fragment
         android:id="@+id/email_sign_up_fragment"
@@ -34,7 +55,18 @@
         tools:layout="@layout/email_sign_up_fragment">
         <action
             android:id="@+id/action_emailSignUpFragment_to_emailConfirmationFragment"
-            app:destination="@id/email_confirmation_fragment" />
+            app:destination="@id/email_confirmation_fragment"
+            app:enterAnim="@android:anim/fade_in"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@android:anim/fade_in"
+            app:popExitAnim="@anim/slide_out_left" />
+        <action
+            android:id="@+id/action_email_sign_up_fragment_to_login_fragment"
+            app:destination="@id/login_fragment"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_in_right"
+            app:popExitAnim="@anim/slide_out_left" />
 
     </fragment>
     <fragment
@@ -44,7 +76,20 @@
         tools:layout="@layout/email_confirmation_fragment">
         <action
             android:id="@+id/action_emailConfirmationFragment_to_loginFragment"
-            app:destination="@id/login_fragment" />
+            app:destination="@id/login_fragment"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_in_right"
+            app:popExitAnim="@anim/slide_out_left" />
+
+        <deepLink
+            android:id="@+id/emailConfirmationDeepLink"
+            app:uri="https://clads-service.herokuapp.com/api/v1/confirm?token={token}" />
+        <argument
+            android:name="token"
+            android:defaultValue="null"
+            app:argType="string"
+            app:nullable="true" />
 
     </fragment>
     <fragment
@@ -52,9 +97,14 @@
         android:name="com.decagonhq.clads.ui.authentication.LoginFragment"
         android:label="fragment_login"
         tools:layout="@layout/login_fragment">
-        <deepLink
-            android:id="@+id/emailConfirmationDeepLink"
-            app:uri="https://clads-service.herokuapp.com/api/v1/confirm" />
+        <action
+            android:id="@+id/action_login_fragment_to_sign_up_options_fragment"
+            app:destination="@id/sign_up_options_fragment"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_in_right"
+            app:popExitAnim="@anim/slide_out_left"
+            app:popUpTo="@id/landing_screen_fragment" />
     </fragment>
     <fragment
         android:id="@+id/reset_password_fragment"

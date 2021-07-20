@@ -1,5 +1,7 @@
 package com.decagonhq.clads.ui.profile.bottomnav
 
+import android.app.AlertDialog
+import android.content.DialogInterface
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
@@ -84,14 +86,7 @@ class PhotoGalleryEditImageFragment : BaseFragment() {
             R.id.media_share -> sharePhoto()
             R.id.media_edit -> editPhoto()
             R.id.media_delete -> {
-                imageUploadViewModel.deleteGalleryImage(fileId)
-                imageUploadViewModel.imageResponseCallback.observe(
-                    viewLifecycleOwner,
-                    Observer {
-                        Toast.makeText(requireActivity(), "$it", Toast.LENGTH_SHORT).show()
-                        findNavController().popBackStack()
-                    }
-                )
+                imageDeleteConfirmationRequest()
             }
         }
         return super.onOptionsItemSelected(item)
@@ -105,6 +100,13 @@ class PhotoGalleryEditImageFragment : BaseFragment() {
         shareIntent.putExtra(Intent.EXTRA_STREAM, photoIV)
         startActivity(Intent.createChooser(shareIntent, getString(R.string.send_to)))
     }
+
+//    // delete photo
+//    private fun deletePhoto() {
+//        val photoGalleryModel = PhotoGalleryModel(photoIV, imageName)
+//        photosProvidersList.remove(photoGalleryModel)
+//        findNavController().popBackStack()
+//    }
 
     // method to edit photo
     private fun editPhoto() {
@@ -149,8 +151,32 @@ class PhotoGalleryEditImageFragment : BaseFragment() {
         )
     }
 
+    private fun imageDeleteConfirmationRequest() {
+        val confirmation = AlertDialog.Builder(requireContext())
+        confirmation.setMessage(getString(R.string.delete_image_confirmation))
+        confirmation.setNegativeButton(getString(R.string.cancel)) {
+            _: DialogInterface, _: Int ->
+        }
+        confirmation.setPositiveButton(getString(R.string.logout_confirmation_yes)) {
+            _: DialogInterface, _: Int ->
+            imageUploadViewModel.deleteGalleryImage(fileId)
+            imageUploadViewModel.imageResponseCallback.observe(
+                viewLifecycleOwner,
+                Observer {
+                    Toast.makeText(requireActivity(), "$it", Toast.LENGTH_SHORT).show()
+                    findNavController().popBackStack()
+                }
+            )
+        }
+        confirmation.create().show()
+    }
+
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
+    }
+
+    companion object {
+        private const val REQUEST_CODE = 100
     }
 }

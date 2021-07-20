@@ -4,6 +4,7 @@ import android.app.NotificationChannel
 import android.app.NotificationManager
 import android.app.PendingIntent
 import android.content.Context
+import android.content.DialogInterface
 import android.content.Intent
 import android.os.Build
 import android.os.Bundle
@@ -13,6 +14,7 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.activity.viewModels
 import androidx.annotation.RequiresApi
+import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.NotificationCompat
 import androidx.core.view.GravityCompat
@@ -229,16 +231,27 @@ class DashboardActivity : AppCompatActivity() {
                     return@setNavigationItemSelectedListener true
                 }
                 R.id.logout -> {
+                    // Using a dialog to ask the user for confirmation before logging out
+                    val confirmationDialog = AlertDialog.Builder(this)
+                    confirmationDialog.setMessage(R.string.logout_confirmation_dialog_message)
+                    confirmationDialog.setPositiveButton(R.string.yes) { _: DialogInterface, _: Int ->
 
-                    Intent(this, MainActivity::class.java).also {
-                        sessionManager.clearSharedPref()
-                        sessionManager.saveToSharedPref(
-                            getString(R.string.login_status),
-                            getString(R.string.log_out)
-                        )
-                        startActivity(it)
-                        finish()
+                        Intent(this, MainActivity::class.java).also {
+                            sessionManager.clearSharedPref()
+                            sessionManager.saveToSharedPref(
+                                getString(R.string.login_status),
+                                getString(R.string.log_out)
+                            )
+                            startActivity(it)
+                            finish()
+                        }
                     }
+                    confirmationDialog.setNegativeButton(
+                        R.string.no
+                    ) { _: DialogInterface, _: Int ->
+                    }
+                    confirmationDialog.create().show()
+
                     return@setNavigationItemSelectedListener true
                 }
                 else -> return@setNavigationItemSelectedListener true
@@ -425,6 +438,7 @@ class DashboardActivity : AppCompatActivity() {
             }
     }
 
+    /*Set Toolbar Custom Title*/
     fun setCustomActionBarTitle(message: String) {
         binding.appBarDashboard.dashboardActivityToolbar.title = message
     }

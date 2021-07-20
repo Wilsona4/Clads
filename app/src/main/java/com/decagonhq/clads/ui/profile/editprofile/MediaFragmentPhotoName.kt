@@ -14,7 +14,6 @@ import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import com.bumptech.glide.Glide
-import com.decagonhq.clads.R
 import com.decagonhq.clads.data.domain.images.UserGalleryImage
 import com.decagonhq.clads.databinding.MediaFragmentPhotoNameBinding
 import com.decagonhq.clads.ui.BaseFragment
@@ -76,29 +75,6 @@ class MediaFragmentPhotoName : BaseFragment() {
                 Toast.makeText(requireContext(), "Enter Image Name", Toast.LENGTH_SHORT).show()
             } else {
                 uploadGalleryImage(imageUri, imageName)
-
-                imageUploadViewModel.uploadGallery.observe(
-                    requireActivity(),
-                    androidx.lifecycle.Observer {
-                        if (it is Resource.Loading<List<UserGalleryImage>>/* && it.data.isNullOrEmpty()*/) {
-                            progressDialog.showDialogFragment("Uploading...")
-                        } else if (it is Resource.Error) {
-                            progressDialog.hideProgressDialog()
-                            handleApiError(it, imageRetrofit, requireView())
-                        } else {
-                            progressDialog.hideProgressDialog()
-                            it.data?.let { imageUrl ->
-                                Toast.makeText(
-                                    requireContext(),
-                                    "Upload Successful",
-                                    Toast.LENGTH_SHORT
-                                )
-                                    .show()
-                                findNavController().popBackStack()
-                            }
-                        }
-                    }
-                )
             }
         }
     }
@@ -130,7 +106,6 @@ class MediaFragmentPhotoName : BaseFragment() {
                     it.data?.let { imageUrl ->
                         Toast.makeText(requireContext(), "Upload Successful", Toast.LENGTH_SHORT)
                             .show()
-                        findNavController().navigate(R.id.nav_media)
                         findNavController().popBackStack()
                     }
                 }

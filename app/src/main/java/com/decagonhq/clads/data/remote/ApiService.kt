@@ -6,7 +6,6 @@ import com.decagonhq.clads.data.domain.images.UserProfileImage
 import com.decagonhq.clads.data.domain.login.UserRole
 import com.decagonhq.clads.data.domain.profile.UserProfile
 import com.decagonhq.clads.data.remote.login.LoginCredentialsDTO
-import com.decagonhq.clads.data.remote.profile.UserProfileDTO
 import com.decagonhq.clads.data.remote.registration.UserRegistrationDTO
 import okhttp3.MultipartBody
 import okhttp3.RequestBody
@@ -19,6 +18,7 @@ import retrofit2.http.POST
 import retrofit2.http.PUT
 import retrofit2.http.Part
 import retrofit2.http.Path
+import retrofit2.http.Query
 
 interface ApiService {
 
@@ -28,15 +28,11 @@ interface ApiService {
 
     /*Email Login*/
     @POST("login")
-    suspend fun login(
-        @Body loginCredentials: LoginCredentialsDTO
-    ): GenericResponseClass<String>
+    suspend fun login(@Body loginCredentials: LoginCredentialsDTO): GenericResponseClass<String>
 
     /*Google Login*/
     @POST("login/google")
-    suspend fun googleLogin(
-        @Body userRole: UserRole
-    ): GenericResponseClass<String>
+    suspend fun googleLogin(@Body userRole: UserRole): GenericResponseClass<String>
 
     /*Upload Profile Picture*/
     @Multipart
@@ -52,7 +48,7 @@ interface ApiService {
 
     /*Update User Profile*/
     @PUT("me/profile")
-    suspend fun updateUserProfile(@Body userProfile: UserProfileDTO): GenericResponseClass<UserProfile>
+    suspend fun updateUserProfile(@Body userProfile: UserProfile): GenericResponseClass<UserProfile>
 
     @POST("upload")
     suspend fun uploadGallery(@Body requestBody: RequestBody): GenericResponseClass<UserGalleryImage>
@@ -61,8 +57,17 @@ interface ApiService {
     fun getGalleryImages(): GenericResponseClass<List<UserGalleryImage>>
 
     @PATCH("upload/{fileId}")
-    suspend fun editDescription(@Path("fileId") fileId: String, @Body requestBody: RequestBody): GenericResponseClass<UserGalleryImage>
+    suspend fun editDescription(
+        @Path("fileId") fileId: String,
+        @Body requestBody: RequestBody
+    ): GenericResponseClass<UserGalleryImage>
 
     @DELETE("upload/{fileId}")
     suspend fun deleteGalleryImage(@Path("fileId") fileId: String): GenericResponseClass<UserGalleryImage>
+
+    /* Verify auth token */
+    @GET("confirm")
+    suspend fun verifyAuthToken(
+        @Query("token") token: String
+    ): GenericResponseClass<String>
 }
