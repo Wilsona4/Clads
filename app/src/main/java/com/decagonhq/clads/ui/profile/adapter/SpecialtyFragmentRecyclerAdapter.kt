@@ -52,6 +52,6 @@ class SpecialtyFragmentRecyclerAdapter :
 
     fun undoRemove(position: Int, specialty: String) {
         _specialtyList.add(position, specialty)
-        notifyItemInserted(position)
+        notifyItemRangeChanged(position, _specialtyList.size-1)
     }
 }

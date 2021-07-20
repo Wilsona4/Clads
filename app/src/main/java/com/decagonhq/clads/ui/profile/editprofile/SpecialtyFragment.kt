@@ -31,18 +31,9 @@ import dagger.hilt.android.AndroidEntryPoint
 class SpecialtyFragment : Fragment() {
     private var _binding: SpecialtyFragmentBinding? = null
 
-    private val TAG = SpecialtyFragment::class.java.simpleName
     private val recyclerViewAdapter by lazy { SpecialtyFragmentRecyclerAdapter() }
 
     private val userProfileViewModel: UserProfileViewModel by activityViewModels()
-
-    var specialtyList = arrayListOf(
-        "Yoruba Attires",
-        "Hausa Attires",
-        "Senator",
-        "Embroidery",
-        "Africa Fashion"
-    )
 
     // This property is only valid between onCreateView and onDestroyView.
     private val binding get() = _binding!!
@@ -168,16 +159,19 @@ class SpecialtyFragment : Fragment() {
         _binding = null
     }
 
+    /**
+     * the viewModel is observed for available user profile information.
+     * since not all the user profile information is to be update in this fragment
+     * only the required information is updated, the rest is obtained from the viewmodel
+     * the already avialable information fromis used to
+     */
     private fun savedInfoFromApi() {
         userProfileViewModel.userProfile.observe(
             viewLifecycleOwner,
             Observer {
                 var list = it.data?.specialties?.toMutableList()
-                if (list!!.isEmpty()) {
-                    recyclerViewAdapter.populateList(specialtyList)
-                } else {
-                    recyclerViewAdapter.populateList(list)
-                }
+                    recyclerViewAdapter.populateList(list!!)
+
                 var genderFocusItem = it.data?.genderFocus!!
                 for (i in genderFocusItem) {
                     when {
@@ -209,6 +203,10 @@ class SpecialtyFragment : Fragment() {
         )
     }
 
+    /**
+     * Updates views in the specialty fragment based on the users already saved information
+     * in the remote database which is obtained by observing retrieved users information in the viewModel
+     */
     private fun updateUserProfile() {
         userProfileViewModel.userProfile.observe(
             viewLifecycleOwner,
@@ -257,6 +255,10 @@ class SpecialtyFragment : Fragment() {
         )
     }
 
+    /**
+     * Checks which genderFocus option is selected and adds the gender to an arrayList
+     * @return [ArrayList<String>] containing the gender selected
+     */
     private fun getSelectedGenderFocusItem(): ArrayList<String> {
 
         var selectedGenderFocus = arrayListOf<String>()
@@ -278,9 +280,10 @@ class SpecialtyFragment : Fragment() {
     }
 
     /**
-     * simpleCallBack method for swiping the recycler view items so as to update the info
+     * simpleCallBack method for swiping the recycler view items so as to update the specialty info
      * drag direction is zero because we are not dragging
-     * the swipe direction is only set to right because only action can be performed on the recyclerview item i.e delete
+     * the swipe direction is only set to right, because we only want the user to
+     * only perform one action on the recyclerview item i.e delete inputed item
      *
      *
      */
@@ -298,7 +301,6 @@ class SpecialtyFragment : Fragment() {
         override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
             // adapterPosition
             var position = viewHolder.adapterPosition
-
             // getting the current contact swipped
             var currentSpecialty = recyclerViewAdapter.specialtyList[position]
 
@@ -312,10 +314,6 @@ class SpecialtyFragment : Fragment() {
                         // the item was swiped.
                         recyclerViewAdapter.removeSpecialty(position)
 
-                        // below line is to notify item is
-                        // deleted in our adapter class.
-//                        binding.specialtyFragmentRecyclerView.adapter?.notifyItemRemoved(position)
-
                         // below line is to display our snackbar with action.
                         Snackbar.make(
                             binding.specialtyFragmentRecyclerView,
@@ -327,11 +325,9 @@ class SpecialtyFragment : Fragment() {
                             // below line is to add our item to array list at the position the
                             // item was deleted.
                             recyclerViewAdapter.undoRemove(position, currentSpecialty)
-//                            recyclerViewAdapter.specialtyList.add(position, currentSpecialty)
 
                             // below line is to notify item is
                             // added to our adapter class.
-                            recyclerViewAdapter.notifyItemInserted(position)
                         }.show()
                     }.create().show()
                 }
