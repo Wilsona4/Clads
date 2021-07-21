@@ -51,15 +51,17 @@ class ClientRepositoryImpl @Inject constructor(
         }
     }
 
-    override suspend fun deleteClient(clientId: Int): Resource<GenericResponseClass<List<Client>>> =
+    override suspend fun deleteClient(clientId: Int): Resource<GenericResponseClass<Client>> =
 
         safeApiCall {
             apiService.deleteClient(clientId)
         }
 
-    override suspend fun deleteClientFromDb(clients: List<Client>): Resource<Int> {
+    override suspend fun deleteClientFromDb(client: Client): Resource<Int> {
 
-        val clientEntityMapped = clientEntityMapper.mapFromDomainModel(clients)
+
+
+        val clientEntityMapped = clientEntityMapper.mapFromDomainModel(convertToList(client))
 
         return safeApiCall { database.clientDao().deleteClient(clientEntityMapped[0]) }
     }
@@ -78,5 +80,11 @@ class ClientRepositoryImpl @Inject constructor(
         } else {
             Resource.Error(isNetworkError = false, errorBody = null, data = null, message = result.message!!)
         }
+    }
+
+    private fun convertToList(client:Client):List<Client>{
+        val clientList = mutableListOf<Client>()
+        clientList.add(client)
+        return clientList
     }
 }

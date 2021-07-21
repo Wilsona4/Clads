@@ -1,5 +1,6 @@
 package com.decagonhq.clads.ui.client
 
+import android.app.AlertDialog
 import android.graphics.Canvas
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
@@ -8,6 +9,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.core.content.ContextCompat
 import androidx.core.view.isVisible
 import androidx.fragment.app.activityViewModels
@@ -52,9 +54,12 @@ class ClientFragment : BaseFragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         init()
-        setObservers()
         setEventListeners()
+        setObservers()
+
     }
+
+
 
     private fun displayRecyclerviewOrNoClientText(clients: List<Client>) {
         if (clients.isEmpty()) {
@@ -82,14 +87,20 @@ class ClientFragment : BaseFragment() {
         clientViewModel.client.observe(
             viewLifecycleOwner
         ) {
+
+            if(swiped){
+
+            }
+
             it.data?.let { it1 -> displayRecyclerviewOrNoClientText(it1) }
+
         }
 
+        /*Observe Delete from Remote Response Data*/
         clientViewModel.deleteClientResponse.observe(viewLifecycleOwner) {
 
             when (it) {
                 is Resource.Success -> {
-
                     it.data?.payload?.let { it1 -> clientViewModel.deleteClientFromDb(it1) }
                 }
 
@@ -103,7 +114,7 @@ class ClientFragment : BaseFragment() {
                 }
             }
         }
-
+        /*Observe Delete from Database Response Data*/
         clientViewModel.deleteFromDBResponse.observe(
             viewLifecycleOwner
         ) {
@@ -113,7 +124,7 @@ class ClientFragment : BaseFragment() {
                 is Resource.Success -> {
                     itemToDeletePosition?.let { it1 ->
                         adapter.deleteItem(it1)
-                        binding.clientListScreenRecyclerView.adapter?.notifyDataSetChanged()
+                        binding.clientListScreenRecyclerView.adapter?.notifyItemRemoved(it1)
                         progressDialog.hideProgressDialog()
                     }
                     Snackbar.make(
@@ -134,19 +145,11 @@ class ClientFragment : BaseFragment() {
             }
         }
 
-        clientViewModel.addToDBResponse.observe(viewLifecycleOwner) {
-            when (it) {
-                is Resource.Success -> {
-                    it.data?.let { it1 -> adapter.addItem(it1) }
-                    binding.clientListScreenRecyclerView.adapter?.notifyDataSetChanged()
-                } else -> { }
-            }
-        }
     }
 
     private fun setEventListeners() {
         binding.clientFragmentAddClientFab.setOnClickListener {
-            findNavController().navigate(R.id.action_clientFragment_to_addClientFragment)
+            findNavController().navigate(R.id.addClientFragment)
         }
     }
 
@@ -172,9 +175,20 @@ class ClientFragment : BaseFragment() {
 
             override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
                 itemToDeletePosition = viewHolder.adapterPosition
-                adapter.getItem(itemToDeletePosition!!).id?.let { clientViewModel.deleteClient(it) }
-                swiped = true
-                progressDialog.showDialogFragment("Deleting Client...")
+                AlertDialog.Builder(requireContext()).also { it ->
+                    it.setTitle(R.string.delete_image_confirmation)
+                    it.setPositiveButton(R.string.yes) { dialog, which ->
+
+                        adapter.getItem(itemToDeletePosition!!).id?.let { clientViewModel.deleteClient(it) }
+                        swiped = true
+                        progressDialog.showDialogFragment(getString(R.string.deleting_client))
+
+                    }
+                    it.setNegativeButton(R.string.no) { dialog, which ->
+                        swiped = false
+                        dialog.cancel()
+                    }
+                }.create().show()
             }
 
             override fun onChildDraw(
@@ -226,6 +240,6 @@ class ClientFragment : BaseFragment() {
                 background.draw(c)
                 icon.draw(c)
             }
-        }).attachToRecyclerView(_binding?.clientListScreenRecyclerView)
+        }).attachToRecyclerView(binding.clientListScreenRecyclerView)
     }
 }

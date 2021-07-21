@@ -10,9 +10,9 @@ interface ClientsRepository {
 
     suspend fun addClientToServer(client: Client): Resource<GenericResponseClass<Client>>
 
-    suspend fun deleteClient(clientId: Int): Resource<GenericResponseClass<List<Client>>>
+    suspend fun deleteClient(clientId: Int): Resource<GenericResponseClass<Client>>
 
-    suspend fun deleteClientFromDb(clients: List<Client>): Resource<Int>
+    suspend fun deleteClientFromDb(clients: Client): Resource<Int>
 
     suspend fun addClientToDb(clients: Client): Resource<Client>
 }

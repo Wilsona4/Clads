@@ -8,7 +8,6 @@
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:paddingHorizontal="@dimen/padding_24dp"
         android:layout_height="wrap_content">
 
         <com.google.android.material.textfield.TextInputLayout
@@ -16,6 +15,8 @@
             style="@style/text_input_layout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/margin_24dp"
+            android:layout_marginEnd="@dimen/margin_24dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
@@ -25,9 +26,9 @@
                 android:id="@+id/client_account_fragment_client_first_name_input"
                 style="@style/input_text_style"
                 android:layout_width="match_parent"
-                android:paddingLeft="@dimen/padding_0dp"
                 android:layout_height="wrap_content"
-                android:hint="@string/all_first_name" />
+                android:hint="@string/all_first_name"
+                android:paddingLeft="@dimen/padding_0dp" />
 
             <View
                 style="@style/client_divider_view_style"
@@ -40,6 +41,8 @@
             style="@style/text_input_layout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/margin_24dp"
+            android:layout_marginEnd="@dimen/margin_24dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/client_account_fragment_client_first_name_input_layout"
@@ -63,6 +66,8 @@
             style="@style/text_input_layout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/margin_24dp"
+            android:layout_marginEnd="@dimen/margin_24dp"
             app:layout_constraintEnd_toEndOf="@+id/client_account_fragment_client_last_name_input_layout"
             app:layout_constraintStart_toStartOf="@+id/client_account_fragment_client_last_name_input_layout"
             app:layout_constraintTop_toBottomOf="@+id/client_account_fragment_client_last_name_input_layout"
@@ -87,6 +92,8 @@
             style="@style/text_input_layout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/margin_24dp"
+            android:layout_marginEnd="@dimen/margin_24dp"
             app:layout_constraintEnd_toEndOf="@id/client_account_fragment_phone_number_input_layout"
             app:layout_constraintStart_toStartOf="@id/client_account_fragment_phone_number_input_layout"
             app:layout_constraintTop_toBottomOf="@+id/client_account_fragment_phone_number_input_layout"
@@ -111,6 +118,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/margin_28dp"
+            android:layout_marginEnd="@dimen/margin_24dp"
             android:orientation="horizontal"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="1.0"
@@ -142,24 +150,22 @@
 
         <TextView
             android:id="@+id/client_account_tab_gender_text_view"
-            android:textColor="@color/navy_blue"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:fontFamily="@font/poppins"
-            android:textSize="@dimen/text_size_13sp"
+            android:layout_marginStart="@dimen/margin_24dp"
             android:layout_marginBottom="@dimen/margin_16dp"
+            android:fontFamily="@font/poppins"
             android:text="@string/all_gender"
+            android:textColor="@color/navy_blue"
+            android:textSize="@dimen/text_size_13sp"
             app:layout_constraintBottom_toBottomOf="@+id/client_fragment_account_tab_radioGroup"
             app:layout_constraintStart_toStartOf="@+id/client_account_fragment_email_address_input_layout" />
 
         <Button
             android:id="@+id/client_account_tab_next_button"
-            style="@style/add_client_fragment_next_button"
+            style="@style/ClientAccountFragmentButton"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:paddingVertical="@dimen/padding_6dp"
-            android:backgroundTint="@color/deep_sky_blue"
-            android:paddingHorizontal="@dimen/margin_16dp"
             android:text="@string/all_next"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"

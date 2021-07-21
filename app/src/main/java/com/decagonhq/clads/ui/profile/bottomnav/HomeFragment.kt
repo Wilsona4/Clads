@@ -42,14 +42,11 @@ class HomeFragment : BaseFragment() {
         adapter = HomeFragmentClientsRecyclerAdapter(arrayListOf())
 
         clientViewModel.client.observe(viewLifecycleOwner) {
-            it.data?.let { it1 -> this.adapter.updateList(it1.toMutableList()) }
+            it.data?.let { it1 -> adapter.updateList(it1.toMutableList()) }
             binding.homeFragmentClientListRecyclerView.adapter?.notifyDataSetChanged()
         }
 
-//        clientViewModel.addToDBResponse.observe(viewLifecycleOwner) {
-//            it.data?.let { it1 -> this.adapter.addItem(it1)}
-//            binding.homeFragmentClientListRecyclerView.adapter?.notifyDataSetChanged()
-//        }
+
 
         binding.apply {
             homeFragmentClientListRecyclerView.apply {

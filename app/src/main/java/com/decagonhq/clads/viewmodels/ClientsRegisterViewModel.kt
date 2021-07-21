@@ -3,6 +3,7 @@ package com.decagonhq.clads.viewmodels
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import com.decagonhq.clads.data.domain.DeliveryAddressModel
 import com.decagonhq.clads.data.domain.client.ClientReg
 import com.decagonhq.clads.data.remote.client.Measurement
 import com.decagonhq.clads.repository.ClientsRepository
@@ -37,10 +38,13 @@ class ClientsRegisterViewModel @Inject constructor(
         _measurementData.value = list
     }
 
-//    /*Save To Local Db*/
-//    fun saveClientToLocalDatabase() {
-//        viewModelScope.launch {
-//            //clientsRepository.saveClientToLocalDatabase()
-//        }
-//    }
+
+    private val _clientAddress = MutableLiveData<DeliveryAddressModel>()
+    val clientAddress: LiveData<DeliveryAddressModel> get() = _clientAddress
+
+    /**client address is added */
+    fun clientNewAddress(address: DeliveryAddressModel) {
+        _clientAddress.value = address
+    }
+
 }

@@ -43,7 +43,6 @@ class ClientListRecyclerViewAdapter(private var clientList: MutableList<Client>)
 
     fun deleteItem(itemPosition: Int) {
         this.clientList.removeAt(itemPosition)
-        notifyDataSetChanged()
     }
 
     fun addItem(client: Client) {

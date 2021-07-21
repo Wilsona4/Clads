@@ -4,7 +4,6 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:paddingHorizontal="@dimen/padding_20dp"
     tools:context=".ui.profile.editprofile.PaymentMethodFragment">
 
     <LinearLayout
@@ -12,6 +11,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/margin_4dp"
+        android:paddingHorizontal="@dimen/padding_20dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
@@ -51,6 +51,7 @@
         android:layout_width="wrap_content"
         android:layout_height="@dimen/margin_48dp"
         android:layout_marginTop="@dimen/margin_44dp"
+        android:layout_marginEnd="@dimen/margin_24dp"
         android:src="@drawable/payment_method_fragment_fab_plus_sign"
         app:backgroundTint="@color/deep_sky_blue"
         app:fabSize="mini"
@@ -63,6 +64,8 @@
         android:layout_width="match_parent"
         android:layout_height="@dimen/margin_1dp"
         android:layout_marginTop="@dimen/margin_15dp"
+        android:layout_marginStart="@dimen/margin_24dp"
+        android:layout_marginEnd="@dimen/margin_24dp"
         android:background="@color/dark_gray"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -73,6 +76,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/margin_25dp"
+        android:paddingHorizontal="@dimen/padding_20dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
@@ -107,10 +111,9 @@
         android:id="@+id/payment_method_fragment_save_changes_button"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="4dp"
+        style="@style/ClientAccountFragmentButton"
         android:fontFamily="@font/poppins_bold"
         android:text="@string/save_changes"
-        android:paddingVertical="@dimen/padding_6dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="@+id/guideline4" />
@@ -119,6 +122,8 @@
         android:id="@+id/guideline4"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/margin_24dp"
+        android:layout_marginEnd="@dimen/margin_24dp"
         android:orientation="horizontal"
         app:layout_constraintGuide_begin="314dp" />
 

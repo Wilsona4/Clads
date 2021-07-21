@@ -129,6 +129,7 @@ class MeasurementsFragment : Fragment(), RecyclerClickListener {
     private fun setObserver() {
 
         clientsRegisterViewModel.measurementData.observe(viewLifecycleOwner) {
+            listMessageDisplay.visibility = View.INVISIBLE
             myAdapter.updateList(it.toMutableList())
             myAdapter.notifyDataSetChanged()
         }

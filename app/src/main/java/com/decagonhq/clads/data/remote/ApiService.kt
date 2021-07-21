@@ -34,7 +34,7 @@ interface ApiService {
     suspend fun googleLogin(@Body userRole: UserRole): GenericResponseClass<String>
 
     @DELETE("client/{clientId}")
-    suspend fun deleteClient(@Path("clientId") clientId: Int): GenericResponseClass<List<Client>>
+    suspend fun deleteClient(@Path("clientId") clientId: Int): GenericResponseClass<Client>
 
     /*Update User Profile*/
     @PUT("client/{clientId}")
