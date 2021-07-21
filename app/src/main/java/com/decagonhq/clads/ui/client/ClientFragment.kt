@@ -9,7 +9,6 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
 import androidx.core.content.ContextCompat
 import androidx.core.view.isVisible
 import androidx.fragment.app.activityViewModels
@@ -56,10 +55,7 @@ class ClientFragment : BaseFragment() {
         init()
         setEventListeners()
         setObservers()
-
     }
-
-
 
     private fun displayRecyclerviewOrNoClientText(clients: List<Client>) {
         if (clients.isEmpty()) {
@@ -88,12 +84,10 @@ class ClientFragment : BaseFragment() {
             viewLifecycleOwner
         ) {
 
-            if(swiped){
-
+            if (swiped) {
             }
 
             it.data?.let { it1 -> displayRecyclerviewOrNoClientText(it1) }
-
         }
 
         /*Observe Delete from Remote Response Data*/
@@ -144,7 +138,6 @@ class ClientFragment : BaseFragment() {
                 else -> {}
             }
         }
-
     }
 
     private fun setEventListeners() {
@@ -182,7 +175,6 @@ class ClientFragment : BaseFragment() {
                         adapter.getItem(itemToDeletePosition!!).id?.let { clientViewModel.deleteClient(it) }
                         swiped = true
                         progressDialog.showDialogFragment(getString(R.string.deleting_client))
-
                     }
                     it.setNegativeButton(R.string.no) { dialog, which ->
                         swiped = false

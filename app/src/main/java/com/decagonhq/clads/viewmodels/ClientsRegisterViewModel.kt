@@ -38,7 +38,6 @@ class ClientsRegisterViewModel @Inject constructor(
         _measurementData.value = list
     }
 
-
     private val _clientAddress = MutableLiveData<DeliveryAddressModel>()
     val clientAddress: LiveData<DeliveryAddressModel> get() = _clientAddress
 
@@ -46,5 +45,4 @@ class ClientsRegisterViewModel @Inject constructor(
     fun clientNewAddress(address: DeliveryAddressModel) {
         _clientAddress.value = address
     }
-
 }

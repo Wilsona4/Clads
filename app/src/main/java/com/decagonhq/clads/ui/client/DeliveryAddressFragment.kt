@@ -8,7 +8,6 @@ import android.widget.ArrayAdapter
 import android.widget.AutoCompleteTextView
 import android.widget.Button
 import android.widget.EditText
-import android.widget.TextView
 import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.Observer
@@ -26,7 +25,6 @@ import com.decagonhq.clads.viewmodels.ClientViewModel
 import com.decagonhq.clads.viewmodels.ClientsRegisterViewModel
 import com.google.android.material.snackbar.Snackbar
 
-
 class DeliveryAddressFragment : BaseFragment() {
     private var _binding: DeliveryAddressFragmentBinding? = null
     private lateinit var addDeliveryAddressButton: Button
@@ -38,7 +36,7 @@ class DeliveryAddressFragment : BaseFragment() {
     private val binding get() = _binding!!
     private val backingFieldsViewModel: ClientsRegisterViewModel by activityViewModels()
     private val clientsRegisterViewModel: ClientViewModel by activityViewModels()
-    private  lateinit var clientAddress:DeliveryAddressModel
+    private lateinit var clientAddress: DeliveryAddressModel
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -49,8 +47,6 @@ class DeliveryAddressFragment : BaseFragment() {
         _binding = DeliveryAddressFragmentBinding.inflate(inflater, container, false)
         return binding.root
     }
-
-
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -134,7 +130,7 @@ class DeliveryAddressFragment : BaseFragment() {
         )
     }
 
-    private fun setEventListeners(){
+    private fun setEventListeners() {
 
         addDeliveryAddressButton.setOnClickListener {
             val dialog = AlertDialog.Builder(requireContext())
@@ -160,39 +156,34 @@ class DeliveryAddressFragment : BaseFragment() {
             }
         }
 
-            saveClientButton.setOnClickListener {
+        saveClientButton.setOnClickListener {
 
-                if ( clientObserve!=null) {
-                    val newClient = Client(
-                        fullName = clientObserve.fullName,
-                        email = clientObserve.email,
-                        phoneNumber = clientObserve.phoneNumber,
-                        gender = clientObserve.gender,
-                        measurements = measurementObserve,
-                        deliveryAddresses = arrayListOf(
-                            clientAddress
-                        )
+            if (clientObserve != null) {
+                val newClient = Client(
+                    fullName = clientObserve.fullName,
+                    email = clientObserve.email,
+                    phoneNumber = clientObserve.phoneNumber,
+                    gender = clientObserve.gender,
+                    measurements = measurementObserve,
+                    deliveryAddresses = arrayListOf(
+                        clientAddress
                     )
-                    // register client
-                    clientsRegisterViewModel.addClient(newClient)
-                    progressDialog.showDialogFragment("Saving...Please wait")
-                } else {
-                    Snackbar.make(
-                        requireView(),
-                        "Some Fields have not been entered",
-                        Snackbar.LENGTH_SHORT
-                    ).show()
-                }
+                )
+                // register client
+                clientsRegisterViewModel.addClient(newClient)
+                progressDialog.showDialogFragment("Saving...Please wait")
+            } else {
+                Snackbar.make(
+                    requireView(),
+                    "Some Fields have not been entered",
+                    Snackbar.LENGTH_SHORT
+                ).show()
             }
-
-
-
+        }
     }
 
-    private fun init(){
+    private fun init() {
         saveClientButton = binding.deliveryAddressFragmentSaveClientButton
         addDeliveryAddressButton = binding.deliveryAddressFragmentAddButton
-
     }
 }
-

@@ -55,7 +55,7 @@ class ClientViewModel @Inject constructor(
         }
     }
 
-    fun deleteClientFromDb(clients:Client) {
+    fun deleteClientFromDb(clients: Client) {
         viewModelScope.launch(Dispatchers.IO) {
             _deleteFromDBResponse.postValue(clientsRepository.deleteClientFromDb(clients))
         }

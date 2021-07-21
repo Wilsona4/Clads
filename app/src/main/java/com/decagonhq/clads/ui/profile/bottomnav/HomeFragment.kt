@@ -46,8 +46,6 @@ class HomeFragment : BaseFragment() {
             binding.homeFragmentClientListRecyclerView.adapter?.notifyDataSetChanged()
         }
 
-
-
         binding.apply {
             homeFragmentClientListRecyclerView.apply {
 

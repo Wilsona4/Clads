@@ -59,8 +59,6 @@ class ClientRepositoryImpl @Inject constructor(
 
     override suspend fun deleteClientFromDb(client: Client): Resource<Int> {
 
-
-
         val clientEntityMapped = clientEntityMapper.mapFromDomainModel(convertToList(client))
 
         return safeApiCall { database.clientDao().deleteClient(clientEntityMapped[0]) }
@@ -82,7 +80,7 @@ class ClientRepositoryImpl @Inject constructor(
         }
     }
 
-    private fun convertToList(client:Client):List<Client>{
+    private fun convertToList(client: Client): List<Client> {
         val clientList = mutableListOf<Client>()
         clientList.add(client)
         return clientList
