@@ -306,6 +306,7 @@
     <string name="required">Required</string>
     <string name="tag_employee_number_dialog_fragment">Employee Number dialog fragment</string>
     <string name="frstname_dialog_fragment">FirstName Dialog Fragment</string>
+    <string name="rename_description_dialog_fragment">Rename Description Dialog Fragment</string>
 
     <string name="you_have_no_photo_in_your_gallery">You have no photo in your gallery</string>
     <string name="media_share">Share</string>
@@ -351,11 +352,17 @@
     <string name="enter_union_resource">Enter Union Details</string>
     <string name="enter_union_name">Enter Union Name</string>
     <string name="enter_union_ward">Enter Union Ward</string>
+    <string name="rename_description">Rename description</string>
+
+<string name="two_weeks">2 Weeks</string>
     <string name="logout_confirmation_dialog_message">Are you sure you want to logout?</string>
     <string name="delete_image_confirmation">Are you sure you want to delete this image?</string>
     <string name="logout_confirmation_yes">YES</string>
     <string name="you_have_no_subscription">You Have No Subscription</string>
     <string name="add_subscription">Add Subscription</string>
+
+    <string name="fragment_add_delivery_address_save_text_on_button">Add Address</string>
+    <string name="rename">Rename</string>
 
     <string-array name="account_category">
         <item>Tailor</item>

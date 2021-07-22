@@ -55,10 +55,11 @@ object RepositoryModule {
     @Singleton
     @Provides
     fun provideImageRepository(
-        @Named(IMAGE_API_SERVICE) apiService: ApiService,
+        @Named(MAIN_API_SERVICE) mainApiService: ApiService,
+        @Named(IMAGE_API_SERVICE) imageApiService: ApiService,
         imageDTOMapper: ImageDTOMapper,
         database: CladsDatabase
     ): ImageRepository {
-        return ImageRepositoryImpl(apiService, imageDTOMapper, database)
+        return ImageRepositoryImpl(mainApiService, imageApiService, imageDTOMapper, database)
     }
 }

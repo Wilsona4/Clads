@@ -58,6 +58,7 @@ object NetworkModule {
             .writeTimeout(30L, TimeUnit.SECONDS)
             .addInterceptor(headerAuthorization)
             .addInterceptor(logger)
+//            .connectTimeout(timeOutSec, TimeUnit.MILLISECONDS)
             .build()
     }
 

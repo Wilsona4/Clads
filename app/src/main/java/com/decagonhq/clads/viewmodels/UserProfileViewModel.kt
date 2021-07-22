@@ -17,7 +17,6 @@ import javax.inject.Inject
 class UserProfileViewModel @Inject constructor(
     private val userProfileRepository: UserProfileRepository
 ) : ViewModel() {
-
     private var _userProfile = MutableLiveData<Resource<UserProfileEntity>>()
     val userProfile: LiveData<Resource<UserProfileEntity>> get() = _userProfile
 

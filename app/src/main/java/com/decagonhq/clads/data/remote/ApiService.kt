@@ -1,6 +1,7 @@
 package com.decagonhq.clads.data.remote
 
 import com.decagonhq.clads.data.domain.GenericResponseClass
+import com.decagonhq.clads.data.domain.images.UserGalleryImage
 import com.decagonhq.clads.data.domain.images.UserProfileImage
 import com.decagonhq.clads.data.domain.login.UserRole
 import com.decagonhq.clads.data.domain.profile.UserProfile
@@ -8,12 +9,16 @@ import com.decagonhq.clads.data.local.UserProfileEntity
 import com.decagonhq.clads.data.remote.login.LoginCredentialsDTO
 import com.decagonhq.clads.data.remote.registration.UserRegistrationDTO
 import okhttp3.MultipartBody
+import okhttp3.RequestBody
 import retrofit2.http.Body
+import retrofit2.http.DELETE
 import retrofit2.http.GET
 import retrofit2.http.Multipart
+import retrofit2.http.PATCH
 import retrofit2.http.POST
 import retrofit2.http.PUT
 import retrofit2.http.Part
+import retrofit2.http.Path
 import retrofit2.http.Query
 
 interface ApiService {
@@ -36,7 +41,7 @@ interface ApiService {
     suspend fun uploadImage(@Part image: MultipartBody.Part): GenericResponseClass<UserProfileImage>
 
     @GET("download")
-    fun getUploadedImage(): GenericResponseClass<UserProfileImage>
+    suspend fun getUploadedImage(): GenericResponseClass<UserProfileImage>
 
     /*Get User Profile*/
     @GET("me/profile")
@@ -45,6 +50,21 @@ interface ApiService {
     /*Update User Profile*/
     @PUT("me/profile")
     suspend fun updateUserProfile(@Body userProfile: UserProfile): GenericResponseClass<UserProfile>
+
+    @POST("upload")
+    suspend fun uploadGallery(@Body requestBody: RequestBody): GenericResponseClass<UserGalleryImage>
+
+    @GET("images")
+    suspend fun getGalleryImages(): GenericResponseClass<List<UserGalleryImage>>
+
+    @PATCH("upload/{fileId}")
+    suspend fun editDescription(
+        @Path("fileId") fileId: String,
+        @Body requestBody: RequestBody
+    ): GenericResponseClass<UserGalleryImage>
+
+    @DELETE("upload/{fileId}")
+    suspend fun deleteGalleryImage(@Path("fileId") fileId: String): GenericResponseClass<UserGalleryImage>
 
     /* Verify auth token */
     @GET("confirm")

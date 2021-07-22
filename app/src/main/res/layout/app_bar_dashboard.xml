@@ -18,6 +18,7 @@
             android:background="@color/white">
 
             <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/dashboard_activity_toolbar_CL"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent">
 

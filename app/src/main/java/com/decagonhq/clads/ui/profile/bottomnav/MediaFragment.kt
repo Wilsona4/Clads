@@ -14,35 +14,43 @@ import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AlertDialog
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
-import androidx.core.net.toUri
-import androidx.lifecycle.observe
+import androidx.core.os.bundleOf
+import androidx.fragment.app.activityViewModels
+import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
-import com.decagonhq.clads.data.domain.PhotoGalleryModel
+import com.decagonhq.clads.R
+import com.decagonhq.clads.data.domain.images.UserGalleryImage
 import com.decagonhq.clads.databinding.MediaFragmentBinding
 import com.decagonhq.clads.ui.BaseFragment
 import com.decagonhq.clads.ui.profile.adapter.PhotoGalleryRecyclerAdapter
-import com.decagonhq.clads.util.DataListener
+import com.decagonhq.clads.ui.profile.adapter.RecyclerClickListener
+import com.decagonhq.clads.ui.profile.dialogfragment.ProfileManagementDialogFragments
+import com.decagonhq.clads.ui.profile.editprofile.AccountFragment
+import com.decagonhq.clads.util.Constants.TOKEN
 import com.decagonhq.clads.util.GRID_SIZE
-import com.decagonhq.clads.util.IMAGE_DATA_BUNDLE_KEY
-import com.decagonhq.clads.util.IMAGE_KEY
-import com.decagonhq.clads.util.IMAGE_NAME_BUNDLE_KEY
 import com.decagonhq.clads.util.PERMISSION_DENIED
 import com.decagonhq.clads.util.REQUEST_CODE
+import com.decagonhq.clads.util.Resource
+import com.decagonhq.clads.util.handleApiError
 import com.decagonhq.clads.util.hideView
 import com.decagonhq.clads.util.photosProvidersList
 import com.decagonhq.clads.util.showView
+import com.decagonhq.clads.viewmodels.ImageUploadViewModel
+import okhttp3.MultipartBody
 
-class MediaFragment : BaseFragment() {
+class MediaFragment : BaseFragment(), RecyclerClickListener {
 
     private var _binding: MediaFragmentBinding? = null
 
     // This property is only valid between onCreateView and onDestroyView.
-    private val binding get() = _binding!!
+    private val binding
+        get() = _binding!!
+
     private lateinit var photoGalleryRecyclerAdapter: PhotoGalleryRecyclerAdapter
     private lateinit var noPhotoImageView: ImageView
     private lateinit var noPhotoTextView: TextView
-    private lateinit var photoGalleryModel: PhotoGalleryModel
+    private val imageUploadViewModel: ImageUploadViewModel by activityViewModels()
 
     private val pickImages =
         registerForActivityResult(ActivityResultContracts.GetContent()) { uri: Uri? ->
@@ -82,51 +90,63 @@ class MediaFragment : BaseFragment() {
         noPhotoImageView = binding.mediaFragmentPhotoIconImageView
         noPhotoTextView = binding.mediaFragmentYouHaveNoPhotoInGalleryTextView
 
-        findNavController().currentBackStackEntry?.savedStateHandle?.getLiveData<Bundle>(IMAGE_KEY)
-            ?.observe(viewLifecycleOwner) {
-                val imageName = it.getString(IMAGE_NAME_BUNDLE_KEY)
-                val imageData = it.getString(IMAGE_DATA_BUNDLE_KEY)
-                val imageDataUri = imageData?.toUri()
+        imageUploadViewModel.getLocalDatabaseGalleryImages()
 
-                photoGalleryModel =
-                    PhotoGalleryModel(
-                        imageDataUri,
-                        imageName
-                    )
+        imageUploadViewModel.uploadGallery.observe(
+            requireActivity(),
+            Observer {
+                when (it) {
+                    is Resource.Success -> {
+                        val myList: MutableList<UserGalleryImage> =
+                            it.data as MutableList<UserGalleryImage>
+                        progressDialog.hideProgressDialog()
 
-                if (DataListener.imageListener.value == true) {
+                        binding.apply {
+                            mediaFragmentPhotoRecyclerView.apply {
+                                photoGalleryRecyclerAdapter =
+                                    PhotoGalleryRecyclerAdapter(
+                                        myList,
+                                        sessionManager.loadFromSharedPref(TOKEN),
+                                        this@MediaFragment,
+                                        this@MediaFragment
+                                    )
+                                adapter = photoGalleryRecyclerAdapter
+                                photoGalleryRecyclerAdapter.notifyDataSetChanged()
+                                layoutManager =
+                                    GridLayoutManager(requireContext(), GRID_SIZE)
+                            }
 
-                    photosProvidersList.add(photoGalleryModel)
-                    photoGalleryRecyclerAdapter.notifyDataSetChanged()
+                            if (myList.isEmpty()) {
+                                noPhotoImageView.showView()
+                                noPhotoTextView.showView()
+                                mediaFragmentPhotoRecyclerView.hideView()
+                            } else {
+                                noPhotoImageView.hideView()
+                                noPhotoTextView.hideView()
+                                mediaFragmentPhotoRecyclerView.showView()
+                            }
+                        }
+                    }
+                    is Resource.Error -> {
+                        progressDialog.hideProgressDialog()
+                        Toast.makeText(
+                            requireContext(),
+                            "${it.errorBody}",
+                            Toast.LENGTH_SHORT
+                        )
+                            .show()
+                        handleApiError(it, imageRetrofit, requireView(), sessionManager, database)
+                    }
+                    is Resource.Loading -> {
+                        it.message?.let { it1 ->
+                            progressDialog.showDialogFragment(
+                                it1
+                            )
+                        }
+                    }
                 }
-
-                binding.apply {
-                    noPhotoImageView.hideView()
-                    noPhotoTextView.hideView()
-                    mediaFragmentPhotoRecyclerView.showView()
-                }
             }
-
-        binding.apply {
-
-            mediaFragmentPhotoRecyclerView.apply {
-                photoGalleryRecyclerAdapter =
-                    PhotoGalleryRecyclerAdapter(photosProvidersList)
-                adapter = photoGalleryRecyclerAdapter
-                layoutManager = GridLayoutManager(requireContext(), GRID_SIZE)
-                photoGalleryRecyclerAdapter.notifyDataSetChanged()
-            }
-
-            if (photosProvidersList.isEmpty()) {
-                noPhotoImageView.showView()
-                noPhotoTextView.showView()
-                mediaFragmentPhotoRecyclerView.hideView()
-            } else {
-                noPhotoImageView.hideView()
-                noPhotoTextView.hideView()
-                mediaFragmentPhotoRecyclerView.showView()
-            }
-        }
+        )
 
         /*add onclick listener to the fab to ask for permission and open gallery intent*/
         binding.mediaFragmentAddPhotoFab.setOnClickListener {
@@ -211,8 +231,88 @@ class MediaFragment : BaseFragment() {
         dialog.show()
     }
 
-    override fun onDestroyView() {
-        super.onDestroyView()
-        _binding = null
+    /*This is edit and not delete functions (Don't mind the name)*/
+    override fun onItemClickToDelete(position: Int, photoArrayList: MutableList<UserGalleryImage>) {
+        val currentDescription = photoArrayList[position].description
+        val fileId = photoArrayList[position].fileId
+
+        // use actions to pass data from one fragment to the other
+        // when first name value is clicked
+        childFragmentManager.setFragmentResultListener(
+            AccountFragment.RENAME_DESCRIPTION_REQUEST_KEY,
+            requireActivity()
+        ) { key, bundle ->
+            // collect input values from dialog fragment and update the firstname text of user
+            val description = bundle.getString(AccountFragment.RENAME_DESCRIPTION_BUNDLE_KEY)
+            val reqBody = MultipartBody.Builder()
+                .setType(MultipartBody.FORM)
+                .addFormDataPart("description", description!!)
+                .build()
+            imageUploadViewModel.editGalleryImage(fileId, reqBody)
+            imageUploadViewModel.uploadGallery.observe(
+                viewLifecycleOwner,
+                Observer {
+                    imageUploadViewModel.uploadGallery.observe(
+                        viewLifecycleOwner,
+                        Observer {
+                            if (it is Resource.Loading<List<UserGalleryImage>>/* && it.data.isNullOrEmpty()*/) {
+                                progressDialog.showDialogFragment("Uploading...")
+                            } else if (it is Resource.Error) {
+                                progressDialog.hideProgressDialog()
+                                handleApiError(
+                                    it,
+                                    imageRetrofit,
+                                    requireView(),
+                                    sessionManager,
+                                    database
+                                )
+                            } else {
+                                progressDialog.hideProgressDialog()
+                                it.data?.let { imageUrl ->
+                                    Toast.makeText(
+                                        requireContext(),
+                                        "Upload Successful",
+                                        Toast.LENGTH_SHORT
+                                    )
+                                        .show()
+                                }
+                            }
+                        }
+                    )
+                }
+            )
+        }
+
+        val bundle =
+            bundleOf(AccountFragment.CURRENT_ACCOUNT_RENAME_DESCRIPTION_BUNDLE_KEY to currentDescription)
+        ProfileManagementDialogFragments.createProfileDialogFragment(
+            R.layout.rename_gallery_image_dialog_fragment,
+            bundle
+        ).show(
+            childFragmentManager, getString(R.string.rename_description_dialog_fragment)
+        )
+//        }
     }
+
+    /*This is for delete and not edit  */
+    override fun onItemClickToEdit(position: Int, photoArrayList: MutableList<UserGalleryImage>) {
+
+        val imageUri = photoArrayList[position].downloadUri
+        val description = photoArrayList[position].description
+        val fileId = photoArrayList[position].fileId
+
+        // use actions to pass data from one fragment to the other
+        val action =
+            MediaFragmentDirections.actionNavMediaToPhotoGalleryEditImageFragment(
+                imageUri,
+                description,
+                fileId
+            )
+        findNavController().navigate(action)
+    }
+
+//        override fun onDestroyView() {
+//        super.onDestroyView()
+//        _binding = null
+//    }
 }

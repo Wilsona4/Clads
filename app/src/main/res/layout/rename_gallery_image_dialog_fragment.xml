@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    tools:context=".ui.profile.editprofile.">
+
+    <com.google.android.material.textview.MaterialTextView
+        android:id="@+id/rename_gallery_description_dialog_fragment_rename_description_textview"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/margin_18dp"
+        android:layout_marginTop="@dimen/margin_34dp"
+        android:fontFamily="@font/poppins_bold"
+        android:text="@string/rename_description"
+        android:textColor="@color/navy_blue"
+        android:textSize="@dimen/text_size_16sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/rename_gallery_description_dialog_fragment_rename_description_edit_text_input_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="@dimen/margin_18dp"
+        app:boxBackgroundColor="@color/white"
+        app:helperText="Description"
+        app:counterEnabled="true"
+        app:counterMaxLength="50"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/rename_gallery_description_dialog_fragment_rename_description_textview">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/rename_gallery_description_dialog_fragment_rename_description_edit_text_view"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:inputType="text"
+            android:textColor="@color/navy_blue" />
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <TextView
+        android:id="@+id/rename_gallery_description_dialog_fragment_cancel_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="@dimen/margin_16dp"
+        android:backgroundTint="@android:color/white"
+        android:fontFamily="@font/poppins"
+        android:text="@string/cancel"
+        android:textColor="@color/navy_blue"
+        app:layout_constraintBaseline_toBaselineOf="@+id/rename_gallery_description_dialog_fragment_ok_button"
+        app:layout_constraintEnd_toStartOf="@+id/rename_gallery_description_dialog_fragment_ok_button"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <TextView
+        android:id="@+id/rename_gallery_description_dialog_fragment_ok_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="@dimen/margin_18dp"
+        android:layout_marginVertical="@dimen/margin_20dp"
+        android:backgroundTint="@android:color/white"
+        android:fontFamily="@font/poppins"
+        android:paddingHorizontal="@dimen/padding_20dp"
+        android:text="@string/ok"
+        android:textColor="@color/navy_blue"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/rename_gallery_description_dialog_fragment_rename_description_edit_text_input_layout" />
+</androidx.constraintlayout.widget.ConstraintLayout>

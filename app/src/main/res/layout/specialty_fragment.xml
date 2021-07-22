@@ -10,9 +10,22 @@
     tools:context=".ui.profile.editprofile.SpecialtyFragment">
 
     <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/specialty_fragment_contraint_layout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:backgroundTint="@color/email_confirmatory_background_color">
+
+        <ProgressBar
+            android:id="@+id/specialty_fragment_upload_progressbar"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:visibility="gone"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.44"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.258" />
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/specialty_fragment_recycler_view"
@@ -20,10 +33,10 @@
             android:layout_height="wrap_content"
             app:layout_constraintBottom_toTopOf="@+id/specialty_fragment_add_new_specialty_icon"
             app:layout_constraintEnd_toEndOf="parent"
-            tools:listitem="@layout/specialty_fragment_recycler_item"
-            tools:itemCount="5"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toTopOf="parent"
+            tools:itemCount="5"
+            tools:listitem="@layout/specialty_fragment_recycler_item" />
 
         <androidx.appcompat.widget.AppCompatImageButton
             android:id="@+id/specialty_fragment_add_new_specialty_icon"
@@ -66,7 +79,7 @@
             android:layout_marginStart="@dimen/margin_16dp"
             android:layout_marginTop="@dimen/margin_12dp"
             android:buttonTint="@color/deep_sky_blue"
-            android:checked="true"
+            android:checked="false"
             android:text="@string/male"
             app:layout_constraintEnd_toStartOf="@+id/specialty_fragment_female_check_box"
             app:layout_constraintStart_toStartOf="parent"
@@ -77,7 +90,7 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:buttonTint="@color/deep_sky_blue"
-            android:checked="true"
+            android:checked="false"
             android:text="@string/female"
             app:layout_constraintBaseline_toBaselineOf="@+id/specialty_fragment_male_check_box"
             app:layout_constraintEnd_toStartOf="@+id/specialty_fragment_kids_check_box"
@@ -89,6 +102,7 @@
             android:layout_height="wrap_content"
             android:buttonTint="@color/deep_sky_blue"
             android:text="@string/kids"
+            android:checked="false"
             app:layout_constraintBaseline_toBaselineOf="@+id/specialty_fragment_female_check_box"
             app:layout_constraintEnd_toStartOf="@+id/specialty_fragment_unisex_check_box"
             app:layout_constraintStart_toEndOf="@+id/specialty_fragment_female_check_box" />
@@ -101,6 +115,7 @@
             android:layout_marginEnd="@dimen/margin_12dp"
             android:buttonTint="@color/deep_sky_blue"
             android:text="@string/unisex"
+            android:checked="false"
             app:layout_constraintBaseline_toBaselineOf="@+id/specialty_fragment_kids_check_box"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@+id/specialty_fragment_kids_check_box" />
@@ -269,18 +284,13 @@
             app:layout_constraintEnd_toEndOf="parent" />
 
         <com.google.android.material.button.MaterialButton
+            android:id="@+id/specialty_fragment_save_changes_material_button"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginHorizontal="@dimen/margin_25dp"
-            android:layout_marginTop="@dimen/margin_34dp"
+            style="@style/ClientAccountFragmentButton"
             android:layout_marginBottom="@dimen/margin_34dp"
-            android:backgroundTint="@color/deep_sky_blue"
-            android:fontFamily="@font/poppins"
-            android:padding="@dimen/padding_8dp"
             android:text="@string/save_changes"
-            android:textColor="@color/white"
             android:textSize="@dimen/text_size_12sp"
-            app:cornerRadius="@dimen/corner_radius_5dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias=".5"

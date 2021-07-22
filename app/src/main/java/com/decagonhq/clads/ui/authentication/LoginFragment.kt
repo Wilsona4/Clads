@@ -292,7 +292,8 @@ class LoginFragment : BaseFragment() {
         spannable.setSpan(CustomTypefaceSpan(myTypeface), 10, message.length, Spannable.SPAN_INCLUSIVE_INCLUSIVE)
         val clickableSignUpForFree = object : ClickableSpan() {
             override fun onClick(widget: View) {
-                findNavController().navigate(R.id.email_sign_up_fragment)
+                val action = LoginFragmentDirections.actionLoginFragmentToSignUpOptionsFragment()
+                findNavController().navigate(action)
             }
         }
         spannable.setSpan(clickableSignUpForFree, 10, message.length, Spanned.SPAN_INCLUSIVE_INCLUSIVE)

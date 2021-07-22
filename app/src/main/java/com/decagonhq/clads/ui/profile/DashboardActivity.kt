@@ -83,9 +83,12 @@ class DashboardActivity : AppCompatActivity() {
 
     override fun onStart() {
         super.onStart()
+
 //        userProfileViewModel.saveUserProfileToLocalDatabase()
         userProfileViewModel.getUserProfile()
 //        imageUploadViewModel.getUserImage()
+        imageUploadViewModel.getRemoteGalleryImages()
+
         GlobalScope.launch {
 //            delay(5000L)
             withContext(Dispatchers.Main) {
@@ -139,6 +142,7 @@ class DashboardActivity : AppCompatActivity() {
         setupActionBarWithNavController(navController, appBarConfiguration)
         navView.setupWithNavController(navController)
         bottomNavigationView.setupWithNavController(navController)
+        hideCustomBarBarConstraintLayout()
 
         /*Set Up Navigation Change Listener*/
         onDestinationChangedListener()
@@ -191,35 +195,6 @@ class DashboardActivity : AppCompatActivity() {
                 }
             }
         )
-
-        /*Handling the response from the retrofit*/
-//        imageUploadViewModel.userProfileImage.observe(
-//            this,
-//            Observer {
-//                if (it is Resource.Loading<UserProfileImage> && it.data?.downloadUri.isNullOrEmpty()) {
-//                    it.message?.let { message ->
-//                        progressDialog.showDialogFragment(message)
-//                    }
-//                } else if (it is Resource.Error) {
-//                    progressDialog.hideProgressDialog()
-//                    handleApiError(it, imageRetrofit, toolbarFragmentName, sessionManager, database)
-//                } else {
-//                    progressDialog.hideProgressDialog()
-//                    it.data?.downloadUri?.let { imageUrl ->
-//                        Glide.with(this)
-//                            .load(imageUrl)
-//                            .placeholder(R.drawable.nav_drawer_profile_avatar)
-//                            .into(toolbarProfilePicture)
-//
-//                        /*load profile image from shared pref*/
-//                        Glide.with(this)
-//                            .load(imageUrl)
-//                            .placeholder(R.drawable.nav_drawer_profile_avatar)
-//                            .into(profileImage)
-//                    }
-//                }
-//            }
-//        )
 
         navigationView.setNavigationItemSelectedListener { it ->
             when (it.itemId) {
@@ -437,5 +412,20 @@ class DashboardActivity : AppCompatActivity() {
                     }
                 }
             }
+    }
+
+    /*Set Toolbar Custom Title*/
+    fun setCustomActionBarTitle(message: String) {
+        binding.appBarDashboard.dashboardActivityToolbar.title = message
+    }
+
+    private fun hideCustomBarBarConstraintLayout() {
+        navController.addOnDestinationChangedListener { _, destination, _ ->
+            if (destination.id == R.id.photoGalleryEditImageFragment) {
+                binding.appBarDashboard.dashboardActivityToolbarCL.visibility = View.GONE
+            } else {
+                binding.appBarDashboard.dashboardActivityToolbarCL.visibility = View.VISIBLE
+            }
+        }
     }
 }
