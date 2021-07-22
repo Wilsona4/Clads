@@ -20,6 +20,7 @@ import androidx.core.app.NotificationCompat
 import androidx.core.view.GravityCompat
 import androidx.drawerlayout.widget.DrawerLayout
 import androidx.lifecycle.Observer
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.NavController
 import androidx.navigation.findNavController
 import androidx.navigation.ui.AppBarConfiguration
@@ -41,7 +42,6 @@ import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.android.material.navigation.NavigationView
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import retrofit2.Retrofit
@@ -84,13 +84,10 @@ class DashboardActivity : AppCompatActivity() {
     override fun onStart() {
         super.onStart()
 
-//        userProfileViewModel.saveUserProfileToLocalDatabase()
         userProfileViewModel.getUserProfile()
-//        imageUploadViewModel.getUserImage()
         imageUploadViewModel.getRemoteGalleryImages()
 
-        GlobalScope.launch {
-//            delay(5000L)
+        lifecycleScope.launch(Dispatchers.IO) {
             withContext(Dispatchers.Main) {
                 userProfileViewModel.getLocalDatabaseUserProfile()
             }
