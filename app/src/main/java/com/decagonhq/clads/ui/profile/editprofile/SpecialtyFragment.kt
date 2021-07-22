@@ -22,7 +22,6 @@ import com.decagonhq.clads.util.Resource
 import com.decagonhq.clads.util.handleApiError
 import com.decagonhq.clads.util.observeOnce
 import com.decagonhq.clads.viewmodels.UserProfileViewModel
-import com.google.android.material.snackbar.Snackbar
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -299,20 +298,11 @@ class SpecialtyFragment : BaseFragment() {
                         // the item was swiped.
                         recyclerViewAdapter.removeSpecialty(position)
                         // below line is to display our snackbar with action.
-                        Snackbar.make(
-                            binding.specialtyFragmentRecyclerView,
-                            "do you want to delete $currentSpecialty",
-                            Snackbar.LENGTH_LONG
-                        ).setAction("Undo") {
-                            // adding on click listener to our action of snack bar.
-                            // below line is to add our item to array list at the position the
-                            // item was deleted.
-                            recyclerViewAdapter.undoRemove(position, currentSpecialty)
-                            // below line is to notify item is
-                            // added to our adapter class.
-                        }.show()
-                    }.create().show()
-                }
+                    }
+                    it.setNegativeButton(R.string.no) { dialog, which ->
+                        dialog.cancel()
+                    }
+                }.create().show()
                 binding.specialtyFragmentRecyclerView.adapter?.notifyDataSetChanged()
             }
         }
