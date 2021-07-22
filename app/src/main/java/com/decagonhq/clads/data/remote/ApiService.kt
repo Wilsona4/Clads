@@ -14,6 +14,7 @@ import retrofit2.http.Multipart
 import retrofit2.http.POST
 import retrofit2.http.PUT
 import retrofit2.http.Part
+import retrofit2.http.Query
 
 interface ApiService {
 
@@ -23,15 +24,11 @@ interface ApiService {
 
     /*Email Login*/
     @POST("login")
-    suspend fun login(
-        @Body loginCredentials: LoginCredentialsDTO
-    ): GenericResponseClass<String>
+    suspend fun login(@Body loginCredentials: LoginCredentialsDTO): GenericResponseClass<String>
 
     /*Google Login*/
     @POST("login/google")
-    suspend fun googleLogin(
-        @Body userRole: UserRole
-    ): GenericResponseClass<String>
+    suspend fun googleLogin(@Body userRole: UserRole): GenericResponseClass<String>
 
     /*Upload Profile Picture*/
     @Multipart
@@ -48,4 +45,10 @@ interface ApiService {
     /*Update User Profile*/
     @PUT("me/profile")
     suspend fun updateUserProfile(@Body userProfile: UserProfile): GenericResponseClass<UserProfile>
+
+    /* Verify auth token */
+    @GET("confirm")
+    suspend fun verifyAuthToken(
+        @Query("token") token: String
+    ): GenericResponseClass<String>
 }

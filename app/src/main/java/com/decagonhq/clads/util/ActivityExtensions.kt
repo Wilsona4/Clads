@@ -29,7 +29,7 @@ fun <T> Activity.handleApiError(
                 val error = failure.errorBody?.let { it1 -> errorResponseUtil.parseError(it1) }
                 val errorMessage = error?.message
                 if (errorMessage != null) {
-                    if (errorMessage == "Invalid username/password") {
+                    if (errorMessage == "Invalid username/password" || errorMessage == "User not authorized.") {
                         logOut(sessionManager, database)
                     } else {
                         view.showSnackBar(errorMessage)

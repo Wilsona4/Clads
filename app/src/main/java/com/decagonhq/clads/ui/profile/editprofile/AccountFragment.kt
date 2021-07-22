@@ -169,6 +169,7 @@ class AccountFragment : BaseFragment() {
                     progressDialog.hideProgressDialog()
                     handleApiError(it, mainRetrofit, requireView(), sessionManager, database)
                 } else {
+                    progressDialog.hideProgressDialog()
                     it.data?.let { profile ->
                         val userProfile = UserProfile(
                             country = profile.country,

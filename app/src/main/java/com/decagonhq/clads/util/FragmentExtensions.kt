@@ -46,6 +46,8 @@ fun <T> Fragment.handleApiError(
                 if (errorMessage != null) {
                     if (errorMessage == "Invalid username/password" && findNavController().currentDestination?.id != R.id.login_fragment) {
                         logOut(sessionManager, database)
+                    } else if (errorMessage == "User not authorized." && findNavController().currentDestination?.id != R.id.login_fragment) {
+                        logOut(sessionManager, database)
                     } else {
                         view.showSnackBar(errorMessage)
                     }
