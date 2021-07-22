@@ -7,7 +7,7 @@
 
     <fragment
         android:id="@+id/nav_home"
-        android:name="com.decagonhq.clads.ui.profile.bottomnav.HomeFragment"
+        android:name="com.decagonhq.clads.ui.profile.HomeFragment"
         android:label="@string/menu_home"
         tools:layout="@layout/home_fragment">
         <action
@@ -21,7 +21,7 @@
 
     <fragment
         android:id="@+id/nav_media"
-        android:name="com.decagonhq.clads.ui.profile.bottomnav.MediaFragment"
+        android:name="com.decagonhq.clads.ui.media.MediaFragment"
         android:label="Photo Gallery"
         tools:layout="@layout/media_fragment">
         <action
@@ -46,7 +46,7 @@
 
     <fragment
         android:id="@+id/nav_messages"
-        android:name="com.decagonhq.clads.ui.profile.bottomnav.MessagesFragment"
+        android:name="com.decagonhq.clads.ui.messages.MessagesFragment"
         android:label="@string/menu_messages"
         tools:layout="@layout/messages_fragment" />
 
@@ -155,7 +155,7 @@
     </fragment>
     <fragment
         android:id="@+id/photoGalleryEditImageFragment"
-        android:name="com.decagonhq.clads.ui.profile.bottomnav.PhotoGalleryEditImageFragment"
+        android:name="com.decagonhq.clads.ui.media.PhotoGalleryEditImageFragment"
         android:label="Elegant suit for men"
         tools:layout="@layout/photo_gallery_edit_image_fragment">
         <argument android:name="imageUri" />

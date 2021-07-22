@@ -70,7 +70,6 @@ class EmailConfirmationFragment : BaseFragment() {
                 viewLifecycleOwner,
                 {
                     when (it) {
-
                         is Resource.Success -> {
                             if (it.data?.payload != null) {
                                 sessionManager.saveToSharedPref(Constants.TOKEN, activationToken)
@@ -92,7 +91,7 @@ class EmailConfirmationFragment : BaseFragment() {
 
                         is Resource.Error -> {
                             progressDialog.hideProgressDialog()
-                            handleApiError(it, mainRetrofit, requireView())
+                            handleApiError(it, mainRetrofit, requireView(), sessionManager, database)
                         }
 
                         is Resource.Loading -> {

@@ -1,4 +1,4 @@
-package com.decagonhq.clads.ui.profile.bottomnav
+package com.decagonhq.clads.ui.media
 
 import android.app.AlertDialog
 import android.content.DialogInterface
@@ -128,7 +128,7 @@ class PhotoGalleryEditImageFragment : BaseFragment() {
                         progressDialog.showDialogFragment("Uploading...")
                     } else if (it is Resource.Error) {
                         progressDialog.hideProgressDialog()
-                        handleApiError(it, imageRetrofit, requireView())
+                        handleApiError(it, imageRetrofit, requireView(), sessionManager, database)
                     } else {
                         progressDialog.hideProgressDialog()
                         it.data?.let { imageUrl ->

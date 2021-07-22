@@ -1,15 +1,46 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/subscription_fragment_root_layout"
     tools:context=".ui.subscription.SubscriptionFragment">
 
-    <!-- TODO: Update blank fragment layout -->
     <TextView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text="@string/hello_blank_fragment" />
+        android:id="@+id/subscription_screen_text_and_image_placeholder"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:drawablePadding="@dimen/padding_20dp"
+        android:fontFamily="@font/poppins_bold"
+        android:text="@string/you_have_no_subscription"
+        android:textColor="#DADADA"
+        android:textSize="14sp"
+        app:drawableTint="#DADADA"
+        app:drawableTopCompat="@drawable/shopping_cart_icon"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.45" />
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/subscription_screen_add_floating_action_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:backgroundTint="@color/deep_sky_blue"
+        android:clickable="true"
+        android:focusable="true"
+        app:elevation="@dimen/elevation_10dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.92"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.85"
+        app:srcCompat="@drawable/fab_add_icon"
+        app:tint="@color/white"
+        android:contentDescription="@string/add_subscription" />
 
-</FrameLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

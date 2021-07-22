@@ -208,7 +208,7 @@
     <string name="new_password">New Password</string>
     <string name="old_password">Old Password</string>
     <string name="bank_deposit_naira">Bank deposit (Naira)</string>
-    <string name="bank_deposit_usd_gpb_eur">Bank deposit (USD, GPB, Eur)</string>
+    <string name="bank_deposit_usd_gpb_eur">Bank deposit (USD: GPB: Eur)</string>
     <string name="verified_information">Verified Information</string>
     <string name="_0700000000000">0700000000000</string>
     <string name="password">Password</string>
@@ -358,6 +358,8 @@
     <string name="logout_confirmation_dialog_message">Are you sure you want to logout?</string>
     <string name="delete_image_confirmation">Are you sure you want to delete this image?</string>
     <string name="logout_confirmation_yes">YES</string>
+    <string name="you_have_no_subscription">You Have No Subscription</string>
+    <string name="add_subscription">Add Subscription</string>
 
     <string name="fragment_add_delivery_address_save_text_on_button">Add Address</string>
     <string name="rename">Rename</string>

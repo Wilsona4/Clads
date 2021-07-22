@@ -1,4 +1,4 @@
-package com.decagonhq.clads.ui.profile.bottomnav
+package com.decagonhq.clads.ui.media
 
 import android.Manifest
 import android.content.pm.PackageManager
@@ -135,11 +135,7 @@ class MediaFragment : BaseFragment(), RecyclerClickListener {
                             Toast.LENGTH_SHORT
                         )
                             .show()
-                        handleApiError(
-                            it,
-                            imageRetrofit,
-                            requireView()
-                        )
+                        handleApiError(it, imageRetrofit, requireView(), sessionManager, database)
                     }
                     is Resource.Loading -> {
                         it.message?.let { it1 ->
@@ -151,6 +147,12 @@ class MediaFragment : BaseFragment(), RecyclerClickListener {
                 }
             }
         )
+
+        // implement swipe to refresh
+        binding.mediaFragmentSwipeRefreshLayout.setOnRefreshListener {
+            imageUploadViewModel.getRemoteGalleryImages()
+            binding.mediaFragmentSwipeRefreshLayout.isRefreshing = false
+        }
 
         /*add onclick listener to the fab to ask for permission and open gallery intent*/
         binding.mediaFragmentAddPhotoFab.setOnClickListener {
@@ -263,11 +265,21 @@ class MediaFragment : BaseFragment(), RecyclerClickListener {
                                 progressDialog.showDialogFragment("Uploading...")
                             } else if (it is Resource.Error) {
                                 progressDialog.hideProgressDialog()
-                                handleApiError(it, imageRetrofit, requireView())
+                                handleApiError(
+                                    it,
+                                    imageRetrofit,
+                                    requireView(),
+                                    sessionManager,
+                                    database
+                                )
                             } else {
                                 progressDialog.hideProgressDialog()
                                 it.data?.let { imageUrl ->
-                                    Toast.makeText(requireContext(), "Upload Successful", Toast.LENGTH_SHORT)
+                                    Toast.makeText(
+                                        requireContext(),
+                                        "Upload Successful",
+                                        Toast.LENGTH_SHORT
+                                    )
                                         .show()
                                 }
                             }

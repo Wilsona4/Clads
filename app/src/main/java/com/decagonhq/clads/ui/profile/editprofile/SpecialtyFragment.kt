@@ -5,10 +5,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
 import androidx.core.os.bundleOf
-import androidx.core.view.isVisible
-import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.ItemTouchHelper
@@ -16,23 +13,21 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.decagonhq.clads.R
 import com.decagonhq.clads.data.domain.profile.MeasurementOption
-import com.decagonhq.clads.data.domain.profile.ShowroomAddress
-import com.decagonhq.clads.data.domain.profile.Union
 import com.decagonhq.clads.data.domain.profile.UserProfile
-import com.decagonhq.clads.data.domain.profile.WorkshopAddress
 import com.decagonhq.clads.databinding.SpecialtyFragmentBinding
+import com.decagonhq.clads.ui.BaseFragment
 import com.decagonhq.clads.ui.profile.adapter.SpecialtyFragmentRecyclerAdapter
 import com.decagonhq.clads.ui.profile.dialogfragment.ProfileManagementDialogFragments.Companion.createProfileDialogFragment
+import com.decagonhq.clads.util.Resource
+import com.decagonhq.clads.util.handleApiError
+import com.decagonhq.clads.util.observeOnce
 import com.decagonhq.clads.viewmodels.UserProfileViewModel
-import com.google.android.material.snackbar.Snackbar
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
-class SpecialtyFragment : Fragment() {
+class SpecialtyFragment : BaseFragment() {
     private var _binding: SpecialtyFragmentBinding? = null
-
     private val recyclerViewAdapter by lazy { SpecialtyFragmentRecyclerAdapter() }
-
     private val userProfileViewModel: UserProfileViewModel by activityViewModels()
 
     // This property is only valid between onCreateView and onDestroyView.
@@ -44,8 +39,6 @@ class SpecialtyFragment : Fragment() {
     ): View {
         // Inflate the layout for this fragment
         _binding = SpecialtyFragmentBinding.inflate(inflater, container, false)
-//        profileManagementViewModel =
-//            ViewModelProvider(requireActivity()).get(ProfileManagementViewModel::class.java)
         return binding.root
     }
 
@@ -56,16 +49,12 @@ class SpecialtyFragment : Fragment() {
         addNewSpecialtyDialog()
         addSpecialDeliveryTime()
         savedInfoFromApi()
-
         /*simpleCallBAck object is passed as a parameter of the itemTouchHelper object*/
         val itemTouchHelper = ItemTouchHelper(simpleCallback)
         /*attaching the item touch helper to our recycler view*/
         itemTouchHelper.attachToRecyclerView(binding.specialtyFragmentRecyclerView)
-
         binding.specialtyFragmentSaveChangesMaterialButton.setOnClickListener {
             updateUserProfile()
-            Toast.makeText(requireContext(), "Update SuccessFull", Toast.LENGTH_SHORT).show()
-            requireActivity().onBackPressed()
         }
     }
 
@@ -85,9 +74,9 @@ class SpecialtyFragment : Fragment() {
         ) { key, bundle ->
             // collect input values from dialog fragment and update the union name text of user
             val obiomaTrainedValue = bundle.getString(SPECIAL_OBIOMA_TRAINED_BUNDLE_KEY)
-            binding.specialtyFragmentObiomaTrainedAndCertifiedValueTextView.text = obiomaTrainedValue
+            binding.specialtyFragmentObiomaTrainedAndCertifiedValueTextView.text =
+                obiomaTrainedValue
         }
-
         // when delivery time value is clicked
         binding.specialtyFragmentObiomaTrainedAndCertifiedValueTextView.setOnClickListener {
             val currentObiomaTrainedValue =
@@ -116,7 +105,6 @@ class SpecialtyFragment : Fragment() {
                 recyclerViewAdapter.addNewSpecialty(newSpecialty)
             }
         }
-
         // when delivery time value is clicked
         binding.specialtyFragmentAddNewSpecialtyIcon.setOnClickListener {
             createProfileDialogFragment(
@@ -138,7 +126,6 @@ class SpecialtyFragment : Fragment() {
             val specialtyDeliveryTime = bundle.getString(SPECIAL_DELIVERY_TIME_BUNDLE_KEY)
             binding.specialtyFragmentDeliveryLeadTimeValueTextView.text = specialtyDeliveryTime
         }
-
         // when delivery time value is clicked
         binding.specialtyFragmentDeliveryLeadTimeValueTextView.setOnClickListener {
             val currentDeliveryTime =
@@ -154,11 +141,6 @@ class SpecialtyFragment : Fragment() {
         }
     }
 
-    override fun onDestroyView() {
-        super.onDestroyView()
-        _binding = null
-    }
-
     /**
      * the viewModel is observed for available user profile information.
      * since not all the user profile information is to be update in this fragment
@@ -169,36 +151,48 @@ class SpecialtyFragment : Fragment() {
         userProfileViewModel.userProfile.observe(
             viewLifecycleOwner,
             Observer {
-                var list = it.data?.specialties?.toMutableList()
-                recyclerViewAdapter.populateList(list!!)
-
-                var genderFocusItem = it.data?.genderFocus!!
-                for (i in genderFocusItem) {
-                    when {
-                        i.trim().toLowerCase() == "male" -> {
-                            binding.specialtyFragmentMaleCheckBox.isChecked = true
-                        }
-                        i.trim().toLowerCase() == "female" -> {
-                            binding.specialtyFragmentFemaleCheckBox.isChecked = true
-                        }
-                        i.trim().toLowerCase() == "kids" -> {
-                            binding.specialtyFragmentKidsCheckBox.isChecked = true
-                        }
-                        i.trim().toLowerCase() == "unisex" -> {
-                            binding.specialtyFragmentUnisexCheckBox.isChecked = true
+                if (it is Resource.Loading && it.data?.firstName.isNullOrEmpty()) {
+                    progressDialog.showDialogFragment("Updating..")
+                } else if (it is Resource.Error) {
+                    progressDialog.hideProgressDialog()
+                    handleApiError(it, mainRetrofit, requireView(), sessionManager, database)
+                } else {
+                    progressDialog.hideProgressDialog()
+                    it.data?.specialties?.toMutableList()?.let { list ->
+                        recyclerViewAdapter.populateList(
+                            list
+                        )
+                    }
+                    it.data?.genderFocus?.let { genderFocusItem ->
+                        for (i in genderFocusItem) {
+                            when {
+                                i.trim().toLowerCase() == "male" -> {
+                                    binding.specialtyFragmentMaleCheckBox.isChecked = true
+                                }
+                                i.trim().toLowerCase() == "female" -> {
+                                    binding.specialtyFragmentFemaleCheckBox.isChecked = true
+                                }
+                                i.trim().toLowerCase() == "kids" -> {
+                                    binding.specialtyFragmentKidsCheckBox.isChecked = true
+                                }
+                                i.trim().toLowerCase() == "unisex" -> {
+                                    binding.specialtyFragmentUnisexCheckBox.isChecked = true
+                                }
+                            }
                         }
                     }
+                    binding.specialtyFragmentObiomaTrainedAndCertifiedValueTextView.text =
+                        getString(R.string.yes)
+                    it.data?.measurementOption?.let { measurementOption ->
+                        binding.specialtyFragmentVisitUsForYourMeasurementValueCheckBox.isChecked =
+                            measurementOption.visitForMeasurement ?: false
+                        binding.specialtyFragmentWillAcceptSelfMeasurementValueCheckBox.isChecked =
+                            measurementOption.acceptSelfMeasurement ?: false
+                    }
+                    it.data?.deliveryTime?.let { deliveryTime ->
+                        binding.specialtyFragmentDeliveryLeadTimeValueTextView.text = deliveryTime
+                    }
                 }
-                binding.specialtyFragmentObiomaTrainedAndCertifiedValueTextView.text = getString(R.string.yes)
-
-                binding.specialtyFragmentVisitUsForYourMeasurementValueCheckBox.isChecked =
-                    it.data.measurementOption.visitForMeasurement!!
-
-                binding.specialtyFragmentWillAcceptSelfMeasurementValueCheckBox.isChecked =
-                    it.data.measurementOption.acceptSelfMeasurement!!
-
-                binding.specialtyFragmentDeliveryLeadTimeValueTextView.text =
-                    it.data.deliveryTime ?: getString(R.string.two_weeks)
             }
         )
     }
@@ -208,48 +202,43 @@ class SpecialtyFragment : Fragment() {
      * in the remote database which is obtained by observing retrieved users information in the viewModel
      */
     private fun updateUserProfile() {
-        userProfileViewModel.userProfile.observe(
+        userProfileViewModel.userProfile.observeOnce(
             viewLifecycleOwner,
             Observer {
-                binding.specialtyFragmentUploadProgressbar.isVisible = true
-                it.data?.let { profile ->
-                    val userProfile = UserProfile(
-                        country = profile.country,
-                        deliveryTime = binding.specialtyFragmentDeliveryLeadTimeValueTextView.text.toString(),
-                        email = profile.email,
-                        firstName = profile.firstName,
-                        gender = profile.gender,
-                        genderFocus = getSelectedGenderFocusItem(),
-                        lastName = profile.lastName,
-                        measurementOption = MeasurementOption(
-                            binding.specialtyFragmentVisitUsForYourMeasurementValueCheckBox.isChecked,
-                            binding.specialtyFragmentWillAcceptSelfMeasurementValueCheckBox.isChecked
-                        ),
-                        phoneNumber = profile.phoneNumber,
-                        role = profile.role,
-                        workshopAddress = WorkshopAddress(
-                            street = profile.workshopAddress?.street,
-                            state = profile.workshopAddress?.state,
-                            city = profile.workshopAddress?.city,
-                        ),
-                        showroomAddress = ShowroomAddress(
-                            street = profile.showroomAddress?.street,
-                            city = profile.showroomAddress?.city,
-                            state = profile.showroomAddress?.state,
-                        ),
-                        specialties = recyclerViewAdapter.specialtyList,
-                        thumbnail = profile.thumbnail,
-                        trained = binding.specialtyFragmentObiomaTrainedAndCertifiedValueTextView.text.toString().toLowerCase() == "yes",
-                        union = Union(
-                            name = profile.union?.name ?: "null",
-                            ward = profile.union?.ward ?: "null",
-                            lga = profile.union?.lga ?: "null",
-                            state = profile.union?.state ?: "null",
-                        ),
-                        paymentTerms = profile.paymentTerms,
-                        paymentOptions = profile.paymentOptions
-                    )
-                    userProfileViewModel.updateUserProfile(userProfile)
+                if (it is Resource.Loading && it.data?.firstName.isNullOrEmpty()) {
+                    progressDialog.showDialogFragment("Updating...")
+                } else if (it is Resource.Error) {
+                    progressDialog.hideProgressDialog()
+                    handleApiError(it, mainRetrofit, requireView(), sessionManager, database)
+                } else {
+                    progressDialog.hideProgressDialog()
+                    it.data?.let { profile ->
+                        val userProfile = UserProfile(
+                            country = profile.country,
+                            deliveryTime = binding.specialtyFragmentDeliveryLeadTimeValueTextView.text.toString(),
+                            email = profile.email,
+                            firstName = profile.firstName,
+                            gender = profile.gender,
+                            genderFocus = getSelectedGenderFocusItem(),
+                            lastName = profile.lastName,
+                            measurementOption = MeasurementOption(
+                                binding.specialtyFragmentVisitUsForYourMeasurementValueCheckBox.isChecked,
+                                binding.specialtyFragmentWillAcceptSelfMeasurementValueCheckBox.isChecked
+                            ),
+                            phoneNumber = profile.phoneNumber,
+                            role = profile.role,
+                            workshopAddress = profile.workshopAddress,
+                            showroomAddress = profile.showroomAddress,
+                            specialties = recyclerViewAdapter.specialtyList,
+                            thumbnail = profile.thumbnail,
+                            trained = binding.specialtyFragmentObiomaTrainedAndCertifiedValueTextView.text.toString()
+                                .toLowerCase() == "yes",
+                            union = profile.union,
+                            paymentTerms = profile.paymentTerms,
+                            paymentOptions = profile.paymentOptions
+                        )
+                        userProfileViewModel.updateUserProfile(userProfile)
+                    }
                 }
             }
         )
@@ -260,9 +249,7 @@ class SpecialtyFragment : Fragment() {
      * @return [ArrayList<String>] containing the gender selected
      */
     private fun getSelectedGenderFocusItem(): ArrayList<String> {
-
         var selectedGenderFocus = arrayListOf<String>()
-
         if (binding.specialtyFragmentMaleCheckBox.isChecked) {
             selectedGenderFocus.add("male")
         }
@@ -275,7 +262,6 @@ class SpecialtyFragment : Fragment() {
         if (binding.specialtyFragmentUnisexCheckBox.isChecked) {
             selectedGenderFocus.add("unisex")
         }
-
         return selectedGenderFocus
     }
 
@@ -300,40 +286,31 @@ class SpecialtyFragment : Fragment() {
         /*specifying the position of the contact*/
         override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
             // adapterPosition
-            var position = viewHolder.adapterPosition
-            // getting the current contact swipped
-            var currentSpecialty = recyclerViewAdapter.specialtyList[position]
-
+            val position = viewHolder.adapterPosition
+            // getting the current contact swiped
+            val currentSpecialty = recyclerViewAdapter.specialtyList[position]
             /*checking the direction swipped */
             if (direction == ItemTouchHelper.RIGHT) {
                 AlertDialog.Builder(requireContext()).also {
                     it.setTitle("Are you sure you want to delete this specialty?")
                     it.setPositiveButton("Yes") { dialog, which ->
-
                         // below is to delete an item from the array list at a position
                         // the item was swiped.
                         recyclerViewAdapter.removeSpecialty(position)
-
                         // below line is to display our snackbar with action.
-                        Snackbar.make(
-                            binding.specialtyFragmentRecyclerView,
-                            "do you want to delete $currentSpecialty",
-                            Snackbar.LENGTH_LONG
-                        ).setAction("Undo",) {
-
-                            // adding on click listener to our action of snack bar.
-                            // below line is to add our item to array list at the position the
-                            // item was deleted.
-                            recyclerViewAdapter.undoRemove(position, currentSpecialty)
-
-                            // below line is to notify item is
-                            // added to our adapter class.
-                        }.show()
-                    }.create().show()
-                }
+                    }
+                    it.setNegativeButton(R.string.no) { dialog, which ->
+                        dialog.cancel()
+                    }
+                }.create().show()
                 binding.specialtyFragmentRecyclerView.adapter?.notifyDataSetChanged()
             }
         }
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
     }
 
     companion object {
@@ -341,12 +318,10 @@ class SpecialtyFragment : Fragment() {
         const val SPECIAL_DELIVERY_TIME_BUNDLE_KEY = "SPECIAL DELIVERY TIME BUNDLE KEY"
         const val CURRENT_SPECIAL_DELIVERY_TIME_BUNDLE_KEY =
             "CURRENT SPECIAL DELIVERY TIME BUNDLE KEY"
-
         const val SPECIAL_OBIOMA_TRAINED_REQUEST_KEY = "SPECIAL OBIOMA TRAINED REQUEST KEY"
         const val SPECIAL_OBIOMA_TRAINED_BUNDLE_KEY = "SPECIAL OBIOMA TRAINED BUNDLE KEY"
         const val CURRENT_SPECIAL_OBIOMA_TRAINED_BUNDLE_KEY =
             "CURRENT SPECIAL OBIOMA TRAINED BUNDLE KEY"
-
         const val ADD_NEW_SPECIALTY_REQUEST_KEY = "NANANA REQUEST KEY"
         const val ADD_NEW_SPECIALTY_BUNDLE_KEY = "NANANA BUNDLE KEY"
     }

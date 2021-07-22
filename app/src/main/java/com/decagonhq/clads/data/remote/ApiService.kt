@@ -5,6 +5,7 @@ import com.decagonhq.clads.data.domain.images.UserGalleryImage
 import com.decagonhq.clads.data.domain.images.UserProfileImage
 import com.decagonhq.clads.data.domain.login.UserRole
 import com.decagonhq.clads.data.domain.profile.UserProfile
+import com.decagonhq.clads.data.local.UserProfileEntity
 import com.decagonhq.clads.data.remote.login.LoginCredentialsDTO
 import com.decagonhq.clads.data.remote.registration.UserRegistrationDTO
 import okhttp3.MultipartBody
@@ -40,11 +41,11 @@ interface ApiService {
     suspend fun uploadImage(@Part image: MultipartBody.Part): GenericResponseClass<UserProfileImage>
 
     @GET("download")
-    fun getUploadedImage(): GenericResponseClass<UserProfileImage>
+    suspend fun getUploadedImage(): GenericResponseClass<UserProfileImage>
 
     /*Get User Profile*/
     @GET("me/profile")
-    suspend fun getUserProfile(): GenericResponseClass<UserProfile>
+    suspend fun getUserProfile(): GenericResponseClass<UserProfileEntity>
 
     /*Update User Profile*/
     @PUT("me/profile")
@@ -54,7 +55,7 @@ interface ApiService {
     suspend fun uploadGallery(@Body requestBody: RequestBody): GenericResponseClass<UserGalleryImage>
 
     @GET("images")
-    fun getGalleryImages(): GenericResponseClass<List<UserGalleryImage>>
+    suspend fun getGalleryImages(): GenericResponseClass<List<UserGalleryImage>>
 
     @PATCH("upload/{fileId}")
     suspend fun editDescription(

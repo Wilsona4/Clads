@@ -10,7 +10,6 @@ import com.decagonhq.clads.data.remote.images.ImageDTOMapper
 import com.decagonhq.clads.util.Resource
 import com.decagonhq.clads.util.SafeApiCall
 import com.decagonhq.clads.util.networkBoundResource
-import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.flow
@@ -35,7 +34,6 @@ class ImageRepositoryImpl(
                 true
             },
             fetchFromRemote = {
-                delay(2000)
                 imageApiService.uploadImage(image)
             },
             saveToLocalDB = {
@@ -78,7 +76,6 @@ class ImageRepositoryImpl(
                 true
             },
             fetchFromRemote = {
-                delay(2000)
                 mainApiService.uploadGallery(requestBody)
             },
             saveToLocalDB = {

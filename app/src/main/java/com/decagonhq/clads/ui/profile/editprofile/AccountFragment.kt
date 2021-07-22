@@ -19,6 +19,7 @@ import androidx.core.content.ContextCompat
 import androidx.core.os.bundleOf
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.Observer
+import androidx.lifecycle.lifecycleScope
 import com.bumptech.glide.Glide
 import com.decagonhq.clads.R
 import com.decagonhq.clads.data.domain.images.UserProfileImage
@@ -26,6 +27,7 @@ import com.decagonhq.clads.data.domain.profile.ShowroomAddress
 import com.decagonhq.clads.data.domain.profile.Union
 import com.decagonhq.clads.data.domain.profile.UserProfile
 import com.decagonhq.clads.data.domain.profile.WorkshopAddress
+import com.decagonhq.clads.data.local.UserProfileEntity
 import com.decagonhq.clads.databinding.AccountFragmentBinding
 import com.decagonhq.clads.ui.BaseFragment
 import com.decagonhq.clads.ui.profile.dialogfragment.ProfileManagementDialogFragments.Companion.createProfileDialogFragment
@@ -38,6 +40,8 @@ import com.decagonhq.clads.viewmodels.ImageUploadViewModel
 import com.decagonhq.clads.viewmodels.UserProfileViewModel
 import com.theartofdev.edmodo.cropper.CropImage
 import dagger.hilt.android.AndroidEntryPoint
+import id.zelory.compressor.Compressor
+import kotlinx.coroutines.launch
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import okhttp3.MultipartBody
 import okhttp3.RequestBody.Companion.asRequestBody
@@ -83,6 +87,7 @@ class AccountFragment : BaseFragment() {
         accountOtherNameEditDialog()
 //        accountLegalStatusDialog()
 
+        /*Initialize Image Cropper*/
         cropActivityResultLauncher = registerForActivityResult(cropActivityResultContract) {
             it?.let { uri ->
                 binding.accountFragmentEditProfileIconImageView.imageAlpha = 140
@@ -102,25 +107,22 @@ class AccountFragment : BaseFragment() {
 
         /*Get users profile*/
 
-        imageUploadViewModel.getUserProfileImage()
-
         userProfileViewModel.getLocalDatabaseUserProfile()
-        userProfileViewModel.getUserProfile()
         getUserProfile()
     }
 
+    /*Get User Profile*/
     private fun getUserProfile() {
         userProfileViewModel.userProfile.observe(
             viewLifecycleOwner,
             Observer {
                 if (it is Resource.Loading && it.data?.firstName.isNullOrEmpty()) {
-                    it.message?.let { message ->
-                        progressDialog.showDialogFragment(message)
-                    }
+                    progressDialog.showDialogFragment("Updating..")
                 } else if (it is Resource.Error) {
                     progressDialog.hideProgressDialog()
-                    handleApiError(it, mainRetrofit, requireView())
+                    handleApiError(it, mainRetrofit, requireView(), sessionManager, database)
                 } else {
+                    progressDialog.hideProgressDialog()
                     it.data?.let { userProfile ->
                         binding.apply {
                             accountFragmentFirstNameValueTextView.text = userProfile.firstName
@@ -146,6 +148,10 @@ class AccountFragment : BaseFragment() {
                                 ?: getString(R.string.enter_union_resource)
                             accountFragmentStateValueTextView.text = userProfile.union?.state
                                 ?: getString(R.string.enter_union_resource)
+                            Glide.with(this@AccountFragment)
+                                .load(userProfile.thumbnail)
+                                .placeholder(R.drawable.nav_drawer_profile_avatar)
+                                .into(binding.accountFragmentEditProfileIconImageView)
                         }
                     }
                 }
@@ -153,51 +159,102 @@ class AccountFragment : BaseFragment() {
         )
     }
 
+    /*Update User Profile*/
     private fun updateUserProfile() {
         userProfileViewModel.userProfile.observeOnce(
             viewLifecycleOwner,
             Observer {
-                it.data?.let { profile ->
-                    val userProfile = UserProfile(
-                        country = profile.country,
-                        deliveryTime = profile.deliveryTime,
-                        email = profile.email,
-                        firstName = binding.accountFragmentFirstNameValueTextView.text.toString(),
-                        gender = binding.accountFragmentGenderValueTextView.text.toString(),
-                        genderFocus = profile.genderFocus,
-                        lastName = binding.accountFragmentLastNameValueTextView.text.toString(),
-                        measurementOption = profile.measurementOption,
-                        phoneNumber = binding.accountFragmentPhoneNumberValueTextView.text.toString(),
-                        role = profile.role,
-                        workshopAddress = WorkshopAddress(
-                            street = binding.accountFragmentWorkshopAddressStreetValueTextView.text.toString(),
-                            state = binding.accountFragmentShowroomAddressValueTextView.text.toString(),
-                            city = binding.accountFragmentWorkshopAddressCityValueTextView.text.toString(),
-                        ),
-                        showroomAddress = ShowroomAddress(
-                            street = binding.accountFragmentWorkshopAddressCityValueTextView.text.toString(),
-                            city = binding.accountFragmentWorkshopAddressCityValueTextView.text.toString(),
-                            state = binding.accountFragmentShowroomAddressValueTextView.text.toString(),
-                        ),
-                        specialties = profile.specialties,
-                        thumbnail = profile.thumbnail,
-                        trained = profile.trained,
-                        union = Union(
-                            name = binding.accountFragmentNameOfUnionValueTextView.text.toString(),
-                            ward = binding.accountFragmentWardValueTextView.text.toString(),
-                            lga = binding.accountFragmentLocalGovtAreaValueTextView.text.toString(),
-                            state = binding.accountFragmentStateValueTextView.text.toString(),
-                        ),
-                        paymentTerms = profile.paymentTerms,
-                        paymentOptions = profile.paymentOptions
-                    )
+                if (it is Resource.Loading && it.data?.firstName.isNullOrEmpty()) {
+                    progressDialog.showDialogFragment("Updating..")
+                } else if (it is Resource.Error) {
+                    progressDialog.hideProgressDialog()
+                    handleApiError(it, mainRetrofit, requireView(), sessionManager, database)
+                } else {
+                    progressDialog.hideProgressDialog()
+                    it.data?.let { profile ->
+                        val userProfile = UserProfile(
+                            country = profile.country,
+                            deliveryTime = profile.deliveryTime,
+                            email = profile.email,
+                            firstName = binding.accountFragmentFirstNameValueTextView.text.toString(),
+                            gender = binding.accountFragmentGenderValueTextView.text.toString(),
+                            genderFocus = profile.genderFocus,
+                            lastName = binding.accountFragmentLastNameValueTextView.text.toString(),
+                            measurementOption = profile.measurementOption,
+                            phoneNumber = binding.accountFragmentPhoneNumberValueTextView.text.toString(),
+                            role = profile.role,
+                            workshopAddress = WorkshopAddress(
+                                street = binding.accountFragmentWorkshopAddressStreetValueTextView.text.toString(),
+                                state = binding.accountFragmentShowroomAddressValueTextView.text.toString(),
+                                city = binding.accountFragmentWorkshopAddressCityValueTextView.text.toString(),
+                            ),
+                            showroomAddress = ShowroomAddress(
+                                street = binding.accountFragmentWorkshopAddressCityValueTextView.text.toString(),
+                                city = binding.accountFragmentWorkshopAddressCityValueTextView.text.toString(),
+                                state = binding.accountFragmentShowroomAddressValueTextView.text.toString(),
+                            ),
+                            specialties = profile.specialties,
+                            thumbnail = profile.thumbnail,
+                            trained = profile.trained,
+                            union = Union(
+                                name = binding.accountFragmentNameOfUnionValueTextView.text.toString(),
+                                ward = binding.accountFragmentWardValueTextView.text.toString(),
+                                lga = binding.accountFragmentLocalGovtAreaValueTextView.text.toString(),
+                                state = binding.accountFragmentStateValueTextView.text.toString(),
+                            ),
+                            paymentTerms = profile.paymentTerms,
+                            paymentOptions = profile.paymentOptions
+                        )
 
-                    userProfileViewModel.updateUserProfile(userProfile)
+                        userProfileViewModel.updateUserProfile(userProfile)
+                    }
                 }
             }
         )
     }
 
+    /*Update User Profile Picture*/
+    private fun updateUserProfilePicture(downloadUri: String) {
+        userProfileViewModel.userProfile.observeOnce(
+            viewLifecycleOwner,
+            Observer {
+                if (it is Resource.Loading<UserProfileEntity>) {
+                    progressDialog.showDialogFragment("Uploading...")
+                } else if (it is Resource.Error) {
+                    progressDialog.hideProgressDialog()
+                    handleApiError(it, mainRetrofit, requireView(), sessionManager, database)
+                } else {
+                    progressDialog.hideProgressDialog()
+                    it.data?.let { profile ->
+                        val userProfile = UserProfile(
+                            country = profile.country,
+                            deliveryTime = profile.deliveryTime,
+                            email = profile.email,
+                            firstName = profile.firstName,
+                            gender = profile.gender,
+                            genderFocus = profile.genderFocus,
+                            lastName = profile.lastName,
+                            measurementOption = profile.measurementOption,
+                            phoneNumber = profile.phoneNumber,
+                            role = profile.role,
+                            workshopAddress = profile.workshopAddress,
+                            showroomAddress = profile.showroomAddress,
+                            specialties = profile.specialties,
+                            thumbnail = downloadUri,
+                            trained = profile.trained,
+                            union = profile.union,
+                            paymentTerms = profile.paymentTerms,
+                            paymentOptions = profile.paymentOptions
+                        )
+
+                        userProfileViewModel.updateUserProfile(userProfile)
+                    }
+                }
+            }
+        )
+    }
+
+    /*Check for Gallery Permission*/
     private fun String.checkForPermission(name: String, requestCode: Int) {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             when {
@@ -279,66 +336,35 @@ class AccountFragment : BaseFragment() {
         }
     }
 
+    /*Upload Profile Picture*/
     private fun uploadImageToServer(uri: Uri) {
 
         // create RequestBody instance from file
         val convertedImageUriToBitmap = uriToBitmap(uri)
         val bitmapToFile = saveBitmap(convertedImageUriToBitmap)
 
-        val imageBody = bitmapToFile?.asRequestBody("image/jpg".toMediaTypeOrNull())
-        val image = MultipartBody.Part.createFormData("file", bitmapToFile?.name, imageBody!!)
-
-        imageUploadViewModel.mediaImageUpload(image)
+        /*Compress Image then Upload Image*/
+        lifecycleScope.launch {
+            val compressedImage = Compressor.compress(requireContext(), bitmapToFile!!)
+            val imageBody = compressedImage.asRequestBody("image/jpg".toMediaTypeOrNull())
+            val image = MultipartBody.Part.createFormData("file", bitmapToFile?.name, imageBody!!)
+            imageUploadViewModel.mediaImageUpload(image)
+        }
 
         /*Handling the response from the retrofit*/
         imageUploadViewModel.userProfileImage.observe(
             viewLifecycleOwner,
             Observer {
-
-                if (it is Resource.Loading<UserProfileImage> && it.data?.downloadUri.isNullOrEmpty()) {
-                    it.message?.let { message ->
-                        progressDialog.showDialogFragment(message)
-                    }
+                if (it is Resource.Loading<UserProfileImage>) {
+                    progressDialog.showDialogFragment("Uploading...")
                 } else if (it is Resource.Error) {
                     progressDialog.hideProgressDialog()
-                    handleApiError(it, imageRetrofit, requireView())
+                    handleApiError(it, mainRetrofit, requireView(), sessionManager, database)
                 } else {
                     progressDialog.hideProgressDialog()
+                    Toast.makeText(requireContext(), "Upload Successful", Toast.LENGTH_SHORT).show()
                     it.data?.downloadUri?.let { imageUrl ->
-                        Glide.with(this)
-                            .load(imageUrl)
-                            .placeholder(R.drawable.nav_drawer_profile_avatar)
-                            .into(binding.accountFragmentEditProfileIconImageView)
-
-                        Toast.makeText(requireContext(), "Upload Successful", Toast.LENGTH_SHORT)
-                            .show()
-                    }
-                }
-            }
-        )
-    }
-
-    /*load the image from shared pref on resume of the account fragment class*/
-    override fun onResume() {
-        super.onResume()
-        /*Handling the response from the retrofit*/
-        imageUploadViewModel.userProfileImage.observe(
-            viewLifecycleOwner,
-            Observer {
-                if (it is Resource.Loading<UserProfileImage> && it.data?.downloadUri.isNullOrEmpty()) {
-                    it.message?.let { message ->
-                        progressDialog.showDialogFragment(message)
-                    }
-                } else if (it is Resource.Error) {
-                    progressDialog.hideProgressDialog()
-                    handleApiError(it, imageRetrofit, requireView())
-                } else {
-                    progressDialog.hideProgressDialog()
-                    it.data?.downloadUri?.let { imageUrl ->
-                        Glide.with(this)
-                            .load(imageUrl)
-                            .placeholder(R.drawable.nav_drawer_profile_avatar)
-                            .into(binding.accountFragmentEditProfileIconImageView)
+                        updateUserProfilePicture(imageUrl)
                     }
                 }
             }
