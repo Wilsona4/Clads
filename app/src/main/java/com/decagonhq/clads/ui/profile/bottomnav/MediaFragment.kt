@@ -148,6 +148,12 @@ class MediaFragment : BaseFragment(), RecyclerClickListener {
             }
         )
 
+        // implement swipe to refresh
+        binding.mediaFragmentSwipeRefreshLayout.setOnRefreshListener {
+            imageUploadViewModel.getRemoteGalleryImages()
+            binding.mediaFragmentSwipeRefreshLayout.isRefreshing = false
+        }
+
         /*add onclick listener to the fab to ask for permission and open gallery intent*/
         binding.mediaFragmentAddPhotoFab.setOnClickListener {
             if (checkPermission()) {

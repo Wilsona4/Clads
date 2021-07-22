@@ -7,6 +7,7 @@ import android.view.ViewGroup
 import android.widget.ArrayAdapter
 import android.widget.AutoCompleteTextView
 import androidx.fragment.app.activityViewModels
+import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.decagonhq.clads.R
 import com.decagonhq.clads.databinding.HomeFragmentBinding
@@ -38,8 +39,8 @@ class HomeFragment : BaseFragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-//        /*Get User profile*/
-//        userProfileViewModel.saveUserProfileToLocalDatabase()
+
+        updateUserCardNames()
 
         binding.apply {
             homeFragmentClientListRecyclerView.apply {
@@ -69,6 +70,19 @@ class HomeFragment : BaseFragment() {
             ArrayAdapter(requireContext(), R.layout.chart_year_dropdown_item, chartYear)
         homeFragmentYearDropdown.setAdapter(accountCategoriesArrayAdapter)
     }
+
+    /*Set Card View User Name*/
+    private fun updateUserCardNames() =
+        // /*Observing the user profile to display the user name*/
+        userProfileViewModel.userProfile.observe(
+            viewLifecycleOwner,
+            Observer {
+                it.data.let { userProfile ->
+                    val fullName = "${userProfile?.firstName} ${userProfile?.lastName}"
+                    binding.homeFragmentAccountNameTextView.text = fullName
+                }
+            }
+        )
 
     override fun onDestroyView() {
         super.onDestroyView()
