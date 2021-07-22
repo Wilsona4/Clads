@@ -1,4 +1,4 @@
-package com.decagonhq.clads.ui.profile.bottomnav
+package com.decagonhq.clads.ui.profile
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -78,7 +78,7 @@ class HomeFragment : BaseFragment() {
             viewLifecycleOwner,
             Observer {
                 it.data.let { userProfile ->
-                    val fullName = "${userProfile?.firstName} ${userProfile?.lastName}"
+                    val fullName = "${userProfile?.firstName ?: getString(R.string.ijeoma)} ${userProfile?.lastName ?: getString(R.string.babangida)}"
                     binding.homeFragmentAccountNameTextView.text = fullName
                 }
             }

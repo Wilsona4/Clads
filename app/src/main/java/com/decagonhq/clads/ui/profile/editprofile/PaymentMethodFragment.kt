@@ -26,8 +26,8 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton
 class PaymentMethodFragment : BaseFragment() {
 
     private var _binding: PaymentMethodFragmentBinding? = null
-    private lateinit var paymentTermsList: TextView
-    private lateinit var paymentOptionsList: TextView
+    private lateinit var paymentTermsListTextView: TextView
+    private lateinit var paymentOptionsListTextView: TextView
     private lateinit var paymentMethodFab: FloatingActionButton
     private lateinit var paymentOptionsDialogBinding: PaymentOptionsDialogFragmentBinding
     private lateinit var paymentTermsDialogBinding: PaymentTermsDialogFragmentBinding
@@ -56,27 +56,28 @@ class PaymentMethodFragment : BaseFragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        /*Update User Profile*/
         binding.paymentMethodFragmentSaveChangesButton.setOnClickListener {
             updateUserProfile()
         }
         userProfileViewModel.getLocalDatabaseUserProfile()
         getPaymentMethod()
         // getting reference with the payment options textView
-        paymentOptionsList = binding.paymentMethodFragmentPaymentOptionsListTextView
+        paymentOptionsListTextView = binding.paymentMethodFragmentPaymentOptionsListTextView
         // getting reference with the payment terms textView
-        paymentTermsList = binding.paymentMethodFragmentPaymentTermsListTextView
+        paymentTermsListTextView = binding.paymentMethodFragmentPaymentTermsListTextView
         // Initializing the variable for storing payment options
         selectedPaymentOptions = mutableSetOf()
-        selectedPaymentOptions.add("Bank deposit (Naira)")
-        paymentOptionsList.text = selectedPaymentOptions.joinToString(
+        selectedPaymentOptions.add(getString(R.string.bank_deposit_naira))
+        paymentOptionsListTextView.text = selectedPaymentOptions.joinToString(
             separator = "\n\n",
             limit = 3,
             truncated = "..."
         )
         // Initializing the variable for storing payment terms
         selectedPaymentTerms = mutableSetOf()
-        selectedPaymentTerms.add("100% Deposit")
-        paymentTermsList.text = selectedPaymentTerms.joinToString(
+        selectedPaymentTerms.add(getString(R.string._100_deposit))
+        paymentTermsListTextView.text = selectedPaymentTerms.joinToString(
             separator = "\n\n",
             limit = 3,
             truncated = "..."
@@ -92,12 +93,16 @@ class PaymentMethodFragment : BaseFragment() {
             val paymentTermsDialogBuilder = AlertDialog.Builder(requireContext())
             paymentTermsDialogBuilder.setView(paymentTermsDialogBinding.root)
             for (item in paymentTermsCheckedList) {
-                if (item == "100% Deposit") {
-                    fullPaymentCheckBox.isChecked = true
-                } else if (item == "50% Deposit and 50% balance on delivery") {
-                    partPaymentCheckBox.isChecked = true
-                } else if (item == "0% Deposit and 100% balance on delivery") {
-                    noDepositCheckBox.isChecked = true
+                when (item) {
+                    getString(R.string._100_deposit) -> {
+                        fullPaymentCheckBox.isChecked = true
+                    }
+                    getString(R.string._50_deposit_and_50_balance_on_delivery) -> {
+                        partPaymentCheckBox.isChecked = true
+                    }
+                    getString(R.string._0_deposit_and_100_balance_on_delivery) -> {
+                        noDepositCheckBox.isChecked = true
+                    }
                 }
             }
             // Setting the positive button for the payment options dialog builder
@@ -111,7 +116,7 @@ class PaymentMethodFragment : BaseFragment() {
                     selectedPaymentTerms.add("100% Deposit")
                 }
                 // updating the payment options TextView
-                paymentTermsList.text = selectedPaymentTerms.joinToString(
+                paymentTermsListTextView.text = selectedPaymentTerms.joinToString(
                     separator = "\n\n",
                     limit = 3,
                     truncated = "..."
@@ -126,7 +131,7 @@ class PaymentMethodFragment : BaseFragment() {
         // set on click listener on my fab button
         paymentMethodFab = binding.paymentMethodFragmentFab
         // Setting onClick listener to the payment options textView
-        paymentOptionsList.setOnClickListener() {
+        paymentOptionsListTextView.setOnClickListener() {
             paymentOptionsDialogBinding =
                 PaymentOptionsDialogFragmentBinding.inflate(layoutInflater)
             // Initializing payment options checkBoxes
@@ -173,7 +178,7 @@ class PaymentMethodFragment : BaseFragment() {
                     )
                 }
                 // updating the payment options TextView
-                paymentOptionsList.text = selectedPaymentOptions.joinToString(
+                paymentOptionsListTextView.text = selectedPaymentOptions.joinToString(
                     separator = "\n\n",
                     limit = 5,
                 )

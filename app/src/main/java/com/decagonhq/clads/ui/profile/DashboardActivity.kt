@@ -30,7 +30,7 @@ import com.bumptech.glide.Glide
 import com.decagonhq.clads.R
 import com.decagonhq.clads.data.local.CladsDatabase
 import com.decagonhq.clads.databinding.DashboardActivityBinding
-import com.decagonhq.clads.ui.profile.bottomnav.MessagesFragment
+import com.decagonhq.clads.ui.messages.MessagesFragment
 import com.decagonhq.clads.util.Constants
 import com.decagonhq.clads.util.CustomProgressDialog
 import com.decagonhq.clads.util.SessionManager

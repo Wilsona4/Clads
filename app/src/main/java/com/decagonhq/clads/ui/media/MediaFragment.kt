@@ -1,4 +1,4 @@
-package com.decagonhq.clads.ui.profile.bottomnav
+package com.decagonhq.clads.ui.media
 
 import android.Manifest
 import android.content.pm.PackageManager
