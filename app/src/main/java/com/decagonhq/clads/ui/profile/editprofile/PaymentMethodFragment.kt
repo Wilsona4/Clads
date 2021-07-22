@@ -13,7 +13,6 @@ import androidx.lifecycle.Observer
 import com.decagonhq.clads.R
 import com.decagonhq.clads.data.domain.profile.UserProfile
 import com.decagonhq.clads.data.local.UserProfileEntity
-import com.decagonhq.clads.databinding.AddPaymentTermsDialogFragmentBinding
 import com.decagonhq.clads.databinding.PaymentMethodFragmentBinding
 import com.decagonhq.clads.databinding.PaymentOptionsDialogFragmentBinding
 import com.decagonhq.clads.databinding.PaymentTermsDialogFragmentBinding
@@ -30,7 +29,6 @@ class PaymentMethodFragment : BaseFragment() {
     private lateinit var paymentTermsList: TextView
     private lateinit var paymentOptionsList: TextView
     private lateinit var paymentMethodFab: FloatingActionButton
-    private lateinit var addPaymentTermsDialogBinding: AddPaymentTermsDialogFragmentBinding
     private lateinit var paymentOptionsDialogBinding: PaymentOptionsDialogFragmentBinding
     private lateinit var paymentTermsDialogBinding: PaymentTermsDialogFragmentBinding
     private lateinit var selectedPaymentOptions: MutableSet<String>
