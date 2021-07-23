@@ -6,6 +6,7 @@ import com.decagonhq.clads.data.local.CladsDatabase
 import com.decagonhq.clads.data.local.ClientEntityMapper
 import com.decagonhq.clads.data.remote.ApiService
 import com.decagonhq.clads.data.remote.client.Client
+import com.decagonhq.clads.util.Event
 import com.decagonhq.clads.util.Resource
 import com.decagonhq.clads.util.SafeApiCall
 import com.decagonhq.clads.util.networkBoundResource
@@ -44,10 +45,10 @@ class ClientRepositoryImpl @Inject constructor(
             }
         )
 
-    override suspend fun addClientToServer(client: Client): Resource<GenericResponseClass<Client>> {
+    override suspend fun addClientToServer(client: Client): Resource<Event<GenericResponseClass<Client>>> {
 
         return safeApiCall {
-            apiService.addClient(client)
+            Event(apiService.addClient(client))
         }
     }
 
@@ -64,7 +65,7 @@ class ClientRepositoryImpl @Inject constructor(
         return safeApiCall { database.clientDao().deleteClient(clientEntityMapped[0]) }
     }
 
-    override suspend fun addClientToDb(client: Client): Resource<Client> {
+    override suspend fun addClientToDb(client: Client): Resource<Event<Client>> {
 
         val clientList = mutableListOf<Client>()
         clientList.add(client)
@@ -74,9 +75,14 @@ class ClientRepositoryImpl @Inject constructor(
         }
 
         return if (result.data!! > 0) {
-            Resource.Success(data = client, message = "Client added successfully")
+            Resource.Success(data = Event(client), message = "Client added successfully")
         } else {
-            Resource.Error(isNetworkError = false, errorBody = null, data = null, message = result.message!!)
+            Resource.Error(
+                isNetworkError = false,
+                errorBody = null,
+                data = null,
+                message = result.message
+            )
         }
     }
 

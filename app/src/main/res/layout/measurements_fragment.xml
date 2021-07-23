@@ -16,8 +16,8 @@
             android:id="@+id/measurements_fragment_testing_text_view"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/margin_164dp"
             android:text="@string/there_are_no_measurements"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
@@ -26,9 +26,11 @@
             android:id="@+id/measurements_fragment_recycler_view"
             android:layout_width="match_parent"
             android:layout_height="0dp"
+            android:layout_marginBottom="20dp"
             android:padding="@dimen/padding_16dp"
-            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintBottom_toTopOf="@+id/client_measurement_fragment_add_measurement_fab"
             app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="1.0"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             tools:listitem="@layout/measurement_fragment_recyclerview_items" />
@@ -37,16 +39,17 @@
             android:id="@+id/client_measurement_fragment_add_measurement_fab"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginEnd="@dimen/margin_20dp"
-            android:layout_marginBottom="@dimen/margin_28dp"
+            android:layout_marginEnd="24dp"
+            android:layout_marginBottom="28dp"
+            android:backgroundTint="@color/deep_sky_blue"
             android:clickable="true"
             android:contentDescription="@string/add_measurement"
             android:focusable="true"
             android:src="@drawable/fab_add_icon"
-            app:tint="@color/white"
-            android:backgroundTint="@color/deep_sky_blue"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent" />
+            app:layout_constraintEnd_toEndOf="parent"
+            app:tint="@color/white" />
+
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

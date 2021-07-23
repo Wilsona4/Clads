@@ -7,6 +7,7 @@ import androidx.lifecycle.viewModelScope
 import com.decagonhq.clads.data.domain.GenericResponseClass
 import com.decagonhq.clads.data.remote.client.Client
 import com.decagonhq.clads.repository.ClientsRepository
+import com.decagonhq.clads.util.Event
 import com.decagonhq.clads.util.Resource
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
@@ -25,14 +26,14 @@ class ClientViewModel @Inject constructor(
     private var _deleteClientResponse = MutableLiveData<Resource<GenericResponseClass<Client>>>()
     val deleteClientResponse: LiveData<Resource<GenericResponseClass<Client>>> get() = _deleteClientResponse
 
-    private var _addClientResponse = MutableLiveData<Resource<GenericResponseClass<Client>>>()
-    val addClientResponse: LiveData<Resource<GenericResponseClass<Client>>> get() = _addClientResponse
+    private var _addClientResponse = MutableLiveData<Resource<Event<GenericResponseClass<Client>>>>()
+    val addClientResponse: LiveData<Resource<Event<GenericResponseClass<Client>>>> get() = _addClientResponse
 
     private var _deleteFromDBResponse = MutableLiveData<Resource<Int>>()
     val deleteFromDBResponse: LiveData<Resource<Int>> get() = _deleteFromDBResponse
 
-    private var _addToDBResponse = MutableLiveData<Resource<Client>>()
-    val addToDBResponse: LiveData<Resource<Client>> get() = _addToDBResponse
+    private var _addToDBResponse = MutableLiveData<Resource<Event<Client>>>()
+    val addToDBResponse: LiveData<Resource<Event<Client>>> get() = _addToDBResponse
 
     fun getClients() {
         viewModelScope.launch(Dispatchers.IO) {

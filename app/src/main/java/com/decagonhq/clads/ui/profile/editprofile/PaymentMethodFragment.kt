@@ -54,7 +54,7 @@ class PaymentMethodFragment : Fragment() {
         // creating an instance of my alert dialog builder
         addPaymentTermsDialogBinding = AddPaymentTermsDialogFragmentBinding.inflate(layoutInflater)
 
-        // getting reference with the payment options textView
+        // getting reference with the payment options add_client_fragment_previous_button
         paymentOptionsList = binding.paymentMethodFragmentPaymentOptionsListTextView
 
         // creating the alert dialog builder
@@ -118,7 +118,7 @@ class PaymentMethodFragment : Fragment() {
             addPaymentTermsDialog.show()
         }
 
-        // Setting onClick listener to the payment options textView
+        // Setting onClick listener to the payment options add_client_fragment_previous_button
         paymentOptionsList.setOnClickListener() {
             paymentOptionsDialogBinding = PaymentOptionsDialogFragmentBinding.inflate(layoutInflater)
 

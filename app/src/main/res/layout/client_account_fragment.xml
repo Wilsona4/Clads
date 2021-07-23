@@ -131,6 +131,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_gravity="start"
+                android:checked="true"
                 android:gravity="center"
                 android:paddingStart="@dimen/margin_15dp"
                 android:paddingEnd="@dimen/margin_15dp"
@@ -152,7 +153,6 @@
             android:id="@+id/client_account_tab_gender_text_view"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="@dimen/margin_24dp"
             android:layout_marginBottom="@dimen/margin_16dp"
             android:fontFamily="@font/poppins"
             android:text="@string/all_gender"
@@ -161,15 +161,5 @@
             app:layout_constraintBottom_toBottomOf="@+id/client_fragment_account_tab_radioGroup"
             app:layout_constraintStart_toStartOf="@+id/client_account_fragment_email_address_input_layout" />
 
-        <Button
-            android:id="@+id/client_account_tab_next_button"
-            style="@style/ClientAccountFragmentButton"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:text="@string/all_next"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/client_account_tab_gender_text_view" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 </ScrollView>

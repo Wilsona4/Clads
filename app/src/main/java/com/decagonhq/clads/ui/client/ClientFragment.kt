@@ -121,11 +121,11 @@ class ClientFragment : BaseFragment() {
                         binding.clientListScreenRecyclerView.adapter?.notifyItemRemoved(it1)
                         progressDialog.hideProgressDialog()
                     }
-                    Snackbar.make(
-                        requireView(),
-                        "Client Deleted Successfully",
-                        Snackbar.LENGTH_SHORT
-                    ).show()
+//                    Snackbar.make(
+//                        requireView(),
+//                        "Client Deleted Successfully",
+//                        Snackbar.LENGTH_SHORT
+//                    ).show()
                 }
 
                 is Resource.Error -> {

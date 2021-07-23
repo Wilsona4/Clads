@@ -4,7 +4,6 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Button
 import android.widget.EditText
 import android.widget.RadioButton
 import android.widget.RadioGroup
@@ -17,22 +16,24 @@ import com.decagonhq.clads.ui.BaseFragment
 import com.decagonhq.clads.util.ValidationObject
 import com.decagonhq.clads.util.ValidationObject.jdValidatePhoneNumber
 import com.decagonhq.clads.viewmodels.ClientsRegisterViewModel
-import com.google.android.material.tabs.TabLayout
 
 class ClientAccountFragment : BaseFragment() {
     private var _binding: ClientAccountFragmentBinding? = null
 
     // This property is only valid between onCreateView and onDestroyView.
     private val binding get() = _binding!!
-    private val clientsRegisterViewModel: ClientsRegisterViewModel by activityViewModels()
+    private val backingFieldViewModel: ClientsRegisterViewModel by activityViewModels()
 
     private lateinit var firstNameEditText: EditText
     private lateinit var lastNameEditText: EditText
     private lateinit var phoneNumberEditText: EditText
     private lateinit var emailEditText: EditText
     private lateinit var genderRadioGroup: RadioGroup
-    private lateinit var nextButton: Button
-    private lateinit var tabLayout: TabLayout
+    private lateinit var firstName: String
+    private lateinit var lastName: String
+    private lateinit var phoneNumber: String
+    private lateinit var email: String
+    private lateinit var selectedGender: String
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -47,130 +48,31 @@ class ClientAccountFragment : BaseFragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         // initialize views
-        firstNameEditText = binding.clientAccountFragmentClientFirstNameInput
-        lastNameEditText = binding.clientAccountFragmentClientLastNameInput
-        phoneNumberEditText = binding.clientAccountFragmentClientPhoneNumberInput
-        emailEditText = binding.clientAccountFragmentClientEmailInput
-        genderRadioGroup = binding.clientFragmentAccountTabRadioGroup
-        nextButton = binding.clientAccountTabNextButton
+        init()
+        setClientFieldsOnTextChange()
+    }
 
-//        clientsRegisterViewModel.clientRegData.observe(
-//            viewLifecycleOwner,
-//            Observer {
-//                when (it) {
-//                    is Resource.Success -> {
-//                        it.data?.payload?.let {
-//                            //clientsRegisterViewModel.saveClientToLocalDatabase()
-//                        }
-//
-//                        Toast.makeText(
-//                            requireContext(),
-//                            "Client added successfully",
-//                            Toast.LENGTH_SHORT
-//                        ).show()
-//                        findNavController().navigate(R.id.action_emailSignUpFragment_to_emailConfirmationFragment)
-//                    }
-//                    is Resource.Error -> {
-//                        progressDialog.hideProgressDialog()
-//                        handleApiError(it, mainRetrofit, requireView())
-//                    }
-//                    is Resource.Loading -> {
-//                        it.message?.let { message ->
-//                            progressDialog.showDialogFragment(message)
-//                        }
-//                    }
-//
-//                }
-//            }
-//        )
+    fun saveToViewModel(): Boolean {
+        var isSaved = false
 
-        /*Validate Next button*/
-        nextButton.setOnClickListener {
-
-            /*Initialize User Inputs*/
-            val firstName = firstNameEditText.text.toString().trim()
-            val lastName = lastNameEditText.text.toString().trim()
-            val phoneNumber = phoneNumberEditText.text.toString().trim()
-            val email = emailEditText.text.toString().trim()
-            val gender = genderRadioGroup
-            val selectedGender = _binding?.root?.findViewById<RadioButton>(genderRadioGroup.checkedRadioButtonId)?.text.toString()
-
-            when {
-                firstName.isEmpty() -> {
-                    binding.clientAccountFragmentClientFirstNameInputLayout.error =
-                        getString(R.string.all_please_enter_first_name)
-                    return@setOnClickListener
-                }
-
-                email.isEmpty() -> {
-                    binding.clientAccountFragmentEmailAddressInputLayout.error =
-                        getString(R.string.all_email_cant_be_empty)
-                    return@setOnClickListener
-                }
-                !binding.clientAccountFragmentClientPhoneNumberInput.jdValidatePhoneNumber(
-                    phoneNumber
-                ) -> {
-                    binding.clientAccountFragmentPhoneNumberInputLayout.error =
-                        getString(R.string.invalid_phone_number)
-                    return@setOnClickListener
-                }
-                phoneNumber.isEmpty() -> {
-                    binding.clientAccountFragmentPhoneNumberInputLayout.error =
-                        getString(R.string.all_phone_number_is_required)
-                    return@setOnClickListener
-                }
-                !ValidationObject.validateEmail(email) -> {
-                    binding.clientAccountFragmentEmailAddressInputLayout.error =
-                        getString(R.string.all_invalid_email)
-                    return@setOnClickListener
-                }
-                gender.checkedRadioButtonId == -1 -> {
-                    // display msg
-                    // todo display select gender
-                    return@setOnClickListener
-                }
-
-                else -> {
-                    if (validateClientFieldsOnTextChange()) {
-//                        val newClient = Client(
-//                            fullName = "$firstName $lastName",
-//                            email = email,
-//                            phoneNumber = phoneNumber,
-//                            gender = selectedGender,
-//                            measurements = arrayListOf(Measurement(
-//                                //title = binding.clientAccountFragmentTitle.text.toString(),
-//                                title = "top",
-//                                value = 20
-//                            )),
-//                            deliveryAddresses = arrayListOf(DeliveryAddress(
-//                                street = "2 Lagos street",
-//                                city= "Lagos",
-//                                state = "State"
-//                            ))
-//
-//                        )
-                        // clientsRegisterViewModel.registerClient(newClient)
-
-                        val newClient = ClientReg(
-                            fullName = "$firstName $lastName",
-                            email = email,
-                            phoneNumber = phoneNumber,
-                            gender = selectedGender
-                        )
-                        clientsRegisterViewModel.setClient(newClient)
-
-                        val tabLayout = activity?.findViewById(R.id.add_client_tab_layout) as TabLayout
-                        tabLayout.getTabAt(1)?.select()
-                    } else {
-                        return@setOnClickListener
-                    }
-                }
+        if (isAdded && isVisible) {
+            if (validateInputs()) {
+                backingFieldViewModel.setClient(
+                    client = ClientReg(
+                        fullName = "$firstName $lastName",
+                        email = email,
+                        phoneNumber = phoneNumber,
+                        gender = selectedGender
+                    )
+                )
+                isSaved = true
             }
         }
+        return isSaved
     }
 
     /*Method to Validate All Fields*/
-    private fun validateClientFieldsOnTextChange(): Boolean {
+    private fun setClientFieldsOnTextChange(): Boolean {
         var isValidated = true
 
         firstNameEditText.doOnTextChanged { _, _, _, _ ->
@@ -212,5 +114,59 @@ class ClientAccountFragment : BaseFragment() {
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
+    }
+
+    private fun validateInputs(): Boolean {
+        var isValidated = true
+        firstName = firstNameEditText.text.toString().trim()
+        lastName = lastNameEditText.text.toString().trim()
+        phoneNumber = phoneNumberEditText.text.toString().trim()
+        email = emailEditText.text.toString().trim()
+        selectedGender = _binding?.root?.findViewById<RadioButton>(genderRadioGroup.checkedRadioButtonId)?.text.toString()
+
+        when {
+            !ValidationObject.validateName(firstName) -> {
+                binding.clientAccountFragmentClientFirstNameInputLayout.error =
+                    getString(R.string.all_please_enter_first_name)
+                isValidated = false
+            }
+
+            !ValidationObject.validateName(lastName) -> {
+                binding.clientAccountFragmentClientFirstNameInputLayout.error =
+                    getString(R.string.all_please_enter_first_name)
+                isValidated = false
+            }
+
+            !binding.clientAccountFragmentClientPhoneNumberInput.jdValidatePhoneNumber(
+                phoneNumber
+            ) -> {
+                binding.clientAccountFragmentPhoneNumberInputLayout.error =
+                    getString(R.string.invalid_phone_number)
+                isValidated = false
+            }
+
+            !ValidationObject.validateEmail(email) -> {
+                binding.clientAccountFragmentEmailAddressInputLayout.error =
+                    getString(R.string.all_invalid_email)
+                isValidated = false
+            }
+//
+//             !ValidationObject.validateGender(selectedGender) -> {
+//                 binding.clientFragmentAccountTabRadioGroup. =
+//                     getString(R.string.all_invalid_email)
+//
+//                }
+        }
+
+        return isValidated
+    }
+
+    private fun init() {
+
+        firstNameEditText = binding.clientAccountFragmentClientFirstNameInput
+        lastNameEditText = binding.clientAccountFragmentClientLastNameInput
+        phoneNumberEditText = binding.clientAccountFragmentClientPhoneNumberInput
+        emailEditText = binding.clientAccountFragmentClientEmailInput
+        genderRadioGroup = binding.clientFragmentAccountTabRadioGroup
     }
 }
