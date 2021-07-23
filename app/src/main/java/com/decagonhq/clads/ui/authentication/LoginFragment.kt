@@ -117,7 +117,7 @@ class LoginFragment : BaseFragment() {
                         Observer {
                             when (it) {
                                 is Resource.Loading -> {
-                                    it.message?.let { it1 -> progressDialog.showDialogFragment(it1) }
+                                    progressDialog.showDialogFragment("Loading...")
                                 }
                                 is Resource.Success -> {
                                     val successResponse = it.data?.payload
@@ -139,7 +139,7 @@ class LoginFragment : BaseFragment() {
 
                                 is Resource.Error -> {
                                     progressDialog.hideProgressDialog()
-                                    handleApiError(it, mainRetrofit, requireView())
+                                    handleApiError(it, mainRetrofit, requireView(), sessionManager, database)
                                 }
                             }
                         }
@@ -149,12 +149,7 @@ class LoginFragment : BaseFragment() {
         }
 
         forgetPasswordButton.setOnClickListener {
-            // findNavController().navigate(R.id.forgot_password_fragment)
-
-            val intent =
-                Intent(requireContext(), DashboardActivity::class.java)
-            startActivity(intent)
-            activity?.finish()
+            findNavController().navigate(R.id.forgot_password_fragment)
         }
 
         /*implement the googleSignInClient method*/
@@ -240,7 +235,7 @@ class LoginFragment : BaseFragment() {
 
                         is Resource.Error -> {
                             progressDialog.hideProgressDialog()
-                            handleApiError(it, mainRetrofit, requireView())
+                            handleApiError(it, mainRetrofit, requireView(), sessionManager, database)
                         }
                         is Resource.Loading -> {
                         }

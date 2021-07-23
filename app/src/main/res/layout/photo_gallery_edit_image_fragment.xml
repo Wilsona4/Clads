@@ -4,7 +4,7 @@
     android:layout_height="match_parent"
     xmlns:tools="http://schemas.android.com/tools"
     android:background="@color/black"
-    tools:context=".ui.profile.bottomnav.PhotoGalleryEditImageFragment">
+    tools:context=".ui.media.PhotoGalleryEditImageFragment">
 
     <ImageView
         android:id="@+id/media_fragment_recycler_view_photo_image_view"

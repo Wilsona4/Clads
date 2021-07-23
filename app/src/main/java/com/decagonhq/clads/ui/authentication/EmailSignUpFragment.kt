@@ -80,9 +80,6 @@ class EmailSignUpFragment : BaseFragment() {
             Observer {
                 when (it) {
                     is Resource.Success -> {
-                        it.data?.payload?.let {
-                            userProfileViewModel.saveUserProfileToLocalDatabase()
-                        }
                         progressDialog.hideProgressDialog()
                         sessionManager.saveToSharedPref(
                             getString(R.string.user_name),
@@ -90,7 +87,7 @@ class EmailSignUpFragment : BaseFragment() {
                         )
                         Toast.makeText(
                             requireContext(),
-                            "Registered successfully",
+                            "Registered Successfully",
                             Toast.LENGTH_SHORT
                         ).show()
                         val action = EmailSignUpFragmentDirections.actionEmailSignUpFragmentToEmailConfirmationFragment()
@@ -98,12 +95,10 @@ class EmailSignUpFragment : BaseFragment() {
                     }
                     is Resource.Error -> {
                         progressDialog.hideProgressDialog()
-                        handleApiError(it, mainRetrofit, requireView())
+                        handleApiError(it, mainRetrofit, requireView(), sessionManager, database)
                     }
                     is Resource.Loading -> {
-                        it.message?.let { message ->
-                            progressDialog.showDialogFragment(message)
-                        }
+                        progressDialog.showDialogFragment("Signing Up...")
                     }
                 }
             }

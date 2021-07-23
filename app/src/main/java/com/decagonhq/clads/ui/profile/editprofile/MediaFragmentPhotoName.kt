@@ -9,16 +9,14 @@ import android.widget.EditText
 import android.widget.ImageView
 import android.widget.Toast
 import androidx.core.net.toUri
-import androidx.core.os.bundleOf
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import com.bumptech.glide.Glide
+import com.decagonhq.clads.data.domain.images.UserGalleryImage
 import com.decagonhq.clads.databinding.MediaFragmentPhotoNameBinding
 import com.decagonhq.clads.ui.BaseFragment
-import com.decagonhq.clads.util.DataListener
-import com.decagonhq.clads.util.IMAGE_DATA_BUNDLE_KEY
-import com.decagonhq.clads.util.IMAGE_NAME_BUNDLE_KEY
 import com.decagonhq.clads.util.Resource
 import com.decagonhq.clads.util.handleApiError
 import com.decagonhq.clads.util.saveBitmap
@@ -32,7 +30,6 @@ import okhttp3.RequestBody.Companion.asRequestBody
 
 @AndroidEntryPoint
 class MediaFragmentPhotoName : BaseFragment() {
-
     private var _binding: MediaFragmentPhotoNameBinding? = null
 
     // This property is only valid between onCreateView and onDestroyView.
@@ -44,7 +41,6 @@ class MediaFragmentPhotoName : BaseFragment() {
     private lateinit var imageData: String
     private lateinit var photoGalleryImage: ImageView
     private val imageUploadViewModel: ImageUploadViewModel by viewModels()
-
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -61,51 +57,24 @@ class MediaFragmentPhotoName : BaseFragment() {
         photoGalleryImage = binding.photoGalleryImage
         imageNamed = binding.mediaFragmentPhotoNameEditText
         val photoIV = args.imageData
-
         /*load the image sent from media fragment*/
         Glide.with(this)
             .load(photoIV)
             .into(photoGalleryImage)
-
         /*click the send fab to send photo and name of photo back to media fragment*/
         sendFab.setOnClickListener {
             imageName = imageNamed.text.toString()
             imageData = args.imageData
             val imageUri = imageData.toUri()
-
-            DataListener.imageListener.value = true
-
-            val bundle =
-                bundleOf(IMAGE_NAME_BUNDLE_KEY to imageName, IMAGE_DATA_BUNDLE_KEY to imageData)
             if (imageName.isEmpty()) {
                 Toast.makeText(requireContext(), "Enter Image Name", Toast.LENGTH_SHORT).show()
             } else {
-//                findNavController().previousBackStackEntry?.savedStateHandle?.set(IMAGE_KEY, bundle)
                 uploadGalleryImage(imageUri, imageName)
-
-                imageUploadViewModel.uploadGalleryImage.observe(
-                    requireActivity(),
-                    androidx.lifecycle.Observer {
-                        when (it) {
-                            is Resource.Success -> {
-                                progressDialog.hideProgressDialog()
-                                Toast.makeText(requireContext(), "Upload successful", Toast.LENGTH_SHORT).show()
-                                findNavController().popBackStack()
-                            }
-                            is Resource.Error -> {
-                                progressDialog.hideProgressDialog()
-                                handleApiError(it, imageRetrofit, requireView())
-                            }
-                            is Resource.Loading -> {
-                                progressDialog.showDialogFragment("Uploading...")
-                            }
-                        }
-                    }
-                )
             }
         }
     }
-    fun uploadGalleryImage(uri: Uri, description: String) {
+
+    private fun uploadGalleryImage(uri: Uri, description: String) {
         // create RequestBody instance from file
         val convertedImageUriToBitmap = uriToBitmap(uri)
         val bitmapToFile = saveBitmap(convertedImageUriToBitmap)
@@ -115,7 +84,29 @@ class MediaFragmentPhotoName : BaseFragment() {
             .addFormDataPart("file", bitmapToFile?.name, requestBody!!)
             .addFormDataPart("description", description)
             .build()
+        imageUploadViewModel.uploadGallery(reqBody)
+        imageUploadViewModel.uploadGallery.observe(
+            viewLifecycleOwner,
+            Observer {
+                if (it is Resource.Loading<List<UserGalleryImage>>/* && it.data.isNullOrEmpty()*/) {
+                    progressDialog.showDialogFragment("Uploading...")
+                } else if (it is Resource.Error) {
+                    progressDialog.hideProgressDialog()
+                    handleApiError(it, imageRetrofit, requireView(), sessionManager, database)
+                } else {
+                    progressDialog.hideProgressDialog()
+                    it.data?.let { imageUrl ->
+                        Toast.makeText(requireContext(), "Upload Successful", Toast.LENGTH_SHORT)
+                            .show()
+                        findNavController().popBackStack()
+                    }
+                }
+            }
+        )
+    }
 
-        imageUploadViewModel.uploadGalleryImage(reqBody)
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
     }
 }

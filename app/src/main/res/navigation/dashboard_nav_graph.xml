@@ -7,7 +7,7 @@
 
     <fragment
         android:id="@+id/nav_home"
-        android:name="com.decagonhq.clads.ui.profile.bottomnav.HomeFragment"
+        android:name="com.decagonhq.clads.ui.profile.HomeFragment"
         android:label="@string/menu_home"
         tools:layout="@layout/home_fragment">
         <action
@@ -21,16 +21,20 @@
 
     <fragment
         android:id="@+id/nav_media"
-        android:name="com.decagonhq.clads.ui.profile.bottomnav.MediaFragment"
+        android:name="com.decagonhq.clads.ui.media.MediaFragment"
         android:label="Photo Gallery"
         tools:layout="@layout/media_fragment">
         <action
             android:id="@+id/action_nav_media_to_photoGalleryEditImageFragment"
             app:destination="@id/photoGalleryEditImageFragment"
+
             app:enterAnim="@anim/slide_in_right"
             app:exitAnim="@android:anim/fade_out"
             app:popEnterAnim="@android:anim/fade_in"
-            app:popExitAnim="@android:anim/fade_out" />
+            app:popExitAnim="@android:anim/fade_out"
+            app:popUpTo="@id/nav_media"
+            app:popUpToInclusive="false" />
+
         <action
             android:id="@+id/action_nav_media_to_mediaFragmentPhotoName"
             app:destination="@id/mediaFragmentPhotoName"
@@ -42,7 +46,7 @@
 
     <fragment
         android:id="@+id/nav_messages"
-        android:name="com.decagonhq.clads.ui.profile.bottomnav.MessagesFragment"
+        android:name="com.decagonhq.clads.ui.messages.MessagesFragment"
         android:label="@string/menu_messages"
         tools:layout="@layout/messages_fragment" />
 
@@ -155,10 +159,11 @@
     </fragment>
     <fragment
         android:id="@+id/photoGalleryEditImageFragment"
-        android:name="com.decagonhq.clads.ui.profile.bottomnav.PhotoGalleryEditImageFragment"
+        android:name="com.decagonhq.clads.ui.media.PhotoGalleryEditImageFragment"
         android:label="Elegant suit for men"
         tools:layout="@layout/photo_gallery_edit_image_fragment">
         <argument android:name="imageUri" />
+
         <action
             android:id="@+id/action_mediaFragmentRecyclerViewItemClicked_to_nav_media"
             app:destination="@id/nav_media"
@@ -169,6 +174,14 @@
         <argument
             android:name="imageName"
             app:argType="string" />
+        <argument
+            android:name="fileId"
+            app:argType="string" />
+        <action
+            android:id="@+id/action_photoGalleryEditImageFragment_to_nav_media"
+            app:destination="@id/nav_media"
+            app:popUpTo="@id/nav_media"
+            app:popUpToInclusive="true" />
     </fragment>
     <fragment
         android:id="@+id/mediaFragmentPhotoName"
@@ -192,7 +205,7 @@
         android:id="@+id/resourceVideosFragment"
         android:name="com.decagonhq.clads.ui.resource.ResourceVideosFragment"
         android:label="@string/videos"
-        tools:layout="@layout/resource_videos_fragment" >
+        tools:layout="@layout/resource_videos_fragment">
         <action
             android:id="@+id/action_resourceVideosFragment_to_individualVideoScreenFragment"
             app:destination="@id/individualVideoScreenFragment"
@@ -205,7 +218,7 @@
         android:id="@+id/resourceArticlesFragment"
         android:name="com.decagonhq.clads.ui.resource.ResourceArticlesFragment"
         android:label="@string/articles"
-        tools:layout="@layout/resource_articles_fragment" >
+        tools:layout="@layout/resource_articles_fragment">
         <action
             android:id="@+id/action_resourceArticlesFragment_to_resourceViewIndividualArticleFragment"
             app:destination="@id/resourceViewIndividualArticleFragment"

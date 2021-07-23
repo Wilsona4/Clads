@@ -22,7 +22,9 @@ class UserProfileEntityMapper @Inject constructor() : DomainMapper<UserProfileEn
             thumbnail = model.thumbnail,
             trained = model.trained,
             union = model.union,
-            workshopAddress = model.workshopAddress
+            workshopAddress = model.workshopAddress,
+            paymentOptions = model.paymentOptions,
+            paymentTerms = model.paymentTerms
         )
     }
 
@@ -43,7 +45,9 @@ class UserProfileEntityMapper @Inject constructor() : DomainMapper<UserProfileEn
             thumbnail = domainModel.thumbnail,
             trained = domainModel.trained,
             union = domainModel.union,
-            workshopAddress = domainModel.workshopAddress
+            workshopAddress = domainModel.workshopAddress,
+            paymentOptions = domainModel.paymentOptions,
+            paymentTerms = domainModel.paymentTerms
         )
     }
 }

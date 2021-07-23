@@ -5,7 +5,9 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
+import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
+import androidx.navigation.findNavController
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -91,5 +93,13 @@ class ResourceGeneralFragment :
 
     override fun onItemSelected(position: Int, item: ResourceGeneralArticleModel) {
         val currentItem = articleItem[position]
+
+        val itemBundle =
+            bundleOf(getString(R.string.resource_view_individual_article_fragment_article_link_key) to item.articleTitle)
+
+        view?.findNavController()?.navigate(
+            R.id.resourceViewIndividualArticleFragment,
+            itemBundle
+        )
     }
 }

@@ -123,17 +123,20 @@ dependencies {
     implementation "com.google.android.exoplayer:exoplayer-ui:$versions.exoplayer_version"
     implementation "com.google.android.exoplayer:exoplayer:$versions.exoplayer_version"
 
-
     //Glide
     implementation "com.github.bumptech.glide:glide:$versions.glide_version"
     kapt "com.github.bumptech.glide:compiler:$versions.glide_version"
     implementation "com.github.bumptech.glide:glide:$versions.glide_version"
     annotationProcessor "com.github.bumptech.glide:compiler:$versions.glide_version"
 
+
 //    implementation 'com.android.support:multidex:1.0.3'
+
 
 
     // Image crop
     api "com.theartofdev.edmodo:android-image-cropper:$versions.crop_image"
 
+    /*Image Compressor*/
+    implementation "id.zelory:compressor:$versions.image_compressor"
 }

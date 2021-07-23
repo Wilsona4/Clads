@@ -104,7 +104,7 @@ class ClientFragment : BaseFragment() {
 
                 is Resource.Error -> {
                     progressDialog.hideProgressDialog()
-                    handleApiError(it, mainRetrofit, requireView())
+                    handleApiError(it, mainRetrofit, requireView(), sessionManager, database)
                 }
             }
         }
