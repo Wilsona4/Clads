@@ -84,7 +84,7 @@ class DashboardActivity : AppCompatActivity() {
     override fun onStart() {
         super.onStart()
 
-        userProfileViewModel.getUserProfile()
+//        userProfileViewModel.getUserProfile()
         imageUploadViewModel.getRemoteGalleryImages()
 
         lifecycleScope.launch(Dispatchers.IO) {
