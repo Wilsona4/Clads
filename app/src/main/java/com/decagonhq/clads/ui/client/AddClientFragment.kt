@@ -11,10 +11,10 @@ import androidx.lifecycle.observe
 import androidx.navigation.fragment.findNavController
 import androidx.viewpager2.widget.ViewPager2
 import com.decagonhq.clads.R
-import com.decagonhq.clads.data.domain.DeliveryAddressModel
+import com.decagonhq.clads.data.domain.client.Client
 import com.decagonhq.clads.data.domain.client.ClientReg
-import com.decagonhq.clads.data.remote.client.Client
-import com.decagonhq.clads.data.remote.client.Measurement
+import com.decagonhq.clads.data.domain.client.DeliveryAddress
+import com.decagonhq.clads.data.domain.client.Measurement
 import com.decagonhq.clads.databinding.AddClientFragmentBinding
 import com.decagonhq.clads.ui.BaseFragment
 import com.decagonhq.clads.ui.client.adapter.AddClientPagerAdapter
@@ -36,7 +36,7 @@ class AddClientFragment : BaseFragment() {
     private lateinit var previousButton: TextView
     private lateinit var clientBio: ClientReg
     private var clientMeasurements: List<Measurement>? = null
-    private lateinit var clientDeliveryAddress: DeliveryAddressModel
+    private lateinit var clientDeliveryAddress: DeliveryAddress
     private var isClientAccountFragmentSaved: Boolean = false
     private var pagePosition = 0
 

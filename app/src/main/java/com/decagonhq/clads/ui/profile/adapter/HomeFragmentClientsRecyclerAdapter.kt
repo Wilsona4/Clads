@@ -3,9 +3,7 @@ package com.decagonhq.clads.ui.profile.adapter
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
-import com.amulyakhare.textdrawable.TextDrawable
 import com.amulyakhare.textdrawable.util.ColorGenerator
-import com.decagonhq.clads.data.remote.client.Client
 import com.decagonhq.clads.databinding.ClientsRecyclerViewItemBinding
 
 class HomeFragmentClientsRecyclerAdapter(private var clientList: MutableList<Client>) : RecyclerView.Adapter<HomeFragmentClientsRecyclerAdapter.ViewHolder>() {

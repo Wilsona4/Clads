@@ -7,7 +7,7 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.decagonhq.clads.R
-import com.decagonhq.clads.data.remote.client.Measurement
+import com.decagonhq.clads.data.domain.client.Measurement
 
 class AddMeasurementAdapter(
     private var currentList: MutableList<Measurement>,

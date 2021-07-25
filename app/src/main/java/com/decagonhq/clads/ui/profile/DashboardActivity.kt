@@ -86,13 +86,14 @@ class DashboardActivity : AppCompatActivity() {
     override fun onStart() {
         super.onStart()
 
-        fetchClients()
+        clientViewModel.getClients()
         userProfileViewModel.getUserProfile()
         imageUploadViewModel.getRemoteGalleryImages()
 
         lifecycleScope.launch(Dispatchers.IO) {
             withContext(Dispatchers.Main) {
                 userProfileViewModel.getLocalDatabaseUserProfile()
+                clientViewModel.getLocalDatabaseClients()
             }
         }
     }
@@ -412,11 +413,6 @@ class DashboardActivity : AppCompatActivity() {
                     }
                 }
             }
-    }
-
-    private fun fetchClients() {
-        clientViewModel.getClients()
-        /*Set Toolbar Custom Title*/
     }
 
     fun setCustomActionBarTitle(message: String) {

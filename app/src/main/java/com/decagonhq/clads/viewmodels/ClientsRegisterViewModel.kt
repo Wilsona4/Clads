@@ -3,9 +3,9 @@ package com.decagonhq.clads.viewmodels
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.decagonhq.clads.data.domain.DeliveryAddressModel
 import com.decagonhq.clads.data.domain.client.ClientReg
-import com.decagonhq.clads.data.remote.client.Measurement
+import com.decagonhq.clads.data.domain.client.DeliveryAddress
+import com.decagonhq.clads.data.domain.client.Measurement
 import com.decagonhq.clads.repository.ClientsRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
@@ -20,15 +20,17 @@ class ClientsRegisterViewModel @Inject constructor(
 
     private val list = mutableListOf<Measurement>()
 
+    private val _measurementData = MutableLiveData<MutableList<Measurement>>()
+    val measurementData: LiveData<MutableList<Measurement>> get() = _measurementData
+
+    private val _clientAddress = MutableLiveData<DeliveryAddress>()
+    val clientAddress: LiveData<DeliveryAddress> get() = _clientAddress
+
     fun setClient(client: ClientReg) {
         _clientData.value = client
     }
 
-    private val _measurementData = MutableLiveData<MutableList<Measurement>>()
-    val measurementData: LiveData<MutableList<Measurement>> get() = _measurementData
-
     fun addMeasurements(measurement: Measurement) {
-
         list.add(measurement)
         _measurementData.value = list
     }
@@ -38,11 +40,8 @@ class ClientsRegisterViewModel @Inject constructor(
         _measurementData.value = list
     }
 
-    private val _clientAddress = MutableLiveData<DeliveryAddressModel>()
-    val clientAddress: LiveData<DeliveryAddressModel> get() = _clientAddress
-
     /**client address is added */
-    fun clientNewAddress(address: DeliveryAddressModel) {
+    fun clientNewAddress(address: DeliveryAddress) {
         _clientAddress.value = address
     }
 }

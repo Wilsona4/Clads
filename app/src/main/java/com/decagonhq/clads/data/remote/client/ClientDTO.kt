@@ -1,7 +1,7 @@
 package com.decagonhq.clads.data.remote.client
 
-import com.decagonhq.clads.data.domain.DeliveryAddressModel
-import com.decagonhq.clads.data.domain.DressMeasurementModel
+import com.decagonhq.clads.data.domain.client.DeliveryAddress
+import com.decagonhq.clads.data.domain.client.Measurement
 
 data class ClientDTO(
     val id: Int? = null,
@@ -10,6 +10,6 @@ data class ClientDTO(
     val fullName: String,
     val gender: String,
     val phoneNumber: String,
-    val deliveryAddresses: List<DeliveryAddressModel>? = null,
-    val measurements: List<DressMeasurementModel>? = null
+    val deliveryAddresses: List<DeliveryAddress>? = null,
+    val measurements: List<Measurement>? = null
 )

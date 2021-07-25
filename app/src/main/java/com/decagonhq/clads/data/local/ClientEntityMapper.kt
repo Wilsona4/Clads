@@ -1,47 +1,42 @@
 package com.decagonhq.clads.data.local
 
-import com.decagonhq.clads.data.remote.client.Client
+import com.decagonhq.clads.data.domain.client.Client
 import com.decagonhq.clads.util.DomainMapper
 import javax.inject.Inject
 
 class ClientEntityMapper @Inject constructor() :
-    DomainMapper<List<ClientEntity>, List<Client>> {
+    DomainMapper<ClientEntity, Client> {
 
-    override fun mapToDomainModel(model: List<ClientEntity>): List<Client> {
-        val clientList = mutableListOf<Client>()
-        for (clientEntity in model) {
-            clientList.add(
-                Client(
-                    email = clientEntity.email,
-                    gender = clientEntity.gender,
-                    fullName = clientEntity.fullName,
-                    phoneNumber = clientEntity.phoneNumber,
-                    deliveryAddresses = clientEntity.deliveryAddresses,
-                    measurements = clientEntity.measurements,
-                    id = clientEntity.id,
-                    artisanId = clientEntity.artisanId
-                )
-            )
-        }
-        return clientList
+    override fun mapToDomainModel(model: ClientEntity): Client {
+        return Client(
+            email = model.email,
+            gender = model.gender,
+            fullName = model.fullName,
+            phoneNumber = model.phoneNumber,
+            deliveryAddresses = model.deliveryAddresses,
+            measurements = model.measurements,
+            id = model.id,
+            artisanId = model.artisanId
+        )
     }
 
-    override fun mapFromDomainModel(domainModel: List<Client>): List<ClientEntity> {
-        val clientEntityList = mutableListOf<ClientEntity>()
-        for (client in domainModel) {
-            clientEntityList.add(
-                ClientEntity(
-                    email = client.email,
-                    gender = client.gender,
-                    fullName = client.fullName,
-                    phoneNumber = client.phoneNumber,
-                    deliveryAddresses = client.deliveryAddresses,
-                    measurements = client.measurements,
-                    artisanId = client.artisanId!!,
-                    id = client.id!!
-                )
-            )
-        }
-        return clientEntityList
+    override fun mapFromDomainModel(domainModel: Client): ClientEntity {
+        return ClientEntity(
+            email = domainModel.email,
+            gender = domainModel.gender,
+            fullName = domainModel.fullName,
+            phoneNumber = domainModel.phoneNumber,
+            deliveryAddresses = domainModel.deliveryAddresses,
+            measurements = domainModel.measurements,
+            artisanId = domainModel.artisanId!!,
+            id = domainModel.id!!
+        )
+    }
+
+    fun mapToDomainModelList(model: List<ClientEntity>): List<Client> {
+        return model.map { mapToDomainModel(it) }
+    }
+    fun mapFromDomainModelList(domainModel: List<Client>): List<ClientEntity> {
+        return domainModel.map { mapFromDomainModel(it) }
     }
 }

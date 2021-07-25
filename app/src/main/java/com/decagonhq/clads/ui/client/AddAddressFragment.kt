@@ -10,7 +10,7 @@ import android.widget.Button
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import com.decagonhq.clads.R
-import com.decagonhq.clads.data.domain.DeliveryAddressModel
+import com.decagonhq.clads.data.domain.client.DeliveryAddress
 import com.decagonhq.clads.databinding.AddAddressFragmentBinding
 import com.decagonhq.clads.util.showSnackBar
 import com.google.android.material.textfield.TextInputEditText
@@ -60,7 +60,7 @@ class AddAddressFragment : Fragment() {
                 )
             } else {
                 val deliveryAddressModel =
-                    DeliveryAddressModel(
+                    DeliveryAddress(
                         enterDeliveryAddress,
                         cityAddress,
                         stateAddress

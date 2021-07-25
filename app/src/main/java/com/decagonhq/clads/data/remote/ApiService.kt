@@ -1,12 +1,12 @@
 package com.decagonhq.clads.data.remote
 
 import com.decagonhq.clads.data.domain.GenericResponseClass
+import com.decagonhq.clads.data.domain.client.Client
 import com.decagonhq.clads.data.domain.images.UserGalleryImage
 import com.decagonhq.clads.data.domain.images.UserProfileImage
 import com.decagonhq.clads.data.domain.login.UserRole
 import com.decagonhq.clads.data.domain.profile.UserProfile
 import com.decagonhq.clads.data.local.UserProfileEntity
-import com.decagonhq.clads.data.remote.client.Client
 import com.decagonhq.clads.data.remote.login.LoginCredentialsDTO
 import com.decagonhq.clads.data.remote.registration.UserRegistrationDTO
 import okhttp3.MultipartBody
@@ -82,7 +82,6 @@ interface ApiService {
 
     /* Verify auth token */
     @GET("confirm")
-
     suspend fun verifyAuthToken(
         @Query("token") token: String
     ): GenericResponseClass<String>

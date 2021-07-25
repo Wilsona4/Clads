@@ -3,12 +3,12 @@ package com.decagonhq.clads.data.domain.client
 import androidx.room.ColumnInfo
 
 data class DeliveryAddress(
-    @ColumnInfo(name = "deliveryaddress_address")
+    @ColumnInfo(name = "deliveryAddress_street")
     val street: String? = null,
 
-    @ColumnInfo(name = "deliveryaddress_city")
+    @ColumnInfo(name = "deliveryAddress_city")
     val city: String? = null,
 
-    @ColumnInfo(name = "deliveryaddress_state")
+    @ColumnInfo(name = "deliveryAddress_state")
     val state: String? = null
 )

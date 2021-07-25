@@ -11,7 +11,7 @@ import android.widget.EditText
 import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.activityViewModels
 import com.decagonhq.clads.R
-import com.decagonhq.clads.data.domain.DeliveryAddressModel
+import com.decagonhq.clads.data.domain.client.DeliveryAddress
 import com.decagonhq.clads.databinding.DeliveryAddressFragmentBinding
 import com.decagonhq.clads.ui.BaseFragment
 import com.decagonhq.clads.viewmodels.ClientsRegisterViewModel
@@ -23,7 +23,7 @@ class DeliveryAddressFragment : BaseFragment() {
     // This property is only valid between onCreateView and onDestroyView.
     private val binding get() = _binding!!
     private val backingFieldViewModel: ClientsRegisterViewModel by activityViewModels()
-    private lateinit var clientAddress: DeliveryAddressModel
+    private lateinit var clientAddress: DeliveryAddress
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -63,15 +63,15 @@ class DeliveryAddressFragment : BaseFragment() {
             val enterDeliveryAddress: EditText =
                 view.findViewById(R.id.add_address_fragment_enter_delivery_address_edit_text)
             val city: EditText = view.findViewById(R.id.add_address_fragment_city_address_edit_text)
-            val addAddressbutton: Button =
+            val addAddressButton: Button =
                 view.findViewById(R.id.add_address_fragment_save_address_button)
-            addAddressbutton.setOnClickListener {
+            addAddressButton.setOnClickListener {
                 val addressName = enterDeliveryAddress.text.toString()
                 val cityName = city.text.toString()
                 val state = autoCompleteStateView.text.toString()
-                clientAddress = DeliveryAddressModel(addressName, cityName, state)
+                clientAddress = DeliveryAddress(addressName, cityName, state)
                 binding.deliveryAddressFragmentAddressTextView.text =
-                    "$addressName,$cityName, $state"
+                    "$addressName, $cityName, $state"
                 backingFieldViewModel.clientNewAddress(clientAddress)
                 addDialog.dismiss()
             }
@@ -79,12 +79,10 @@ class DeliveryAddressFragment : BaseFragment() {
     }
 
     private fun init() {
-
         addDeliveryAddressButton = binding.deliveryAddressFragmentAddButton
     }
 
     fun saveToViewModel(): Boolean {
-
         var isSaved = false
         if (isAdded && isVisible) {
         }

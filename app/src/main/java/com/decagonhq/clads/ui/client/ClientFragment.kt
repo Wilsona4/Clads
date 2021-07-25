@@ -18,7 +18,7 @@ import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.decagonhq.clads.R
-import com.decagonhq.clads.data.remote.client.Client
+import com.decagonhq.clads.data.domain.client.Client
 import com.decagonhq.clads.databinding.ClientFragmentBinding
 import com.decagonhq.clads.ui.BaseFragment
 import com.decagonhq.clads.ui.client.adapter.ClientListRecyclerViewAdapter
@@ -172,7 +172,9 @@ class ClientFragment : BaseFragment() {
                     it.setTitle(R.string.delete_image_confirmation)
                     it.setPositiveButton(R.string.yes) { dialog, which ->
 
-                        adapter.getItem(itemToDeletePosition!!).id?.let { clientViewModel.deleteClient(it) }
+                        adapter.getItem(itemToDeletePosition!!).id?.let { item ->
+                            clientViewModel.deleteClient(item)
+                        }
                         swiped = true
                         progressDialog.showDialogFragment(getString(R.string.deleting_client))
                     }

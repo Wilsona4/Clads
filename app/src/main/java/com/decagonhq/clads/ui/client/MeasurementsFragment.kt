@@ -13,7 +13,7 @@ import androidx.lifecycle.observe
 import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.StaggeredGridLayoutManager
 import com.decagonhq.clads.R
-import com.decagonhq.clads.data.remote.client.Measurement
+import com.decagonhq.clads.data.domain.client.Measurement
 import com.decagonhq.clads.databinding.MeasurementsFragmentBinding
 import com.decagonhq.clads.ui.BaseFragment
 import com.decagonhq.clads.ui.client.adapter.AddMeasurementAdapter
