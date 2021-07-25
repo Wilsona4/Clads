@@ -24,11 +24,13 @@ class TypeConverter {
     fun AddressListToJsonString(value: List<DeliveryAddress>?): String = Gson().toJson(value)
 
     @TypeConverter
-    fun jsonStringToAddressList(value: String) = Gson().fromJson(value, Array<DeliveryAddress>::class.java).toList()
+    fun jsonStringToAddressList(value: String) =
+        Gson().fromJson(value, Array<DeliveryAddress>::class.java).toList()
 
     @TypeConverter
     fun MeasurementListToJsonString(value: List<Measurement>?): String = Gson().toJson(value)
 
     @TypeConverter
-    fun jsonStringToMeasurementList(value: String) = Gson().fromJson(value, Array<Measurement>::class.java).toList()
+    fun jsonStringToMeasurementList(value: String) =
+        Gson().fromJson(value, Array<Measurement>::class.java).toList()
 }

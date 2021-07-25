@@ -10,23 +10,25 @@ import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.decagonhq.clads.R
+import com.decagonhq.clads.data.domain.client.Client
 import com.decagonhq.clads.databinding.HomeFragmentBinding
 import com.decagonhq.clads.ui.BaseFragment
-import com.decagonhq.clads.ui.profile.adapter.HomeFragmentClientsRecyclerAdapter
+import com.decagonhq.clads.ui.client.adapter.ClientListRvAdapter
 import com.decagonhq.clads.util.ChartData.chartData
 import com.decagonhq.clads.viewmodels.ClientViewModel
 import com.decagonhq.clads.viewmodels.UserProfileViewModel
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
-class HomeFragment : BaseFragment() {
+class HomeFragment : BaseFragment(), ClientListRvAdapter.Interaction {
 
     private var _binding: HomeFragmentBinding? = null
 
     // This property is only valid between onCreateView and onDestroyView.
     private val binding get() = _binding!!
+
     private lateinit var homeFragmentYearDropdown: AutoCompleteTextView
-    private lateinit var adapter: HomeFragmentClientsRecyclerAdapter
+    private lateinit var clientListRvAdapter: ClientListRvAdapter
 
     private val clientViewModel: ClientViewModel by activityViewModels()
     private val userProfileViewModel: UserProfileViewModel by activityViewModels()
@@ -43,28 +45,21 @@ class HomeFragment : BaseFragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        adapter = HomeFragmentClientsRecyclerAdapter(arrayListOf())
-
+        /*Initialize Recycler View*/
+        binding.homeFragmentClientListRecyclerView.apply {
+            layoutManager = LinearLayoutManager(requireContext())
+            clientListRvAdapter = ClientListRvAdapter(this@HomeFragment)
+            adapter = clientListRvAdapter
+        }
+        /*Set Client LiveData Observer*/
         clientViewModel.client.observe(viewLifecycleOwner) {
-            it.data?.let { it1 -> adapter.updateList(it1.toMutableList()) }
-            binding.homeFragmentClientListRecyclerView.adapter?.notifyDataSetChanged()
+            it.data?.let { clientList ->
+                clientListRvAdapter.submitList(clientList)
+            }
         }
 
         updateUserCardNames()
 
-        binding.apply {
-            homeFragmentClientListRecyclerView.apply {
-
-                adapter = this@HomeFragment.adapter
-                layoutManager =
-                    LinearLayoutManager(
-                        requireContext(),
-                        LinearLayoutManager.VERTICAL,
-                        false
-                    )
-                setHasFixedSize(true)
-            }
-        }
         homeFragmentYearDropdown = binding.homeFragmentYearDropdownAutocompleteTextView
         chartData(view)
     }
@@ -79,12 +74,14 @@ class HomeFragment : BaseFragment() {
 
     /*Set Card View User Name*/
     private fun updateUserCardNames() =
-        // /*Observing the user profile to display the user name*/
+        /*Observing the user profile to display the user name*/
         userProfileViewModel.userProfile.observe(
             viewLifecycleOwner,
             Observer {
                 it.data.let { userProfile ->
-                    val fullName = "${userProfile?.firstName ?: getString(R.string.ijeoma)} ${userProfile?.lastName ?: getString(R.string.babangida)}"
+                    val fullName = "${userProfile?.firstName ?: getString(R.string.ijeoma)} ${
+                        userProfile?.lastName ?: getString(R.string.babangida)
+                    }"
                     binding.homeFragmentAccountNameTextView.text = fullName
                 }
             }
@@ -93,5 +90,9 @@ class HomeFragment : BaseFragment() {
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
+    }
+
+    override fun onItemSelected(position: Int, item: Client) {
+        TODO("Not yet implemented")
     }
 }

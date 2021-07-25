@@ -145,61 +145,61 @@ class AddClientFragment : BaseFragment() {
     }
 
     private fun setObservers() {
+//
+//        clientsRegisterViewModel.addClientResponse.observe(
+//            viewLifecycleOwner
+//        ) {
+//
+//            when (it) {
+//                is Resource.Success -> {
+//                    it.data?.getContentIfNotHandled()
+//                        ?.let { it1 -> clientsRegisterViewModel.addClientToDb(it1.payload) }
+//                }
+//                else -> {
+//                    progressDialog.hideProgressDialog()
+//                    Snackbar.make(
+//                        requireView(),
+//                        it.message!!,
+//                        Snackbar.LENGTH_SHORT
+//                    ).show()
+//                }
+//            }
+//        }
 
-        clientsRegisterViewModel.addClientResponse.observe(
-            viewLifecycleOwner
-        ) {
-
-            when (it) {
-                is Resource.Success -> {
-                    it.data?.getContentIfNotHandled()
-                        ?.let { it1 -> clientsRegisterViewModel.addClientToDb(it1.payload) }
-                }
-                else -> {
-                    progressDialog.hideProgressDialog()
-                    Snackbar.make(
-                        requireView(),
-                        it.message!!,
-                        Snackbar.LENGTH_SHORT
-                    ).show()
-                }
-            }
-        }
-
-        clientsRegisterViewModel.addToDBResponse.observe(
-            viewLifecycleOwner,
-            Observer {
-
-                when (it) {
-
-                    is Resource.Success -> {
-                        it.message?.let { it1 ->
-                            Snackbar.make(
-                                requireView(),
-                                it1,
-                                Snackbar.LENGTH_SHORT
-                            ).show()
-                        }
-
-                        it.data?.getContentIfNotHandled()?.let {
-                            findNavController().popBackStack()
-                        }
-
-                        progressDialog.hideProgressDialog()
-                    }
-                    else -> {
-                        it.message?.let { it1 ->
-                            Snackbar.make(
-                                requireView(),
-                                it1,
-                                Snackbar.LENGTH_SHORT
-                            ).show()
-                        }
-                        progressDialog.hideProgressDialog()
-                    }
-                }
-            }
-        )
+//        clientsRegisterViewModel.addToDBResponse.observe(
+//            viewLifecycleOwner,
+//            Observer {
+//
+//                when (it) {
+//
+//                    is Resource.Success -> {
+//                        it.message?.let { it1 ->
+//                            Snackbar.make(
+//                                requireView(),
+//                                it1,
+//                                Snackbar.LENGTH_SHORT
+//                            ).show()
+//                        }
+//
+//                        it.data?.getContentIfNotHandled()?.let {
+//                            findNavController().popBackStack()
+//                        }
+//
+//                        progressDialog.hideProgressDialog()
+//                    }
+//                    else -> {
+//                        it.message?.let { it1 ->
+//                            Snackbar.make(
+//                                requireView(),
+//                                it1,
+//                                Snackbar.LENGTH_SHORT
+//                            ).show()
+//                        }
+//                        progressDialog.hideProgressDialog()
+//                    }
+//                }
+//            }
+//        )
 
         backingFieldsViewModel.clientData.observe(
             viewLifecycleOwner,

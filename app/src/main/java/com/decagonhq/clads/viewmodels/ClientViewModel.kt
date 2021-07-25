@@ -21,18 +21,6 @@ class ClientViewModel @Inject constructor(
     private var _client = MutableLiveData<Resource<List<Client>>>()
     val client: LiveData<Resource<List<Client>>> get() = _client
 
-//    private var _deleteClientResponse = MutableLiveData<Resource<GenericResponseClass<Client>>>()
-//    val deleteClientResponse: LiveData<Resource<GenericResponseClass<Client>>> get() = _deleteClientResponse
-//
-//    private var _addClientResponse = MutableLiveData<Resource<Event<GenericResponseClass<Client>>>>()
-//    val addClientResponse: LiveData<Resource<Event<GenericResponseClass<Client>>>> get() = _addClientResponse
-//
-//    private var _deleteFromDBResponse = MutableLiveData<Resource<Int>>()
-//    val deleteFromDBResponse: LiveData<Resource<Int>> get() = _deleteFromDBResponse
-//
-//    private var _addToDBResponse = MutableLiveData<Resource<Event<Client>>>()
-//    val addToDBResponse: LiveData<Resource<Event<Client>>> get() = _addToDBResponse
-
     fun getClients() {
         viewModelScope.launch(Dispatchers.IO) {
             clientsRepository.getClients().collect {
@@ -65,15 +53,4 @@ class ClientViewModel @Inject constructor(
         }
     }
 
-//    fun deleteClientFromDb(clients: Client) {
-//        viewModelScope.launch(Dispatchers.IO) {
-//            _deleteFromDBResponse.postValue(clientsRepository.deleteClientFromDb(clients))
-//        }
-//    }
-//
-//    fun addClientToDb(client: Client) {
-//        viewModelScope.launch(Dispatchers.IO) {
-//            _addToDBResponse.postValue(clientsRepository.addClientToDb(client))
-//        }
-//    }
 }
