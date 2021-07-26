@@ -180,6 +180,9 @@ class AddClientFragment : BaseFragment() {
                 2 -> tab.text = getString(R.string.delivery_addresses)
             }
         }.attach()
+
+        /*Disable tab change on tapping tab-layout container*/
+        tabLayout.touchables.forEach { it.isClickable = false }
     }
 
     private fun setObservers() {

@@ -26,14 +26,12 @@ import dagger.hilt.android.AndroidEntryPoint
 class ClientFragment : BaseFragment(), ClientListRvAdapter.Interaction {
 
     private var _binding: ClientFragmentBinding? = null
+
     // This property is only valid between onCreateView and onDestroyView.
     private val binding get() = _binding!!
 
-    //    private lateinit var adapter: ClientListRecyclerViewAdapter
     private lateinit var clientListRvAdapter: ClientListRvAdapter
     private val clientViewModel: ClientViewModel by activityViewModels()
-//    private var swiped = false
-//    private var itemToDeletePosition: Int? = null
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -109,96 +107,7 @@ class ClientFragment : BaseFragment(), ClientListRvAdapter.Interaction {
         /*Attach our Swipe Implementation to our Recycler View*/
         val itemTouchHelper = ItemTouchHelper(simpleCallback)
         itemTouchHelper.attachToRecyclerView(binding.clientListScreenRecyclerView)
-//
-//        binding.clientListScreenRecyclerView.layoutManager = LinearLayoutManager(requireContext())
-//        adapter = ClientListRecyclerViewAdapter(mutableListOf())
-//        binding.clientListScreenRecyclerView.adapter = adapter
 
-//        ItemTouchHelper(object : ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.LEFT) {
-//            var icon: Drawable = ContextCompat.getDrawable(
-//                requireContext(),
-//                R.drawable.client_delete_button
-//            )!!
-//            val background: ColorDrawable = ColorDrawable(Color.RED)
-//
-//            override fun onMove(
-//                recyclerView: RecyclerView,
-//                viewHolder: RecyclerView.ViewHolder,
-//                target: RecyclerView.ViewHolder
-//            ): Boolean {
-//                return false
-//            }
-//
-//            override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
-//                itemToDeletePosition = viewHolder.adapterPosition
-//                AlertDialog.Builder(requireContext()).also { it ->
-//                    it.setTitle(R.string.delete_image_confirmation)
-//                    it.setPositiveButton(R.string.yes) { dialog, which ->
-//
-//                        adapter.getItem(itemToDeletePosition!!).id?.let { item ->
-//                            clientViewModel.deleteClient(item)
-//                        }
-//                        swiped = true
-//                        progressDialog.showDialogFragment(getString(R.string.deleting_client))
-//                    }
-//                    it.setNegativeButton(R.string.no) { dialog, which ->
-//                        swiped = false
-//                        dialog.cancel()
-//                    }
-//                }.create().show()
-//            }
-//
-//            override fun onChildDraw(
-//                c: Canvas,
-//                recyclerView: RecyclerView,
-//                viewHolder: RecyclerView.ViewHolder,
-//                dX: Float,
-//                dY: Float,
-//                actionState: Int,
-//                isCurrentlyActive: Boolean
-//            ) {
-//                super.onChildDraw(
-//                    c,
-//                    recyclerView,
-//                    viewHolder,
-//                    dX,
-//                    dY,
-//                    actionState,
-//                    isCurrentlyActive
-//                )
-//
-//                val itemView = viewHolder.itemView
-//                val backgroundCornerOffset =
-//                    20 // so background is behind the rounded corners of itemView
-//
-//                val iconMargin = (itemView.height - icon.intrinsicHeight) / 2
-//                val iconTop = itemView.top + (itemView.height - icon.intrinsicHeight) / 2
-//                val iconBottom = iconTop + icon.intrinsicHeight
-//
-//                if (dX > 0) { // Swiping to the right
-//                    val iconLeft = itemView.left + iconMargin + icon.intrinsicWidth
-//                    val iconRight = itemView.left + iconMargin
-//                    icon.setBounds(iconLeft, iconTop, iconRight, iconBottom)
-//                    background.setBounds(
-//                        itemView.left, itemView.top,
-//                        itemView.left + dX.toInt() + backgroundCornerOffset, itemView.bottom
-//                    )
-//                } else if (dX < 0) { // Swiping to the left
-//                    val iconLeft = itemView.right - iconMargin - icon.intrinsicWidth
-//                    val iconRight = itemView.right - iconMargin
-//                    icon.setBounds(iconLeft, iconTop, iconRight, iconBottom)
-//                    background.setBounds(
-//                        itemView.right + dX.toInt() - backgroundCornerOffset,
-//                        itemView.top, itemView.right, itemView.bottom
-//                    )
-//                } else { // view is unSwiped
-//                    background.setBounds(0, 0, 0, 0)
-//                }
-//
-//                background.draw(c)
-//                icon.draw(c)
-//            }
-//        }).attachToRecyclerView(binding.clientListScreenRecyclerView)
     }
 
     private var simpleCallback =
