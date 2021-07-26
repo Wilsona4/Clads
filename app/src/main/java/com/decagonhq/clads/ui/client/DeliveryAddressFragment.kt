@@ -21,7 +21,6 @@ import com.decagonhq.clads.viewmodels.ClientViewModel
 class DeliveryAddressFragment : Fragment() {
     private var _binding: DeliveryAddressFragmentBinding? = null
     private lateinit var addDeliveryAddressButton: Button
-//    private val args:DeliveryAddressFragmentArgs by navArgs()
     private lateinit var addressTextView: TextView
     private lateinit var addressViewModel: ClientViewModel
 

@@ -43,6 +43,7 @@ import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
 class LoginFragment : BaseFragment() {
+
     // Binding
     private var _binding: LoginFragmentBinding? = null
     private val binding get() = _binding!!
@@ -61,7 +62,7 @@ class LoginFragment : BaseFragment() {
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
 
         // Inflate the layout for this fragment
         _binding = LoginFragmentBinding.inflate(inflater, container, false)
@@ -114,7 +115,7 @@ class LoginFragment : BaseFragment() {
                     viewModel.loginUser(loginCredentials)
                     viewModel.loginUser.observe(
                         viewLifecycleOwner,
-                        Observer {
+                        {
                             when (it) {
                                 is Resource.Loading -> {
                                     progressDialog.showDialogFragment("Loading...")

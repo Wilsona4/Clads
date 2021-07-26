@@ -87,9 +87,19 @@
             app:uri="https://clads-service.herokuapp.com/api/v1/confirm?token={token}" />
         <argument
             android:name="token"
-            android:defaultValue="null"
             app:argType="string"
-            app:nullable="true" />
+            app:nullable="true"
+            android:defaultValue="@null"
+             />
+        <action
+            android:id="@+id/action_email_confirmation_fragment_to_email_sign_up_fragment"
+            app:destination="@id/email_sign_up_fragment"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:launchSingleTop="false"
+            app:popEnterAnim="@anim/slide_in_right"
+            app:popExitAnim="@anim/slide_out_left"
+            app:popUpTo="@id/email_sign_up_fragment" />
 
     </fragment>
     <fragment

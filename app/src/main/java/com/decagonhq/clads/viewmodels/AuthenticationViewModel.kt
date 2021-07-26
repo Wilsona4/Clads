@@ -22,7 +22,7 @@ class AuthenticationViewModel @Inject constructor(
     private val authRepository: AuthRepository
 ) : ViewModel() {
 
-    private var _userRegData = MutableLiveData<Resource<GenericResponseClass<UserProfile>>>()
+    private var _userRegData = SingleLiveEvent<Resource<GenericResponseClass<UserProfile>>>()
     val userRegData: LiveData<Resource<GenericResponseClass<UserProfile>>> get() = _userRegData
 
     private var _loginUser = MutableLiveData<Resource<GenericResponseClass<String>>>()

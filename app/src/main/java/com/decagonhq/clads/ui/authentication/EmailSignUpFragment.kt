@@ -10,7 +10,6 @@ import android.widget.TextView
 import android.widget.Toast
 import androidx.core.widget.doOnTextChanged
 import androidx.fragment.app.activityViewModels
-import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
 import com.decagonhq.clads.R
 import com.decagonhq.clads.data.domain.registration.UserRegistration
@@ -23,7 +22,6 @@ import com.decagonhq.clads.util.ValidationObject.validateEmail
 import com.decagonhq.clads.util.ValidationObject.validatePasswordMismatch
 import com.decagonhq.clads.util.handleApiError
 import com.decagonhq.clads.viewmodels.AuthenticationViewModel
-import com.decagonhq.clads.viewmodels.UserProfileViewModel
 import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.auth.api.signin.GoogleSignInClient
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions
@@ -38,7 +36,6 @@ class EmailSignUpFragment : BaseFragment() {
     private val binding get() = _binding!!
 
     private val authenticationViewModel: AuthenticationViewModel by activityViewModels()
-    private val userProfileViewModel: UserProfileViewModel by activityViewModels()
 
     private lateinit var firstNameEditText: TextInputEditText
     private lateinit var lastNameEditText: TextInputEditText
@@ -77,7 +74,7 @@ class EmailSignUpFragment : BaseFragment() {
 
         authenticationViewModel.userRegData.observe(
             viewLifecycleOwner,
-            Observer {
+            {
                 when (it) {
                     is Resource.Success -> {
                         progressDialog.hideProgressDialog()
@@ -90,6 +87,12 @@ class EmailSignUpFragment : BaseFragment() {
                             "Registered Successfully",
                             Toast.LENGTH_SHORT
                         ).show()
+
+//
+                        authenticationViewModel.userRegData.removeObservers {
+                            viewLifecycleOwner.lifecycle
+                        }
+
                         val action = EmailSignUpFragmentDirections.actionEmailSignUpFragmentToEmailConfirmationFragment()
                         findNavController().navigate(action)
                     }
