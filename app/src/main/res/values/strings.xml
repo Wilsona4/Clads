@@ -369,6 +369,10 @@
     <string name="deleting_client">Deleting Client...</string>
 
     <string name="rename">Rename</string>
+    <string name="basic_info">Basic_Info</string>
+    <string name="_2nd_floor_luzen_plaza_igbo_efon_lekki_lagos">2nd_floor_luzen_plaza_igbo_efon_lekki_lagos</string>
+    <string name="ykunleq_example_com">ykunleq@example.com</string>
+    <string name="om">OM</string>
 
 
     <string-array name="account_category">
