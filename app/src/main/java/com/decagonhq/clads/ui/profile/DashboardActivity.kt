@@ -175,7 +175,7 @@ class DashboardActivity : AppCompatActivity() {
                     binding.appBarDashboard.dashboardActivityToolbarHiIjeomaTextView.text =
                         getString(
                             R.string.hi,
-                            userProfile?.firstName ?: getString(R.string.ijeoma)
+                            userProfile?.firstName ?: " "
                         )
 
                     val fullName = "${userProfile?.firstName ?: getString(R.string.ijeoma)} ${

@@ -50,8 +50,8 @@ class DeliveryAddressFragment : BaseFragment() {
 
         addDeliveryAddressButton.setOnClickListener {
             val dialog = AlertDialog.Builder(requireContext())
-            val view =
-                LayoutInflater.from(requireContext()).inflate(R.layout.add_address_fragment, null)
+            val view = LayoutInflater.from(requireContext())
+                .inflate(R.layout.add_address_fragment, null)
             val states = resources.getStringArray(R.array.states)
             val arrayAdapter = ArrayAdapter(requireContext(), R.layout.state_drop_down_item, states)
             val autoCompleteStateView =
@@ -87,5 +87,39 @@ class DeliveryAddressFragment : BaseFragment() {
         if (isAdded && isVisible) {
         }
         return false
+    }
+    //    // add delivery address Dialog
+//    private fun addAddressDialogFragment() {
+//        // when first name value is clicked
+//        childFragmentManager.setFragmentResultListener(
+//            DeliveryAddressFragment.DELIVERY_ADDRESS_REQUEST_KEY,
+//            requireActivity()
+//        ) { key, bundle ->
+//            // collect input values from dialog fragment and update the delivery address text of user
+//            val addressText = bundle.getParcelable<DeliveryAddressModel>(DELIVERY_ADDRESS_BUNDLE_KEY)
+//            binding.deliveryAddressFragmentAddressTextView.text = addressText
+//        }
+//
+//        // when first name value is clicked
+//        binding.deliveryAddressFragmentAddressTextView.setOnClickListener {
+//            val currentAddressText = binding.deliveryAddressFragmentAddressTextView.text.toString()
+// //            val splited = currentAddressText.split("-")
+// //            val currentAddressModel = DeliveryAddressModel(
+// //                splited[0],
+// //            )
+//            val bundle = bundleOf(CURRENT_DELIVERY_ADDRESS_BUNDLE_KEY to currentAddressText)
+//            ClientManagementDialogFragments.createClientDialogFragment(
+//                R.layout.add_address_fragment,
+//                bundle
+//            ).show(
+//                childFragmentManager, DeliveryAddressFragment::class.java.simpleName
+//            )
+//        }
+//    }
+
+    companion object {
+        const val DELIVERY_ADDRESS_REQUEST_KEY = "DELIVERY ADDRESS REQUEST KEY"
+        const val DELIVERY_ADDRESS_BUNDLE_KEY = "DELIVERY ADDRESS BUNDLE KEY"
+        const val CURRENT_DELIVERY_ADDRESS_BUNDLE_KEY = "CURRENT DELIVERY ADDRESS BUNDLE KEY"
     }
 }

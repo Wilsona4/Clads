@@ -18,7 +18,7 @@ import com.google.android.material.textfield.TextInputEditText
 class AddAddressFragment : Fragment() {
     private var _binding: AddAddressFragmentBinding? = null
     private val binding get() = _binding!!
-    private lateinit var addAddressButton: Button
+    private lateinit var saveAddressButton: Button
     private lateinit var stateSelectorDropdown: AutoCompleteTextView
     private lateinit var deliveryAddress: TextInputEditText
     private lateinit var cityAddress: TextInputEditText
@@ -36,13 +36,13 @@ class AddAddressFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         // Adding new address
-        addAddressButton = binding.addAddressFragmentSaveAddressButton
+        saveAddressButton = binding.addAddressFragmentSaveAddressButton
         stateSelectorDropdown = binding.addAddressFragmentStateAutoComplete
         deliveryAddress = binding.addAddressFragmentEnterDeliveryAddressEditText
         cityAddress = binding.addAddressFragmentCityAddressEditText
 
         /*Form submission*/
-        addAddressButton.setOnClickListener {
+        saveAddressButton.setOnClickListener {
             val enterDeliveryAddress = deliveryAddress.text.toString()
             val cityAddress = cityAddress.text.toString()
             val stateAddress = stateSelectorDropdown.text.toString()

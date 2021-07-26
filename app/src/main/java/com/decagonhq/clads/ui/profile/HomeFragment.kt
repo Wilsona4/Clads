@@ -79,9 +79,7 @@ class HomeFragment : BaseFragment(), ClientListRvAdapter.Interaction {
             viewLifecycleOwner,
             Observer {
                 it.data.let { userProfile ->
-                    val fullName = "${userProfile?.firstName ?: getString(R.string.ijeoma)} ${
-                    userProfile?.lastName ?: getString(R.string.babangida)
-                    }"
+                    val fullName = "${userProfile?.firstName ?: "---"} ${userProfile?.lastName ?: "---"}"
                     binding.homeFragmentAccountNameTextView.text = fullName
                 }
             }
