@@ -297,7 +297,6 @@ class MediaFragment : BaseFragment(), RecyclerClickListener {
         ).show(
             childFragmentManager, getString(R.string.rename_description_dialog_fragment)
         )
-//        }
     }
 
     /*This is for delete and not edit  */

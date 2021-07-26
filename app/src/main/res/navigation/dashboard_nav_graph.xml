@@ -181,7 +181,7 @@
     </fragment>
     <fragment
         android:id="@+id/mediaFragmentPhotoName"
-        android:name="com.decagonhq.clads.ui.profile.editprofile.MediaFragmentPhotoName"
+        android:name="com.decagonhq.clads.ui.media.MediaFragmentPhotoName"
         android:label="MediaFragmentPhotoName">
         <argument
             android:name="imageData"
