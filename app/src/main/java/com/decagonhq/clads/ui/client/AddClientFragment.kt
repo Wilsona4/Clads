@@ -7,7 +7,6 @@ import android.view.ViewGroup
 import android.widget.TextView
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.Observer
-import androidx.lifecycle.observe
 import androidx.navigation.fragment.findNavController
 import androidx.viewpager2.widget.ViewPager2
 import com.decagonhq.clads.R
@@ -19,6 +18,9 @@ import com.decagonhq.clads.databinding.AddClientFragmentBinding
 import com.decagonhq.clads.ui.BaseFragment
 import com.decagonhq.clads.ui.client.adapter.AddClientPagerAdapter
 import com.decagonhq.clads.util.Resource
+import com.decagonhq.clads.util.handleApiError
+import com.decagonhq.clads.util.hideView
+import com.decagonhq.clads.util.showView
 import com.decagonhq.clads.viewmodels.ClientViewModel
 import com.decagonhq.clads.viewmodels.ClientsRegisterViewModel
 import com.google.android.material.snackbar.Snackbar
@@ -40,8 +42,8 @@ class AddClientFragment : BaseFragment() {
     private var isClientAccountFragmentSaved: Boolean = false
     private var pagePosition = 0
 
-    private val backingFieldsViewModel: ClientsRegisterViewModel by activityViewModels()
-    private val clientsRegisterViewModel: ClientViewModel by activityViewModels()
+    private val clientsRegisterViewModel: ClientsRegisterViewModel by activityViewModels()
+    private val clientViewModel: ClientViewModel by activityViewModels()
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -76,12 +78,11 @@ class AddClientFragment : BaseFragment() {
                 viewPager2.currentItem = 1
             } else if (pagePosition == 1) {
                 viewPager2.currentItem = 2
-                (it as TextView).text = "Save"
             } else if (pagePosition == 2) {
 
                 if (this::clientBio.isInitialized && clientMeasurements?.isNotEmpty() == true && this::clientDeliveryAddress.isInitialized) {
 
-                    clientsRegisterViewModel.addClient(
+                    clientViewModel.addClient(
                         Client(
                             fullName = clientBio.fullName,
                             phoneNumber = clientBio.phoneNumber,
@@ -92,6 +93,24 @@ class AddClientFragment : BaseFragment() {
                         )
                     )
                     progressDialog.showDialogFragment("Saving...Please wait")
+
+                    clientViewModel.client.observe(
+                        viewLifecycleOwner,
+                        Observer {
+                            if (it is Resource.Loading && it.data.isNullOrEmpty()) {
+                                progressDialog.showDialogFragment("Updating..")
+                            } else if (it is Resource.Error) {
+                                progressDialog.hideProgressDialog()
+                                handleApiError(it, mainRetrofit, requireView(), sessionManager, database)
+                            } else {
+                                progressDialog.hideProgressDialog()
+                                it.data?.let {
+                                    showToast("Saved Successfully")
+                                }
+                                findNavController().popBackStack()
+                            }
+                        }
+                    )
                 }
             } else {
                 Snackbar.make(
@@ -107,6 +126,20 @@ class AddClientFragment : BaseFragment() {
             override fun onPageSelected(position: Int) {
                 super.onPageSelected(position)
                 pagePosition = position
+                when (position) {
+                    0 -> {
+                        binding.addClientFragmentNextButton.text = getString(R.string.all_next)
+                        binding.addClientFragmentPreviousButton.hideView()
+                    }
+                    1 -> {
+                        binding.addClientFragmentNextButton.text = getString(R.string.all_next)
+                        binding.addClientFragmentPreviousButton.showView()
+                    }
+                    2 -> {
+                        binding.addClientFragmentNextButton.text = getString(R.string.all_save)
+                        binding.addClientFragmentPreviousButton.showView()
+                    }
+                }
             }
         })
 
@@ -114,11 +147,9 @@ class AddClientFragment : BaseFragment() {
             when (pagePosition) {
                 2 -> {
                     viewPager2.currentItem = 1
-                    binding.addClientFragmentNextButton.text = "Next"
                 }
                 1 -> {
                     viewPager2.currentItem = 0
-                    binding.addClientFragmentNextButton.text = "Next"
                 }
             }
         }
@@ -145,77 +176,21 @@ class AddClientFragment : BaseFragment() {
     }
 
     private fun setObservers() {
-//
-//        clientsRegisterViewModel.addClientResponse.observe(
-//            viewLifecycleOwner
-//        ) {
-//
-//            when (it) {
-//                is Resource.Success -> {
-//                    it.data?.getContentIfNotHandled()
-//                        ?.let { it1 -> clientsRegisterViewModel.addClientToDb(it1.payload) }
-//                }
-//                else -> {
-//                    progressDialog.hideProgressDialog()
-//                    Snackbar.make(
-//                        requireView(),
-//                        it.message!!,
-//                        Snackbar.LENGTH_SHORT
-//                    ).show()
-//                }
-//            }
-//        }
-
-//        clientsRegisterViewModel.addToDBResponse.observe(
-//            viewLifecycleOwner,
-//            Observer {
-//
-//                when (it) {
-//
-//                    is Resource.Success -> {
-//                        it.message?.let { it1 ->
-//                            Snackbar.make(
-//                                requireView(),
-//                                it1,
-//                                Snackbar.LENGTH_SHORT
-//                            ).show()
-//                        }
-//
-//                        it.data?.getContentIfNotHandled()?.let {
-//                            findNavController().popBackStack()
-//                        }
-//
-//                        progressDialog.hideProgressDialog()
-//                    }
-//                    else -> {
-//                        it.message?.let { it1 ->
-//                            Snackbar.make(
-//                                requireView(),
-//                                it1,
-//                                Snackbar.LENGTH_SHORT
-//                            ).show()
-//                        }
-//                        progressDialog.hideProgressDialog()
-//                    }
-//                }
-//            }
-//        )
-
-        backingFieldsViewModel.clientData.observe(
+        clientsRegisterViewModel.clientData.observe(
             viewLifecycleOwner,
             Observer {
                 clientBio = it
             }
         )
 
-        backingFieldsViewModel.measurementData.observe(
+        clientsRegisterViewModel.measurementData.observe(
             viewLifecycleOwner,
             Observer { it ->
                 clientMeasurements = it
             }
         )
 
-        backingFieldsViewModel.clientAddress.observe(
+        clientsRegisterViewModel.clientAddress.observe(
             viewLifecycleOwner,
             Observer { it ->
                 clientDeliveryAddress = it

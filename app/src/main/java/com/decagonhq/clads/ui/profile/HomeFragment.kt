@@ -80,7 +80,7 @@ class HomeFragment : BaseFragment(), ClientListRvAdapter.Interaction {
             Observer {
                 it.data.let { userProfile ->
                     val fullName = "${userProfile?.firstName ?: getString(R.string.ijeoma)} ${
-                        userProfile?.lastName ?: getString(R.string.babangida)
+                    userProfile?.lastName ?: getString(R.string.babangida)
                     }"
                     binding.homeFragmentAccountNameTextView.text = fullName
                 }
@@ -93,6 +93,5 @@ class HomeFragment : BaseFragment(), ClientListRvAdapter.Interaction {
     }
 
     override fun onItemSelected(position: Int, item: Client) {
-        TODO("Not yet implemented")
     }
 }

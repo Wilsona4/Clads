@@ -91,7 +91,7 @@
         android:layout_marginHorizontal="@dimen/margin_26dp"
         android:layout_marginVertical="@dimen/margin_26dp"
         android:fontFamily="@font/poppins_bold"
-        android:hint="@string/add_measurement_fragment_save_button"
+        android:hint="@string/all_save"
         android:paddingVertical="@dimen/padding_10dp"
         android:textColorHint="@color/white"
         android:textSize="@dimen/text_size_12sp"

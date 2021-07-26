@@ -102,7 +102,7 @@
 
     <string name="add_measurement_fragment_name">Name</string>
     <string name="add_measurement_fragment_add_measurement">Add measurement</string>
-    <string name="add_measurement_fragment_save_button">Save</string>
+    <string name="all_save">Save</string>
     <string name="add_measurement_fragment_add_button">Add</string>
     <string name="blank_text_view_item">Blank text view item</string>
     <string name="add_delivery_address">Add Delivery Address</string>

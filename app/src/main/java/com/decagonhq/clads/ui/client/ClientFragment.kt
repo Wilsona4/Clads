@@ -76,7 +76,8 @@ class ClientFragment : BaseFragment(), ClientListRvAdapter.Interaction {
     private fun setObservers() {
 
         clientViewModel.client.observe(
-            viewLifecycleOwner, Observer {
+            viewLifecycleOwner,
+            Observer {
                 if (it is Resource.Loading && it.data.isNullOrEmpty()) {
                     progressDialog.showDialogFragment("Updating..")
                 } else if (it is Resource.Error) {
@@ -90,55 +91,6 @@ class ClientFragment : BaseFragment(), ClientListRvAdapter.Interaction {
                 }
             }
         )
-
-//        /*Observe Delete from Remote Response Data*/
-//        clientViewModel.deleteClientResponse.observe(viewLifecycleOwner) {
-//
-//            when (it) {
-//                is Resource.Success -> {
-//                    it.data?.payload?.let { it1 -> clientViewModel.deleteClientFromDb(it1) }
-//                }
-//
-//                is Resource.Loading -> {
-//                    progressDialog.showDialogFragment("Deleting...")
-//                }
-//
-//                is Resource.Error -> {
-//                    progressDialog.hideProgressDialog()
-//                    handleApiError(it, mainRetrofit, requireView(), sessionManager, database)
-//                }
-//            }
-//        }
-//        /*Observe Delete from Database Response Data*/
-//        clientViewModel.deleteFromDBResponse.observe(
-//            viewLifecycleOwner
-//        ) {
-//
-//            when (it) {
-//
-//                is Resource.Success -> {
-//                    itemToDeletePosition?.let { it1 ->
-//                        adapter.deleteItem(it1)
-//                        binding.clientListScreenRecyclerView.adapter?.notifyItemRemoved(it1)
-//                        progressDialog.hideProgressDialog()
-//                    }
-////                    Snackbar.make(
-////                        requireView(),
-////                        "Client Deleted Successfully",
-////                        Snackbar.LENGTH_SHORT
-////                    ).show()
-//                }
-//
-//                is Resource.Error -> {
-//                    Snackbar.make(
-//                        requireView(),
-//                        it.message!!,
-//                        Snackbar.LENGTH_SHORT
-//                    ).show()
-//                }
-//                else -> {}
-//            }
-//        }
     }
 
     private fun setEventListeners() {
@@ -277,7 +229,6 @@ class ClientFragment : BaseFragment(), ClientListRvAdapter.Interaction {
                                 dialog.cancel()
                             }
                         }.create().show()
-
                     }
                     ItemTouchHelper.RIGHT -> {
                         /*Edit Client*/
@@ -288,7 +239,6 @@ class ClientFragment : BaseFragment(), ClientListRvAdapter.Interaction {
         }
 
     override fun onItemSelected(position: Int, item: Client) {
-        TODO("Not yet implemented")
 //        val selectedClient = clientListRvAdapter.differ.currentList[position]
     }
 }

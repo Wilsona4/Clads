@@ -117,7 +117,7 @@
         android:layout_marginHorizontal="@dimen/margin_27dp"
         android:layout_marginTop="@dimen/margin_56dp"
         android:fontFamily="@font/poppins"
-        android:hint="@string/add_measurement_fragment_save_button"
+        android:hint="@string/all_save"
         android:textColorHint="@color/white"
         android:textSize="@dimen/text_size_12sp"
         android:textStyle="bold"

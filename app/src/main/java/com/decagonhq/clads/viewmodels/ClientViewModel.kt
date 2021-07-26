@@ -52,5 +52,4 @@ class ClientViewModel @Inject constructor(
             clientsRepository.deleteClient(clientId)
         }
     }
-
 }

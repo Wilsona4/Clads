@@ -118,7 +118,7 @@
         <argument
             android:name="delivery_address"
             android:defaultValue="@null"
-            app:argType="com.decagonhq.clads.data.domain.DeliveryAddressModel"
+            app:argType="com.decagonhq.clads.data.domain.client.DeliveryAddress"
             app:nullable="true" />
 
 

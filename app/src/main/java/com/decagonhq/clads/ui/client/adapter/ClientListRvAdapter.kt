@@ -1,14 +1,12 @@
 package com.decagonhq.clads.ui.client.adapter
 
-import androidx.recyclerview.widget.RecyclerView
 import android.view.LayoutInflater
-import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.AsyncListDiffer
 import androidx.recyclerview.widget.DiffUtil
+import androidx.recyclerview.widget.RecyclerView
 import com.amulyakhare.textdrawable.TextDrawable
 import com.amulyakhare.textdrawable.util.ColorGenerator
-import com.decagonhq.clads.R
 import com.decagonhq.clads.data.domain.client.Client
 import com.decagonhq.clads.databinding.ClientsRecyclerViewItemBinding
 
@@ -24,10 +22,8 @@ class ClientListRvAdapter(private val interaction: Interaction? = null) :
         override fun areContentsTheSame(oldItem: Client, newItem: Client): Boolean {
             return oldItem == newItem
         }
-
     }
     val differ = AsyncListDiffer(this, diffCallback)
-
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
         val binding = ClientsRecyclerViewItemBinding.inflate(
@@ -70,7 +66,7 @@ class ClientListRvAdapter(private val interaction: Interaction? = null) :
             binding.clientsRecyclerViewItemClientNameTextView.text = item.fullName
             binding.clientsRecyclerViewItemLocationTextView.text = item.deliveryAddresses?.get(0)?.city
             val clientInitials = item.fullName.split(" ")[0].substring(0, 1) +
-                    item.fullName.split(" ")[1].substring(0, 1)
+                item.fullName.split(" ")[1].substring(0, 1)
             val generator: ColorGenerator = ColorGenerator.MATERIAL
             val color = generator.randomColor
             val drawable = TextDrawable.builder().beginConfig()
