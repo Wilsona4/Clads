@@ -9,19 +9,13 @@ import android.widget.AutoCompleteTextView
 import android.widget.Button
 import android.widget.EditText
 import android.widget.TextView
-import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
-import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import com.decagonhq.clads.R
 import com.decagonhq.clads.data.domain.DeliveryAddressModel
 import com.decagonhq.clads.databinding.DeliveryAddressFragmentBinding
-import com.decagonhq.clads.ui.client.DeliveryAddressFragment.Companion.DELIVERY_ADDRESS_BUNDLE_KEY
-import com.decagonhq.clads.ui.client.dialogfragment.ClientManagementDialogFragments
-import com.decagonhq.clads.ui.profile.dialogfragment.ProfileManagementDialogFragments
-import com.decagonhq.clads.ui.profile.editprofile.AccountFragment
 import com.decagonhq.clads.viewmodels.ClientViewModel
 
 class DeliveryAddressFragment : Fragment() {
@@ -104,10 +98,10 @@ class DeliveryAddressFragment : Fragment() {
 //        // when first name value is clicked
 //        binding.deliveryAddressFragmentAddressTextView.setOnClickListener {
 //            val currentAddressText = binding.deliveryAddressFragmentAddressTextView.text.toString()
-////            val splited = currentAddressText.split("-")
-////            val currentAddressModel = DeliveryAddressModel(
-////                splited[0],
-////            )
+// //            val splited = currentAddressText.split("-")
+// //            val currentAddressModel = DeliveryAddressModel(
+// //                splited[0],
+// //            )
 //            val bundle = bundleOf(CURRENT_DELIVERY_ADDRESS_BUNDLE_KEY to currentAddressText)
 //            ClientManagementDialogFragments.createClientDialogFragment(
 //                R.layout.add_address_fragment,
@@ -123,7 +117,7 @@ class DeliveryAddressFragment : Fragment() {
         _binding = null
     }
 
-    companion object{
+    companion object {
         const val DELIVERY_ADDRESS_REQUEST_KEY = "DELIVERY ADDRESS REQUEST KEY"
         const val DELIVERY_ADDRESS_BUNDLE_KEY = "DELIVERY ADDRESS BUNDLE KEY"
         const val CURRENT_DELIVERY_ADDRESS_BUNDLE_KEY = "CURRENT DELIVERY ADDRESS BUNDLE KEY"

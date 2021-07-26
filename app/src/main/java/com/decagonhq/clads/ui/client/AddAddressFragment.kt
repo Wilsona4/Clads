@@ -7,13 +7,11 @@ import android.view.ViewGroup
 import android.widget.ArrayAdapter
 import android.widget.AutoCompleteTextView
 import android.widget.Button
-import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import com.decagonhq.clads.R
 import com.decagonhq.clads.data.domain.DeliveryAddressModel
 import com.decagonhq.clads.databinding.AddAddressFragmentBinding
-import com.decagonhq.clads.util.showSnackBar
 import com.google.android.material.textfield.TextInputEditText
 
 class AddAddressFragment : Fragment() {

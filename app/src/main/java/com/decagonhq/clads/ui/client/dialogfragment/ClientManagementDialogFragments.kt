@@ -5,7 +5,6 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ArrayAdapter
-import android.widget.AutoCompleteTextView
 import androidx.core.os.bundleOf
 import androidx.core.widget.doOnTextChanged
 import androidx.fragment.app.DialogFragment
@@ -16,7 +15,6 @@ import com.decagonhq.clads.data.domain.DressMeasurementModel
 import com.decagonhq.clads.databinding.AddAddressFragmentBinding
 import com.decagonhq.clads.databinding.AddMeasurementDialogFragmentBinding
 import com.decagonhq.clads.databinding.EditMeasurementDialogFragmentBinding
-import com.decagonhq.clads.ui.client.DeliveryAddressFragment
 import com.decagonhq.clads.ui.client.DeliveryAddressFragment.Companion.CURRENT_DELIVERY_ADDRESS_BUNDLE_KEY
 import com.decagonhq.clads.ui.client.DeliveryAddressFragment.Companion.DELIVERY_ADDRESS_BUNDLE_KEY
 import com.decagonhq.clads.ui.client.DeliveryAddressFragment.Companion.DELIVERY_ADDRESS_REQUEST_KEY
@@ -26,7 +24,6 @@ import com.decagonhq.clads.ui.client.MeasurementsFragment.Companion.EDITED_MEASU
 import com.decagonhq.clads.ui.client.MeasurementsFragment.Companion.EDITED_MEASUREMENT_REQUEST_KEY
 import com.decagonhq.clads.ui.client.MeasurementsFragment.Companion.EDIT_MEASUREMENT_BUNDLE_KEY
 import com.decagonhq.clads.ui.client.MeasurementsFragment.Companion.EDIT_MEASUREMENT_BUNDLE_POSITION
-import com.decagonhq.clads.ui.profile.editprofile.AccountFragment
 import com.decagonhq.clads.util.ClientMeasurementData
 
 class ClientManagementDialogFragments(
