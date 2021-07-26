@@ -48,19 +48,19 @@ class AddMeasurementAdapter(
         return currentList.size
     }
 
-    fun updateList(measurementList: MutableList<Measurement>) {
-        this.currentList = measurementList
-        this.notifyDataSetChanged()
-    }
-
-    fun deleteMeasurement(position: Int) {
-        this.currentList.removeAt(position)
-        this.notifyDataSetChanged()
-    }
-
-    fun replaceMeasurement(position: Int, measurement: Measurement) {
-        this.currentList[position] = measurement
-    }
+//    fun updateList(measurementList: MutableList<Measurement>) {
+//        this.currentList = measurementList
+//        this.notifyDataSetChanged()
+//    }
+//
+//    fun deleteMeasurement(position: Int) {
+//        this.currentList.removeAt(position)
+//        this.notifyDataSetChanged()
+//    }
+//
+//    fun replaceMeasurement(position: Int, measurement: Measurement) {
+//        this.currentList[position] = measurement
+//    }
 }
 
 interface RecyclerClickListener {

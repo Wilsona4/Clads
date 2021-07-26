@@ -76,12 +76,11 @@ class AddClientFragment : BaseFragment() {
 
             if (pagePosition == 0 && isClientAccountFragmentSaved) {
                 viewPager2.currentItem = 1
-            } else if (pagePosition == 1) {
+            } else if (pagePosition == 1 && clientMeasurements?.isNotEmpty() == true) {
                 viewPager2.currentItem = 2
-            } else if (pagePosition == 2) {
+            } else if (pagePosition == 2 && this::clientDeliveryAddress.isInitialized) {
 
-                if (this::clientBio.isInitialized && clientMeasurements?.isNotEmpty() == true && this::clientDeliveryAddress.isInitialized) {
-
+                if (this::clientBio.isInitialized && clientMeasurements?.isNotEmpty() == true) {
                     clientViewModel.addClient(
                         Client(
                             fullName = clientBio.fullName,
@@ -97,17 +96,27 @@ class AddClientFragment : BaseFragment() {
                     clientViewModel.client.observe(
                         viewLifecycleOwner,
                         Observer {
-                            if (it is Resource.Loading && it.data.isNullOrEmpty()) {
-                                progressDialog.showDialogFragment("Updating..")
-                            } else if (it is Resource.Error) {
-                                progressDialog.hideProgressDialog()
-                                handleApiError(it, mainRetrofit, requireView(), sessionManager, database)
-                            } else {
-                                progressDialog.hideProgressDialog()
-                                it.data?.let {
-                                    showToast("Saved Successfully")
+                            when (it) {
+                                is Resource.Loading -> {
+                                    progressDialog.showDialogFragment("Saving...Please wait")
                                 }
-                                findNavController().popBackStack()
+                                is Resource.Error -> {
+                                    progressDialog.hideProgressDialog()
+                                    handleApiError(
+                                        it,
+                                        mainRetrofit,
+                                        requireView(),
+                                        sessionManager,
+                                        database
+                                    )
+                                }
+                                is Resource.Success -> {
+                                    progressDialog.hideProgressDialog()
+                                    it.data?.let {
+                                        showToast("Saved Successfully")
+                                    }
+                                    findNavController().popBackStack()
+                                }
                             }
                         }
                     )
@@ -212,5 +221,10 @@ class AddClientFragment : BaseFragment() {
                 fragment.saveToViewModel()
             }
         }
+    }
+
+    override fun onStop() {
+        super.onStop()
+        clientsRegisterViewModel.clearMeasurement()
     }
 }

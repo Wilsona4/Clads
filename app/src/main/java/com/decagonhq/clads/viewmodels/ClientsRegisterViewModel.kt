@@ -18,7 +18,7 @@ class ClientsRegisterViewModel @Inject constructor(
     private val _clientData = MutableLiveData<ClientReg>()
     val clientData: LiveData<ClientReg> get() = _clientData
 
-    private val list = mutableListOf<Measurement>()
+    private var list = mutableListOf<Measurement>()
 
     private val _measurementData = MutableLiveData<MutableList<Measurement>>()
     val measurementData: LiveData<MutableList<Measurement>> get() = _measurementData
@@ -37,6 +37,16 @@ class ClientsRegisterViewModel @Inject constructor(
 
     fun editMeasurement(position: Int, measurement: Measurement) {
         list[position] = measurement
+        _measurementData.value = list
+    }
+
+    fun deleteMeasurement(position: Int) {
+        list.removeAt(position)
+        _measurementData.value = list
+    }
+
+    fun clearMeasurement() {
+        list.clear()
         _measurementData.value = list
     }
 
