@@ -21,7 +21,6 @@ class AddMeasurementAdapter(
         val delete: ImageView = itemView.findViewById(R.id.measurementment_recyclerview_item_delete_button)
 //        Binding the data with the view
         fun bind(dressMeasurementModel: Measurement) {
-            // display.text = "${dressMeasurementModel.measurementName} ${dressMeasurementModel.measurement}"
             display.text = "${dressMeasurementModel.title} ${dressMeasurementModel.value}"
         }
     }
@@ -47,20 +46,6 @@ class AddMeasurementAdapter(
     override fun getItemCount(): Int {
         return currentList.size
     }
-
-//    fun updateList(measurementList: MutableList<Measurement>) {
-//        this.currentList = measurementList
-//        this.notifyDataSetChanged()
-//    }
-//
-//    fun deleteMeasurement(position: Int) {
-//        this.currentList.removeAt(position)
-//        this.notifyDataSetChanged()
-//    }
-//
-//    fun replaceMeasurement(position: Int, measurement: Measurement) {
-//        this.currentList[position] = measurement
-//    }
 }
 
 interface RecyclerClickListener {

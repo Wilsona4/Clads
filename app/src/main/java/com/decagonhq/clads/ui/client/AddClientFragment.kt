@@ -20,10 +20,10 @@ import com.decagonhq.clads.ui.client.adapter.AddClientPagerAdapter
 import com.decagonhq.clads.util.Resource
 import com.decagonhq.clads.util.handleApiError
 import com.decagonhq.clads.util.hideView
+import com.decagonhq.clads.util.showSnackBar
 import com.decagonhq.clads.util.showView
 import com.decagonhq.clads.viewmodels.ClientViewModel
 import com.decagonhq.clads.viewmodels.ClientsRegisterViewModel
-import com.google.android.material.snackbar.Snackbar
 import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayoutMediator
 
@@ -120,13 +120,11 @@ class AddClientFragment : BaseFragment() {
                             }
                         }
                     )
+                } else {
+                    nextAndSaveButton.showSnackBar("Something Went Wrong, Retry")
                 }
             } else {
-                Snackbar.make(
-                    requireView(),
-                    "Some Fields have not been entered",
-                    Snackbar.LENGTH_SHORT
-                ).show()
+                nextAndSaveButton.showSnackBar("Some Fields have not been entered")
             }
         }
 

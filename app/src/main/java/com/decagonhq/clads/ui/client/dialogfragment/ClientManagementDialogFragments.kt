@@ -8,7 +8,6 @@ import androidx.core.widget.doOnTextChanged
 import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.activityViewModels
 import com.decagonhq.clads.R
-import com.decagonhq.clads.data.domain.DressMeasurementModel
 import com.decagonhq.clads.data.domain.client.Measurement
 import com.decagonhq.clads.databinding.AddMeasurementDialogFragmentBinding
 import com.decagonhq.clads.databinding.EditMeasurementDialogFragmentBinding
@@ -77,7 +76,6 @@ class ClientManagementDialogFragments(
                             registerClientViewModel.addMeasurements(
                                 Measurement(
                                     measurementName.toString(),
-                                    // measurement.toString().toBigDecimal()
                                     measurement.toString().toInt()
                                 )
                             )
@@ -132,11 +130,9 @@ class ClientManagementDialogFragments(
 
                 val itemPosition = bundle?.getInt(EDIT_MEASUREMENT_BUNDLE_POSITION)
                 val retrievedMeasurement =
-                    bundle?.getParcelable<DressMeasurementModel>(EDIT_MEASUREMENT_BUNDLE_KEY)
+                    bundle?.getParcelable<Measurement>(EDIT_MEASUREMENT_BUNDLE_KEY)
 
                 /*Attaching the data*/
-//                measurementNameEditText.setText(retrievedMeasurement?.measurementName)
-//                measurementEditText.setText(retrievedMeasurement?.measurement.toString())
                 measurementNameEditText.setText(retrievedMeasurement?.title)
                 measurementEditText.setText(retrievedMeasurement?.value.toString())
 
@@ -164,7 +160,6 @@ class ClientManagementDialogFragments(
                             val editedDataModel =
                                 Measurement(
                                     measurementName.toString(),
-                                    // measurement.toString().toBigDecimal()
                                     measurement.toString().toInt()
                                 )
 

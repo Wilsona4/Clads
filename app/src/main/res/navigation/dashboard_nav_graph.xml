@@ -108,7 +108,9 @@
 
         <argument
             android:name="dress_measurement"
-            app:argType="com.decagonhq.clads.data.domain.DressMeasurementModel" />
+            app:argType="com.decagonhq.clads.data.domain.client.Measurement"
+            app:nullable="true"
+            android:defaultValue="@null" />
     </fragment>
     <fragment
         android:id="@+id/deliveryAddressFragment"
