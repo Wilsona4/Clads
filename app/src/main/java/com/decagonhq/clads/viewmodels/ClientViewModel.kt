@@ -49,7 +49,9 @@ class ClientViewModel @Inject constructor(
     fun deleteClient(clientId: Int) {
         _client.value = Resource.Loading(null, "Deleting...")
         viewModelScope.launch(Dispatchers.IO) {
-            clientsRepository.deleteClient(clientId)
+            clientsRepository.deleteClient(clientId).collect {
+                _client.postValue(it)
+            }
         }
     }
 }

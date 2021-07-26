@@ -130,8 +130,8 @@ class ClientFragment : BaseFragment(), ClientListRvAdapter.Interaction {
                             it.setPositiveButton(R.string.yes) { dialog, which ->
                                 swipedClient.id?.let { id ->
                                     clientViewModel.deleteClient(id)
+                                    progressDialog.showDialogFragment(getString(R.string.deleting_client))
                                 }
-                                progressDialog.showDialogFragment(getString(R.string.deleting_client))
                             }
                             it.setNegativeButton(R.string.no) { dialog, which ->
                                 dialog.cancel()

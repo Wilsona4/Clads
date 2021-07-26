@@ -64,14 +64,30 @@ class ClientRepositoryImpl @Inject constructor(
             }
         )
 
-    override suspend fun deleteClient(clientId: Int) {
-        val response = safeApiCall {
-            apiService.deleteClient(clientId)
-        }
-        if (response is Resource.Success) {
-            database.withTransaction {
-                database.clientDao().deleteClient(clientId)
+//    override suspend fun deleteClient(clientId: Int) {
+//        val response = safeApiCall {
+//            apiService.deleteClient(clientId)
+//        }
+//        if (response is Resource.Success) {
+//            database.clientDao().deleteClient(clientId)
+//        }
+//    }
+
+    override suspend fun deleteClient(clientId: Int): Flow<Resource<List<Client>>> =
+        networkBoundResource(
+            fetchFromLocal = {
+                database.clientDao().readAllClients()
+            },
+            shouldFetchFromRemote = {
+                true
+            },
+            fetchFromRemote = {
+                apiService.deleteClient(clientId)
+            },
+            saveToLocalDB = {
+                database.withTransaction {
+                    database.clientDao().deleteClient(clientId)
+                }
             }
-        }
-    }
+        )
 }
