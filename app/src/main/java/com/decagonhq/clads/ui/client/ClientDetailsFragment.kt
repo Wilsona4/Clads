@@ -18,4 +18,6 @@ class ClientDetailsFragment : BaseFragment() {
         _binding = ClientDetailsFragmentBinding.inflate(inflater, container, false)
         return binding.root
     }
+
+
 }

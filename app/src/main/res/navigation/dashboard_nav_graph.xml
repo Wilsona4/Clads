@@ -238,5 +238,10 @@
         android:id="@+id/resourceViewIndividualArticleFragment"
         android:name="com.decagonhq.clads.ui.resource.ResourceIndividualArticleWebViewFragment"
         android:label="Article/Publications" />
+    <fragment
+        android:id="@+id/clientDetailsFragment"
+        android:name="com.decagonhq.clads.ui.client.ClientDetailsFragment"
+        android:label="Client"
+        tools:layout="@layout/client_details_fragment" />
 
 </navigation>
