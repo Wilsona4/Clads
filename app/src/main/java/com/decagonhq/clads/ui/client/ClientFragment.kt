@@ -107,7 +107,6 @@ class ClientFragment : BaseFragment(), ClientListRvAdapter.Interaction {
         /*Attach our Swipe Implementation to our Recycler View*/
         val itemTouchHelper = ItemTouchHelper(simpleCallback)
         itemTouchHelper.attachToRecyclerView(binding.clientListScreenRecyclerView)
-
     }
 
     private var simpleCallback =

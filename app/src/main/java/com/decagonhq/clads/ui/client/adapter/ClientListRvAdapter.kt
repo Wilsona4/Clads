@@ -64,8 +64,8 @@ class ClientListRvAdapter(private val interaction: Interaction? = null) :
                 interaction?.onItemSelected(adapterPosition, item)
             }
 
-            binding.clientsRecyclerViewItemClientNameTextView.text = item.fullName
-            binding.clientsRecyclerViewItemLocationTextView.text = item.deliveryAddresses?.get(0)?.city
+            binding.clientsRecyclerViewItemClientNameTextView.text = item.fullName.capitalize(Locale.ROOT)
+            binding.clientsRecyclerViewItemLocationTextView.text = item.deliveryAddresses?.get(0)?.city?.capitalize(Locale.ROOT)
             val clientInitials = item.fullName.split(" ")[0].substring(0, 1).capitalize(Locale.ROOT) +
                 item.fullName.split(" ")[1].substring(0, 1).capitalize(Locale.ROOT)
             val generator: ColorGenerator = ColorGenerator.MATERIAL

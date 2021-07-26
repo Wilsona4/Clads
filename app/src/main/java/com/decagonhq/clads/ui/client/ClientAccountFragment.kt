@@ -89,6 +89,40 @@ class ClientAccountFragment : BaseFragment() {
             }
         }
 
+        lastNameEditText.doOnTextChanged { _, _, _, _ ->
+            when {
+                lastNameEditText.text.toString().trim().isEmpty() -> {
+                    binding.clientAccountFragmentClientLastNameInputLayout.error =
+                        getString(R.string.all_please_enter_last_name)
+                    isValidated = false
+                }
+                else -> {
+                    binding.clientAccountFragmentClientLastNameInputLayout.error = null
+                    isValidated = true
+                }
+            }
+        }
+
+        phoneNumberEditText.doOnTextChanged { _, _, _, _ ->
+            when {
+                phoneNumberEditText.text.toString().trim().isEmpty() -> {
+                    binding.clientAccountFragmentPhoneNumberInputLayout.error =
+                        getString(R.string.all_please_enter_phone_number)
+                    isValidated = false
+                }
+                !binding.clientAccountFragmentClientPhoneNumberInput.jdValidatePhoneNumber(
+                    phoneNumberEditText.text.toString().trim()
+                ) -> {
+                    binding.clientAccountFragmentPhoneNumberInputLayout.error =
+                        getString(R.string.invalid_phone_number)
+                    isValidated = false
+                }
+                else -> {
+                    binding.clientAccountFragmentPhoneNumberInputLayout.error = null
+                    isValidated = true
+                }
+            }
+        }
         emailEditText.doOnTextChanged { _, _, _, _ ->
             when {
                 emailEditText.text.toString().trim().isEmpty() -> {
@@ -122,7 +156,8 @@ class ClientAccountFragment : BaseFragment() {
         lastName = lastNameEditText.text.toString().trim()
         phoneNumber = phoneNumberEditText.text.toString().trim()
         email = emailEditText.text.toString().trim()
-        selectedGender = _binding?.root?.findViewById<RadioButton>(genderRadioGroup.checkedRadioButtonId)?.text.toString()
+        selectedGender =
+            _binding?.root?.findViewById<RadioButton>(genderRadioGroup.checkedRadioButtonId)?.text.toString()
 
         when {
             !ValidationObject.validateName(firstName) -> {
@@ -132,8 +167,8 @@ class ClientAccountFragment : BaseFragment() {
             }
 
             !ValidationObject.validateName(lastName) -> {
-                binding.clientAccountFragmentClientFirstNameInputLayout.error =
-                    getString(R.string.all_please_enter_first_name)
+                binding.clientAccountFragmentClientLastNameInputLayout.error =
+                    getString(R.string.all_please_enter_last_name)
                 isValidated = false
             }
 
@@ -150,12 +185,6 @@ class ClientAccountFragment : BaseFragment() {
                     getString(R.string.all_invalid_email)
                 isValidated = false
             }
-//
-//             !ValidationObject.validateGender(selectedGender) -> {
-//                 binding.clientFragmentAccountTabRadioGroup. =
-//                     getString(R.string.all_invalid_email)
-//
-//                }
         }
 
         return isValidated
