@@ -24,7 +24,6 @@ import com.decagonhq.clads.viewmodels.UserProfileViewModel
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 
 class PaymentMethodFragment : BaseFragment() {
-
     private var _binding: PaymentMethodFragmentBinding? = null
     private lateinit var paymentTermsListTextView: TextView
     private lateinit var paymentOptionsListTextView: TextView

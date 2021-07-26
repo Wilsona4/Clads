@@ -9,6 +9,8 @@ import com.decagonhq.clads.data.remote.profile.UserProfileDTOMapper
 import com.decagonhq.clads.data.remote.registration.UserRegDTOMapper
 import com.decagonhq.clads.repository.AuthRepository
 import com.decagonhq.clads.repository.AuthRepositoryImpl
+import com.decagonhq.clads.repository.ClientRepositoryImpl
+import com.decagonhq.clads.repository.ClientsRepository
 import com.decagonhq.clads.repository.ImageRepository
 import com.decagonhq.clads.repository.ImageRepositoryImpl
 import com.decagonhq.clads.repository.UserProfileRepository
@@ -61,5 +63,14 @@ object RepositoryModule {
         database: CladsDatabase
     ): ImageRepository {
         return ImageRepositoryImpl(mainApiService, imageApiService, imageDTOMapper, database)
+    }
+
+    @Singleton
+    @Provides
+    fun provideClientRepository(
+        @Named(MAIN_API_SERVICE) apiService: ApiService,
+        database: CladsDatabase
+    ): ClientsRepository {
+        return ClientRepositoryImpl(apiService, database)
     }
 }

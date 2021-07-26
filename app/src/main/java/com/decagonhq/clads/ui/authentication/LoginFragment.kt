@@ -155,6 +155,7 @@ class LoginFragment : BaseFragment() {
                                     startActivity(intent)
                                     activity?.finish()
                                 }
+
                                 is Resource.Error -> {
                                     progressDialog.hideProgressDialog()
                                     handleApiError(it, mainRetrofit, requireView(), sessionManager, database)
@@ -247,12 +248,13 @@ class LoginFragment : BaseFragment() {
 
                             progressDialog.hideProgressDialog()
                             val intent = Intent(requireContext(), DashboardActivity::class.java)
-
                             startActivity(intent)
                             activity?.finish()
                         }
+
                         is Resource.Error -> {
                             progressDialog.hideProgressDialog()
+                            handleApiError(it, mainRetrofit, requireView(), sessionManager, database)
                         }
                         is Resource.Loading -> {
                         }

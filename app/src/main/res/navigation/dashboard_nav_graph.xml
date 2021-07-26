@@ -94,7 +94,11 @@
         android:id="@+id/addClientFragment"
         android:name="com.decagonhq.clads.ui.client.AddClientFragment"
         android:label="@string/add_client"
-        tools:layout="@layout/add_client_fragment" />
+        tools:layout="@layout/add_client_fragment" >
+        <action
+            android:id="@+id/action_addClientFragment_to_clientFragment"
+            app:destination="@id/clientFragment" />
+    </fragment>
 
     <fragment
         android:id="@+id/measurementsFragment"
@@ -104,7 +108,9 @@
 
         <argument
             android:name="dress_measurement"
-            app:argType="com.decagonhq.clads.data.domain.DressMeasurementModel" />
+            app:argType="com.decagonhq.clads.data.domain.client.Measurement"
+            app:nullable="true"
+            android:defaultValue="@null" />
     </fragment>
     <fragment
         android:id="@+id/deliveryAddressFragment"
@@ -114,7 +120,7 @@
         <argument
             android:name="delivery_address"
             android:defaultValue="@null"
-            app:argType="com.decagonhq.clads.data.domain.DeliveryAddressModel"
+            app:argType="com.decagonhq.clads.data.domain.client.DeliveryAddress"
             app:nullable="true" />
 
 

@@ -12,25 +12,30 @@
         android:id="@+id/delivery_address_fragment_address_text_view"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/margin_70dp"
+        android:layout_marginTop="76dp"
+        android:fontFamily="@font/poppins_bold"
         android:gravity="center"
         android:text="@string/there_are_no_delivery_address"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toStartOf="parent"
+        android:textSize="@dimen/margin_15dp"
+        app:layout_constraintEnd_toEndOf="@+id/delivery_address_fragment_add_button"
+        app:layout_constraintHorizontal_bias="0.487"
+        app:layout_constraintStart_toStartOf="@+id/delivery_address_fragment_add_button"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintWidth_percent="0.5" />
 
-
     <Button
         android:id="@+id/delivery_address_fragment_add_button"
+        style="@style/AddDeliveryAddressFragmentButton"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        style="@style/AddDeliveryAddressFragmentButton"
+        android:layout_marginTop="20dp"
+        android:layout_marginBottom="20dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.686"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/delivery_address_fragment_address_text_view"
-        app:layout_constraintVertical_bias="0.2" />
+        app:layout_constraintVertical_bias="0.217" />
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>
