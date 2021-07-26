@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:id="@+id/edit_measurement_dialog_fragment_root_layout"
-    tools:context=".ui.client.EditMeasurementDialogFragment">
+    >
 
     <TextView
         android:id="@+id/add_address_measurement_dialog_fragment_top_bar_text_view"
