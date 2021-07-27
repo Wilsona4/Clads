@@ -12,4 +12,6 @@ interface ClientsRepository {
     suspend fun addClient(client: Client): Flow<Resource<List<Client>>>
 
     suspend fun deleteClient(clientId: Int): Flow<Resource<List<Client>>>
+
+    suspend fun getSingleClient(clientId: Int): Flow<Resource<Client>>
 }

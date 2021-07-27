@@ -90,4 +90,8 @@ class ClientRepositoryImpl @Inject constructor(
                 }
             }
         )
+
+    override suspend fun getSingleClient(clientId: Int): Flow<Resource<Client>> {
+        TODO("Not yet implemented")
+    }
 }
