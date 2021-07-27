@@ -181,8 +181,8 @@ class AddClientFragment : BaseFragment() {
             }
         }.attach()
 
-        /*Disable tab change on tapping tab-layout container*/
-        tabLayout.touchables.forEach { it.isClickable = false }
+//        /*Disable tab change on tapping tab-layout container*/
+//        tabLayout.touchables.forEach { it.isClickable = false }
     }
 
     private fun setObservers() {

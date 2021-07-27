@@ -369,6 +369,7 @@
     <string name="deleting_client">Deleting Client...</string>
 
     <string name="rename">Rename</string>
+    <string name="must_contain_3_or_more">Must Contain 3 or More Characters</string>
 
 
     <string-array name="account_category">
