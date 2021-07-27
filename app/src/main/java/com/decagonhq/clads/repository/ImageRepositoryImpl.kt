@@ -56,10 +56,12 @@ class ImageRepositoryImpl(
         val response = safeApiCall {
             mainApiService.getGalleryImages()
         }
-        database.withTransaction {
-            response.data?.payload?.let { galleryImageList ->
-                for (galleryImage in galleryImageList) {
-                    database.galleryImageDao().addUserGalleryImage(galleryImage)
+        if (response is Resource.Success) {
+            database.withTransaction {
+                response.data?.payload?.let { galleryImageList ->
+                    for (galleryImage in galleryImageList) {
+                        database.galleryImageDao().addUserGalleryImage(galleryImage)
+                    }
                 }
             }
         }

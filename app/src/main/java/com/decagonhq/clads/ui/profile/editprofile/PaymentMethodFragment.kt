@@ -205,6 +205,7 @@ class PaymentMethodFragment : BaseFragment() {
                         binding.apply {
                             paymentMethodFragmentPaymentOptionsListTextView.text =
                                 userProfile?.paymentOptions?.joinToString("\n\n")
+
                             paymentMethodFragmentPaymentTermsListTextView.text =
                                 userProfile?.paymentTerms?.joinToString("\n\n")
                             userProfile?.paymentTerms?.let { paymentTerms ->

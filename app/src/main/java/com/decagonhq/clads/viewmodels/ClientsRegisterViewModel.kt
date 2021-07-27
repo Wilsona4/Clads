@@ -7,6 +7,7 @@ import com.decagonhq.clads.data.domain.client.ClientReg
 import com.decagonhq.clads.data.domain.client.DeliveryAddress
 import com.decagonhq.clads.data.domain.client.Measurement
 import com.decagonhq.clads.repository.ClientsRepository
+import com.decagonhq.clads.util.Event
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
 
@@ -23,8 +24,8 @@ class ClientsRegisterViewModel @Inject constructor(
     private val _measurementData = MutableLiveData<MutableList<Measurement>>()
     val measurementData: LiveData<MutableList<Measurement>> get() = _measurementData
 
-    private val _clientAddress = MutableLiveData<DeliveryAddress>()
-    val clientAddress: LiveData<DeliveryAddress> get() = _clientAddress
+    private val _clientAddress = MutableLiveData<Event<DeliveryAddress>>()
+    val clientAddress: LiveData<Event<DeliveryAddress>> get() = _clientAddress
 
     fun setClient(client: ClientReg) {
         _clientData.value = client
@@ -52,6 +53,6 @@ class ClientsRegisterViewModel @Inject constructor(
 
     /**client address is added */
     fun clientNewAddress(address: DeliveryAddress) {
-        _clientAddress.value = address
+        _clientAddress.value = Event(address)
     }
 }

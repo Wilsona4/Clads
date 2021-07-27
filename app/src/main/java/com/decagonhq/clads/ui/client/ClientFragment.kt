@@ -20,6 +20,7 @@ import com.decagonhq.clads.ui.client.adapter.ClientListRvAdapter
 import com.decagonhq.clads.util.Resource
 import com.decagonhq.clads.util.handleApiError
 import com.decagonhq.clads.viewmodels.ClientViewModel
+import com.decagonhq.clads.viewmodels.ClientsRegisterViewModel
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -32,6 +33,7 @@ class ClientFragment : BaseFragment(), ClientListRvAdapter.Interaction {
 
     private lateinit var clientListRvAdapter: ClientListRvAdapter
     private val clientViewModel: ClientViewModel by activityViewModels()
+    private val clientsRegisterViewModel: ClientsRegisterViewModel by activityViewModels()
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -54,6 +56,11 @@ class ClientFragment : BaseFragment(), ClientListRvAdapter.Interaction {
             clientViewModel.getClients()
             binding.clientFragmentSwipeRefreshLayout.isRefreshing = false
         }
+    }
+
+    override fun onResume() {
+        super.onResume()
+        clientsRegisterViewModel.clearMeasurement()
     }
 
     override fun onDestroyView() {

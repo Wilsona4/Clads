@@ -87,7 +87,7 @@
             android:layout_height="wrap_content"
             android:layout_weight="2"
             android:maxLines="6"
-            android:text="@string/vcash_bank_deposit_naira_paystack"
+            android:text="@string/payment_options"
             android:textAlignment="textEnd"
             android:textSize="@dimen/text_size_13sp"
             app:layout_constraintEnd_toEndOf="parent"

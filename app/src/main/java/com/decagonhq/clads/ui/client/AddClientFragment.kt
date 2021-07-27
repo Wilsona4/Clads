@@ -115,7 +115,8 @@ class AddClientFragment : BaseFragment() {
                                     it.data?.let {
                                         showToast("Saved Successfully")
                                     }
-                                    findNavController().popBackStack()
+                                    clientsRegisterViewModel.clearMeasurement()
+                                    findNavController().popBackStack(R.id.clientFragment, false)
                                 }
                             }
                         }
@@ -181,8 +182,8 @@ class AddClientFragment : BaseFragment() {
             }
         }.attach()
 
-        /*Disable tab change on tapping tab-layout container*/
-        tabLayout.touchables.forEach { it.isClickable = false }
+//        /*Disable tab change on tapping tab-layout container*/
+//        tabLayout.touchables.forEach { it.isClickable = false }
     }
 
     private fun setObservers() {
@@ -202,8 +203,11 @@ class AddClientFragment : BaseFragment() {
 
         clientsRegisterViewModel.clientAddress.observe(
             viewLifecycleOwner,
-            Observer { it ->
-                clientDeliveryAddress = it
+            Observer {
+                it.getContentIfNotHandled()?.let { deliveryAddress ->
+                    // Only proceed if the event has never been handled
+                    clientDeliveryAddress = deliveryAddress
+                }
             }
         )
     }
@@ -222,10 +226,5 @@ class AddClientFragment : BaseFragment() {
                 fragment.saveToViewModel()
             }
         }
-    }
-
-    override fun onStop() {
-        super.onStop()
-        clientsRegisterViewModel.clearMeasurement()
     }
 }
