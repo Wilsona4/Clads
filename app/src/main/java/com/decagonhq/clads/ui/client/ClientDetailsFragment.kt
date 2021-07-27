@@ -4,12 +4,10 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.core.view.isVisible
 import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.StaggeredGridLayoutManager
-import com.decagonhq.clads.data.domain.client.Client
 import com.decagonhq.clads.data.domain.client.Measurement
 import com.decagonhq.clads.databinding.ClientDetailsFragmentBinding
 import com.decagonhq.clads.ui.BaseFragment
@@ -20,7 +18,7 @@ import com.decagonhq.clads.util.hideView
 import com.decagonhq.clads.util.showView
 import com.decagonhq.clads.viewmodels.ClientViewModel
 import com.decagonhq.clads.viewmodels.ClientsRegisterViewModel
-import java.util.Locale
+import java.util.*
 
 class ClientDetailsFragment : BaseFragment(), RecyclerClickListener {
     private var _binding: ClientDetailsFragmentBinding? = null
@@ -80,23 +78,9 @@ class ClientDetailsFragment : BaseFragment(), RecyclerClickListener {
         }
     }
 
-    private fun displayRecyclerviewOrNoClientText(clients: List<Client>) {
-        if (clients.isEmpty()) {
-            binding.measurementsFragmentTestingTextView.isVisible = true
-            binding.measurementsFragmentRecyclerView.isVisible = false
-        } else {
-            clientListRvAdapter.submitList(clients)
-            binding.measurementsFragmentRecyclerView.adapter?.notifyDataSetChanged()
-            binding.measurementsFragmentTestingTextView.isVisible = false
-            binding.measurementsFragmentRecyclerView.isVisible = true
-        }
-    }
-
     override fun onItemClickToEdit(position: Int, currentList: MutableList<Measurement>) {
-//        showToast("edit")
     }
 
     override fun onItemClickToDelete(position: Int, currentList: MutableList<Measurement>) {
-//        showToast("delete")
     }
 }
