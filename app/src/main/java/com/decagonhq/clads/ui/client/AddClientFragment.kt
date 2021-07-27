@@ -155,7 +155,8 @@ class AddClientFragment : BaseFragment() {
                                             showToast("Updated Successfully")
                                         } ?: showToast("Saved Successfully")
                                     }
-                                    findNavController().popBackStack()
+                                    clientsRegisterViewModel.clearMeasurement()
+                                    findNavController().popBackStack(R.id.clientFragment, false)
                                 }
                             }
                         }
@@ -264,7 +265,10 @@ class AddClientFragment : BaseFragment() {
         clientsRegisterViewModel.clientAddress.observe(
             viewLifecycleOwner,
             Observer {
-                clientDeliveryAddress = it
+                it.getContentIfNotHandled()?.let { deliveryAddress ->
+                    // Only proceed if the event has never been handled
+                    clientDeliveryAddress = deliveryAddress
+                }
             }
         )
     }
@@ -283,10 +287,5 @@ class AddClientFragment : BaseFragment() {
                 fragment.saveToViewModel()
             }
         }
-    }
-
-    override fun onStop() {
-        super.onStop()
-        clientsRegisterViewModel.clearMeasurement()
     }
 }

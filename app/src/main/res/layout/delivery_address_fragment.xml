@@ -2,9 +2,9 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/client_delivery_addresses_fragment_root_layout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:id="@+id/client_delivery_addresses_fragment_root_layout"
     tools:context=".ui.client.DeliveryAddressFragment">
 
 
@@ -12,13 +12,15 @@
         android:id="@+id/delivery_address_fragment_address_text_view"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
+        android:layout_marginHorizontal="@dimen/margin_18dp"
         android:layout_marginTop="76dp"
         android:fontFamily="@font/poppins_bold"
         android:gravity="center"
         android:text="@string/there_are_no_delivery_address"
-        android:textSize="@dimen/margin_15dp"
+        android:textColor="@color/navy_blue"
+        android:textSize="@dimen/text_size_13sp"
         app:layout_constraintEnd_toEndOf="@+id/delivery_address_fragment_add_button"
-        app:layout_constraintHorizontal_bias="0.487"
+        app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="@+id/delivery_address_fragment_add_button"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintWidth_percent="0.5" />
@@ -32,7 +34,7 @@
         android:layout_marginBottom="20dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.686"
+        app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/delivery_address_fragment_address_text_view"
         app:layout_constraintVertical_bias="0.217" />

@@ -64,15 +64,6 @@ class ClientRepositoryImpl @Inject constructor(
             }
         )
 
-//    override suspend fun deleteClient(clientId: Int) {
-//        val response = safeApiCall {
-//            apiService.deleteClient(clientId)
-//        }
-//        if (response is Resource.Success) {
-//            database.clientDao().deleteClient(clientId)
-//        }
-//    }
-
     override suspend fun deleteClient(clientId: Int): Flow<Resource<List<Client>>> =
         networkBoundResource(
             fetchFromLocal = {
@@ -109,4 +100,8 @@ class ClientRepositoryImpl @Inject constructor(
                 }
             }
         )
+
+    override suspend fun getSingleClient(clientId: Int): Flow<Resource<Client>> {
+        TODO("Not yet implemented")
+    }
 }

@@ -18,6 +18,7 @@ import com.decagonhq.clads.util.ValidationObject
 import com.decagonhq.clads.util.ValidationObject.jdValidatePhoneNumber
 import com.decagonhq.clads.util.observeOnce
 import com.decagonhq.clads.viewmodels.ClientsRegisterViewModel
+import java.util.Locale
 
 class ClientAccountFragment : BaseFragment() {
     private var _binding: ClientAccountFragmentBinding? = null
@@ -62,7 +63,11 @@ class ClientAccountFragment : BaseFragment() {
             if (validateInputs()) {
                 clientsRegisterViewModel.setClient(
                     client = ClientReg(
-                        fullName = "$firstName $lastName",
+                        fullName = "${firstName.capitalize(Locale.ROOT)} ${
+                        lastName.capitalize(
+                            Locale.ROOT
+                        )
+                        }",
                         email = email,
                         phoneNumber = phoneNumber,
                         gender = selectedGender

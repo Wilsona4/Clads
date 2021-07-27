@@ -18,7 +18,7 @@ interface ClientDao {
 
     /*Get Single Client in the Database*/
     @Query("SELECT * FROM client_details_table WHERE id = :clientId")
-    fun readClient(clientId: Int): Flow<List<Client>>
+    suspend fun readClient(clientId: Int): Client
 
     /*Get All Client in the Database*/
     @Transaction

@@ -7,6 +7,8 @@ import android.view.ViewGroup
 import android.widget.ArrayAdapter
 import android.widget.AutoCompleteTextView
 import androidx.fragment.app.activityViewModels
+import androidx.lifecycle.observe
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.decagonhq.clads.R
 import com.decagonhq.clads.data.domain.client.Client
@@ -78,7 +80,8 @@ class HomeFragment : BaseFragment(), ClientListRvAdapter.Interaction {
             viewLifecycleOwner,
             {
                 it.data.let { userProfile ->
-                    val fullName = "${userProfile?.firstName ?: "---"} ${userProfile?.lastName ?: "---"}"
+                    val fullName =
+                        "${userProfile?.firstName ?: "---"} ${userProfile?.lastName ?: "---"}"
                     binding.homeFragmentAccountNameTextView.text = fullName
                 }
             }
@@ -90,5 +93,8 @@ class HomeFragment : BaseFragment(), ClientListRvAdapter.Interaction {
     }
 
     override fun onItemSelected(position: Int, item: Client) {
+        val selectedClient = clientListRvAdapter.differ.currentList[position]
+        val action = HomeFragmentDirections.actionNavHomeToClientDetailsFragment(selectedClient)
+        findNavController().navigate(action)
     }
 }

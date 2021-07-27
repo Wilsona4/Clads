@@ -21,10 +21,6 @@ class UserProfileViewModel @Inject constructor(
     private var _userProfile = MutableLiveData<Resource<UserProfileEntity>>()
     val userProfile: LiveData<Resource<UserProfileEntity>> get() = _userProfile
 
-//    init {
-//        saveUserProfileToLocalDatabase()
-//    }
-
     fun getUserProfile() {
         viewModelScope.launch(Dispatchers.IO) {
             userProfileRepository.getUserProfile().collect {

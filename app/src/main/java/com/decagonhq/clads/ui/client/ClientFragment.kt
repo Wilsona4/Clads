@@ -50,6 +50,17 @@ class ClientFragment : BaseFragment(), ClientListRvAdapter.Interaction {
         init()
         setEventListeners()
         setObservers()
+
+        // implement swipe to refresh
+        binding.clientFragmentSwipeRefreshLayout.setOnRefreshListener {
+            clientViewModel.getClients()
+            binding.clientFragmentSwipeRefreshLayout.isRefreshing = false
+        }
+    }
+
+    override fun onResume() {
+        super.onResume()
+        clientsRegisterViewModel.clearMeasurement()
     }
 
     override fun onDestroyView() {
@@ -154,6 +165,9 @@ class ClientFragment : BaseFragment(), ClientListRvAdapter.Interaction {
         }
 
     override fun onItemSelected(position: Int, item: Client) {
-//        val selectedClient = clientListRvAdapter.differ.currentList[position]
+        val selectedClient = clientListRvAdapter.differ.currentList[position]
+        val action =
+            ClientFragmentDirections.actionClientFragmentToClientDetailsFragment(selectedClient)
+        findNavController().navigate(action)
     }
 }

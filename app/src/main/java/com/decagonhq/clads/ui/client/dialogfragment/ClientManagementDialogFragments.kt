@@ -22,6 +22,7 @@ import com.decagonhq.clads.ui.client.DeliveryAddressFragment.Companion.DELIVERY_
 import com.decagonhq.clads.ui.client.MeasurementsFragment.Companion.EDIT_MEASUREMENT_BUNDLE_KEY
 import com.decagonhq.clads.ui.client.MeasurementsFragment.Companion.EDIT_MEASUREMENT_BUNDLE_POSITION
 import com.decagonhq.clads.viewmodels.ClientsRegisterViewModel
+import java.util.Locale
 
 class ClientManagementDialogFragments(
     private var dialogLayoutId: Int,
@@ -62,7 +63,7 @@ class ClientManagementDialogFragments(
                     val measurementName = measurementNameEditText.text
                     val measurement = measurementEditText.text
                     when {
-                        measurementName!!.trim().isEmpty() -> {
+                        measurementName.toString().trim().isEmpty() -> {
                             binding.addAddressFragmentMeasurementNameEditTextLayout.error =
                                 getString(
                                     R.string.required
@@ -71,6 +72,17 @@ class ClientManagementDialogFragments(
                                 null
                             return@setOnClickListener
                         }
+
+                        measurementName.toString().trim().length < 3 && measurementName.toString()
+                            .trim().isNotEmpty() -> {
+                            binding.addAddressFragmentMeasurementNameEditTextLayout.error =
+                                getString(R.string.must_contain_3_or_more)
+
+                            binding.addAddressFragmentMeasurementNameEditTextLayout.errorIconDrawable =
+                                null
+                            return@setOnClickListener
+                        }
+
                         measurement.toString().isEmpty() -> {
                             binding.addMeasurementFragmentAddMeasurementEditTextLayout.error =
                                 getString(
@@ -98,7 +110,7 @@ class ClientManagementDialogFragments(
                 /*Validate Dialog Fields onTextChange*/
                 measurementNameEditText.doOnTextChanged { _, _, _, _ ->
                     when {
-                        measurementNameEditText.text!!.trim().isEmpty() -> {
+                        measurementNameEditText.text.toString().trim().isEmpty() -> {
                             binding.addAddressFragmentMeasurementNameEditTextLayout.error =
                                 getString(
                                     R.string.required
@@ -106,6 +118,17 @@ class ClientManagementDialogFragments(
                             binding.addAddressFragmentMeasurementNameEditTextLayout.errorIconDrawable =
                                 null
                         }
+
+                        measurementNameEditText.text.toString()
+                            .trim().length < 3 && measurementNameEditText.text.toString().trim()
+                            .isNotEmpty() -> {
+                            binding.addAddressFragmentMeasurementNameEditTextLayout.error =
+                                getString(R.string.must_contain_3_or_more)
+
+                            binding.addAddressFragmentMeasurementNameEditTextLayout.errorIconDrawable =
+                                null
+                        }
+
                         else -> {
                             binding.addAddressFragmentMeasurementNameEditTextLayout.error = null
                         }
@@ -113,7 +136,7 @@ class ClientManagementDialogFragments(
                 }
                 measurementEditText.doOnTextChanged { _, _, _, _ ->
                     when {
-                        measurementEditText.text!!.toString().trim().isEmpty() -> {
+                        measurementEditText.text.toString().trim().isEmpty() -> {
                             binding.addMeasurementFragmentAddMeasurementEditTextLayout.error =
                                 getString(
                                     R.string.required
@@ -135,25 +158,29 @@ class ClientManagementDialogFragments(
                 val enterAddressEditText = binding.addAddressFragmentEnterDeliveryAddressEditText
                 val cityEditText = binding.addAddressFragmentCityAddressEditText
 
+                val saveAddressButton = binding.addAddressFragmentSaveAddressButton
+
+                /*Initialize and Set-up Auto-Complete Text View*/
                 val stateEditText = binding.addAddressFragmentStateAutoComplete
                 val states = resources.getStringArray(R.array.states)
                 val arrayAdapter =
                     ArrayAdapter(requireContext(), R.layout.state_drop_down_item, states)
                 stateEditText.setAdapter(arrayAdapter)
 
-                val saveAddressButton = binding.addAddressFragmentSaveAddressButton
-
                 val retrievedArgs =
                     bundle?.getString(CURRENT_DELIVERY_ADDRESS_BUNDLE_KEY)
-//                val retrievedAddress = retrievedArgs?.split(",")
-                val splited = retrievedArgs?.split(",")
-//                val currentAddressModel = DeliveryAddressModel(
-//                   deliveryAddress =
-//                )
+                val splitAddress = retrievedArgs?.split("~")
 
-//                /*Attaching the data*/
-//                enterAddressEditText.setText(retrievedArgs?.measurementName)
-//                cityEditText.setText(retrievedMeasurement?.measurement.toString())
+                /*Attaching the data*/
+                if (splitAddress != null && splitAddress.size >= 2) {
+                    enterAddressEditText.setText(splitAddress[0])
+                    cityEditText.setText(splitAddress[1])
+                    stateEditText.setText(
+                        splitAddress.lastOrNull {
+                            states.contains(it.trim())
+                        }
+                    )
+                }
 
                 /*Saving the changes for the measurement*/
                 saveAddressButton.setOnClickListener {
@@ -171,8 +198,19 @@ class ClientManagementDialogFragments(
                                 getString(
                                     R.string.required
                                 )
+                            binding.addAddressFragmentEnterDeliveryAddressEditTextLayout.errorIconDrawable =
+                                null
                             return@setOnClickListener
                         }
+                        addressName.length < 3 && addressName.isNotEmpty() -> {
+                            binding.addAddressFragmentEnterDeliveryAddressEditTextLayout.error =
+                                getString(R.string.must_contain_3_or_more)
+
+                            binding.addAddressFragmentEnterDeliveryAddressEditTextLayout.errorIconDrawable =
+                                null
+                            return@setOnClickListener
+                        }
+
                         addressCity.isEmpty() -> {
                             binding.addAddressFragmentCityAddressEditTextLayout.error =
                                 getString(
@@ -181,6 +219,15 @@ class ClientManagementDialogFragments(
                             binding.addAddressFragmentCityAddressEditTextLayout.errorIconDrawable =
                                 null
 
+                            return@setOnClickListener
+                        }
+
+                        addressCity.length < 3 && addressCity.isNotEmpty() -> {
+                            binding.addAddressFragmentCityAddressEditTextLayout.error =
+                                getString(R.string.must_contain_3_or_more)
+
+                            binding.addAddressFragmentCityAddressEditTextLayout.errorIconDrawable =
+                                null
                             return@setOnClickListener
                         }
                         addressState.isEmpty() -> {
@@ -194,8 +241,10 @@ class ClientManagementDialogFragments(
                         }
                         else -> {
                             val addressBundle = DeliveryAddress(
-                                addressName, addressCity, addressState
+                                addressName.capitalize(Locale.ROOT), addressCity.capitalize(Locale.ROOT), addressState
                             )
+                            /*Save Temporal Client Address*/
+                            registerClientViewModel.clientNewAddress(addressBundle)
 
                             setFragmentResult(
                                 DELIVERY_ADDRESS_REQUEST_KEY,
@@ -209,11 +258,20 @@ class ClientManagementDialogFragments(
                 /*Validate Dialog Fields onTextChange*/
                 enterAddressEditText.doOnTextChanged { _, _, _, _ ->
                     when {
-                        enterAddressEditText.text!!.trim().isEmpty() -> {
+                        enterAddressEditText.text.toString().trim().isEmpty() -> {
                             binding.addAddressFragmentEnterDeliveryAddressEditTextLayout.error =
                                 getString(
                                     R.string.required
                                 )
+                            binding.addAddressFragmentEnterDeliveryAddressEditTextLayout.errorIconDrawable =
+                                null
+                        }
+                        enterAddressEditText.text.toString()
+                            .trim().length < 3 && enterAddressEditText.text.toString().trim()
+                            .isNotEmpty() -> {
+                            binding.addAddressFragmentEnterDeliveryAddressEditTextLayout.error =
+                                getString(R.string.must_contain_3_or_more)
+
                             binding.addAddressFragmentEnterDeliveryAddressEditTextLayout.errorIconDrawable =
                                 null
                         }
@@ -230,6 +288,15 @@ class ClientManagementDialogFragments(
                                 getString(
                                     R.string.required
                                 )
+                            binding.addAddressFragmentCityAddressEditTextLayout.errorIconDrawable =
+                                null
+                        }
+                        cityEditText.text.toString()
+                            .trim().length < 3 && cityEditText.text.toString().trim()
+                            .isNotEmpty() -> {
+                            binding.addAddressFragmentCityAddressEditTextLayout.error =
+                                getString(R.string.must_contain_3_or_more)
+
                             binding.addAddressFragmentCityAddressEditTextLayout.errorIconDrawable =
                                 null
                         }
@@ -275,11 +342,20 @@ class ClientManagementDialogFragments(
                     val measurement = binding.editMeasurementFragmentAddMeasureEditText.text
 
                     when {
-                        measurementName!!.isEmpty() -> {
+                        measurementName.toString().trim().isEmpty() -> {
                             binding.editAddressFragmentMeasurementNameEditTextLayout.error =
                                 getString(
                                     R.string.required
                                 )
+                        }
+                        measurementName.toString().trim().length < 3 && measurementName.toString()
+                            .trim().isNotEmpty() -> {
+                            binding.editAddressFragmentMeasurementNameEditTextLayout.error =
+                                getString(R.string.must_contain_3_or_more)
+
+                            binding.editAddressFragmentMeasurementNameEditTextLayout.errorIconDrawable =
+                                null
+                            return@setOnClickListener
                         }
                         measurement.toString().isEmpty() -> {
                             binding.editMeasurementFragmentAddMeasurementEditTextLayout.error =
