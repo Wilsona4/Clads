@@ -1,17 +1,13 @@
 package com.decagonhq.clads.ui.client
 
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.core.view.isVisible
 import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
-import androidx.lifecycle.Observer
-import androidx.lifecycle.observe
 import androidx.navigation.fragment.navArgs
-import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.StaggeredGridLayoutManager
 import com.decagonhq.clads.data.domain.client.Client
 import com.decagonhq.clads.data.domain.client.Measurement
@@ -20,14 +16,11 @@ import com.decagonhq.clads.ui.BaseFragment
 import com.decagonhq.clads.ui.client.adapter.AddMeasurementAdapter
 import com.decagonhq.clads.ui.client.adapter.ClientListRvAdapter
 import com.decagonhq.clads.ui.client.adapter.RecyclerClickListener
-import com.decagonhq.clads.ui.media.MediaFragmentPhotoNameArgs
 import com.decagonhq.clads.util.hideView
 import com.decagonhq.clads.util.showView
 import com.decagonhq.clads.viewmodels.ClientViewModel
 import com.decagonhq.clads.viewmodels.ClientsRegisterViewModel
-import kotlinx.coroutines.flow.forEach
-import java.sql.ClientInfoStatus
-import java.util.*
+import java.util.Locale
 
 class ClientDetailsFragment : BaseFragment(), RecyclerClickListener {
     private var _binding: ClientDetailsFragmentBinding? = null
@@ -62,8 +55,8 @@ class ClientDetailsFragment : BaseFragment(), RecyclerClickListener {
             }
             val clientInitials = args.clientModel?.fullName?.split(" ")?.get(0)?.substring(0, 1)
                 ?.capitalize(Locale.ROOT) +
-                    args.clientModel?.fullName?.split(" ")?.get(1)?.substring(0, 1)
-                        ?.capitalize(Locale.ROOT)
+                args.clientModel?.fullName?.split(" ")?.get(1)?.substring(0, 1)
+                    ?.capitalize(Locale.ROOT)
 
             clientsDetailsInitialsTextView.text = clientInitials
             val recyclerView = args.clientModel?.measurements?.toMutableList()
@@ -83,12 +76,8 @@ class ClientDetailsFragment : BaseFragment(), RecyclerClickListener {
                         this@ClientDetailsFragment
                     )
                 measurementsFragmentRecyclerView.adapter = clientMeasurementAdapter
-
-
             }
         }
-
-
     }
 
     private fun displayRecyclerviewOrNoClientText(clients: List<Client>) {
@@ -110,8 +99,4 @@ class ClientDetailsFragment : BaseFragment(), RecyclerClickListener {
     override fun onItemClickToDelete(position: Int, currentList: MutableList<Measurement>) {
 //        showToast("delete")
     }
-
 }
-
-
-

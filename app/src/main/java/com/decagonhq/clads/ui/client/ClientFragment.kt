@@ -151,7 +151,5 @@ class ClientFragment : BaseFragment(), ClientListRvAdapter.Interaction {
         val action =
             ClientFragmentDirections.actionClientFragmentToClientDetailsFragment(selectedClient)
         findNavController().navigate(action)
-
-
     }
 }

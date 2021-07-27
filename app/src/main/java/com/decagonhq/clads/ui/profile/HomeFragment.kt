@@ -95,7 +95,6 @@ class HomeFragment : BaseFragment(), ClientListRvAdapter.Interaction {
     override fun onItemSelected(position: Int, item: Client) {
         val selectedClient = clientListRvAdapter.differ.currentList[position]
         val action = HomeFragmentDirections.actionNavHomeToClientDetailsFragment(selectedClient)
-            findNavController().navigate(action)
-
+        findNavController().navigate(action)
     }
 }
