@@ -8,6 +8,8 @@ import android.widget.ArrayAdapter
 import android.widget.AutoCompleteTextView
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.Observer
+import androidx.lifecycle.observe
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.decagonhq.clads.R
 import com.decagonhq.clads.data.domain.client.Client
@@ -91,5 +93,8 @@ class HomeFragment : BaseFragment(), ClientListRvAdapter.Interaction {
     }
 
     override fun onItemSelected(position: Int, item: Client) {
+        val selectedClient = clientListRvAdapter.differ.currentList[position]
+        val action = HomeFragmentDirections.actionNavHomeToClientDetailsFragment(selectedClient)
+        findNavController().navigate(action)
     }
 }
