@@ -21,6 +21,8 @@ class ClientViewModel @Inject constructor(
     private var _client = MutableLiveData<Resource<List<Client>>>()
     val client: LiveData<Resource<List<Client>>> get() = _client
 
+
+
     fun getClients() {
         viewModelScope.launch(Dispatchers.IO) {
             clientsRepository.getClients().collect {
