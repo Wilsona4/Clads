@@ -370,6 +370,7 @@
 
     <string name="rename">Rename</string>
     <string name="must_contain_3_or_more">Must Contain 3 or More Characters</string>
+    <string name="edit_address">Edit Address</string>
 
 
     <string-array name="account_category">

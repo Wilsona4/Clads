@@ -202,8 +202,11 @@ class AddClientFragment : BaseFragment() {
 
         clientsRegisterViewModel.clientAddress.observe(
             viewLifecycleOwner,
-            Observer { it ->
-                clientDeliveryAddress = it
+            Observer {
+                it.getContentIfNotHandled()?.let { deliveryAddress ->
+                    // Only proceed if the event has never been handled
+                    clientDeliveryAddress = deliveryAddress
+                }
             }
         )
     }
@@ -224,8 +227,8 @@ class AddClientFragment : BaseFragment() {
         }
     }
 
-    override fun onStop() {
-        super.onStop()
+    override fun onDestroy() {
+        super.onDestroy()
         clientsRegisterViewModel.clearMeasurement()
     }
 }
