@@ -9,7 +9,9 @@
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:paddingEnd="@dimen/margin_25dp"
+        >
 
         <TextView
             android:id="@+id/client_details_fragment_basic_info_text_view"
@@ -28,7 +30,6 @@
         <ImageView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginEnd="@dimen/margin_25dp"
             android:src="@drawable/edit_icon"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="@+id/client_details_fragment_basic_info_text_view" />
@@ -38,14 +39,15 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/margin_32dp"
+            android:layout_marginStart="@dimen/margin_23dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/client_details_fragment_basic_info_text_view">
 
             <TextView
                 android:id="@+id/client_details_fragment_name_initials_text_view"
-                android:layout_width="@dimen/margin_128dp"
-                android:layout_height="@dimen/margin_128dp"
+                android:layout_width="120dp"
+                android:layout_height="120dp"
                 android:background="@drawable/client_list_round_image_background"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -73,6 +75,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/margin_16dp"
+            android:layout_marginStart="@dimen/margin_23dp"
             android:fontFamily="@font/poppins"
             android:letterSpacing="0.02"
             android:text="@string/ola_machiavelli"
