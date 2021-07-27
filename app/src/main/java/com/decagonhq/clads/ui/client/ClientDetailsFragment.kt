@@ -24,9 +24,6 @@ class ClientDetailsFragment : BaseFragment(), RecyclerClickListener {
     private var _binding: ClientDetailsFragmentBinding? = null
     private val binding get() = _binding!!
     private val args: ClientDetailsFragmentArgs by navArgs()
-    private lateinit var clientListRvAdapter: ClientListRvAdapter
-    private val clientViewModel: ClientViewModel by viewModels()
-    private val clientsRegisterViewModel: ClientsRegisterViewModel by activityViewModels()
     private lateinit var clientMeasurementAdapter: AddMeasurementAdapter
 
     override fun onCreateView(
