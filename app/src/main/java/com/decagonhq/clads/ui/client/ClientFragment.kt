@@ -48,6 +48,12 @@ class ClientFragment : BaseFragment(), ClientListRvAdapter.Interaction {
         init()
         setEventListeners()
         setObservers()
+
+        // implement swipe to refresh
+        binding.clientFragmentSwipeRefreshLayout.setOnRefreshListener {
+            clientViewModel.getClients()
+            binding.clientFragmentSwipeRefreshLayout.isRefreshing = false
+        }
     }
 
     override fun onDestroyView() {
