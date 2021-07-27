@@ -11,7 +11,7 @@ import com.decagonhq.clads.data.domain.client.DeliveryAddress
 import com.decagonhq.clads.databinding.DeliveryAddressFragmentBinding
 import com.decagonhq.clads.ui.BaseFragment
 import com.decagonhq.clads.ui.client.dialogfragment.ClientManagementDialogFragments
-import java.util.*
+import java.util.Locale
 
 class DeliveryAddressFragment : BaseFragment() {
     private var _binding: DeliveryAddressFragmentBinding? = null
