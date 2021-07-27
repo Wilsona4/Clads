@@ -4,21 +4,16 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.fragment.app.activityViewModels
-import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.StaggeredGridLayoutManager
 import com.decagonhq.clads.data.domain.client.Measurement
 import com.decagonhq.clads.databinding.ClientDetailsFragmentBinding
 import com.decagonhq.clads.ui.BaseFragment
 import com.decagonhq.clads.ui.client.adapter.AddMeasurementAdapter
-import com.decagonhq.clads.ui.client.adapter.ClientListRvAdapter
 import com.decagonhq.clads.ui.client.adapter.RecyclerClickListener
 import com.decagonhq.clads.util.hideView
 import com.decagonhq.clads.util.showView
-import com.decagonhq.clads.viewmodels.ClientViewModel
-import com.decagonhq.clads.viewmodels.ClientsRegisterViewModel
-import java.util.*
+import java.util.Locale
 
 class ClientDetailsFragment : BaseFragment(), RecyclerClickListener {
     private var _binding: ClientDetailsFragmentBinding? = null
