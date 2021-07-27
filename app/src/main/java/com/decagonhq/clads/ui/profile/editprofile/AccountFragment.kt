@@ -10,7 +10,6 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContract
 import androidx.appcompat.app.AlertDialog
@@ -224,7 +223,7 @@ class AccountFragment : BaseFragment() {
                     progressDialog.hideProgressDialog()
                     handleApiError(it, mainRetrofit, requireView(), sessionManager, database)
                 } else {
-                    progressDialog.hideProgressDialog()
+//                    progressDialog.hideProgressDialog()
                     it.data?.let { profile ->
                         val userProfile = UserProfile(
                             country = profile.country,
@@ -283,11 +282,9 @@ class AccountFragment : BaseFragment() {
     ) {
         fun innerCheck(name: String) {
             if (grantResults.isEmpty() || grantResults[0] != PackageManager.PERMISSION_GRANTED) {
-                Toast.makeText(requireContext(), "$name permission refused", Toast.LENGTH_SHORT)
-                    .show()
+                showToast("$name permission refused")
             } else {
-                Toast.makeText(requireContext(), "$name permission granted", Toast.LENGTH_SHORT)
-                    .show()
+                showToast("$name permission granted")
                 cropActivityResultLauncher.launch(null)
             }
         }
@@ -361,10 +358,14 @@ class AccountFragment : BaseFragment() {
                     progressDialog.hideProgressDialog()
                     handleApiError(it, mainRetrofit, requireView(), sessionManager, database)
                 } else {
-                    progressDialog.hideProgressDialog()
-                    Toast.makeText(requireContext(), "Upload Successful", Toast.LENGTH_SHORT).show()
+//                    progressDialog.hideProgressDialog()
+                    showToast("Upload Successful")
                     it.data?.downloadUri?.let { imageUrl ->
                         updateUserProfilePicture(imageUrl)
+                        Glide.with(this@AccountFragment)
+                            .load(imageUrl)
+                            .placeholder(R.drawable.nav_drawer_profile_avatar)
+                            .into(binding.accountFragmentEditProfileIconImageView)
                     }
                 }
             }
@@ -794,7 +795,8 @@ class AccountFragment : BaseFragment() {
 
         const val RENAME_DESCRIPTION_REQUEST_KEY = "ACCOUNT FIRST NAME REQUEST KEY"
         const val RENAME_DESCRIPTION_BUNDLE_KEY = "ACCOUNT FIRST NAME BUNDLE KEY"
-        const val CURRENT_ACCOUNT_RENAME_DESCRIPTION_BUNDLE_KEY = "CURRENT ACCOUNT FIRST NAME BUNDLE KEY"
+        const val CURRENT_ACCOUNT_RENAME_DESCRIPTION_BUNDLE_KEY =
+            "CURRENT ACCOUNT FIRST NAME BUNDLE KEY"
 
         const val READ_IMAGE_STORAGE = 102
         const val NAME = "CLads"
