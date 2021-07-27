@@ -3,15 +3,64 @@ package com.decagonhq.clads.viewmodels
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.decagonhq.clads.data.domain.DeliveryAddressModel
+import androidx.lifecycle.viewModelScope
+import com.decagonhq.clads.data.domain.client.Client
+import com.decagonhq.clads.repository.ClientsRepository
+import com.decagonhq.clads.util.Resource
+import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.launch
+import javax.inject.Inject
 
-class ClientViewModel : ViewModel() {
+@HiltViewModel
+class ClientViewModel @Inject constructor(
+    private val clientsRepository: ClientsRepository
+) : ViewModel() {
 
-    val _clientAddress = MutableLiveData<DeliveryAddressModel>()
-    val clientAddress: LiveData<DeliveryAddressModel> get() = _clientAddress
+    private var _client = MutableLiveData<Resource<List<Client>>>()
+    val client: LiveData<Resource<List<Client>>> get() = _client
 
-    /**client address is added */
-    fun clientNewAddress(address: DeliveryAddressModel) {
-        _clientAddress.value = address
+    fun getClients() {
+        viewModelScope.launch(Dispatchers.IO) {
+            clientsRepository.getClients().collect {
+                _client.postValue(it)
+            }
+        }
+    }
+
+    fun getLocalDatabaseClients() {
+        viewModelScope.launch(Dispatchers.IO) {
+            clientsRepository.getLocalDatabaseClient().collect {
+                _client.postValue(it)
+            }
+        }
+    }
+
+    fun addClient(client: Client) {
+        _client.value = Resource.Loading(null, "Saving...")
+        viewModelScope.launch(Dispatchers.IO) {
+            clientsRepository.addClient(client).collect {
+                _client.postValue(it)
+            }
+        }
+    }
+
+    fun deleteClient(clientId: Int) {
+        _client.value = Resource.Loading(null, "Deleting...")
+        viewModelScope.launch(Dispatchers.IO) {
+            clientsRepository.deleteClient(clientId).collect {
+                _client.postValue(it)
+            }
+        }
+    }
+
+    fun updateClient(client: Client) {
+        _client.value = Resource.Loading(null, "Updating...")
+        viewModelScope.launch(Dispatchers.IO) {
+            clientsRepository.updateClient(client).collect {
+                _client.postValue(it)
+            }
+        }
     }
 }

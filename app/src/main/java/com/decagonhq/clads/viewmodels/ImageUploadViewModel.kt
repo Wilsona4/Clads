@@ -9,6 +9,7 @@ import com.decagonhq.clads.data.domain.images.UserProfileImage
 import com.decagonhq.clads.repository.ImageRepository
 import com.decagonhq.clads.util.Resource
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 import okhttp3.MultipartBody
@@ -25,6 +26,7 @@ class ImageUploadViewModel @Inject constructor(
 
     private var _uploadGallery = MutableLiveData<Resource<List<UserGalleryImage>>>()
     val uploadGallery: LiveData<Resource<List<UserGalleryImage>>> get() = _uploadGallery
+
     var imageResponseCallback: MutableLiveData<String> = MutableLiveData<String>()
 
     init {
@@ -33,64 +35,60 @@ class ImageUploadViewModel @Inject constructor(
 
     /*Upload Profile Picture*/
     fun mediaImageUpload(image: MultipartBody.Part) {
-        viewModelScope.launch {
-            _userProfileImage.value = Resource.Loading(null, "Uploading...")
-            val response = imageRepository.uploadMediaImage(image)
-            response.collect {
-                _userProfileImage.value = it
+        _userProfileImage.value = Resource.Loading(null, "Uploading...")
+        viewModelScope.launch(Dispatchers.IO) {
+            imageRepository.uploadMediaImage(image).collect {
+                _userProfileImage.postValue(it)
             }
         }
     }
 
     /*Get Profile Picture from Room Data*/
     fun getUserProfileImage() {
-        viewModelScope.launch {
-            val response = imageRepository.getUserImage()
-            response.collect {
-                _userProfileImage.value = it
+        viewModelScope.launch(Dispatchers.IO) {
+            imageRepository.getUserImage().collect {
+                _userProfileImage.postValue(it)
             }
         }
     }
 
     /*Get Gallery Images*/
     fun getRemoteGalleryImages() {
-        viewModelScope.launch {
+        viewModelScope.launch(Dispatchers.IO) {
             imageRepository.getRemoteGalleryImage()
         }
     }
 
     /*Upload Gallery Image*/
     fun uploadGallery(requestBody: RequestBody) {
-        viewModelScope.launch {
-            _uploadGallery.value = Resource.Loading(null, "uploading...")
-            val response = imageRepository.uploadGallery(requestBody)
-            response.collect {
-                _uploadGallery.value = it
+        _uploadGallery.value = Resource.Loading(null, "uploading...")
+        viewModelScope.launch(Dispatchers.IO) {
+            imageRepository.uploadGallery(requestBody).collect {
+                _uploadGallery.postValue(it)
             }
         }
     }
 
     fun getLocalDatabaseGalleryImages() {
-        viewModelScope.launch {
+        viewModelScope.launch(Dispatchers.IO) {
             imageRepository.getLocalDatabaseGalleryImages().collect {
-                _uploadGallery.value = it
+                _uploadGallery.postValue(it)
             }
         }
     }
 
     fun deleteGalleryImage(fileId: String) {
-        viewModelScope.launch {
-            _uploadGallery.value = Resource.Loading(null, "Deleting...")
+        _uploadGallery.value = Resource.Loading(null, "Deleting...")
+        viewModelScope.launch(Dispatchers.IO) {
             imageRepository.deleteGalleryImage(fileId, imageResponseCallback)
         }
     }
 
     fun editGalleryImage(fileId: String, requestBody: RequestBody) {
-        viewModelScope.launch {
-            _uploadGallery.value = Resource.Loading(null, "uploading...")
-            val response = imageRepository.editDescription(fileId, requestBody)
-            response.collect {
-                _uploadGallery.value = it
+        _uploadGallery.value = Resource.Loading(null, "uploading...")
+        viewModelScope.launch(Dispatchers.IO) {
+            imageRepository.editDescription(fileId, requestBody).collect {
+                _uploadGallery.postValue(it)
             }
         }
     }

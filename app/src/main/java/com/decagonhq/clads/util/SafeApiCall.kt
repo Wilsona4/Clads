@@ -1,5 +1,6 @@
 package com.decagonhq.clads.util
 
+import android.database.sqlite.SQLiteException
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import retrofit2.HttpException
@@ -12,9 +13,12 @@ abstract class SafeApiCall {
                 Resource.Success(apiCall.invoke())
             } catch (throwable: Throwable) {
                 when (throwable) {
+
+                    is SQLiteException -> {
+                        Resource.Error(false, message = "Something went wrong", errorBody = null)
+                    }
+
                     is HttpException -> {
-//                        val t = throwable.response()?.errorBody()?.charStream()
-                        val code = throwable.code()
                         Resource.Error(false, throwable.response() as Response<Any>)
                     }
                     else -> {

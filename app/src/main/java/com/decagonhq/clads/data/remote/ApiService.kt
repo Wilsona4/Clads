@@ -1,6 +1,7 @@
 package com.decagonhq.clads.data.remote
 
 import com.decagonhq.clads.data.domain.GenericResponseClass
+import com.decagonhq.clads.data.domain.client.Client
 import com.decagonhq.clads.data.domain.images.UserGalleryImage
 import com.decagonhq.clads.data.domain.images.UserProfileImage
 import com.decagonhq.clads.data.domain.login.UserRole
@@ -35,6 +36,9 @@ interface ApiService {
     @POST("login/google")
     suspend fun googleLogin(@Body userRole: UserRole): GenericResponseClass<String>
 
+    @DELETE("client/{clientId}")
+    suspend fun deleteClient(@Path("clientId") clientId: Int): GenericResponseClass<Client>
+
     /*Upload Profile Picture*/
     @Multipart
     @POST("upload")
@@ -66,9 +70,19 @@ interface ApiService {
     @DELETE("upload/{fileId}")
     suspend fun deleteGalleryImage(@Path("fileId") fileId: String): GenericResponseClass<UserGalleryImage>
 
+    @POST("client")
+    suspend fun addClient(@Body client: Client): GenericResponseClass<Client>
+
+    @GET("clients")
+    suspend fun getClients(): GenericResponseClass<List<Client>>
+
     /* Verify auth token */
     @GET("confirm")
     suspend fun verifyAuthToken(
         @Query("token") token: String
     ): GenericResponseClass<String>
+
+    /*Update User Profile*/
+    @PUT("client/{clientId}")
+    suspend fun updateClient(@Path("clientId") @Body client: Client): GenericResponseClass<Client>
 }

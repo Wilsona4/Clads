@@ -407,7 +407,7 @@ class AccountFragment : BaseFragment() {
             binding.accountFragmentFirstNameValueTextView.text = firstName
         }
 
-        // when employee number name value is clicked
+        // when first name value is clicked
         binding.accountFragmentFirstNameValueTextView.setOnClickListener {
             val currentFirstName = binding.accountFragmentFirstNameValueTextView.text.toString()
             val bundle = bundleOf(CURRENT_ACCOUNT_FIRST_NAME_BUNDLE_KEY to currentFirstName)
@@ -462,7 +462,7 @@ class AccountFragment : BaseFragment() {
                 binding.accountFragmentPhoneNumberValueTextView.text.toString()
             val bundle = bundleOf(CURRENT_ACCOUNT_OTHER_NAME_BUNDLE_KEY to currentOtherName)
             createProfileDialogFragment(
-                R.layout.account_other_name_dialog_fragment,
+                R.layout.account_phone_number_dialog_fragment,
                 bundle
             ).show(
                 childFragmentManager, AccountFragment::class.java.simpleName

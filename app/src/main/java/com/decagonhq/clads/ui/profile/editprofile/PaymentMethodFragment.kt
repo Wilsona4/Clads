@@ -24,7 +24,6 @@ import com.decagonhq.clads.viewmodels.UserProfileViewModel
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 
 class PaymentMethodFragment : BaseFragment() {
-
     private var _binding: PaymentMethodFragmentBinding? = null
     private lateinit var paymentTermsListTextView: TextView
     private lateinit var paymentOptionsListTextView: TextView
@@ -204,9 +203,9 @@ class PaymentMethodFragment : BaseFragment() {
                     progressDialog.hideProgressDialog()
                     it.data.let { userProfile ->
                         binding.apply {
-                            binding.paymentMethodFragmentPaymentOptionsListTextView.text =
+                            paymentMethodFragmentPaymentOptionsListTextView.text =
                                 userProfile?.paymentOptions?.joinToString("\n\n")
-                            binding.paymentMethodFragmentPaymentTermsListTextView.text =
+                            paymentMethodFragmentPaymentTermsListTextView.text =
                                 userProfile?.paymentTerms?.joinToString("\n\n")
                             userProfile?.paymentTerms?.let { paymentTerms ->
                                 paymentTermsCheckedList = paymentTerms

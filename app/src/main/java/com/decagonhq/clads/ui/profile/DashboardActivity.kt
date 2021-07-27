@@ -36,6 +36,7 @@ import com.decagonhq.clads.util.Constants
 import com.decagonhq.clads.util.CustomProgressDialog
 import com.decagonhq.clads.util.SessionManager
 import com.decagonhq.clads.util.logOut
+import com.decagonhq.clads.viewmodels.ClientViewModel
 import com.decagonhq.clads.viewmodels.ImageUploadViewModel
 import com.decagonhq.clads.viewmodels.UserProfileViewModel
 import com.google.android.material.bottomnavigation.BottomNavigationView
@@ -80,16 +81,19 @@ class DashboardActivity : AppCompatActivity() {
 
     private val userProfileViewModel: UserProfileViewModel by viewModels()
     private val imageUploadViewModel: ImageUploadViewModel by viewModels()
+    private val clientViewModel: ClientViewModel by viewModels()
 
     override fun onStart() {
         super.onStart()
 
+        clientViewModel.getClients()
         userProfileViewModel.getUserProfile()
         imageUploadViewModel.getRemoteGalleryImages()
 
         lifecycleScope.launch(Dispatchers.IO) {
             withContext(Dispatchers.Main) {
                 userProfileViewModel.getLocalDatabaseUserProfile()
+                clientViewModel.getLocalDatabaseClients()
             }
         }
     }
@@ -171,7 +175,7 @@ class DashboardActivity : AppCompatActivity() {
                     binding.appBarDashboard.dashboardActivityToolbarHiIjeomaTextView.text =
                         getString(
                             R.string.hi,
-                            userProfile?.firstName ?: getString(R.string.ijeoma)
+                            userProfile?.firstName ?: " "
                         )
 
                     val fullName = "${userProfile?.firstName ?: getString(R.string.ijeoma)} ${
@@ -411,7 +415,6 @@ class DashboardActivity : AppCompatActivity() {
             }
     }
 
-    /*Set Toolbar Custom Title*/
     fun setCustomActionBarTitle(message: String) {
         binding.appBarDashboard.dashboardActivityToolbar.title = message
     }

@@ -8,12 +8,12 @@ sealed class Resource<T>(
     val isNetworkError: Boolean? = null,
     val message: String? = null,
 ) {
-    class Success<T>(data: T) : Resource<T>(data)
+    class Success<T>(data: T, message: String? = null) : Resource<T>(data, message = message)
     class Loading<T>(data: T? = null, message: String? = null) : Resource<T>(data)
     class Error<T>(
         isNetworkError: Boolean,
         errorBody: Response<Any>?,
-        data: T? = null
-    ) :
-        Resource<T>(data, errorBody, isNetworkError)
+        data: T? = null,
+        message: String? = null
+    ) : Resource<T>(data, errorBody, isNetworkError, message)
 }

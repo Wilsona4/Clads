@@ -15,10 +15,13 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
 import android.widget.TextView
+import androidx.activity.viewModels
 import androidx.core.content.res.ResourcesCompat
 import androidx.core.widget.doOnTextChanged
 import androidx.fragment.app.activityViewModels
+import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import com.decagonhq.clads.R
 import com.decagonhq.clads.data.domain.login.LoginCredentials
@@ -32,6 +35,8 @@ import com.decagonhq.clads.util.Resource
 import com.decagonhq.clads.util.ValidationObject.validateEmail
 import com.decagonhq.clads.util.handleApiError
 import com.decagonhq.clads.viewmodels.AuthenticationViewModel
+import com.decagonhq.clads.viewmodels.ImageUploadViewModel
+import com.decagonhq.clads.viewmodels.UserProfileViewModel
 import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount
 import com.google.android.gms.auth.api.signin.GoogleSignInClient
@@ -40,6 +45,9 @@ import com.google.android.gms.common.api.ApiException
 import com.google.android.gms.tasks.Task
 import com.google.android.material.textfield.TextInputEditText
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 
 @AndroidEntryPoint
 class LoginFragment : BaseFragment() {
@@ -57,6 +65,8 @@ class LoginFragment : BaseFragment() {
     private var GOOGLE_SIGNIN_RQ_CODE = 100
 
     private val viewModel: AuthenticationViewModel by activityViewModels()
+    private val userProfileViewModel: UserProfileViewModel by viewModels()
+    private val imageUploadViewModel: ImageUploadViewModel by viewModels()
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -133,11 +143,20 @@ class LoginFragment : BaseFragment() {
                                     }
 
                                     progressDialog.hideProgressDialog()
+                                    userProfileViewModel.getUserProfile()
+                                    imageUploadViewModel.getRemoteGalleryImages()
+
+                                    lifecycleScope.launch(Dispatchers.IO) {
+                                        withContext(Dispatchers.Main) {
+                                            userProfileViewModel.getLocalDatabaseUserProfile()
+                                        }
+                                    }
                                     val intent =
                                         Intent(requireContext(), DashboardActivity::class.java)
                                     startActivity(intent)
                                     activity?.finish()
                                 }
+
                                 is Resource.Error -> {
                                     progressDialog.hideProgressDialog()
                                     handleApiError(it, mainRetrofit, requireView(), sessionManager, database)
@@ -230,12 +249,13 @@ class LoginFragment : BaseFragment() {
 
                             progressDialog.hideProgressDialog()
                             val intent = Intent(requireContext(), DashboardActivity::class.java)
-
                             startActivity(intent)
                             activity?.finish()
                         }
+
                         is Resource.Error -> {
                             progressDialog.hideProgressDialog()
+                            handleApiError(it, mainRetrofit, requireView(), sessionManager, database)
                         }
                         is Resource.Loading -> {
                         }
