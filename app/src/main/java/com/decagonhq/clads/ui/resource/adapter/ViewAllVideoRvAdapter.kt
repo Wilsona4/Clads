@@ -74,7 +74,7 @@ class ViewAllVideoRvAdapter(private val interaction: Interaction) :
                     interaction?.onItemSelected(adapterPosition, item)
                 }
             }
-            binding.resourceGeneralVideoViewAllItemCardImageView.setImageResource(R.drawable.description)
+            binding.resourceGeneralVideoViewAllItemCardImageView.setImageResource(item.videoThumbnail)
             binding.resourceGeneralVideoViewAllItemTitleTextView.text = item.resourceTitle
             binding.resourceGeneralVideoViewAllItemTimeTextView.text = item.resourceTime
         }

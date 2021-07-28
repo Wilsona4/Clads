@@ -7,7 +7,7 @@ object ResourceDummyData {
     var videoItem = mutableListOf(
         ResourceGeneralVideoModel(
             "https://html5demos.com/assets/dizzy.mp4",
-            "How to perfectly sew adire",
+            "How to perfectly sew headgear",
             R.drawable.description
         ),
         ResourceGeneralVideoModel(
@@ -17,22 +17,22 @@ object ResourceDummyData {
         ),
         ResourceGeneralVideoModel(
             "https://html5demos.com/assets/dizzy.mp4",
-            "How to perfectly sew adire",
+            "Easy kaftan cutting and stitching",
             R.drawable.desc_one
         ),
         ResourceGeneralVideoModel(
-            "https://html5demos.com/assets/dizzy.mp4",
-            "How to perfectly sew adire",
+            "https://www.youtube.com/watch?v=5bkBPDC5LxE",
+            "Personal styling",
             R.drawable.desc_seven
         ),
         ResourceGeneralVideoModel(
-            "https://html5demos.com/assets/dizzy.mp4",
-            "How to perfectly sew adire",
+            "https://www.youtube.com/watch?v=1ezWaJ6z7pU",
+            "Gown cutting step by step",
             R.drawable.desc_five
         ),
         ResourceGeneralVideoModel(
-            "https://html5demos.com/assets/dizzy.mp4",
-            "How to perfectly sew adire",
+            "https://www.youtube.com/watch?v=bpXxZ9FwUbQ",
+            "Off shoulder dress",
             R.drawable.desc_two
         )
     )
@@ -64,13 +64,53 @@ object ResourceDummyData {
         )
     )
     var videoViewAllItem = mutableListOf(
-        ResourceDetailVideoModel("https://html5demos.com/assets/dizzy.mp4", "How to perfectly sew attire", "1 hour 24 mins"),
-        ResourceDetailVideoModel("https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4", "How to perfectly sew adire", "1 hour 24 mins"),
-        ResourceDetailVideoModel("https://html5demos.com/assets/dizzy.mp4", "How to perfectly sew adire", "1 hour 24 mins"),
-        ResourceDetailVideoModel("https://html5demos.com/assets/dizzy.mp4", "How to perfectly sew attire", "1 hour 24 mins"),
-        ResourceDetailVideoModel("https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4", "How to perfectly sew adire", "1 hour 24 mins"),
-        ResourceDetailVideoModel("https://html5demos.com/assets/dizzy.mp4", "How to perfectly sew attire", "1 hour 24 mins"),
-        ResourceDetailVideoModel("https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4", "How to perfectly sew attire", "1 hour 24 mins"),
-        ResourceDetailVideoModel("https://html5demos.com/assets/dizzy.mp4", "How to perfectly sew attire", "1 hour 24 mins")
+        ResourceDetailVideoModel(
+            "https://www.youtube.com/watch?v=CSNve1zdxwo",
+            "How to perfectly sew headgear",
+            "1 hour 24 mins",
+            R.drawable.description
+        ),
+        ResourceDetailVideoModel(
+            "https://www.youtube.com/watch?v=LaJi1_F7g10",
+            "How to perfectly sew adire",
+            "1 hour 10 mins",
+            R.drawable.desc_four
+        ),
+        ResourceDetailVideoModel(
+            "https://www.youtube.com/watch?v=KhkEYtp-6uU",
+            "Easy kaftan cutting and stitching",
+            "30 mins",
+            R.drawable.desc_one
+        ),
+        ResourceDetailVideoModel(
+            "https://www.youtube.com/watch?v=5bkBPDC5LxE",
+            "Personal styling",
+            "1 hour 14 mins",
+            R.drawable.desc_seven
+        ),
+        ResourceDetailVideoModel(
+            "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4",
+            "Gown cutting step by step",
+            "1 hour 24 mins",
+            R.drawable.desc_five
+        ),
+        ResourceDetailVideoModel(
+            "https://cdn.exoticindia.com/images/products/original/books-2017/naj257.jpg",
+            "Off shoulder dress",
+            "24 mins",
+            R.drawable.desc_two
+        ),
+        ResourceDetailVideoModel(
+            "https://d3re0f381bckq9.cloudfront.net/21704349_1538442884364_336x400.jpg",
+            "Curved hem sewing techniques for beginners",
+            "1 hour 24 mins",
+            R.drawable.navy_blue_suit
+        ),
+        ResourceDetailVideoModel(
+            "https://html5demos.com/assets/dizzy.mp4",
+            "How to perfectly sew attire",
+            "1 hour",
+            R.drawable.jenifa_stiches
+        )
     )
 }
