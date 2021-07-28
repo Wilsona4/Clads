@@ -33,7 +33,7 @@ class IndividualVideoScreenFragment : Fragment(), ViewAllVideoRvAdapter.Interact
     //    private lateinit var videoRvAdapter: ViewAllVideoRvAdapter
     private val adapter by lazy { ViewAllVideoRvAdapter(this) }
     private lateinit var playbackStateListener: PlaybackStateListener
-    private var url: String = "https://html5demos.com/assets/dizzy.mp4"
+    private var url: String = "https://assets.mixkit.co/videos/preview/mixkit-hands-of-a-tailor-working-12528-large.mp4"
 
     // This property is only valid between onCreateView and onDestroyView.
     private val binding get() = _binding!!
