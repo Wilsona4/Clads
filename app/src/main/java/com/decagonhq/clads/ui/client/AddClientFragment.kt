@@ -156,6 +156,7 @@ class AddClientFragment : BaseFragment() {
                             }
                         }
                     )
+
                 } else {
                     nextAndSaveButton.showSnackBar("Something Went Wrong, Retry")
                 }
