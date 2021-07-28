@@ -6,7 +6,7 @@
     android:layout_height="wrap_content">
 
     <androidx.constraintlayout.widget.ConstraintLayout
-        android:layout_width="match_parent"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
@@ -16,44 +16,50 @@
             android:id="@+id/clients_recycler_view_item_initial_circle_image_view"
             android:layout_width="@dimen/layout_width_30dp"
             android:layout_height="@dimen/layout_height_30dp"
-            android:layout_marginTop="@dimen/margin_10dp"
             android:src="@drawable/edit_profile_icon"
+            app:layout_constraintBottom_toBottomOf="@+id/clients_recycler_view_item_client_name_text_view"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            />
-
+            app:layout_constraintTop_toTopOf="@+id/clients_recycler_view_item_client_name_text_view" />
 
         <TextView
             android:id="@+id/clients_recycler_view_item_client_name_text_view"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginVertical="@dimen/margin_16dp"
-            android:layout_marginStart="@dimen/margin_24dp"
+            android:layout_marginStart="10dp"
+            android:fontFamily="@font/poppins_medium"
             android:text="@string/ola_machiavelli"
-            android:textSize="@dimen/text_size_12sp"
+            android:textSize="@dimen/text_size_14sp"
             app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/clients_recycler_view_item_location_image_view"
+            app:layout_constraintHorizontal_bias="0.097"
             app:layout_constraintStart_toEndOf="@id/clients_recycler_view_item_initial_circle_image_view"
-            app:layout_constraintTop_toTopOf="parent" />
-
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.277" />
 
         <ImageView
             android:id="@+id/clients_recycler_view_item_location_image_view"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="@dimen/margin_20dp"
+            android:layout_height="@dimen/margin_20dp"
             android:layout_marginHorizontal="@dimen/margin_9dp"
+            android:layout_marginStart="10dp"
             android:src="@drawable/location_icon"
-            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintBottom_toBottomOf="@+id/clients_recycler_view_item_location_text_view"
             app:layout_constraintStart_toStartOf="@+id/clients_recycler_view_item_guideline"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toTopOf="@+id/clients_recycler_view_item_location_text_view" />
 
         <TextView
             android:id="@+id/clients_recycler_view_item_location_text_view"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/margin_12dp"
+            android:layout_marginEnd="10dp"
+            android:fontFamily="@font/poppins_medium"
             android:text="@string/lagos"
-            android:textSize="@dimen/text_size_10sp"
+            android:textSize="14sp"
             app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.051"
             app:layout_constraintStart_toEndOf="@+id/clients_recycler_view_item_location_image_view"
             app:layout_constraintTop_toTopOf="parent" />
 
@@ -71,7 +77,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            app:layout_constraintGuide_percent="0.68"
+            app:layout_constraintGuide_percent="0.63"
             app:layout_constraintStart_toStartOf="parent" />
 
 

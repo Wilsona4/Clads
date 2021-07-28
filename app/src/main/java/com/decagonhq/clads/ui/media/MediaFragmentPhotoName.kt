@@ -1,4 +1,4 @@
-package com.decagonhq.clads.ui.profile.editprofile
+package com.decagonhq.clads.ui.media
 
 import android.net.Uri
 import android.os.Bundle
@@ -30,7 +30,6 @@ import okhttp3.RequestBody.Companion.asRequestBody
 
 @AndroidEntryPoint
 class MediaFragmentPhotoName : BaseFragment() {
-
     private var _binding: MediaFragmentPhotoNameBinding? = null
 
     // This property is only valid between onCreateView and onDestroyView.
@@ -42,7 +41,6 @@ class MediaFragmentPhotoName : BaseFragment() {
     private lateinit var imageData: String
     private lateinit var photoGalleryImage: ImageView
     private val imageUploadViewModel: ImageUploadViewModel by viewModels()
-
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -59,18 +57,15 @@ class MediaFragmentPhotoName : BaseFragment() {
         photoGalleryImage = binding.photoGalleryImage
         imageNamed = binding.mediaFragmentPhotoNameEditText
         val photoIV = args.imageData
-
         /*load the image sent from media fragment*/
         Glide.with(this)
             .load(photoIV)
             .into(photoGalleryImage)
-
         /*click the send fab to send photo and name of photo back to media fragment*/
         sendFab.setOnClickListener {
             imageName = imageNamed.text.toString()
             imageData = args.imageData
             val imageUri = imageData.toUri()
-
             if (imageName.isEmpty()) {
                 Toast.makeText(requireContext(), "Enter Image Name", Toast.LENGTH_SHORT).show()
             } else {
@@ -84,18 +79,15 @@ class MediaFragmentPhotoName : BaseFragment() {
         val convertedImageUriToBitmap = uriToBitmap(uri)
         val bitmapToFile = saveBitmap(convertedImageUriToBitmap)
         val requestBody = bitmapToFile?.asRequestBody("image/jpg".toMediaTypeOrNull())
-
         val reqBody = MultipartBody.Builder()
             .setType(MultipartBody.FORM)
             .addFormDataPart("file", bitmapToFile?.name, requestBody!!)
             .addFormDataPart("description", description)
             .build()
-
         imageUploadViewModel.uploadGallery(reqBody)
         imageUploadViewModel.uploadGallery.observe(
             viewLifecycleOwner,
             Observer {
-
                 if (it is Resource.Loading<List<UserGalleryImage>>/* && it.data.isNullOrEmpty()*/) {
                     progressDialog.showDialogFragment("Uploading...")
                 } else if (it is Resource.Error) {

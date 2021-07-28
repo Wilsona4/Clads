@@ -8,24 +8,29 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import androidx.core.os.bundleOf
-import androidx.fragment.app.Fragment
+import androidx.fragment.app.activityViewModels
+import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.StaggeredGridLayoutManager
 import com.decagonhq.clads.R
-import com.decagonhq.clads.data.domain.DressMeasurementModel
+import com.decagonhq.clads.data.domain.client.Measurement
 import com.decagonhq.clads.databinding.MeasurementsFragmentBinding
+import com.decagonhq.clads.ui.BaseFragment
 import com.decagonhq.clads.ui.client.adapter.AddMeasurementAdapter
 import com.decagonhq.clads.ui.client.adapter.RecyclerClickListener
 import com.decagonhq.clads.ui.client.dialogfragment.ClientManagementDialogFragments.Companion.createClientDialogFragment
-import com.decagonhq.clads.util.ClientMeasurementData
-import com.decagonhq.clads.util.ClientMeasurementData.currentList
+import com.decagonhq.clads.util.hideView
+import com.decagonhq.clads.util.showView
+import com.decagonhq.clads.viewmodels.ClientsRegisterViewModel
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 
-class MeasurementsFragment : Fragment(), RecyclerClickListener {
+class MeasurementsFragment : BaseFragment(), RecyclerClickListener {
     private var _binding: MeasurementsFragmentBinding? = null
 
     // This property is only valid between onCreateView and onDestroyView.
     private val binding get() = _binding!!
+    private val clientsRegisterViewModel: ClientsRegisterViewModel by activityViewModels()
+
     private lateinit var addMeasurementFab: FloatingActionButton
     private lateinit var listMessageDisplay: TextView
     private lateinit var myAdapter: AddMeasurementAdapter
@@ -42,58 +47,14 @@ class MeasurementsFragment : Fragment(), RecyclerClickListener {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        listMessageDisplay = binding.measurementsFragmentTestingTextView
-        addMeasurementFab = binding.clientMeasurementFragmentAddMeasurementFab
-        recyclerView = binding.measurementsFragmentRecyclerView
-
-        listMessageDisplay.visibility = View.VISIBLE
-        /*Adding client measurement*/
-        addClientMeasurement()
-
-        /*Edit client measurement*/
-        editClientMeasurement()
-
-        /*Open dialog fragment*/
-        addMeasurementFab.setOnClickListener {
-            createClientDialogFragment(R.layout.add_measurement_dialog_fragment)
-                .show(childFragmentManager, MeasurementsFragment::class.simpleName)
-        }
-
-        myAdapter =
-            AddMeasurementAdapter(currentList, this@MeasurementsFragment, this@MeasurementsFragment)
-        recyclerView.adapter = myAdapter
-        recyclerView.layoutManager =
-            StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL)
+        init()
+        setEventListeners()
     }
 
-    private fun editClientMeasurement() {
-        childFragmentManager.setFragmentResultListener(
-            EDITED_MEASUREMENT_REQUEST_KEY,
-            requireActivity()
-        ) { key, bundle ->
-            myAdapter.notifyDataSetChanged()
-        }
-    }
-
-    /*Adding client measurement*/
-    private fun addClientMeasurement() {
-        childFragmentManager.setFragmentResultListener(
-            ADD_MEASUREMENT_REQUEST_KEY,
-            requireActivity()
-        ) { key, bundle ->
-            val editTextString =
-                bundle.getParcelable<DressMeasurementModel>(ADD_MEASUREMENT_BUNDLE_KEY)
-            // Do something with the string
-            currentList.add(0, editTextString!!)
-            listMessageDisplay.visibility = View.GONE
-            myAdapter.notifyDataSetChanged()
-        }
-    }
-
-    override fun onItemClickToEdit(position: Int, currentList: MutableList<DressMeasurementModel>) {
-        val data = DressMeasurementModel(
-            currentList[position].measurementName,
-            currentList[position].measurement
+    override fun onItemClickToEdit(position: Int, currentList: MutableList<Measurement>) {
+        val data = Measurement(
+            currentList[position].title,
+            currentList[position].value
         )
         val bundle = bundleOf(
             EDIT_MEASUREMENT_BUNDLE_KEY to data,
@@ -106,30 +67,22 @@ class MeasurementsFragment : Fragment(), RecyclerClickListener {
 
     override fun onItemClickToDelete(
         position: Int,
-        currentList: MutableList<DressMeasurementModel>
+        currentList: MutableList<Measurement>
     ) {
         val alertDialog: AlertDialog.Builder = AlertDialog.Builder(requireContext())
         alertDialog.setTitle(getString(R.string.delete_measurement)) // for set Title
         alertDialog.setMessage(getString(R.string.do_you_want_to_delete_measurement)) // for Message
         alertDialog.setIcon(R.drawable.ic_baseline_delete_forever_24) // for alert icon
+
         alertDialog.setPositiveButton(getText(R.string.dialog_alert_confirmation_yes)) { dialog, id ->
-            // set your desired action here.
-            currentList.remove(
-                DressMeasurementModel(
-                    currentList[position].measurementName,
-                    currentList[position].measurement
-                )
-            )
-            myAdapter.notifyDataSetChanged()
-            if (ClientMeasurementData.currentList.isEmpty()) {
-                listMessageDisplay.visibility = View.VISIBLE
-            }
+            clientsRegisterViewModel.deleteMeasurement(position)
             dialog.dismiss()
         }
+
         alertDialog.setNegativeButton(getText(R.string.dialog_alert_confirmation_cancle)) { dialog, id ->
-            // set your desired action here.
             dialog.cancel()
         }
+
         val alert = alertDialog.create()
         alert.setCanceledOnTouchOutside(false)
         alert.show()
@@ -146,13 +99,43 @@ class MeasurementsFragment : Fragment(), RecyclerClickListener {
     }
 
     companion object {
-        const val ADD_MEASUREMENT_REQUEST_KEY = "ADD CLIENT MEASUREMENT REQUEST KEY"
-        const val ADD_MEASUREMENT_BUNDLE_KEY = "ADD CLIENT MEASUREMENT BUNDLE KEY"
-
         const val EDIT_MEASUREMENT_BUNDLE_KEY = "EDIT CLIENT MEASUREMENT BUNDLE KEY"
         const val EDIT_MEASUREMENT_BUNDLE_POSITION = "EDIT CLIENT MEASUREMENT BUNDLE POSITION"
+    }
 
-        const val EDITED_MEASUREMENT_REQUEST_KEY = "EDITED CLIENT MEASUREMENT REQUEST KEY"
-        const val EDITED_MEASUREMENT_BUNDLE_KEY = "EDITED CLIENT MEASUREMENT BUNDLE KEY"
+    private fun init() {
+        listMessageDisplay = binding.measurementsFragmentTestingTextView
+        addMeasurementFab = binding.clientMeasurementFragmentAddMeasurementFab
+        recyclerView = binding.measurementsFragmentRecyclerView
+
+        recyclerView.layoutManager =
+            StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL)
+        clientsRegisterViewModel.measurementData.observe(
+            viewLifecycleOwner,
+            Observer {
+                /*Toggle Empty Message View*/
+                if (it.isNullOrEmpty()) {
+                    listMessageDisplay.showView()
+                } else {
+                    listMessageDisplay.hideView()
+                }
+                myAdapter =
+                    AddMeasurementAdapter(it, this@MeasurementsFragment, this@MeasurementsFragment)
+                recyclerView.adapter = myAdapter
+            }
+        )
+    }
+
+    private fun setEventListeners() {
+        addMeasurementFab.setOnClickListener {
+            createClientDialogFragment(R.layout.add_measurement_dialog_fragment)
+                .show(childFragmentManager, MeasurementsFragment::class.simpleName)
+        }
+    }
+
+    fun saveToViewModel() {
+        if (isAdded && isVisible) {
+            // TODO( Save all data to viewmodel)
+        }
     }
 }

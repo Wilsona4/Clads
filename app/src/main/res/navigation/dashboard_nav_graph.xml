@@ -17,6 +17,9 @@
             app:exitAnim="@android:anim/fade_out"
             app:popEnterAnim="@android:anim/fade_in"
             app:popExitAnim="@android:anim/fade_out" />
+        <action
+            android:id="@+id/action_nav_home_to_clientDetailsFragment"
+            app:destination="@id/clientDetailsFragment" />
     </fragment>
 
     <fragment
@@ -95,7 +98,11 @@
         android:id="@+id/addClientFragment"
         android:name="com.decagonhq.clads.ui.client.AddClientFragment"
         android:label="@string/add_client"
-        tools:layout="@layout/add_client_fragment" />
+        tools:layout="@layout/add_client_fragment" >
+        <action
+            android:id="@+id/action_addClientFragment_to_clientFragment"
+            app:destination="@id/clientFragment" />
+    </fragment>
 
     <fragment
         android:id="@+id/measurementsFragment"
@@ -105,7 +112,9 @@
 
         <argument
             android:name="dress_measurement"
-            app:argType="com.decagonhq.clads.data.domain.DressMeasurementModel" />
+            app:argType="com.decagonhq.clads.data.domain.client.Measurement"
+            app:nullable="true"
+            android:defaultValue="@null" />
     </fragment>
 
     <fragment
@@ -116,7 +125,7 @@
         <argument
             android:name="delivery_address"
             android:defaultValue="@null"
-            app:argType="com.decagonhq.clads.data.domain.DeliveryAddressModel"
+            app:argType="com.decagonhq.clads.data.domain.client.DeliveryAddress"
             app:nullable="true" />
 
 
@@ -154,6 +163,9 @@
             app:exitAnim="@android:anim/fade_out"
             app:popEnterAnim="@android:anim/fade_in"
             app:popExitAnim="@android:anim/fade_out" />
+        <action
+            android:id="@+id/action_clientFragment_to_clientDetailsFragment"
+            app:destination="@id/clientDetailsFragment" />
     </fragment>
     <fragment
         android:id="@+id/photoGalleryEditImageFragment"
@@ -183,8 +195,9 @@
     </fragment>
     <fragment
         android:id="@+id/mediaFragmentPhotoName"
-        android:name="com.decagonhq.clads.ui.profile.editprofile.MediaFragmentPhotoName"
-        android:label="MediaFragmentPhotoName">
+        android:name="com.decagonhq.clads.ui.media.MediaFragmentPhotoName"
+        android:label="MediaFragmentPhotoName"
+        tools:layout="@layout/media_fragment_photo_name">
         <argument
             android:name="imageData"
             app:argType="string" />
@@ -234,5 +247,16 @@
         android:id="@+id/resourceViewIndividualArticleFragment"
         android:name="com.decagonhq.clads.ui.resource.ResourceIndividualArticleWebViewFragment"
         android:label="Article/Publications" />
+    <fragment
+        android:id="@+id/clientDetailsFragment"
+        android:name="com.decagonhq.clads.ui.client.ClientDetailsFragment"
+        android:label="Client"
+        tools:layout="@layout/client_details_fragment" >
+        <argument
+            android:name="clientModel"
+            app:argType="com.decagonhq.clads.data.domain.client.Client"
+            app:nullable="true"
+            android:defaultValue="@null" />
+    </fragment>
 
 </navigation>

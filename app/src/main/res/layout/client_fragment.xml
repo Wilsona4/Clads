@@ -81,16 +81,28 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:tint="@color/white" />
 
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/client_list_screen_recycler_view"
+    <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+        android:id="@+id/client_fragment_swipe_refresh_layout"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:visibility="visible"
-        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/client_list_screen_title"
-        tools:itemCount="0"
-        tools:listitem="@layout/fragment_client_list_recycler_view_layout_look" />
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/client_list_screen_title">
 
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/client_list_screen_recycler_view"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:paddingStart="@dimen/padding_25dp"
+            android:paddingLeft="@dimen/padding_25dp"
+            android:visibility="visible"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/client_list_screen_title"
+            tools:itemCount="0"
+            tools:listitem="@layout/fragment_client_list_recycler_view_layout_look" />
+
+    </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>

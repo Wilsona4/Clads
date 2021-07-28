@@ -13,6 +13,7 @@ import com.decagonhq.clads.repository.AuthRepository
 import com.decagonhq.clads.util.Resource
 import com.decagonhq.clads.util.SingleLiveEvent
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -35,33 +36,30 @@ class AuthenticationViewModel @Inject constructor(
     val authenticationToken: LiveData<Resource<GenericResponseClass<String>>> = _authenticationToken
 
     fun registerUser(user: UserRegistration) {
-        viewModelScope.launch {
-            _userRegData.value = Resource.Loading(null, "Signing Up...")
-            val response = authRepository.registerUser(user)
-            response.collect {
-                _userRegData.value = it
+        _userRegData.value = Resource.Loading(null, "Signing Up...")
+        viewModelScope.launch(Dispatchers.IO) {
+            authRepository.registerUser(user).collect {
+                _userRegData.postValue(it)
             }
         }
     }
 
     /*Login in with email*/
     fun loginUser(loginCredentials: LoginCredentials) {
-        viewModelScope.launch {
-            _loginUser.value = Resource.Loading(null, "Loading...")
-            val response = authRepository.loginUser(loginCredentials)
-            response.collect {
-                _loginUser.value = it
+        _loginUser.value = Resource.Loading(null, "Loading...")
+        viewModelScope.launch(Dispatchers.IO) {
+            authRepository.loginUser(loginCredentials).collect {
+                _loginUser.postValue(it)
             }
         }
     }
 
     /*Login with google*/
     fun loginUserWithGoogle(userRole: UserRole) {
-        viewModelScope.launch {
-            _loginUserWithGoogle.value = Resource.Loading(null, "Loading...")
-            val response = authRepository.loginUserWithGoogle(userRole)
-            response.collect {
-                _loginUserWithGoogle.value = it
+        _loginUserWithGoogle.value = Resource.Loading(null, "Loading...")
+        viewModelScope.launch(Dispatchers.IO) {
+            authRepository.loginUserWithGoogle(userRole).collect {
+                _loginUserWithGoogle.postValue(it)
             }
         }
     }
@@ -69,10 +67,9 @@ class AuthenticationViewModel @Inject constructor(
     /* Verify authentication token from sign up */
     fun verifyAuthToken(token: String) {
         _authenticationToken.value = Resource.Loading(null, "Verifying email")
-        viewModelScope.launch {
-            val response = authRepository.verifyAuthToken(token)
-            response.collect {
-                _authenticationToken.value = it
+        viewModelScope.launch(Dispatchers.IO) {
+            authRepository.verifyAuthToken(token).collect {
+                _authenticationToken.postValue(it)
             }
         }
     }

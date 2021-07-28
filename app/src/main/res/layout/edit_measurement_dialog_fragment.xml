@@ -1,11 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
     android:id="@+id/edit_measurement_dialog_fragment_root_layout"
-    tools:context=".ui.client.EditMeasurementDialogFragment">
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
 
     <TextView
         android:id="@+id/add_address_measurement_dialog_fragment_top_bar_text_view"
@@ -13,10 +11,10 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="@dimen/margin_26dp"
         android:layout_marginTop="@dimen/margin_16dp"
-        android:text="@string/edit_measurement"
-        android:textSize="@dimen/text_size_16sp"
-        android:textColor="@color/navy_blue"
         android:fontFamily="@font/poppins_bold"
+        android:text="@string/edit_measurement"
+        android:textColor="@color/navy_blue"
+        android:textSize="@dimen/text_size_16sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
@@ -28,14 +26,14 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginHorizontal="@dimen/margin_26dp"
+        app:boxStrokeColor="@color/deep_sky_blue"
+        app:boxStrokeWidth="@dimen/margin_2dp"
         app:counterEnabled="true"
         app:counterMaxLength="100"
         app:counterOverflowTextAppearance="@color/red"
         app:counterOverflowTextColor="@color/red"
-        app:boxStrokeColor="@color/deep_sky_blue"
-        app:hintEnabled="false"
-        app:boxStrokeWidth="@dimen/margin_2dp"
         app:helperText="@string/add_measurement_fragment_name"
+        app:hintEnabled="false"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.542"
         app:layout_constraintStart_toStartOf="parent"
@@ -49,9 +47,9 @@
             android:fontFamily="@font/roboto_medium"
             android:inputType="text"
             android:paddingStart="@dimen/padding_0dp"
-            android:textSize="@dimen/text_size_16sp"
-            android:textColor="@color/menu_text_color"
-            android:textCursorDrawable="@color/navy_blue" />
+            android:textColor="@color/navy_blue"
+            android:textCursorDrawable="@color/navy_blue"
+            android:textSize="@dimen/text_size_16sp" />
     </com.google.android.material.textfield.TextInputLayout>
 
     <com.google.android.material.textfield.TextInputLayout
@@ -60,12 +58,12 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginHorizontal="@dimen/margin_26dp"
-        app:hintEnabled="false"
-        app:counterOverflowTextAppearance="@color/red"
-        app:counterOverflowTextColor="@color/red"
         app:boxStrokeColor="@color/deep_sky_blue"
         app:boxStrokeWidth="@dimen/margin_2dp"
+        app:counterOverflowTextAppearance="@color/red"
+        app:counterOverflowTextColor="@color/red"
         app:helperText="@string/add_measurement_fragment_add_measurement"
+        app:hintEnabled="false"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.542"
         app:layout_constraintStart_toStartOf="parent"
@@ -75,13 +73,13 @@
             android:id="@+id/edit_measurement_fragment_add_measure_edit_text"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:textSize="@dimen/text_size_16sp"
-            android:paddingStart="@dimen/padding_0dp"
             android:backgroundTint="@color/white"
             android:fontFamily="@font/roboto_medium"
             android:inputType="numberDecimal"
-            android:textColor="@color/menu_text_color"
-            android:textCursorDrawable="@color/navy_blue" />
+            android:paddingStart="@dimen/padding_0dp"
+            android:textColor="@color/navy_blue"
+            android:textCursorDrawable="@color/navy_blue"
+            android:textSize="@dimen/text_size_16sp" />
     </com.google.android.material.textfield.TextInputLayout>
 
     <Button
@@ -91,7 +89,7 @@
         android:layout_marginHorizontal="@dimen/margin_26dp"
         android:layout_marginVertical="@dimen/margin_26dp"
         android:fontFamily="@font/poppins_bold"
-        android:hint="@string/add_measurement_fragment_save_button"
+        android:hint="@string/all_save"
         android:paddingVertical="@dimen/padding_10dp"
         android:textColorHint="@color/white"
         android:textSize="@dimen/text_size_12sp"

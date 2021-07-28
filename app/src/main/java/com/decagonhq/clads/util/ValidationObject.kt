@@ -34,4 +34,17 @@ object ValidationObject {
             else -> false
         }
     }
+
+    fun validateName(name: String): Boolean {
+        val namePattern: Pattern = Pattern.compile("([a-zA-Z]{2,})+")
+        return namePattern.matcher(name).matches()
+    }
+
+    fun validateGender(gender: String): Boolean {
+        return when (gender.toUpperCase(Locale.ROOT)) {
+            "MALE" -> true
+            "FEMALE" -> true
+            else -> false
+        }
+    }
 }

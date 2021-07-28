@@ -15,7 +15,7 @@ import com.decagonhq.clads.databinding.AccountFirstNameDialogFragmentBinding
 import com.decagonhq.clads.databinding.AccountGenderDialogFragmentBinding
 import com.decagonhq.clads.databinding.AccountLastNameDialogFragmentBinding
 import com.decagonhq.clads.databinding.AccountLegalStatusDialogFragmentBinding
-import com.decagonhq.clads.databinding.AccountOtherNameDialogFragmentBinding
+import com.decagonhq.clads.databinding.AccountPhoneNumberDialogFragmentBinding
 import com.decagonhq.clads.databinding.AccountShowroomAddressDialogFragmentBinding
 import com.decagonhq.clads.databinding.AccountUnionLgaDialogFragmentBinding
 import com.decagonhq.clads.databinding.AccountUnionNameDialogFragmentBinding
@@ -289,24 +289,24 @@ class ProfileManagementDialogFragments(
                     }
                 }
             }
-            R.layout.account_other_name_dialog_fragment -> {
+            R.layout.account_phone_number_dialog_fragment -> {
                 /*Initialise binding*/
-                val binding = AccountOtherNameDialogFragmentBinding.bind(view)
-                val otherNameEditText =
-                    binding.accountOtherNameDialogFragmentOtherNameEditTextView
-                val okButton = binding.accountOtherNameDialogFragmentOkButton
-                val cancelButton = binding.accountOtherNameDialogFragmentCancelButton
+                val binding = AccountPhoneNumberDialogFragmentBinding.bind(view)
+                val phoneNumberEditText =
+                    binding.accountPhoneNumberDialogFragmentOtherNameEditTextView
+                val okButton = binding.accountPhoneNumberDialogFragmentOkButton
+                val cancelButton = binding.accountPhoneNumberDialogFragmentCancelButton
 
                 val retrievedArgs =
                     bundle?.getString(CURRENT_ACCOUNT_OTHER_NAME_BUNDLE_KEY)
 
                 /*Attaching the data*/
-                otherNameEditText.setText(retrievedArgs)
+                phoneNumberEditText.setText(retrievedArgs)
 
                 /*when the dialog ok button is clicked*/
                 okButton.setOnClickListener {
                     val inputValue =
-                        otherNameEditText.text.toString()
+                        phoneNumberEditText.text.toString()
 
                     when {
                         inputValue.isEmpty() -> {
@@ -332,6 +332,23 @@ class ProfileManagementDialogFragments(
                 /*when the dialog cancel button is clicked*/
                 cancelButton.setOnClickListener {
                     dismiss()
+                }
+                /*Validate Dialog Fields onTextChange*/
+                phoneNumberEditText.doOnTextChanged { _, _, _, _ ->
+                    when {
+                        phoneNumberEditText.text!!.trim().isEmpty() -> {
+                            binding.accountPhoneNumberDialogFragmentOtherNameEditTextInputLayout.error =
+                                getString(
+                                    R.string.required
+                                )
+                            binding.accountPhoneNumberDialogFragmentOtherNameEditTextInputLayout.errorIconDrawable =
+                                null
+                        }
+                        else -> {
+                            binding.accountPhoneNumberDialogFragmentOtherNameEditTextInputLayout.error =
+                                null
+                        }
+                    }
                 }
             }
             R.layout.account_gender_dialog_fragment -> {
