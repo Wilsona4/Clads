@@ -84,5 +84,8 @@ interface ApiService {
 
     /*Update User Profile*/
     @PUT("client/{clientId}")
-    suspend fun updateClient(@Path("clientId") @Body client: Client): GenericResponseClass<Client>
+    suspend fun updateClient(
+        @Path("clientId") clientId: String,
+        @Body client: Client
+    ): GenericResponseClass<Client>
 }

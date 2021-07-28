@@ -82,7 +82,7 @@ class ClientRepositoryImpl @Inject constructor(
             }
         )
 
-    override suspend fun updateClient(client: Client): Flow<Resource<List<Client>>> =
+    override suspend fun updateClient(clientId: Int, client: Client): Flow<Resource<List<Client>>> =
 
         networkBoundResource(
 
@@ -93,10 +93,11 @@ class ClientRepositoryImpl @Inject constructor(
                 true
             },
             fetchFromRemote = {
-                apiService.updateClient(client)
+                apiService.updateClient(clientId.toString(), client)
             },
             saveToLocalDB = {
                 database.withTransaction {
+                    database.clientDao().addClient(client)
                     database.clientDao().updateClient(client)
                 }
             }

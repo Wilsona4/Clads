@@ -1,7 +1,6 @@
 package com.decagonhq.clads.ui.client
 
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -108,24 +107,22 @@ class AddClientFragment : BaseFragment() {
                         )
                     } else {
                         /*Update Client*/
-                        Log.d("update", "client updated")
-                        clientViewModel.updateClient(
-                            Client(
-                                id = clientBio.id,
-                                artisanId = clientBio.artisanId,
-                                fullName = clientBio.fullName,
-                                phoneNumber = clientBio.phoneNumber,
-                                email = clientBio.email,
-                                gender = clientBio.gender,
-                                deliveryAddresses = arrayListOf(clientDeliveryAddress),
-                                measurements = clientMeasurements
+                        editClient!!.id?.let { it1 ->
+                            clientViewModel.updateClient(
+                                it1,
+                                Client(
+                                    id = clientBio.id,
+                                    artisanId = clientBio.artisanId,
+                                    fullName = clientBio.fullName,
+                                    phoneNumber = clientBio.phoneNumber,
+                                    email = clientBio.email,
+                                    gender = clientBio.gender,
+                                    deliveryAddresses = arrayListOf(clientDeliveryAddress),
+                                    measurements = clientMeasurements
+                                )
                             )
-                        )
+                        }
                     }
-
-                    editClient?.let {
-                        progressDialog.showDialogFragment("Updating...Please wait")
-                    } ?: progressDialog.showDialogFragment("Saving...Please wait")
 
                     clientViewModel.client.observe(
                         viewLifecycleOwner,
@@ -133,8 +130,8 @@ class AddClientFragment : BaseFragment() {
                             when (it) {
                                 is Resource.Loading -> {
                                     editClient?.let {
-                                        progressDialog.showDialogFragment("Updating...Please wait")
-                                    } ?: progressDialog.showDialogFragment("Saving...Please wait")
+                                        progressDialog.showDialogFragment("Updating profile... Please wait")
+                                    } ?: progressDialog.showDialogFragment("Saving... Please wait")
                                 }
                                 is Resource.Error -> {
                                     progressDialog.hideProgressDialog()
@@ -183,7 +180,8 @@ class AddClientFragment : BaseFragment() {
                     }
                     2 -> {
                         if (editClient != null) {
-                            binding.addClientFragmentNextButton.text = getString(R.string.all_update)
+                            binding.addClientFragmentNextButton.text =
+                                getString(R.string.all_update)
                         } else {
                             binding.addClientFragmentNextButton.text = getString(R.string.all_save)
                         }
@@ -230,10 +228,15 @@ class AddClientFragment : BaseFragment() {
         /*Set Edit Client Variables*/
         editClient?.let {
 
-            val clientReg = ClientReg(it.id, it.artisanId, it.email, it.fullName, it.gender, it.phoneNumber)
+            val clientReg =
+                ClientReg(it.id, it.artisanId, it.email, it.fullName, it.gender, it.phoneNumber)
             clientsRegisterViewModel.setClient(clientReg)
 
-            it.measurements?.let { measurementList -> clientsRegisterViewModel.setList(measurementList) }
+            it.measurements?.let { measurementList ->
+                clientsRegisterViewModel.setList(
+                    measurementList
+                )
+            }
 
             it.deliveryAddresses?.let { deliveryAddresses ->
                 deliveryAddresses.firstOrNull()?.let { it1 ->

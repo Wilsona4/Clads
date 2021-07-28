@@ -55,12 +55,13 @@ class ClientViewModel @Inject constructor(
         }
     }
 
-    fun updateClient(client: Client) {
+    fun updateClient(clientId: Int, client: Client) {
         _client.value = Resource.Loading(null, "Updating...")
         viewModelScope.launch(Dispatchers.IO) {
-            clientsRepository.updateClient(client).collect {
-                _client.postValue(it)
-            }
+            clientsRepository.updateClient(clientId, client)
+                .collect {
+                    _client.postValue(it)
+                }
         }
     }
 }
