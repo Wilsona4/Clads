@@ -4,6 +4,8 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.activityViewModels
+import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.StaggeredGridLayoutManager
 import com.decagonhq.clads.data.domain.client.Measurement
@@ -13,6 +15,7 @@ import com.decagonhq.clads.ui.client.adapter.AddMeasurementAdapter
 import com.decagonhq.clads.ui.client.adapter.RecyclerClickListener
 import com.decagonhq.clads.util.hideView
 import com.decagonhq.clads.util.showView
+import com.decagonhq.clads.viewmodels.ClientsRegisterViewModel
 import java.util.Locale
 
 class ClientDetailsFragment : BaseFragment(), RecyclerClickListener {
@@ -20,6 +23,7 @@ class ClientDetailsFragment : BaseFragment(), RecyclerClickListener {
     private val binding get() = _binding!!
     private val args: ClientDetailsFragmentArgs by navArgs()
     private lateinit var clientMeasurementAdapter: AddMeasurementAdapter
+    private val clientsRegisterViewModel: ClientsRegisterViewModel by activityViewModels()
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -34,15 +38,18 @@ class ClientDetailsFragment : BaseFragment(), RecyclerClickListener {
         super.onViewCreated(view, savedInstanceState)
 
         binding.apply {
+            /*Initialize Views*/
             clientDetailsFragmentClientNameTextView.text = args.clientModel?.fullName
             clientDetailsFragmentNumberTextView.text = args.clientModel?.phoneNumber
             clientDetailsFragmentEmailTextView.text = args.clientModel?.email
             clientDetailsFragmentGenderItemTextView.text = args.clientModel?.gender
+
             val address = args.clientModel?.deliveryAddresses?.firstOrNull()
             address?.let {
                 clientDetailsFragmentDeliveryAddressItemTextView.text =
                     "${it.street?.capitalize()} ~ ${it.city?.capitalize()} ~ ${it.state}"
             }
+
             val clientInitials = args.clientModel?.fullName?.split(" ")?.get(0)?.substring(0, 1)
                 ?.capitalize(Locale.ROOT) +
                 args.clientModel?.fullName?.split(" ")?.get(1)?.substring(0, 1)
@@ -50,6 +57,17 @@ class ClientDetailsFragment : BaseFragment(), RecyclerClickListener {
 
             clientsDetailsInitialsTextView.text = clientInitials
             val recyclerView = args.clientModel?.measurements?.toMutableList()
+
+            clientDetailsFragmentEditImageView.setOnClickListener {
+                args.clientModel?.let {
+                    /*Edit Client*/
+                    val action = ClientDetailsFragmentDirections.actionClientDetailsFragmentToAddClientFragment(it)
+
+                    /*Enable Conditional Rendering of fields*/
+                    clientsRegisterViewModel.setEdit(true)
+                    findNavController().navigate(action)
+                }
+            }
 
             measurementsFragmentRecyclerView.layoutManager =
                 StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL)

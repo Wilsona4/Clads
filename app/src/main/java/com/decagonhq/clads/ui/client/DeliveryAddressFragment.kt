@@ -6,11 +6,15 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
 import androidx.core.os.bundleOf
+import androidx.fragment.app.activityViewModels
+import androidx.lifecycle.Observer
 import com.decagonhq.clads.R
 import com.decagonhq.clads.data.domain.client.DeliveryAddress
 import com.decagonhq.clads.databinding.DeliveryAddressFragmentBinding
 import com.decagonhq.clads.ui.BaseFragment
 import com.decagonhq.clads.ui.client.dialogfragment.ClientManagementDialogFragments
+import com.decagonhq.clads.viewmodels.ClientsRegisterViewModel
+import timber.log.Timber
 import java.util.Locale
 
 class DeliveryAddressFragment : BaseFragment() {
@@ -21,6 +25,7 @@ class DeliveryAddressFragment : BaseFragment() {
     // This property is only valid between onCreateView and onDestroyView.
     private val binding get() = _binding!!
     private lateinit var clientAddress: DeliveryAddress
+    private val clientsRegisterViewModel: ClientsRegisterViewModel by activityViewModels()
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -36,6 +41,7 @@ class DeliveryAddressFragment : BaseFragment() {
         super.onViewCreated(view, savedInstanceState)
         init()
         setEventListeners()
+        setObserver()
     }
 
     override fun onDestroyView() {
@@ -46,6 +52,37 @@ class DeliveryAddressFragment : BaseFragment() {
     private fun setEventListeners() {
         addAddressDialogFragment()
         toggleButtonText()
+    }
+
+    private fun setObserver() {
+
+        clientsRegisterViewModel.shouldEdit.observe(
+            viewLifecycleOwner,
+            { it ->
+                Timber.d("$it")
+                /* Confirm to edit or add new client*/
+                if (it) {
+                    clientsRegisterViewModel.clientAddress.observe(
+                        viewLifecycleOwner,
+                        Observer {
+                            it.peekContent().let { deliveryAddress ->
+                                // Only proceed if the event has never been handled
+                                Timber.d("${deliveryAddress.state}")
+
+                                clientAddress = DeliveryAddress(
+                                    deliveryAddress.street?.capitalize(Locale.ROOT),
+                                    deliveryAddress.city?.capitalize(Locale.ROOT),
+                                    deliveryAddress.state
+                                )
+                                binding.deliveryAddressFragmentAddressTextView.text =
+                                    "${deliveryAddress.street?.capitalize(Locale.ROOT)} ~ ${deliveryAddress.city?.capitalize(Locale.ROOT)} ~ ${deliveryAddress.state}"
+                                toggleButtonText()
+                            }
+                        }
+                    )
+                }
+            }
+        )
     }
 
     private fun init() {

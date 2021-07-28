@@ -29,6 +29,7 @@ import com.decagonhq.clads.viewmodels.ClientViewModel
 import com.decagonhq.clads.viewmodels.ClientsRegisterViewModel
 import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayoutMediator
+import timber.log.Timber
 
 class AddClientFragment : BaseFragment() {
     private var _binding: AddClientFragmentBinding? = null
@@ -240,6 +241,7 @@ class AddClientFragment : BaseFragment() {
                     clientsRegisterViewModel.clientNewAddress(
                         it1
                     )
+                    Timber.d("${it1.street}")
                 }
             }
         }
