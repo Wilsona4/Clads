@@ -5,6 +5,7 @@ import androidx.room.Room
 import com.decagonhq.clads.data.local.CladsDatabase
 import com.decagonhq.clads.data.local.CladsDatabase.Companion.DATABASE_NAME
 import com.decagonhq.clads.data.local.ClientDao
+import com.decagonhq.clads.data.local.GalleryImageDao
 import com.decagonhq.clads.data.local.ProfileImageDao
 import com.decagonhq.clads.data.local.UserProfileDao
 import dagger.Module
@@ -42,5 +43,11 @@ object LocalModule {
     @Provides
     fun providesProfileImageDAO(cladsDatabase: CladsDatabase): ProfileImageDao {
         return cladsDatabase.profileImageDao()
+    }
+
+    @Singleton
+    @Provides
+    fun providesGalleryImageDAO(cladsDatabase: CladsDatabase): GalleryImageDao {
+        return cladsDatabase.galleryImageDao()
     }
 }

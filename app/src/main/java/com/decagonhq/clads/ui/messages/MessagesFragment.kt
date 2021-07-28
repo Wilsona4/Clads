@@ -1,4 +1,4 @@
-package com.decagonhq.clads.ui.profile.bottomnav
+package com.decagonhq.clads.ui.messages
 
 import android.os.Bundle
 import android.view.LayoutInflater

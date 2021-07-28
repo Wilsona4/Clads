@@ -22,6 +22,7 @@ class ImageDTOMapper @Inject constructor() : DomainMapper<ImageDTO, UserProfileI
             fileName = domainModel.fileName,
             fileType = domainModel.fileType,
             uploadStatus = domainModel.uploadStatus
+
         )
     }
 }

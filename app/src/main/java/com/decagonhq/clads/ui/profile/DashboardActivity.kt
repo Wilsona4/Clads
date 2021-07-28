@@ -4,6 +4,7 @@ import android.app.NotificationChannel
 import android.app.NotificationManager
 import android.app.PendingIntent
 import android.content.Context
+import android.content.DialogInterface
 import android.content.Intent
 import android.os.Build
 import android.os.Bundle
@@ -13,11 +14,13 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.activity.viewModels
 import androidx.annotation.RequiresApi
+import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.NotificationCompat
 import androidx.core.view.GravityCompat
 import androidx.drawerlayout.widget.DrawerLayout
 import androidx.lifecycle.Observer
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.NavController
 import androidx.navigation.findNavController
 import androidx.navigation.ui.AppBarConfiguration
@@ -26,23 +29,19 @@ import androidx.navigation.ui.setupActionBarWithNavController
 import androidx.navigation.ui.setupWithNavController
 import com.bumptech.glide.Glide
 import com.decagonhq.clads.R
-import com.decagonhq.clads.data.domain.images.UserProfileImage
+import com.decagonhq.clads.data.local.CladsDatabase
 import com.decagonhq.clads.databinding.DashboardActivityBinding
-import com.decagonhq.clads.ui.authentication.MainActivity
-import com.decagonhq.clads.ui.profile.bottomnav.MessagesFragment
+import com.decagonhq.clads.ui.messages.MessagesFragment
 import com.decagonhq.clads.util.Constants
 import com.decagonhq.clads.util.CustomProgressDialog
-import com.decagonhq.clads.util.Resource
 import com.decagonhq.clads.util.SessionManager
-import com.decagonhq.clads.util.handleApiError
+import com.decagonhq.clads.util.logOut
 import com.decagonhq.clads.viewmodels.ImageUploadViewModel
 import com.decagonhq.clads.viewmodels.UserProfileViewModel
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.android.material.navigation.NavigationView
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.GlobalScope
-import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import retrofit2.Retrofit
@@ -73,6 +72,9 @@ class DashboardActivity : AppCompatActivity() {
     lateinit var sessionManager: SessionManager
 
     @Inject
+    lateinit var database: CladsDatabase
+
+    @Inject
     @Named(Constants.IMAGE_RETROFIT)
     lateinit var imageRetrofit: Retrofit
 
@@ -81,11 +83,11 @@ class DashboardActivity : AppCompatActivity() {
 
     override fun onStart() {
         super.onStart()
-        userProfileViewModel.saveUserProfileToLocalDatabase()
-//        userProfileViewModel.getUserProfile()
-        imageUploadViewModel.getUserImage()
-        GlobalScope.launch {
-            delay(5000L)
+
+        userProfileViewModel.getUserProfile()
+        imageUploadViewModel.getRemoteGalleryImages()
+
+        lifecycleScope.launch(Dispatchers.IO) {
             withContext(Dispatchers.Main) {
                 userProfileViewModel.getLocalDatabaseUserProfile()
             }
@@ -137,6 +139,7 @@ class DashboardActivity : AppCompatActivity() {
         setupActionBarWithNavController(navController, appBarConfiguration)
         navView.setupWithNavController(navController)
         bottomNavigationView.setupWithNavController(navController)
+        hideCustomBarBarConstraintLayout()
 
         /*Set Up Navigation Change Listener*/
         onDestinationChangedListener()
@@ -175,35 +178,17 @@ class DashboardActivity : AppCompatActivity() {
                     userProfile?.lastName ?: getString(R.string.babangida)
                     }"
                     profileName.text = fullName
-                }
-            }
-        )
 
-        /*Handling the response from the retrofit*/
-        imageUploadViewModel.userProfileImage.observe(
-            this,
-            Observer {
-                if (it is Resource.Loading<UserProfileImage> && it.data?.downloadUri.isNullOrEmpty()) {
-                    it.message?.let { message ->
-                        progressDialog.showDialogFragment(message)
-                    }
-                } else if (it is Resource.Error) {
-                    progressDialog.hideProgressDialog()
-                    handleApiError(it, imageRetrofit, toolbarFragmentName)
-                } else {
-                    progressDialog.hideProgressDialog()
-                    it.data?.downloadUri?.let { imageUrl ->
-                        Glide.with(this)
-                            .load(imageUrl)
-                            .placeholder(R.drawable.nav_drawer_profile_avatar)
-                            .into(toolbarProfilePicture)
+                    Glide.with(this)
+                        .load(userProfile?.thumbnail)
+                        .placeholder(R.drawable.nav_drawer_profile_avatar)
+                        .into(toolbarProfilePicture)
 
-                        /*load profile image from shared pref*/
-                        Glide.with(this)
-                            .load(imageUrl)
-                            .placeholder(R.drawable.nav_drawer_profile_avatar)
-                            .into(profileImage)
-                    }
+                    /*load profile image from shared pref*/
+                    Glide.with(this)
+                        .load(userProfile?.thumbnail)
+                        .placeholder(R.drawable.nav_drawer_profile_avatar)
+                        .into(profileImage)
                 }
             }
         )
@@ -227,15 +212,19 @@ class DashboardActivity : AppCompatActivity() {
                 }
                 R.id.logout -> {
 
-                    Intent(this, MainActivity::class.java).also {
-                        sessionManager.clearSharedPref()
-                        sessionManager.saveToSharedPref(
-                            getString(R.string.login_status),
-                            getString(R.string.log_out)
-                        )
-                        startActivity(it)
-                        finish()
+                    // Using a dialog to ask the user for confirmation before logging out
+                    val confirmationDialog = AlertDialog.Builder(this)
+                    confirmationDialog.setMessage(R.string.logout_confirmation_dialog_message)
+                    confirmationDialog.setPositiveButton(R.string.yes) { _: DialogInterface, _: Int ->
+                        logOut(sessionManager, database)
                     }
+                    confirmationDialog.setNegativeButton(
+                        R.string.no
+                    ) { _: DialogInterface, _: Int ->
+                        drawerLayout.closeDrawer(GravityCompat.START)
+                    }
+                    confirmationDialog.create().show()
+
                     return@setNavigationItemSelectedListener true
                 }
                 else -> return@setNavigationItemSelectedListener true
@@ -420,5 +409,20 @@ class DashboardActivity : AppCompatActivity() {
                     }
                 }
             }
+    }
+
+    /*Set Toolbar Custom Title*/
+    fun setCustomActionBarTitle(message: String) {
+        binding.appBarDashboard.dashboardActivityToolbar.title = message
+    }
+
+    private fun hideCustomBarBarConstraintLayout() {
+        navController.addOnDestinationChangedListener { _, destination, _ ->
+            if (destination.id == R.id.photoGalleryEditImageFragment) {
+                binding.appBarDashboard.dashboardActivityToolbarCL.visibility = View.GONE
+            } else {
+                binding.appBarDashboard.dashboardActivityToolbarCL.visibility = View.VISIBLE
+            }
+        }
     }
 }
