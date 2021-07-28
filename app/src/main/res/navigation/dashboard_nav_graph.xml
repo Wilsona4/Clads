@@ -106,7 +106,6 @@
             android:defaultValue="@null"
             app:argType="com.decagonhq.clads.data.domain.client.Client"
             app:nullable="true" />
-
     </fragment>
 
     <fragment

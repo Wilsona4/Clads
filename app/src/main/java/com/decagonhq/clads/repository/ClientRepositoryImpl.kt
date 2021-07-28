@@ -85,6 +85,7 @@ class ClientRepositoryImpl @Inject constructor(
     override suspend fun updateClient(client: Client): Flow<Resource<List<Client>>> =
 
         networkBoundResource(
+
             fetchFromLocal = {
                 database.clientDao().readAllClients()
             },
@@ -99,6 +100,7 @@ class ClientRepositoryImpl @Inject constructor(
                     database.clientDao().updateClient(client)
                 }
             }
+
         )
 
     override suspend fun getSingleClient(clientId: Int): Flow<Resource<Client>> {

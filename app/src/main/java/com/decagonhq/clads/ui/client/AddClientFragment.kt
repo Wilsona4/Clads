@@ -1,6 +1,7 @@
 package com.decagonhq.clads.ui.client
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -29,12 +30,11 @@ import com.decagonhq.clads.viewmodels.ClientViewModel
 import com.decagonhq.clads.viewmodels.ClientsRegisterViewModel
 import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayoutMediator
-import timber.log.Timber
 
 class AddClientFragment : BaseFragment() {
     private var _binding: AddClientFragmentBinding? = null
-    private val args: AddClientFragmentArgs by navArgs()
-    private var editClient: Client? = null
+    val args: AddClientFragmentArgs by navArgs()
+    var editClient: Client? = null
 
     // This property is only valid between onCreateView and onDestroyView.
     private val binding get() = _binding!!
@@ -54,10 +54,6 @@ class AddClientFragment : BaseFragment() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         editClient = args.client
-
-//        editClient?.let {
-//            activity?.setTitle("Update Contact");
-//        } ?: activity?.setTitle( "Add Contact");
     }
 
     override fun onCreateView(
@@ -112,6 +108,7 @@ class AddClientFragment : BaseFragment() {
                         )
                     } else {
                         /*Update Client*/
+                        Log.d("update", "client updated")
                         clientViewModel.updateClient(
                             Client(
                                 id = clientBio.id,
@@ -214,7 +211,9 @@ class AddClientFragment : BaseFragment() {
         tabLayout = binding.addClientTabLayout
         nextAndSaveButton = binding.addClientFragmentNextButton
         previousButton = binding.addClientFragmentPreviousButton
+
         val adapter = AddClientPagerAdapter(childFragmentManager, lifecycle)
+
         viewPager2.apply {
             this.adapter = adapter
             this.isUserInputEnabled = false
@@ -241,7 +240,6 @@ class AddClientFragment : BaseFragment() {
                     clientsRegisterViewModel.clientNewAddress(
                         it1
                     )
-                    Timber.d("${it1.street}")
                 }
             }
         }
@@ -266,11 +264,9 @@ class AddClientFragment : BaseFragment() {
 
         clientsRegisterViewModel.clientAddress.observe(
             viewLifecycleOwner,
-            Observer {
-                it.getContentIfNotHandled()?.let { deliveryAddress ->
-                    // Only proceed if the event has never been handled
-                    clientDeliveryAddress = deliveryAddress
-                }
+            Observer { deliveryAddress ->
+                // Only proceed if the event has never been handled
+                clientDeliveryAddress = deliveryAddress
             }
         )
     }

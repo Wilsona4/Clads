@@ -52,8 +52,8 @@ class ClientAccountFragment : BaseFragment() {
         super.onViewCreated(view, savedInstanceState)
         // initialize views
         init()
-        setClientFieldsOnTextChange()
         setObserver()
+        setClientFieldsOnTextChange()
     }
 
     fun saveToViewModel(): Boolean {
@@ -218,13 +218,13 @@ class ClientAccountFragment : BaseFragment() {
                     clientsRegisterViewModel.clientData.observeOnce(
                         viewLifecycleOwner,
                         Observer {
-                            val splitFullName = it.fullName.split(" ")
-                            firstNameEditText.setText(splitFullName[0])
-                            lastNameEditText.setText(splitFullName.lastOrNull())
-                            phoneNumberEditText.setText(it.phoneNumber)
-                            emailEditText.setText(it.email)
+                            val splitFullName = it?.fullName?.split(" ")
+                            firstNameEditText.setText(splitFullName?.get(0))
+                            lastNameEditText.setText(splitFullName?.lastOrNull())
+                            phoneNumberEditText.setText(it?.phoneNumber)
+                            emailEditText.setText(it?.email)
                             /*Attaching the data*/
-                            if (it.gender == "Male") {
+                            if (it?.gender == "Male") {
                                 genderRadioGroup.check(R.id.client_account_fragment_male_radio_button)
                             } else {
                                 genderRadioGroup.check(R.id.client_account_fragment_female_radio_button)

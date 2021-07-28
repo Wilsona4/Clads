@@ -9,4 +9,5 @@ object Constants {
     const val MAIN_API_SERVICE = "Main ApiService"
     const val SHARED_PREFS: String = "sharedPrefs"
     const val TOKEN = "token"
+    const val CLIENT_OBJECT = "client_object"
 }
