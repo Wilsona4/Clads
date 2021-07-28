@@ -33,7 +33,8 @@ class ResetPasswordConfirmationFragment : Fragment() {
 
         resetPasswordButton.setOnClickListener {
             /*Send Reset Password Email*/
-            findNavController().navigate(R.id.reset_password_fragment)
+            val action = ResetPasswordConfirmationFragmentDirections.actionConfirmPasswordResetFragmentToResetPasswordFragment()
+            findNavController().navigate(action)
         }
     }
 

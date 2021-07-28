@@ -47,7 +47,8 @@ class ForgotPasswordFragment : BaseFragment() {
                     return@setOnClickListener
                 }
                 else -> {
-                    findNavController().navigate(R.id.action_forgotPasswordFragment_to_confirmPasswordResetFragment)
+                    val action = ForgotPasswordFragmentDirections.actionForgotPasswordFragmentToConfirmPasswordResetFragment()
+                    findNavController().navigate(action)
                 }
             }
         }

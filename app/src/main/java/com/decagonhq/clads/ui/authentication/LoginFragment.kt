@@ -168,7 +168,8 @@ class LoginFragment : BaseFragment() {
         }
 
         forgetPasswordButton.setOnClickListener {
-            findNavController().navigate(R.id.forgot_password_fragment)
+            val action = LoginFragmentDirections.actionLoginFragmentToForgotPasswordFragment()
+            findNavController().navigate(action)
         }
 
         /*implement the googleSignInClient method*/
