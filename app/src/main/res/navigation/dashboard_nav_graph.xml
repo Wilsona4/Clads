@@ -76,16 +76,16 @@
             android:id="@+id/action_resourceGeneralFragment_to_individualVideoScreenFragment"
             app:destination="@id/individualVideoScreenFragment"
             app:enterAnim="@anim/slide_in_right"
-            app:exitAnim="@android:anim/fade_out"
-            app:popEnterAnim="@android:anim/fade_in"
-            app:popExitAnim="@android:anim/fade_out" />
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right" />
         <action
             android:id="@+id/action_resourceGeneralFragment_to_resourceArticlesFragment2"
             app:destination="@id/resourceArticlesFragment"
             app:enterAnim="@anim/slide_in_right"
-            app:exitAnim="@android:anim/fade_out"
-            app:popEnterAnim="@android:anim/fade_in"
-            app:popExitAnim="@android:anim/fade_out" />
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right" />
     </fragment>
     <fragment
         android:id="@+id/subscriptionFragment"
@@ -221,8 +221,8 @@
             app:enterAnim="@anim/slide_in_right"
             app:exitAnim="@anim/slide_out_left"
             app:launchSingleTop="false"
-            app:popEnterAnim="@android:anim/fade_in"
-            app:popExitAnim="@android:anim/fade_out"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right"
             app:popUpTo="@id/nav_media"
             app:popUpToInclusive="true" />
     </fragment>
@@ -235,9 +235,9 @@
             android:id="@+id/action_resourceVideosFragment_to_individualVideoScreenFragment"
             app:destination="@id/individualVideoScreenFragment"
             app:enterAnim="@anim/slide_in_right"
-            app:exitAnim="@android:anim/fade_out"
-            app:popEnterAnim="@android:anim/fade_in"
-            app:popExitAnim="@android:anim/fade_out" />
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right" />
     </fragment>
     <fragment
         android:id="@+id/resourceArticlesFragment"
@@ -248,9 +248,9 @@
             android:id="@+id/action_resourceArticlesFragment_to_resourceViewIndividualArticleFragment"
             app:destination="@id/resourceViewIndividualArticleFragment"
             app:enterAnim="@anim/slide_in_right"
-            app:exitAnim="@android:anim/fade_out"
-            app:popEnterAnim="@android:anim/fade_in"
-            app:popExitAnim="@android:anim/fade_out" />
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right" />
     </fragment>
     <fragment
         android:id="@+id/individualVideoScreenFragment"
