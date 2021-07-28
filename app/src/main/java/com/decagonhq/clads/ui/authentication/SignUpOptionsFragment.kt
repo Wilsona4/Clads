@@ -28,7 +28,6 @@ import com.google.android.gms.auth.api.signin.GoogleSignInOptions
 import com.google.android.gms.common.api.ApiException
 import com.google.android.gms.tasks.Task
 import dagger.hilt.android.AndroidEntryPoint
-import java.util.*
 import timber.log.Timber
 
 @AndroidEntryPoint
@@ -49,7 +48,8 @@ class SignUpOptionsFragment : BaseFragment() {
             getString(R.string.logout) &&
             sessionManager.loadFromSharedPref(getString(R.string.login_status)).isNotEmpty()
         ) {
-            val action = SignUpOptionsFragmentDirections.actionSignUpOptionsFragmentToLoginFragment()
+            val action =
+                SignUpOptionsFragmentDirections.actionSignUpOptionsFragmentToLoginFragment()
             findNavController().navigate(action)
         }
     }
