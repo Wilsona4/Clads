@@ -23,6 +23,7 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.NavController
 import androidx.navigation.findNavController
+import androidx.navigation.fragment.findNavController
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.navigateUp
 import androidx.navigation.ui.setupActionBarWithNavController
@@ -37,6 +38,7 @@ import com.decagonhq.clads.util.CustomProgressDialog
 import com.decagonhq.clads.util.SessionManager
 import com.decagonhq.clads.util.logOut
 import com.decagonhq.clads.viewmodels.ClientViewModel
+import com.decagonhq.clads.viewmodels.ClientsRegisterViewModel
 import com.decagonhq.clads.viewmodels.ImageUploadViewModel
 import com.decagonhq.clads.viewmodels.UserProfileViewModel
 import com.google.android.material.bottomnavigation.BottomNavigationView
@@ -82,6 +84,7 @@ class DashboardActivity : AppCompatActivity() {
     private val userProfileViewModel: UserProfileViewModel by viewModels()
     private val imageUploadViewModel: ImageUploadViewModel by viewModels()
     private val clientViewModel: ClientViewModel by viewModels()
+    private val clientsRegisterViewModel: ClientsRegisterViewModel by viewModels()
 
     override fun onStart() {
         super.onStart()

@@ -50,9 +50,23 @@ class AddClientFragment : BaseFragment() {
     private val clientsRegisterViewModel: ClientsRegisterViewModel by activityViewModels()
     private val clientViewModel: ClientViewModel by activityViewModels()
 
+    override fun onStart() {
+        super.onStart()
+        if (args.client != null) {
+//            android:label="@string/add_client"
+            findNavController().currentDestination?.label = "Edit Client"
+        } else {
+            findNavController().currentDestination?.label = getString(R.string.add_client)
+        }
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         editClient = args.client
+
+        if (editClient == null) {
+            clientsRegisterViewModel.clearAddress()
+        }
     }
 
     override fun onCreateView(
@@ -156,7 +170,6 @@ class AddClientFragment : BaseFragment() {
                             }
                         }
                     )
-
                 } else {
                     nextAndSaveButton.showSnackBar("Something Went Wrong, Retry")
                 }

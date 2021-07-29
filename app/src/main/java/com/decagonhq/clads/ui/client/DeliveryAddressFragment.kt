@@ -60,12 +60,14 @@ class DeliveryAddressFragment : BaseFragment() {
             {
                 val clientAddressEdit = it
 
-                binding.deliveryAddressFragmentAddressTextView.text =
-                    "${clientAddressEdit?.street?.capitalize(Locale.ROOT)} ~ ${
-                    clientAddressEdit?.city?.capitalize(Locale.ROOT)
-                    } ~ ${clientAddressEdit?.state}"
+                it.city?.let {
+                    binding.deliveryAddressFragmentAddressTextView.text =
+                        "${clientAddressEdit?.street?.capitalize(Locale.ROOT)} ~ ${
+                        clientAddressEdit?.city?.capitalize(Locale.ROOT)
+                        } ~ ${clientAddressEdit?.state}"
 
-                toggleButtonText()
+                    toggleButtonText()
+                }
             }
         )
     }

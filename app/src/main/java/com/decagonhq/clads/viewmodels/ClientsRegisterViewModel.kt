@@ -67,4 +67,8 @@ class ClientsRegisterViewModel @Inject constructor(
     fun clientNewAddress(address: DeliveryAddress) {
         _clientAddress.value = address
     }
+
+    fun clearAddress() {
+        _clientAddress.value = DeliveryAddress()
+    }
 }
