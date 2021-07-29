@@ -28,11 +28,10 @@ class ClientRepositoryImpl @Inject constructor(
                 apiService.getClients()
             },
             saveToLocalDB = { clientList ->
-                for (client in clientList.payload) {
-                    database.withTransaction {
-                        database.clientDao().addClient(
-                            client
-                        )
+                database.withTransaction {
+                    database.clientDao().deleteAllClients()
+                    for (client in clientList.payload) {
+                        database.clientDao().addClient(client)
                     }
                 }
             }
@@ -97,12 +96,12 @@ class ClientRepositoryImpl @Inject constructor(
             },
             saveToLocalDB = {
                 database.withTransaction {
+                    database.clientDao().deleteClient(clientId)
                     database.clientDao().addClient(client)
-                    database.clientDao().updateClient(client)
                 }
             }
-
         )
+
 
     override suspend fun getSingleClient(clientId: Int): Flow<Resource<Client>> {
         TODO("Not yet implemented")

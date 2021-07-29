@@ -6,17 +6,17 @@ import com.decagonhq.clads.data.domain.resource.ResourceGeneralVideoModel
 object ResourceDummyData {
     var videoItem = mutableListOf(
         ResourceGeneralVideoModel(
-            "https://html5demos.com/assets/dizzy.mp4",
+            "https://assets.mixkit.co/videos/preview/mixkit-mujer-mirando-la-ropa-en-el-centro-comercial-9215-large.mp4",
             "How to perfectly sew adire",
             R.drawable.description
         ),
         ResourceGeneralVideoModel(
-            "https://html5demos.com/assets/dizzy.mp4",
+            "https://assets.mixkit.co/videos/preview/mixkit-mujer-mirando-la-ropa-en-el-centro-comercial-9215-large.mp4",
             "How to perfectly sew adire",
             R.drawable.desc_four
         ),
         ResourceGeneralVideoModel(
-            "https://html5demos.com/assets/dizzy.mp4",
+            "https://assets.mixkit.co/videos/preview/mixkit-mujer-mirando-la-ropa-en-el-centro-comercial-9215-large.mp4",
             "How to perfectly sew adire",
             R.drawable.desc_one
         ),
@@ -64,7 +64,7 @@ object ResourceDummyData {
         )
     )
     var videoViewAllItem = mutableListOf(
-        ResourceDetailVideoModel("https://html5demos.com/assets/dizzy.mp4", "How to perfectly sew attire", "1 hour 24 mins"),
+        ResourceDetailVideoModel("https://assets.mixkit.co/videos/preview/mixkit-mujer-mirando-la-ropa-en-el-centro-comercial-9215-large.mp4", "How to perfectly sew attire", "1 hour 24 mins"),
         ResourceDetailVideoModel("https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4", "How to perfectly sew adire", "1 hour 24 mins"),
         ResourceDetailVideoModel("https://html5demos.com/assets/dizzy.mp4", "How to perfectly sew adire", "1 hour 24 mins"),
         ResourceDetailVideoModel("https://html5demos.com/assets/dizzy.mp4", "How to perfectly sew attire", "1 hour 24 mins"),

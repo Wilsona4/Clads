@@ -55,9 +55,10 @@ class AuthenticationViewModel @Inject constructor(
     }
 
     /*Login with google*/
-    fun loginUserWithGoogle(userRole: UserRole) {
+    fun loginUserWithGoogle(userRole: UserRole?) {
         _loginUserWithGoogle.value = Resource.Loading(null, "Loading...")
         viewModelScope.launch(Dispatchers.IO) {
+
             authRepository.loginUserWithGoogle(userRole).collect {
                 _loginUserWithGoogle.postValue(it)
             }
