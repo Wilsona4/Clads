@@ -6,32 +6,32 @@ import com.decagonhq.clads.data.domain.resource.ResourceGeneralVideoModel
 object ResourceDummyData {
     var videoItem = mutableListOf(
         ResourceGeneralVideoModel(
-            "https://assets.mixkit.co/videos/preview/mixkit-woman-modelling-dress-in-a-studio-806-large.mp4",
+            "https://assets.mixkit.co/videos/preview/mixkit-woman-modelling-dress-in-a-studio-806-small.mp4",
             "How to perfectly sew headgear",
             R.drawable.description
         ),
         ResourceGeneralVideoModel(
-            "https://assets.mixkit.co/videos/preview/mixkit-woman-modelling-dress-in-a-studio-806-large.mp4",
+            "https://assets.mixkit.co/videos/preview/mixkit-woman-modelling-dress-in-a-studio-806-small.mp4",
             "How to perfectly sew adire",
             R.drawable.desc_four
         ),
         ResourceGeneralVideoModel(
-            "https://assets.mixkit.co/videos/preview/mixkit-tailor-working-in-their-shop-11446-large.mp4",
+            "https://assets.mixkit.co/videos/preview/mixkit-tailor-working-in-their-shop-11446-small.mp4",
             "Easy kaftan cutting and stitching",
             R.drawable.desc_one
         ),
         ResourceGeneralVideoModel(
-            "https://assets.mixkit.co/videos/preview/mixkit-hands-of-a-tailor-sewing-a-dress-12522-large.mp4",
+            "https://assets.mixkit.co/videos/preview/mixkit-hands-of-a-tailor-sewing-a-dress-12522-small.mp4",
             "Personal styling",
             R.drawable.desc_seven
         ),
         ResourceGeneralVideoModel(
-            "https://assets.mixkit.co/videos/preview/mixkit-tailor-working-with-patterns-15120-large.mp4",
+            "https://assets.mixkit.co/videos/preview/mixkit-tailor-working-with-patterns-15120-small.mp4",
             "Gown cutting step by step",
             R.drawable.desc_five
         ),
         ResourceGeneralVideoModel(
-            "https://assets.mixkit.co/videos/preview/mixkit-tailor-working-with-patterns-15120-large.mp4",
+            "https://assets.mixkit.co/videos/preview/mixkit-tailor-working-with-patterns-15120-small.mp4",
             "Off shoulder dress",
             R.drawable.desc_two
         )
@@ -65,49 +65,49 @@ object ResourceDummyData {
     )
     var videoViewAllItem = mutableListOf(
         ResourceDetailVideoModel(
-            "https://assets.mixkit.co/videos/preview/mixkit-tailor-cutting-along-a-measuring-tape-11812-large.mp4",
+            "https://assets.mixkit.co/videos/preview/mixkit-tailor-cutting-along-a-measuring-tape-11812-small.mp4",
             "How to perfectly sew headgear",
             "1 hour 24 mins",
             R.drawable.description
         ),
         ResourceDetailVideoModel(
-            "https://assets.mixkit.co/videos/preview/mixkit-woman-modelling-dress-in-a-studio-806-large.mp4",
+            "https://assets.mixkit.co/videos/preview/mixkit-woman-modelling-dress-in-a-studio-806-small.mp4",
             "How to perfectly sew adire",
             "1 hour 10 mins",
             R.drawable.desc_four
         ),
         ResourceDetailVideoModel(
-            "https://assets.mixkit.co/videos/preview/mixkit-tailor-working-in-their-shop-11446-large.mp4",
+            "https://assets.mixkit.co/videos/preview/mixkit-tailor-working-in-their-shop-11446-small.mp4",
             "Easy kaftan cutting and stitching",
             "30 mins",
             R.drawable.desc_one
         ),
         ResourceDetailVideoModel(
-            "https://assets.mixkit.co/videos/preview/mixkit-hands-of-a-tailor-sewing-a-dress-12522-large.mp4",
+            "https://assets.mixkit.co/videos/preview/mixkit-hands-of-a-tailor-sewing-a-dress-12522-small.mp4",
             "Personal styling",
             "1 hour 14 mins",
             R.drawable.desc_seven
         ),
         ResourceDetailVideoModel(
-            "https://assets.mixkit.co/videos/preview/mixkit-tailor-working-with-patterns-15120-large.mp4",
+            "https://assets.mixkit.co/videos/preview/mixkit-tailor-working-with-patterns-15120-small.mp4",
             "Gown cutting step by step",
             "1 hour 24 mins",
             R.drawable.desc_five
         ),
         ResourceDetailVideoModel(
-            "https://assets.mixkit.co/videos/preview/mixkit-tailor-working-with-patterns-15120-large.mp4",
+            "https://assets.mixkit.co/videos/preview/mixkit-tailor-working-with-patterns-15120-small.mp4",
             "Off shoulder dress",
             "24 mins",
             R.drawable.desc_two
         ),
         ResourceDetailVideoModel(
-            "https://assets.mixkit.co/videos/preview/mixkit-tailor-pinning-lace-to-fabric-15110-large.mp4",
+            "https://assets.mixkit.co/videos/preview/mixkit-tailor-pinning-lace-to-fabric-15110-small.mp4",
             "Curved hem sewing techniques for beginners",
             "1 hour 24 mins",
             R.drawable.navy_blue_suit
         ),
         ResourceDetailVideoModel(
-            "https://assets.mixkit.co/videos/preview/mixkit-hands-of-a-tailor-working-12528-large.mp4",
+            "https://assets.mixkit.co/videos/preview/mixkit-hands-of-a-tailor-working-12528-small.mp4",
             "How to perfectly sew attire",
             "1 hour",
             R.drawable.jenifa_stiches
