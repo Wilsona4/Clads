@@ -10,6 +10,7 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.Observer
+import androidx.navigation.NavDirections
 import androidx.navigation.fragment.findNavController
 import com.decagonhq.clads.R
 import com.decagonhq.clads.data.local.CladsDatabase
@@ -25,6 +26,14 @@ fun Fragment.showView(view: View) {
     if (view.visibility == View.GONE || view.visibility == View.INVISIBLE) {
         view.visibility = View.VISIBLE
     }
+}
+
+fun Fragment.navigateTo(id: Int) {
+    findNavController().navigate(id)
+}
+
+fun Fragment.navigateTo(direction: NavDirections) {
+    findNavController().navigate(direction)
 }
 
 fun <T> Fragment.handleApiError(

@@ -15,7 +15,6 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
 import android.widget.TextView
-import androidx.activity.viewModels
 import androidx.core.content.res.ResourcesCompat
 import androidx.core.widget.doOnTextChanged
 import androidx.fragment.app.activityViewModels
@@ -25,7 +24,6 @@ import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import com.decagonhq.clads.R
 import com.decagonhq.clads.data.domain.login.LoginCredentials
-import com.decagonhq.clads.data.domain.login.UserRole
 import com.decagonhq.clads.databinding.LoginFragmentBinding
 import com.decagonhq.clads.ui.BaseFragment
 import com.decagonhq.clads.ui.profile.DashboardActivity
@@ -63,7 +61,7 @@ class LoginFragment : BaseFragment() {
     private lateinit var cladsSignInClient: GoogleSignInClient
     private var GOOGLE_SIGNIN_RQ_CODE = 100
 
-    private val viewModel: AuthenticationViewModel by activityViewModels()
+    private val authenticationViewModel: AuthenticationViewModel by activityViewModels()
     private val userProfileViewModel: UserProfileViewModel by viewModels()
     private val imageUploadViewModel: ImageUploadViewModel by viewModels()
 
@@ -71,7 +69,7 @@ class LoginFragment : BaseFragment() {
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
 
         // Inflate the layout for this fragment
         _binding = LoginFragmentBinding.inflate(inflater, container, false)
@@ -121,8 +119,8 @@ class LoginFragment : BaseFragment() {
                     val loginCredentials = LoginCredentials(emailAddress, password)
 
                     /*Handling response from the retrofit*/
-                    viewModel.loginUser(loginCredentials)
-                    viewModel.loginUser.observe(
+                    authenticationViewModel.loginUser(loginCredentials)
+                    authenticationViewModel.loginUser.observe(
                         viewLifecycleOwner,
                         Observer {
                             when (it) {
@@ -217,6 +215,7 @@ class LoginFragment : BaseFragment() {
             val account = completedTask.getResult(ApiException::class.java)
             loadDashBoardFragment(account)
         } catch (e: ApiException) {
+            showToast(e.localizedMessage)
         }
     }
 
@@ -230,13 +229,12 @@ class LoginFragment : BaseFragment() {
                 }
             }
 
-            viewModel.loginUserWithGoogle(
-                UserRole(getString(R.string.tailor))
-            )
+            authenticationViewModel.loginUserWithGoogle(null)
+
             progressDialog.showDialogFragment(getString(R.string.please_wait))
 
             /*Handling the response from the retrofit*/
-            viewModel.loginUserWithGoogle.observe(
+            authenticationViewModel.loginUserWithGoogle.observe(
                 viewLifecycleOwner,
                 Observer {
                     when (it) {
@@ -257,6 +255,7 @@ class LoginFragment : BaseFragment() {
                             handleApiError(it, mainRetrofit, requireView(), sessionManager, database)
                         }
                         is Resource.Loading -> {
+                            progressDialog.showDialogFragment("Logging In...")
                         }
                     }
                 }
