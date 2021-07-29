@@ -371,24 +371,24 @@ class DashboardActivity : AppCompatActivity() {
                     }
                     R.id.resourceArticlesFragment -> {
                         bottomNavigationView.visibility = View.GONE
-                        toolbarProfilePicture.visibility = View.GONE
-                        toolbarUserName.visibility = View.GONE
+                        toolbarProfilePicture.visibility = View.INVISIBLE
+                        toolbarUserName.visibility = View.INVISIBLE
                         toolbarNotificationIcon.visibility = View.GONE
-                        toolbarFragmentName.visibility = View.INVISIBLE
+                        toolbarFragmentName.visibility = View.VISIBLE
                     }
                     R.id.resourceGeneralFragment -> {
                         bottomNavigationView.visibility = View.GONE
-                        toolbarProfilePicture.visibility = View.GONE
-                        toolbarUserName.visibility = View.GONE
+                        toolbarProfilePicture.visibility = View.INVISIBLE
+                        toolbarUserName.visibility = View.INVISIBLE
                         toolbarNotificationIcon.visibility = View.GONE
-                        toolbarFragmentName.visibility = View.INVISIBLE
+                        toolbarFragmentName.visibility = View.VISIBLE
                     }
                     R.id.resourceVideosFragment -> {
                         bottomNavigationView.visibility = View.GONE
-                        toolbarProfilePicture.visibility = View.GONE
-                        toolbarUserName.visibility = View.GONE
+                        toolbarProfilePicture.visibility = View.INVISIBLE
+                        toolbarUserName.visibility = View.INVISIBLE
                         toolbarNotificationIcon.visibility = View.GONE
-                        toolbarFragmentName.visibility = View.INVISIBLE
+                        toolbarFragmentName.visibility = View.VISIBLE
                     }
                     R.id.resourceViewIndividualArticleFragment -> {
                         bottomNavigationView.visibility = View.GONE
@@ -399,8 +399,8 @@ class DashboardActivity : AppCompatActivity() {
                     }
                     R.id.individualVideoScreenFragment -> {
                         bottomNavigationView.visibility = View.GONE
-                        toolbarProfilePicture.visibility = View.GONE
-                        toolbarUserName.visibility = View.GONE
+                        toolbarProfilePicture.visibility = View.INVISIBLE
+                        toolbarUserName.visibility = View.INVISIBLE
                         toolbarNotificationIcon.visibility = View.GONE
                         toolbarFragmentName.visibility = View.INVISIBLE
                     }
