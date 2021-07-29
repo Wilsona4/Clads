@@ -311,17 +311,6 @@ class EmailSignUpFragment : BaseFragment() {
             .requestEmail()
             .build()
         cladsGoogleSignInClient = GoogleSignIn.getClient(requireContext(), googleSignInOptions)
-
-        val googleAccount = GoogleSignIn.getLastSignedInAccount(requireContext())
-
-        if (googleAccount != null) {
-            val accountFirstName = googleAccount.givenName
-            val accountLastName = googleAccount.familyName
-            val accountEmail = googleAccount.email
-            firstNameEditText.setText(accountFirstName)
-            lastNameEditText.setText(accountLastName)
-            emailEditText.setText(accountEmail)
-        }
     }
 
     override fun onDestroyView() {
