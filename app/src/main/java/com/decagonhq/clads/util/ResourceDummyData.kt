@@ -6,7 +6,7 @@ import com.decagonhq.clads.data.domain.resource.ResourceGeneralVideoModel
 object ResourceDummyData {
     var videoItem = mutableListOf(
         ResourceGeneralVideoModel(
-            "https://i.pinimg.com/236x/84/21/22/84212218025a261761611acde7bcc750--modern-patterns-vintage-sewing-patterns.jpg",
+            "https://assets.mixkit.co/videos/preview/mixkit-woman-modelling-dress-in-a-studio-806-large.mp4",
             "How to perfectly sew headgear",
             R.drawable.description
         ),
