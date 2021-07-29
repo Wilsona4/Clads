@@ -38,7 +38,6 @@ class SignUpOptionsFragment : BaseFragment() {
     private lateinit var loginButton: TextView
     private lateinit var googleSignInClient: GoogleSignInClient
     private val authenticationViewModel: AuthenticationViewModel by activityViewModels()
-    private val userProfileViewModel: UserProfileViewModel by activityViewModels()
 
     override fun onStart() {
         super.onStart()
