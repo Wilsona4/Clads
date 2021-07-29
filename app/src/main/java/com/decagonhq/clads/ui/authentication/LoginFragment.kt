@@ -25,7 +25,6 @@ import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import com.decagonhq.clads.R
 import com.decagonhq.clads.data.domain.login.LoginCredentials
-import com.decagonhq.clads.data.domain.login.UserRole
 import com.decagonhq.clads.databinding.LoginFragmentBinding
 import com.decagonhq.clads.ui.BaseFragment
 import com.decagonhq.clads.ui.profile.DashboardActivity

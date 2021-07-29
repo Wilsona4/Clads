@@ -43,13 +43,12 @@ class AuthRepositoryImpl(
                 safeApiCall {
                     if (userRole != null) {
                         apiService.googleLogin(userRole)
-                    } else{
+                    } else {
                         apiService.googleLogin()
                     }
                 }
             )
         }
-
 
     override suspend fun verifyAuthToken(token: String): Flow<Resource<GenericResponseClass<String>>> =
         flow {
