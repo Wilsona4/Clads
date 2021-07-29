@@ -10,16 +10,16 @@ import com.decagonhq.clads.data.domain.profile.WorkshopAddress
 
 @Entity(tableName = "user_profile_table")
 data class UserProfileEntity(
-    val country: String,
+    val country: String?,
     val deliveryTime: String? = null,
     val email: String,
     val firstName: String,
-    val gender: String,
+    val gender: String?,
     val genderFocus: List<String>,
     val lastName: String,
     @Embedded(prefix = "user_profile_table_measurement_options")
     val measurementOption: MeasurementOption,
-    val phoneNumber: String,
+    val phoneNumber: String?,
     val role: String,
     @Embedded(prefix = "user_profile_table_showroom_address")
     val showroomAddress: ShowroomAddress? = null,

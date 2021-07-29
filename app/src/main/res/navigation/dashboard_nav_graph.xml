@@ -87,6 +87,7 @@
             app:popEnterAnim="@anim/slide_in_left"
             app:popExitAnim="@anim/slide_out_right" />
     </fragment>
+
     <fragment
         android:id="@+id/subscriptionFragment"
         android:name="com.decagonhq.clads.ui.subscription.SubscriptionFragment"
@@ -123,6 +124,7 @@
             app:nullable="true"
             android:defaultValue="@null" />
     </fragment>
+
     <fragment
         android:id="@+id/deliveryAddressFragment"
         android:name="com.decagonhq.clads.ui.client.DeliveryAddressFragment"

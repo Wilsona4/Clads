@@ -37,11 +37,15 @@ class AuthRepositoryImpl(
             )
         }
 
-    override suspend fun loginUserWithGoogle(userRole: UserRole): Flow<Resource<GenericResponseClass<String>>> =
+    override suspend fun loginUserWithGoogle(userRole: UserRole?): Flow<Resource<GenericResponseClass<String>>> =
         flow {
             emit(
                 safeApiCall {
-                    apiService.googleLogin(userRole)
+                    if (userRole != null) {
+                        apiService.googleLogin(userRole)
+                    } else {
+                        apiService.googleLogin()
+                    }
                 }
             )
         }
