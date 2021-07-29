@@ -36,6 +36,10 @@ interface ApiService {
     @POST("login/google")
     suspend fun googleLogin(@Body userRole: UserRole): GenericResponseClass<String>
 
+    /*Google Login*/
+    @POST("login/google")
+    suspend fun googleLogin(): GenericResponseClass<String>
+
     @DELETE("client/{clientId}")
     suspend fun deleteClient(@Path("clientId") clientId: Int): GenericResponseClass<Client>
 

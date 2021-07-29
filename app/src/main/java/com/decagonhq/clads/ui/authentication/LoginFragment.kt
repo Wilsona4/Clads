@@ -230,9 +230,8 @@ class LoginFragment : BaseFragment() {
                 }
             }
 
-            viewModel.loginUserWithGoogle(
-                UserRole(getString(R.string.tailor))
-            )
+            viewModel.loginUserWithGoogle(null)
+
             progressDialog.showDialogFragment(getString(R.string.please_wait))
 
             /*Handling the response from the retrofit*/
