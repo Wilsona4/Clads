@@ -6,7 +6,6 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
-import android.widget.Toast
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
@@ -18,6 +17,7 @@ import com.decagonhq.clads.ui.profile.DashboardActivity
 import com.decagonhq.clads.util.Constants
 import com.decagonhq.clads.util.Constants.GOOGLE_SIGN_IN_REQUEST_CODE
 import com.decagonhq.clads.util.Resource
+import com.decagonhq.clads.util.handleApiError
 import com.decagonhq.clads.util.navigateTo
 import com.decagonhq.clads.viewmodels.AuthenticationViewModel
 import com.decagonhq.clads.viewmodels.UserProfileViewModel
@@ -28,7 +28,6 @@ import com.google.android.gms.auth.api.signin.GoogleSignInOptions
 import com.google.android.gms.common.api.ApiException
 import com.google.android.gms.tasks.Task
 import dagger.hilt.android.AndroidEntryPoint
-import timber.log.Timber
 
 @AndroidEntryPoint
 class SignUpOptionsFragment : BaseFragment() {
@@ -111,7 +110,6 @@ class SignUpOptionsFragment : BaseFragment() {
         super.onActivityResult(requestCode, resultCode, data)
         if (requestCode == GOOGLE_SIGN_IN_REQUEST_CODE) {
             val task = GoogleSignIn.getSignedInAccountFromIntent(data)
-            Timber.d("onActivityResult: $task")
             handleSignUpResult(task)
         }
     }
@@ -120,14 +118,9 @@ class SignUpOptionsFragment : BaseFragment() {
     private fun handleSignUpResult(completedTask: Task<GoogleSignInAccount>) {
         try {
             val account = completedTask.getResult(ApiException::class.java)
-            Timber.w("Try block: $account")
             loadDashBoardFragment(account)
         } catch (e: ApiException) {
-            Timber.w("signInResult:failed code= ${e.statusCode}")
-            Toast.makeText(
-                requireContext(),
-                "Cancelled: ${e.localizedMessage}", Toast.LENGTH_SHORT
-            ).show()
+            showToast(e.localizedMessage)
         }
     }
 
@@ -141,7 +134,7 @@ class SignUpOptionsFragment : BaseFragment() {
             }
 
             authenticationViewModel.loginUserWithGoogle(
-                UserRole(getString(R.string.tailor))
+                UserRole("Tailor")
             )
             /*Handling the response from the retrofit*/
             authenticationViewModel.loginUserWithGoogle.observe(
@@ -162,6 +155,7 @@ class SignUpOptionsFragment : BaseFragment() {
                         }
                         is Resource.Error -> {
                             progressDialog.hideProgressDialog()
+                            handleApiError(it, mainRetrofit, requireView(), sessionManager, database)
                         }
                         is Resource.Loading -> {
                             progressDialog.showDialogFragment(getString(R.string.please_wait))
