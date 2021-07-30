@@ -68,7 +68,8 @@ class ResetPasswordFragment : Fragment() {
                 }
                 else -> {
                     if (validateSignUpFieldsOnTextChange()) {
-                        findNavController().navigate(R.id.login_fragment)
+                        val action = ResetPasswordFragmentDirections.actionResetPasswordFragmentToLoginFragment()
+                        findNavController().navigate(action)
                     }
                 }
             }

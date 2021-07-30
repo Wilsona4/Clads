@@ -78,7 +78,8 @@ class ResourceGeneralFragment :
         }
 
         viewAllArticles.setOnClickListener {
-            findNavController().navigate(R.id.resourceArticlesFragment)
+            val action = ResourceGeneralFragmentDirections.actionResourceGeneralFragmentToResourceArticlesFragment()
+            findNavController().navigate(action)
         }
     }
 

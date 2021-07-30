@@ -6,7 +6,6 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
-import com.decagonhq.clads.R
 import com.decagonhq.clads.databinding.ResetPasswordConfirmationFragmentBinding
 import com.google.android.material.button.MaterialButton
 
@@ -33,7 +32,8 @@ class ResetPasswordConfirmationFragment : Fragment() {
 
         resetPasswordButton.setOnClickListener {
             /*Send Reset Password Email*/
-            findNavController().navigate(R.id.reset_password_fragment)
+            val action = ResetPasswordConfirmationFragmentDirections.actionConfirmPasswordResetFragmentToResetPasswordFragment()
+            findNavController().navigate(action)
         }
     }
 
