@@ -54,7 +54,7 @@ class AddClientFragment : BaseFragment() {
         super.onStart()
         if (args.client != null) {
 //            android:label="@string/add_client"
-            findNavController().currentDestination?.label = "Edit Client"
+            findNavController().currentDestination?.label = getString(R.string.edit_client)
         } else {
             findNavController().currentDestination?.label = getString(R.string.add_client)
         }
