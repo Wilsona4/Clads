@@ -52,7 +52,7 @@ import javax.inject.Inject
 import javax.inject.Named
 
 @AndroidEntryPoint
-class DashboardActivity : AppCompatActivity() {
+class DashboardActivity : AppCompatActivity(), updateToolbarTitleListener {
 
     private lateinit var appBarConfiguration: AppBarConfiguration
     private lateinit var binding: DashboardActivityBinding
@@ -248,6 +248,7 @@ class DashboardActivity : AppCompatActivity() {
         }
     }
 
+
     override fun onResume() {
         super.onResume()
         navController.addOnDestinationChangedListener(listener)
@@ -431,4 +432,13 @@ class DashboardActivity : AppCompatActivity() {
             }
         }
     }
+
+    override fun updateTitle(title: String) {
+        toolbarFragmentName.text = title
+    }
+}
+
+interface updateToolbarTitleListener{
+
+    fun updateTitle(title:String)
 }

@@ -5,6 +5,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
+import android.widget.Toolbar
 import androidx.core.os.bundleOf
 import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.setFragmentResult
@@ -20,6 +21,7 @@ import com.decagonhq.clads.data.domain.client.Measurement
 import com.decagonhq.clads.databinding.AddClientFragmentBinding
 import com.decagonhq.clads.ui.BaseFragment
 import com.decagonhq.clads.ui.client.adapter.AddClientPagerAdapter
+import com.decagonhq.clads.ui.profile.updateToolbarTitleListener
 import com.decagonhq.clads.util.Resource
 import com.decagonhq.clads.util.handleApiError
 import com.decagonhq.clads.util.hideView
@@ -53,10 +55,9 @@ class AddClientFragment : BaseFragment() {
     override fun onStart() {
         super.onStart()
         if (args.client != null) {
-//            android:label="@string/add_client"
-            findNavController().currentDestination?.label = getString(R.string.edit_client)
+            (activity as updateToolbarTitleListener).updateTitle("Edit Client")
         } else {
-            findNavController().currentDestination?.label = getString(R.string.add_client)
+            (activity as updateToolbarTitleListener).updateTitle("Add Client")
         }
     }
 
@@ -85,6 +86,7 @@ class AddClientFragment : BaseFragment() {
         init()
         setEventListeners()
         setObservers()
+
     }
 
     override fun onDestroyView() {
