@@ -53,7 +53,6 @@ class AddClientFragment : BaseFragment() {
     override fun onStart() {
         super.onStart()
         if (args.client != null) {
-//            android:label="@string/add_client"
             findNavController().currentDestination?.label = "Edit Client"
         } else {
             findNavController().currentDestination?.label = getString(R.string.add_client)
@@ -162,10 +161,13 @@ class AddClientFragment : BaseFragment() {
                                     it.data?.let {
                                         editClient?.let {
                                             showToast("Updated Successfully")
+                                            findNavController().popBackStack(R.id.clientFragment, false)
                                         } ?: showToast("Saved Successfully")
                                     }
+
                                     clientsRegisterViewModel.clearMeasurement()
                                     findNavController().popBackStack(R.id.clientFragment, false)
+
                                 }
                             }
                         }

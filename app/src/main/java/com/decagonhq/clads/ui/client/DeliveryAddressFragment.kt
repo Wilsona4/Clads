@@ -1,18 +1,26 @@
 package com.decagonhq.clads.ui.client
 
+import android.content.Context
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.AdapterView
+import android.widget.ArrayAdapter
+import android.widget.AutoCompleteTextView
 import android.widget.Button
 import androidx.core.os.bundleOf
 import androidx.fragment.app.activityViewModels
 import com.decagonhq.clads.R
 import com.decagonhq.clads.data.domain.client.DeliveryAddress
+import com.decagonhq.clads.data.domain.location.LocationJson
 import com.decagonhq.clads.databinding.DeliveryAddressFragmentBinding
 import com.decagonhq.clads.ui.BaseFragment
 import com.decagonhq.clads.ui.client.dialogfragment.ClientManagementDialogFragments
 import com.decagonhq.clads.viewmodels.ClientsRegisterViewModel
+import com.google.gson.Gson
+import java.io.InputStream
+import java.lang.Exception
 import java.util.Locale
 
 class DeliveryAddressFragment : BaseFragment() {
@@ -41,6 +49,7 @@ class DeliveryAddressFragment : BaseFragment() {
         init()
         setEventListeners()
         setObserver()
+
     }
 
     override fun onDestroyView() {
@@ -66,7 +75,7 @@ class DeliveryAddressFragment : BaseFragment() {
                         clientAddressEdit?.city?.capitalize(Locale.ROOT)
                         } ~ ${clientAddressEdit?.state}"
 
-                    toggleButtonText()
+                        toggleButtonText()
                 }
             }
         )
@@ -75,6 +84,7 @@ class DeliveryAddressFragment : BaseFragment() {
     private fun init() {
         addDeliveryAddressButton = binding.deliveryAddressFragmentAddButton
     }
+
 
     fun saveToViewModel(): Boolean {
         var isSaved = false

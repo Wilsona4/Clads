@@ -17,6 +17,7 @@ class ClientRepositoryImpl @Inject constructor(
 ) : ClientsRepository, SafeApiCall() {
 
     override suspend fun getClients(): Flow<Resource<List<Client>>> =
+
         networkBoundResource(
             fetchFromLocal = {
                 database.clientDao().readAllClients()
@@ -44,6 +45,7 @@ class ClientRepositoryImpl @Inject constructor(
     }
 
     override suspend fun addClient(client: Client): Flow<Resource<List<Client>>> =
+
         networkBoundResource(
             fetchFromLocal = {
                 database.clientDao().readAllClients()
@@ -62,6 +64,7 @@ class ClientRepositoryImpl @Inject constructor(
                 }
             }
         )
+
 
     override suspend fun deleteClient(clientId: Int): Flow<Resource<List<Client>>> =
         networkBoundResource(

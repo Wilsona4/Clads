@@ -1,10 +1,14 @@
 package com.decagonhq.clads.ui.client.dialogfragment
 
+import android.content.Context
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.AdapterView
 import android.widget.ArrayAdapter
+import android.widget.AutoCompleteTextView
 import androidx.core.os.bundleOf
 import androidx.core.widget.doOnTextChanged
 import androidx.fragment.app.DialogFragment
@@ -13,6 +17,7 @@ import androidx.fragment.app.setFragmentResult
 import com.decagonhq.clads.R
 import com.decagonhq.clads.data.domain.client.DeliveryAddress
 import com.decagonhq.clads.data.domain.client.Measurement
+import com.decagonhq.clads.data.domain.location.LocationJson
 import com.decagonhq.clads.databinding.AddAddressFragmentBinding
 import com.decagonhq.clads.databinding.AddMeasurementDialogFragmentBinding
 import com.decagonhq.clads.databinding.EditMeasurementDialogFragmentBinding
@@ -22,6 +27,11 @@ import com.decagonhq.clads.ui.client.DeliveryAddressFragment.Companion.DELIVERY_
 import com.decagonhq.clads.ui.client.MeasurementsFragment.Companion.EDIT_MEASUREMENT_BUNDLE_KEY
 import com.decagonhq.clads.ui.client.MeasurementsFragment.Companion.EDIT_MEASUREMENT_BUNDLE_POSITION
 import com.decagonhq.clads.viewmodels.ClientsRegisterViewModel
+import com.github.mikephil.charting.charts.Chart.LOG_TAG
+import com.google.android.material.textfield.TextInputEditText
+import com.google.gson.Gson
+import java.io.InputStream
+import java.lang.Exception
 import java.util.Locale
 
 class ClientManagementDialogFragments(
@@ -30,6 +40,11 @@ class ClientManagementDialogFragments(
 ) : DialogFragment() {
 
     private val registerClientViewModel: ClientsRegisterViewModel by activityViewModels()
+    private val gson by lazy { Gson() }
+    private lateinit var locations: LocationJson
+    private var statePicked = ""
+    private lateinit var stateSelectorDropdown: AutoCompleteTextView
+    private lateinit var cityAddress: AutoCompleteTextView
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -49,8 +64,10 @@ class ClientManagementDialogFragments(
 
         /*Inflate Dialog Fragment Layouts based on Id*/
         when (dialogLayoutId) {
+
             /*Add Measurement Dialog Fragment*/
             R.layout.add_measurement_dialog_fragment -> {
+
                 /*Initialise binding*/
                 val binding = AddMeasurementDialogFragmentBinding.bind(view)
                 /*Initializing Views*/
@@ -99,10 +116,6 @@ class ClientManagementDialogFragments(
                                     measurement.toString().toInt()
                                 )
                             )
-//                                    setFragmentResult(
-//                                ADD_MEASUREMENT_REQUEST_KEY,
-//                                bundleOf(ADD_MEASUREMENT_BUNDLE_KEY to bundle)
-//                            )
                             dismiss()
                         }
                     }
@@ -150,50 +163,103 @@ class ClientManagementDialogFragments(
                     }
                 }
             }
-            /*Edit Measurement Dialog Fragment*/
+
+
+            /*Edit address Dialog Fragment*/
             R.layout.add_address_fragment -> {
+
                 /*Initialise binding*/
                 val binding = AddAddressFragmentBinding.bind(view)
+
+                locations = gson.fromJson(readJson(requireActivity()), LocationJson::class.java)
+
+                // Read state and lga from
+                val states: MutableList<String> = mutableListOf()
+
+                for (data in locations.data) {
+                    states.add(data.state)
+                }
+
+                // set state view binding
+                stateSelectorDropdown = binding.addAddressFragmentStateAddressEditTextView
+
+                // set view data
+                val adapterState = ArrayAdapter(requireContext(), R.layout.list_item, states.sorted())
+                stateSelectorDropdown.setAdapter(adapterState)
+
+                // lga
+                val lga: MutableList<String> = mutableListOf()
+                val adapterLGA = ArrayAdapter(requireContext(), R.layout.list_item, lga)
+
+                cityAddress = binding.addAddressFragmentLgaAddressEditTextView
+                cityAddress.setAdapter(adapterLGA)
+
+                val cityEditText = binding.addAddressFragmentLgaAddressEditTextView
+
+                //Get State Picked
+                val adapterStateObject =
+                    AdapterView.OnItemClickListener { parent, _, position, _ ->
+
+                        statePicked = parent.getItemAtPosition(position).toString()
+                        for (state in locations.data) {
+                            if (state.state == statePicked) {
+                                lga.clear()
+                                for (data in state.lgas) {
+                                    lga.add(data)
+                                }
+                                cityEditText.setText(lga[0], false)
+                            }
+                        }
+                    }
+
+                 stateSelectorDropdown.onItemClickListener = adapterStateObject
+
                 /*Initializing Views*/
                 val enterAddressEditText = binding.addAddressFragmentEnterDeliveryAddressEditText
-                val cityEditText = binding.addAddressFragmentCityAddressEditText
 
+                val stateEditText = binding.addAddressFragmentStateAddressEditTextView
                 val saveAddressButton = binding.addAddressFragmentSaveAddressButton
 
-                /*Initialize and Set-up Auto-Complete Text View*/
-                val stateEditText = binding.addAddressFragmentStateAutoComplete
-                val states = resources.getStringArray(R.array.states)
-                val arrayAdapter =
-                    ArrayAdapter(requireContext(), R.layout.state_drop_down_item, states)
-                stateEditText.setAdapter(arrayAdapter)
-
-                val retrievedArgs =
-                    bundle?.getString(CURRENT_DELIVERY_ADDRESS_BUNDLE_KEY)
+                // get the arguments
+                val retrievedArgs = bundle?.getString(CURRENT_DELIVERY_ADDRESS_BUNDLE_KEY)
                 val splitAddress = retrievedArgs?.split("~")
 
                 /*Attaching the data*/
-                if (splitAddress != null && splitAddress.size >= 2) {
-                    enterAddressEditText.setText(splitAddress[0])
-                    cityEditText.setText(splitAddress[1])
-                    stateEditText.setText(
-                        splitAddress.lastOrNull {
-                            states.contains(it.trim())
+                if (splitAddress != null && splitAddress.size >= 3) {
+
+                    val currentState = splitAddress[2]
+                    val currentLga = splitAddress[1].trim()
+                    val currentStreet = splitAddress[0].trim()
+
+                    for (state in locations.data) {
+                        states.add(state.state)
+                    }
+
+                    stateEditText.setText(currentState, false)
+
+                    for (state in locations.data) {
+                        for (data in state.lgas) {
+                            lga.add(data)
                         }
-                    )
+                    }
+
+                    val lgaPicked = lga[lga.indexOf(currentLga)]
+                    cityEditText.setText(lgaPicked, false)
+
+                    enterAddressEditText.setText(currentStreet)
                 }
 
-                /*Saving the changes for the measurement*/
+                /*Saving the changes for the address*/
                 saveAddressButton.setOnClickListener {
-                    val addressName =
-                        binding.addAddressFragmentEnterDeliveryAddressEditText.text.toString()
-                            .trim()
-                    val addressCity =
-                        binding.addAddressFragmentCityAddressEditText.text.toString().trim()
-                    val addressState =
-                        binding.addAddressFragmentStateAutoComplete.text.toString().trim()
+
+                    val addressState = binding.addAddressFragmentStateAddressEditTextView.text.toString().trim()
+                    val addressName = binding.addAddressFragmentEnterDeliveryAddressEditText.text.toString().trim()
+                    val addressCity = binding.addAddressFragmentLgaAddressEditTextView.text.toString().trim()
 
                     when {
+
                         addressName.isEmpty() -> {
+
                             binding.addAddressFragmentEnterDeliveryAddressEditTextLayout.error =
                                 getString(
                                     R.string.required
@@ -201,7 +267,9 @@ class ClientManagementDialogFragments(
                             binding.addAddressFragmentEnterDeliveryAddressEditTextLayout.errorIconDrawable =
                                 null
                             return@setOnClickListener
+
                         }
+
                         addressName.length < 3 && addressName.isNotEmpty() -> {
                             binding.addAddressFragmentEnterDeliveryAddressEditTextLayout.error =
                                 getString(R.string.must_contain_3_or_more)
@@ -212,21 +280,21 @@ class ClientManagementDialogFragments(
                         }
 
                         addressCity.isEmpty() -> {
-                            binding.addAddressFragmentCityAddressEditTextLayout.error =
+                            binding.addAddressFragmentLgaAddressEditTextLayout.error =
                                 getString(
                                     R.string.required
                                 )
-                            binding.addAddressFragmentCityAddressEditTextLayout.errorIconDrawable =
+                            binding.addAddressFragmentLgaAddressEditTextLayout.errorIconDrawable =
                                 null
 
                             return@setOnClickListener
                         }
 
                         addressCity.length < 3 && addressCity.isNotEmpty() -> {
-                            binding.addAddressFragmentCityAddressEditTextLayout.error =
+                            binding.addAddressFragmentLgaAddressEditTextLayout.error =
                                 getString(R.string.must_contain_3_or_more)
 
-                            binding.addAddressFragmentCityAddressEditTextLayout.errorIconDrawable =
+                            binding.addAddressFragmentLgaAddressEditTextLayout.errorIconDrawable =
                                 null
                             return@setOnClickListener
                         }
@@ -284,24 +352,15 @@ class ClientManagementDialogFragments(
                 cityEditText.doOnTextChanged { _, _, _, _ ->
                     when {
                         cityEditText.text.toString().trim().isEmpty() -> {
-                            binding.addAddressFragmentCityAddressEditTextLayout.error =
+                            binding.addAddressFragmentLgaAddressEditTextLayout.error =
                                 getString(
                                     R.string.required
                                 )
-                            binding.addAddressFragmentCityAddressEditTextLayout.errorIconDrawable =
-                                null
-                        }
-                        cityEditText.text.toString()
-                            .trim().length < 3 && cityEditText.text.toString().trim()
-                            .isNotEmpty() -> {
-                            binding.addAddressFragmentCityAddressEditTextLayout.error =
-                                getString(R.string.must_contain_3_or_more)
-
-                            binding.addAddressFragmentCityAddressEditTextLayout.errorIconDrawable =
+                            binding.addAddressFragmentLgaAddressEditTextLayout.errorIconDrawable =
                                 null
                         }
                         else -> {
-                            binding.addAddressFragmentCityAddressEditTextLayout.error = null
+                            binding.addAddressFragmentLgaAddressEditTextLayout.error = null
                         }
                     }
                 }
@@ -319,6 +378,7 @@ class ClientManagementDialogFragments(
                     }
                 }
             }
+
             /*Edit Measurement Dialog Fragment*/
             R.layout.edit_measurement_dialog_fragment -> {
                 /*Initialise binding*/
@@ -378,13 +438,6 @@ class ClientManagementDialogFragments(
                                     editedDataModel
                                 )
                             }
-//                            ClientMeasurementData.currentList[itemPosition!!] = editedDataModel
-//                            setFragmentResult(
-//                                EDITED_MEASUREMENT_REQUEST_KEY,
-//                                bundleOf(
-//                                    EDITED_MEASUREMENT_BUNDLE_KEY to editedDataModel
-//                                )
-//                            )
                             dismiss()
                         }
                     }
@@ -423,6 +476,35 @@ class ClientManagementDialogFragments(
                 }
             }
         }
+    }
+
+    private fun readJson(context: Context): String? {
+        var inputStream: InputStream? = null
+
+        val jsonString: String
+
+        try {
+
+            inputStream = context.assets.open("location.json")
+
+            val size = inputStream.available()
+
+            val buffer = ByteArray(size)
+
+            inputStream.read(buffer)
+
+            jsonString = String(buffer)
+
+            return jsonString
+
+        } catch (e: Exception) {
+            e.printStackTrace()
+        } finally {
+            inputStream?.close()
+        }
+
+        return null
+
     }
 
     companion object {

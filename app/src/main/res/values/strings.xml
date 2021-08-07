@@ -110,7 +110,7 @@
     <string name="blank_text_view_item">Blank text view item</string>
     <string name="add_delivery_address">Add Delivery Address</string>
     <string name="delivery_address">Delivery Address</string>
-    <string name="enter_delivery_address">Enter Delivery Address</string>
+    <string name="enter_street_address">Enter Street Address</string>
     <string name="delivery_address_city">City</string>
     <string name="delivery_address_state">State</string>
     <string name="there_are_no_delivery_address">There are no delivery address for this client</string>
@@ -379,6 +379,9 @@
     <string name="_2nd_floor_luzen_plaza_igbo_efon_lekki_lagos">2nd_floor luzen plaza igbo efon lekki lagos</string>
     <string name="ykunleq_example_com">ykunleq@example.com</string>
     <string name="om">OM</string>
+    <string name="lga_label_str">LGA</string>
+    <string name="state_label_str">STATE</string>
+    <string name="hint_9_obasanjo_street">hint: 9, obasanjo street</string>
 
     <string-array name="account_category">
         <item>Tailor</item>
