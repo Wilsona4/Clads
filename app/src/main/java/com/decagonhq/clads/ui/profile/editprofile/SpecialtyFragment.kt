@@ -153,7 +153,7 @@ class SpecialtyFragment : BaseFragment() {
             viewLifecycleOwner,
             Observer {
                 if (it is Resource.Loading && it.data?.firstName.isNullOrEmpty()) {
-                    progressDialog.showDialogFragment("Updating..")
+                    progressDialog.showDialogFragment("Updating...")
                 } else if (it is Resource.Error) {
                     progressDialog.hideProgressDialog()
                     handleApiError(it, mainRetrofit, requireView(), sessionManager, database)
@@ -230,7 +230,7 @@ class SpecialtyFragment : BaseFragment() {
                             role = profile.role,
                             workshopAddress = profile.workshopAddress,
                             showroomAddress = profile.showroomAddress,
-                            specialties = recyclerViewAdapter.getList(), // ----------//
+                            specialties = recyclerViewAdapter.savedSpecialtySet.toList(), // ----------//
                             thumbnail = profile.thumbnail,
                             trained = binding.specialtyFragmentObiomaTrainedAndCertifiedValueTextView.text.toString()
                                 .toLowerCase() == "yes",
