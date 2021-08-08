@@ -5,7 +5,6 @@ import android.view.ViewGroup
 import android.widget.CompoundButton
 import androidx.recyclerview.widget.RecyclerView
 import com.decagonhq.clads.databinding.SpecialtyFragmentRecyclerItemBinding
-import timber.log.Timber
 
 class SpecialtyFragmentRecyclerAdapter :
     RecyclerView.Adapter<SpecialtyFragmentRecyclerAdapter.SpecialtyViewHolder>() {
@@ -52,8 +51,6 @@ class SpecialtyFragmentRecyclerAdapter :
                     }
                 }
             )
-
-            Timber.d("$savedSpecialtySet")
         }
     }
 
