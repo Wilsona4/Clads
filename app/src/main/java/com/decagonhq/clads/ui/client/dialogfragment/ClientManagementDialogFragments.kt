@@ -230,6 +230,7 @@ class ClientManagementDialogFragments(
 
                     binding.addAddressFragmentTitleAddAddressTextView.text = getString(R.string.Edit_delivery_address)
 
+
                     val currentState = splitAddress[2]
                     val currentLga = splitAddress[1].trim()
                     val currentStreet = splitAddress[0].trim()
@@ -239,6 +240,7 @@ class ClientManagementDialogFragments(
                     }
 
                     stateEditText.setText(currentState, false)
+
 
                     for (state in locations.data) {
                         for (data in state.lgas) {
@@ -251,6 +253,24 @@ class ClientManagementDialogFragments(
 
                     enterAddressEditText.setText(currentStreet)
                 }
+
+
+// for fixing lga prefill on edit
+
+//                for (state in locations.data) {
+//                    for (data in state.lgas) {
+//                        if (state.state === currentState){
+//                            lga.add(data)
+//
+//                            if(data === currentLga){
+//                                val lgaPicked = lga[lga.indexOf(currentLga)]
+//                                cityEditText.setText(lgaPicked, false)
+//
+//                            }
+//                        }
+//                    }
+//                }
+
 
                 /*Saving the changes for the address*/
                 saveAddressButton.setOnClickListener {
