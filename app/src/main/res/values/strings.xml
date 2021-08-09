@@ -302,6 +302,7 @@
     <string name="ward_three">ward three</string>
     <string name="eti_osa">Eti-osa</string>
     <string name="state">State</string>
+    <string name="local_government">LGA</string>
     <string name="city">City</string>
     <string name="lagos">Lagos</string>
     <string name="street">Street</string>
@@ -382,6 +383,7 @@
     <string name="lga_label_str">LGA</string>
     <string name="state_label_str">STATE</string>
     <string name="hint_9_obasanjo_street">hint: 9, obasanjo street</string>
+    <string name="Edit_delivery_address">Edit Delivery Address</string>
 
     <string-array name="account_category">
         <item>Tailor</item>

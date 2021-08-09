@@ -37,6 +37,7 @@ import java.util.Locale
 class ClientManagementDialogFragments(
     private var dialogLayoutId: Int,
     private var bundle: Bundle? = null
+
 ) : DialogFragment() {
 
     private val registerClientViewModel: ClientsRegisterViewModel by activityViewModels()
@@ -226,6 +227,8 @@ class ClientManagementDialogFragments(
 
                 /*Attaching the data*/
                 if (splitAddress != null && splitAddress.size >= 3) {
+
+                    binding.addAddressFragmentTitleAddAddressTextView.text = getString(R.string.Edit_delivery_address)
 
                     val currentState = splitAddress[2]
                     val currentLga = splitAddress[1].trim()
