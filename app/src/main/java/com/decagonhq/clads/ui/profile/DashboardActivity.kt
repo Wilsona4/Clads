@@ -182,7 +182,7 @@ class DashboardActivity : AppCompatActivity(), updateToolbarTitleListener {
                         )
 
                     val fullName = "${userProfile?.firstName ?: getString(R.string.ijeoma)} ${
-                        userProfile?.lastName ?: getString(R.string.babangida)
+                    userProfile?.lastName ?: getString(R.string.babangida)
                     }"
                     profileName.text = fullName
 
