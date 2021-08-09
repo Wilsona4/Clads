@@ -101,7 +101,7 @@
     <fragment
         android:id="@+id/addClientFragment"
         android:name="com.decagonhq.clads.ui.client.AddClientFragment"
-        android:label="@string/add_client"
+
         tools:layout="@layout/add_client_fragment">
         <action
             android:id="@+id/action_addClientFragment_to_clientFragment"

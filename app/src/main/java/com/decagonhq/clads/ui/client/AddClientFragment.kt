@@ -5,7 +5,6 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
-import android.widget.Toolbar
 import androidx.core.os.bundleOf
 import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.setFragmentResult
@@ -86,7 +85,6 @@ class AddClientFragment : BaseFragment() {
         init()
         setEventListeners()
         setObservers()
-
     }
 
     override fun onDestroyView() {

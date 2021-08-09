@@ -248,7 +248,6 @@ class DashboardActivity : AppCompatActivity(), updateToolbarTitleListener {
         }
     }
 
-
     override fun onResume() {
         super.onResume()
         navController.addOnDestinationChangedListener(listener)
@@ -315,7 +314,8 @@ class DashboardActivity : AppCompatActivity(), updateToolbarTitleListener {
     private fun onDestinationChangedListener() {
         listener =
             NavController.OnDestinationChangedListener { controller, destination, arguments ->
-                toolbarFragmentName.text = destination.label ?: getString(R.string.app_name)
+                toolbarFragmentName.text = destination.label ?: " "
+//                getString(R.string.app_name)
                 when (destination.id) {
                     R.id.nav_home -> {
                         bottomNavigationView.visibility = View.VISIBLE
@@ -403,15 +403,15 @@ class DashboardActivity : AppCompatActivity(), updateToolbarTitleListener {
                     }
                     R.id.individualVideoScreenFragment -> {
                         bottomNavigationView.visibility = View.GONE
-                        toolbarProfilePicture.visibility = View.INVISIBLE
-                        toolbarUserName.visibility = View.INVISIBLE
+                        toolbarProfilePicture.visibility = View.GONE
+                        toolbarUserName.visibility = View.GONE
                         toolbarNotificationIcon.visibility = View.GONE
                         toolbarFragmentName.visibility = View.INVISIBLE
                     }
                     else -> {
                         bottomNavigationView.visibility = View.VISIBLE
                         toolbarProfilePicture.visibility = View.INVISIBLE
-                        toolbarUserName.visibility = View.INVISIBLE
+                        toolbarUserName.visibility = View.GONE
                         toolbarNotificationIcon.visibility = View.GONE
                         toolbarFragmentName.visibility = View.VISIBLE
                     }
@@ -438,7 +438,6 @@ class DashboardActivity : AppCompatActivity(), updateToolbarTitleListener {
     }
 }
 
-interface updateToolbarTitleListener{
-
-    fun updateTitle(title:String)
+interface updateToolbarTitleListener {
+    fun updateTitle(title: String)
 }

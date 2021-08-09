@@ -61,7 +61,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/margin_4dp"
                     android:fontFamily="@font/poppins_bold"
-                    android:text="@string/app_name"
+                    android:text=""
                     android:textColor="@color/navy_blue"
                     android:textSize="@dimen/text_size_20sp"
                     android:visibility="visible"

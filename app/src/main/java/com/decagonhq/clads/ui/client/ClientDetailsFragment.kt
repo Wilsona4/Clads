@@ -13,7 +13,6 @@ import com.decagonhq.clads.databinding.ClientDetailsFragmentBinding
 import com.decagonhq.clads.ui.BaseFragment
 import com.decagonhq.clads.ui.client.adapter.AddMeasurementAdapter
 import com.decagonhq.clads.ui.client.adapter.RecyclerClickListener
-import com.decagonhq.clads.ui.profile.DashboardActivity
 import com.decagonhq.clads.util.hideView
 import com.decagonhq.clads.util.showView
 import com.decagonhq.clads.viewmodels.ClientsRegisterViewModel

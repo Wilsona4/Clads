@@ -31,6 +31,7 @@
             android:id="@+id/client_details_fragment_edit_image_view"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:paddingStart="@dimen/height_20dp"
             android:src="@drawable/edit_icon"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="@+id/client_details_fragment_basic_info_text_view" />
