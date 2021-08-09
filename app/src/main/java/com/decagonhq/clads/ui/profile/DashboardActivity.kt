@@ -52,7 +52,7 @@ import javax.inject.Inject
 import javax.inject.Named
 
 @AndroidEntryPoint
-class DashboardActivity : AppCompatActivity() {
+class DashboardActivity : AppCompatActivity(), updateToolbarTitleListener {
 
     private lateinit var appBarConfiguration: AppBarConfiguration
     private lateinit var binding: DashboardActivityBinding
@@ -314,7 +314,8 @@ class DashboardActivity : AppCompatActivity() {
     private fun onDestinationChangedListener() {
         listener =
             NavController.OnDestinationChangedListener { controller, destination, arguments ->
-                toolbarFragmentName.text = destination.label ?: getString(R.string.app_name)
+                toolbarFragmentName.text = destination.label ?: " "
+//                getString(R.string.app_name)
                 when (destination.id) {
                     R.id.nav_home -> {
                         bottomNavigationView.visibility = View.VISIBLE
@@ -402,15 +403,15 @@ class DashboardActivity : AppCompatActivity() {
                     }
                     R.id.individualVideoScreenFragment -> {
                         bottomNavigationView.visibility = View.GONE
-                        toolbarProfilePicture.visibility = View.INVISIBLE
-                        toolbarUserName.visibility = View.INVISIBLE
+                        toolbarProfilePicture.visibility = View.GONE
+                        toolbarUserName.visibility = View.GONE
                         toolbarNotificationIcon.visibility = View.GONE
                         toolbarFragmentName.visibility = View.INVISIBLE
                     }
                     else -> {
                         bottomNavigationView.visibility = View.VISIBLE
                         toolbarProfilePicture.visibility = View.INVISIBLE
-                        toolbarUserName.visibility = View.INVISIBLE
+                        toolbarUserName.visibility = View.GONE
                         toolbarNotificationIcon.visibility = View.GONE
                         toolbarFragmentName.visibility = View.VISIBLE
                     }
@@ -431,4 +432,12 @@ class DashboardActivity : AppCompatActivity() {
             }
         }
     }
+
+    override fun updateTitle(title: String) {
+        toolbarFragmentName.text = title
+    }
+}
+
+interface updateToolbarTitleListener {
+    fun updateTitle(title: String)
 }

@@ -20,6 +20,7 @@ import com.decagonhq.clads.data.domain.client.Measurement
 import com.decagonhq.clads.databinding.AddClientFragmentBinding
 import com.decagonhq.clads.ui.BaseFragment
 import com.decagonhq.clads.ui.client.adapter.AddClientPagerAdapter
+import com.decagonhq.clads.ui.profile.updateToolbarTitleListener
 import com.decagonhq.clads.util.Resource
 import com.decagonhq.clads.util.handleApiError
 import com.decagonhq.clads.util.hideView
@@ -53,9 +54,9 @@ class AddClientFragment : BaseFragment() {
     override fun onStart() {
         super.onStart()
         if (args.client != null) {
-            findNavController().currentDestination?.label = "Edit Client"
+            (activity as updateToolbarTitleListener).updateTitle("Edit Client")
         } else {
-            findNavController().currentDestination?.label = getString(R.string.add_client)
+            (activity as updateToolbarTitleListener).updateTitle("Add Client")
         }
     }
 

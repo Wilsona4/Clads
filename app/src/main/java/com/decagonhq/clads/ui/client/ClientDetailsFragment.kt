@@ -59,6 +59,7 @@ class ClientDetailsFragment : BaseFragment(), RecyclerClickListener {
             val recyclerView = args.clientModel?.measurements?.toMutableList()
 
             clientDetailsFragmentEditImageView.setOnClickListener {
+//                val labelTitle =  (activity as DashboardActivity).title
                 args.clientModel?.let {
                     /*Edit Client*/
                     val action = ClientDetailsFragmentDirections.actionClientDetailsFragmentToAddClientFragment(it)
