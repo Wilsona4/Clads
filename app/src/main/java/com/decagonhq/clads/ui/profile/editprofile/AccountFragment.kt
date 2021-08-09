@@ -170,7 +170,7 @@ class AccountFragment : BaseFragment() {
                     handleApiError(it, mainRetrofit, requireView(), sessionManager, database)
                 } else {
                     progressDialog.hideProgressDialog()
-                    showToast("Update Successfull")
+                    showToast("Update Successful")
                     it.data?.let { profile ->
                         val userProfile = UserProfile(
                             country = profile.country,

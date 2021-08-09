@@ -5,4 +5,3 @@ data class LocationInfo(
     var alais: String,
     var lgas: List<String>
 )
-

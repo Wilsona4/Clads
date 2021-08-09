@@ -168,7 +168,6 @@ class AddClientFragment : BaseFragment() {
 
                                     clientsRegisterViewModel.clearMeasurement()
                                     findNavController().popBackStack(R.id.clientFragment, false)
-
                                 }
                             }
                         }

@@ -93,6 +93,7 @@ class SpecialtyFragment : BaseFragment() {
         }
     }
 
+    /*Set UP Add New Specialty Dialog*/
     private fun addNewSpecialtyDialog() {
         // when delivery time value is clicked
         childFragmentManager.setFragmentResultListener(
@@ -152,7 +153,7 @@ class SpecialtyFragment : BaseFragment() {
             viewLifecycleOwner,
             Observer {
                 if (it is Resource.Loading && it.data?.firstName.isNullOrEmpty()) {
-                    progressDialog.showDialogFragment("Updating..")
+                    progressDialog.showDialogFragment("Updating...")
                 } else if (it is Resource.Error) {
                     progressDialog.hideProgressDialog()
                     handleApiError(it, mainRetrofit, requireView(), sessionManager, database)
@@ -212,6 +213,7 @@ class SpecialtyFragment : BaseFragment() {
                     handleApiError(it, mainRetrofit, requireView(), sessionManager, database)
                 } else {
                     progressDialog.hideProgressDialog()
+                    showToast("Update Successful")
                     it.data?.let { profile ->
                         val userProfile = UserProfile(
                             country = profile.country,
@@ -229,7 +231,7 @@ class SpecialtyFragment : BaseFragment() {
                             role = profile.role,
                             workshopAddress = profile.workshopAddress,
                             showroomAddress = profile.showroomAddress,
-                            specialties = recyclerViewAdapter.specialtyList,
+                            specialties = recyclerViewAdapter.savedSpecialtySet.toList(), // ----------//
                             thumbnail = profile.thumbnail,
                             trained = binding.specialtyFragmentObiomaTrainedAndCertifiedValueTextView.text.toString()
                                 .toLowerCase() == "yes",
@@ -288,7 +290,7 @@ class SpecialtyFragment : BaseFragment() {
             // adapterPosition
             val position = viewHolder.adapterPosition
             // getting the current contact swiped
-            val currentSpecialty = recyclerViewAdapter.specialtyList[position]
+            val currentSpecialty = recyclerViewAdapter.specialtySet.elementAt(position)
             /*checking the direction swipped */
             if (direction == ItemTouchHelper.RIGHT) {
                 AlertDialog.Builder(requireContext()).also {
@@ -296,7 +298,7 @@ class SpecialtyFragment : BaseFragment() {
                     it.setPositiveButton("Yes") { dialog, which ->
                         // below is to delete an item from the array list at a position
                         // the item was swiped.
-                        recyclerViewAdapter.removeSpecialty(position)
+                        recyclerViewAdapter.removeSpecialty(currentSpecialty)
                         // below line is to display our snackbar with action.
                     }
                     it.setNegativeButton(R.string.no) { dialog, which ->

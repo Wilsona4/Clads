@@ -65,7 +65,6 @@ class ClientRepositoryImpl @Inject constructor(
             }
         )
 
-
     override suspend fun deleteClient(clientId: Int): Flow<Resource<List<Client>>> =
         networkBoundResource(
             fetchFromLocal = {

@@ -2,7 +2,6 @@ package com.decagonhq.clads.ui.client.dialogfragment
 
 import android.content.Context
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -27,8 +26,6 @@ import com.decagonhq.clads.ui.client.DeliveryAddressFragment.Companion.DELIVERY_
 import com.decagonhq.clads.ui.client.MeasurementsFragment.Companion.EDIT_MEASUREMENT_BUNDLE_KEY
 import com.decagonhq.clads.ui.client.MeasurementsFragment.Companion.EDIT_MEASUREMENT_BUNDLE_POSITION
 import com.decagonhq.clads.viewmodels.ClientsRegisterViewModel
-import com.github.mikephil.charting.charts.Chart.LOG_TAG
-import com.google.android.material.textfield.TextInputEditText
 import com.google.gson.Gson
 import java.io.InputStream
 import java.lang.Exception
@@ -165,7 +162,6 @@ class ClientManagementDialogFragments(
                 }
             }
 
-
             /*Edit address Dialog Fragment*/
             R.layout.add_address_fragment -> {
 
@@ -197,7 +193,7 @@ class ClientManagementDialogFragments(
 
                 val cityEditText = binding.addAddressFragmentLgaAddressEditTextView
 
-                //Get State Picked
+                // Get State Picked
                 val adapterStateObject =
                     AdapterView.OnItemClickListener { parent, _, position, _ ->
 
@@ -213,7 +209,7 @@ class ClientManagementDialogFragments(
                         }
                     }
 
-                 stateSelectorDropdown.onItemClickListener = adapterStateObject
+                stateSelectorDropdown.onItemClickListener = adapterStateObject
 
                 /*Initializing Views*/
                 val enterAddressEditText = binding.addAddressFragmentEnterDeliveryAddressEditText
@@ -230,7 +226,6 @@ class ClientManagementDialogFragments(
 
                     binding.addAddressFragmentTitleAddAddressTextView.text = getString(R.string.Edit_delivery_address)
 
-
                     val currentState = splitAddress[2]
                     val currentLga = splitAddress[1].trim()
                     val currentStreet = splitAddress[0].trim()
@@ -240,7 +235,6 @@ class ClientManagementDialogFragments(
                     }
 
                     stateEditText.setText(currentState, false)
-
 
                     for (state in locations.data) {
                         for (data in state.lgas) {
@@ -253,7 +247,6 @@ class ClientManagementDialogFragments(
 
                     enterAddressEditText.setText(currentStreet)
                 }
-
 
 // for fixing lga prefill on edit
 
@@ -270,7 +263,6 @@ class ClientManagementDialogFragments(
 //                        }
 //                    }
 //                }
-
 
                 /*Saving the changes for the address*/
                 saveAddressButton.setOnClickListener {
@@ -290,7 +282,6 @@ class ClientManagementDialogFragments(
                             binding.addAddressFragmentEnterDeliveryAddressEditTextLayout.errorIconDrawable =
                                 null
                             return@setOnClickListener
-
                         }
 
                         addressName.length < 3 && addressName.isNotEmpty() -> {
@@ -519,7 +510,6 @@ class ClientManagementDialogFragments(
             jsonString = String(buffer)
 
             return jsonString
-
         } catch (e: Exception) {
             e.printStackTrace()
         } finally {
@@ -527,7 +517,6 @@ class ClientManagementDialogFragments(
         }
 
         return null
-
     }
 
     companion object {
