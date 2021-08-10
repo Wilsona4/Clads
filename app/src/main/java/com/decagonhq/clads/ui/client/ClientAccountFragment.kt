@@ -9,12 +9,14 @@ import android.widget.RadioButton
 import android.widget.RadioGroup
 import androidx.core.widget.doOnTextChanged
 import androidx.fragment.app.activityViewModels
+import androidx.lifecycle.Observer
 import com.decagonhq.clads.R
 import com.decagonhq.clads.data.domain.client.ClientReg
 import com.decagonhq.clads.databinding.ClientAccountFragmentBinding
 import com.decagonhq.clads.ui.BaseFragment
 import com.decagonhq.clads.util.ValidationObject
 import com.decagonhq.clads.util.ValidationObject.jdValidatePhoneNumber
+import com.decagonhq.clads.util.observeOnce
 import com.decagonhq.clads.viewmodels.ClientsRegisterViewModel
 import java.util.Locale
 
@@ -23,7 +25,7 @@ class ClientAccountFragment : BaseFragment() {
 
     // This property is only valid between onCreateView and onDestroyView.
     private val binding get() = _binding!!
-    private val backingFieldViewModel: ClientsRegisterViewModel by activityViewModels()
+    private val clientsRegisterViewModel: ClientsRegisterViewModel by activityViewModels()
 
     private lateinit var firstNameEditText: EditText
     private lateinit var lastNameEditText: EditText
@@ -50,6 +52,7 @@ class ClientAccountFragment : BaseFragment() {
         super.onViewCreated(view, savedInstanceState)
         // initialize views
         init()
+        setObserver()
         setClientFieldsOnTextChange()
     }
 
@@ -58,7 +61,7 @@ class ClientAccountFragment : BaseFragment() {
 
         if (isAdded && isVisible) {
             if (validateInputs()) {
-                backingFieldViewModel.setClient(
+                clientsRegisterViewModel.setClient(
                     client = ClientReg(
                         fullName = "${firstName.capitalize(Locale.ROOT)} ${
                         lastName.capitalize(
@@ -202,5 +205,34 @@ class ClientAccountFragment : BaseFragment() {
         phoneNumberEditText = binding.clientAccountFragmentClientPhoneNumberInput
         emailEditText = binding.clientAccountFragmentClientEmailInput
         genderRadioGroup = binding.clientFragmentAccountTabRadioGroup
+    }
+
+    private fun setObserver() {
+
+        clientsRegisterViewModel.shouldEdit.observe(
+            viewLifecycleOwner,
+            { it ->
+
+                /* Confirm to edit or add new client*/
+                if (it) {
+                    clientsRegisterViewModel.clientData.observeOnce(
+                        viewLifecycleOwner,
+                        Observer {
+                            val splitFullName = it?.fullName?.split(" ")
+                            firstNameEditText.setText(splitFullName?.get(0))
+                            lastNameEditText.setText(splitFullName?.lastOrNull())
+                            phoneNumberEditText.setText(it?.phoneNumber)
+                            emailEditText.setText(it?.email)
+                            /*Attaching the data*/
+                            if (it?.gender == "Male") {
+                                genderRadioGroup.check(R.id.client_account_fragment_male_radio_button)
+                            } else {
+                                genderRadioGroup.check(R.id.client_account_fragment_female_radio_button)
+                            }
+                        }
+                    )
+                }
+            }
+        )
     }
 }

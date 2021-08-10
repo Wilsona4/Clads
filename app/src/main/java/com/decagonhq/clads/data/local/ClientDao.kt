@@ -34,6 +34,6 @@ interface ClientDao {
     suspend fun deleteAllClients()
 
     /*Update Client*/
-    @Update
-    suspend fun updateClientDetails(client: Client)
+    @Update(onConflict = OnConflictStrategy.REPLACE)
+    suspend fun updateClient(client: Client)
 }

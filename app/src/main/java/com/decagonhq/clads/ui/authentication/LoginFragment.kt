@@ -49,6 +49,7 @@ import kotlinx.coroutines.withContext
 
 @AndroidEntryPoint
 class LoginFragment : BaseFragment() {
+
     // Binding
     private var _binding: LoginFragmentBinding? = null
     private val binding get() = _binding!!
@@ -122,7 +123,7 @@ class LoginFragment : BaseFragment() {
                     authenticationViewModel.loginUser(loginCredentials)
                     authenticationViewModel.loginUser.observe(
                         viewLifecycleOwner,
-                        Observer {
+                        {
                             when (it) {
                                 is Resource.Loading -> {
                                     progressDialog.showDialogFragment("Loading...")

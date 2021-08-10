@@ -2,21 +2,55 @@ package com.decagonhq.clads.ui.profile.adapter
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import android.widget.CompoundButton
 import androidx.recyclerview.widget.RecyclerView
 import com.decagonhq.clads.databinding.SpecialtyFragmentRecyclerItemBinding
 
 class SpecialtyFragmentRecyclerAdapter :
     RecyclerView.Adapter<SpecialtyFragmentRecyclerAdapter.SpecialtyViewHolder>() {
 
-    private var _specialtyList = mutableListOf<String>()
-    val specialtyList: List<String> get() = _specialtyList
+    private var _specialtySet = mutableSetOf(
+        "Yoruba Attires",
+        "Hausa Attires",
+        "Senator",
+        "Embroidery",
+        "Africa Fashion",
+        "School Uniform",
+        "Military and Para-Military Uniforms",
+        "Igbo Attires",
+        "South-South Attires",
+        "Kaftans",
+        "Contemporary",
+        "Western Fashion",
+        "Caps"
+    ).toSortedSet()
 
-    inner class SpecialtyViewHolder(var itemBinding: SpecialtyFragmentRecyclerItemBinding) :
+    val specialtySet: Set<String> get() = _specialtySet
+    val savedSpecialtySet = mutableSetOf<String>().toSortedSet()
+
+    inner class SpecialtyViewHolder(
+        var itemBinding: SpecialtyFragmentRecyclerItemBinding
+    ) :
         RecyclerView.ViewHolder(itemBinding.root) {
 
         fun bind(specialty: String) = with(itemBinding) {
-            specialtyFragmentYorubaAttiresCheckBox.text = specialty.trim()
-            specialtyFragmentYorubaAttiresCheckBox.isChecked = true
+
+            specialtyFragmentYorubaAttiresCheckBox.text = specialty
+            specialtyFragmentYorubaAttiresCheckBox.isChecked = savedSpecialtySet.contains(specialty)
+
+            specialtyFragmentYorubaAttiresCheckBox.setOnCheckedChangeListener(null)
+
+            specialtyFragmentYorubaAttiresCheckBox.setOnCheckedChangeListener(
+                CompoundButton.OnCheckedChangeListener { buttonView, isChecked ->
+                    if (buttonView.isPressed) {
+                        if (isChecked) {
+                            savedSpecialtySet.add(specialty)
+                        } else {
+                            savedSpecialtySet.remove(specialty)
+                        }
+                    }
+                }
+            )
         }
     }
 
@@ -27,31 +61,29 @@ class SpecialtyFragmentRecyclerAdapter :
     }
 
     override fun onBindViewHolder(holder: SpecialtyViewHolder, position: Int) {
-        val specialty = _specialtyList[position]
+        val specialty = _specialtySet.elementAt(position)
         holder.bind(specialty)
     }
 
     override fun getItemCount(): Int {
-        return _specialtyList.size
+        return _specialtySet.size
     }
 
     fun populateList(list: MutableList<String>) {
-        _specialtyList = list
+        savedSpecialtySet.addAll(list)
+        _specialtySet.addAll(list)
         notifyDataSetChanged()
     }
 
     fun addNewSpecialty(specialty: String) {
-        _specialtyList.add(specialty)
+        _specialtySet.add(specialty.trim())
+        savedSpecialtySet.add(specialty.trim())
         notifyDataSetChanged()
     }
 
-    fun removeSpecialty(position: Int) {
-        _specialtyList.removeAt(position)
-        notifyItemRemoved(position)
-    }
-
-    fun undoRemove(position: Int, specialty: String) {
-        _specialtyList.add(position, specialty)
-        notifyItemRangeChanged(position, _specialtyList.size - 1)
+    fun removeSpecialty(element: String) {
+        _specialtySet.remove(element)
+        savedSpecialtySet.remove(element)
+        notifyDataSetChanged()
     }
 }

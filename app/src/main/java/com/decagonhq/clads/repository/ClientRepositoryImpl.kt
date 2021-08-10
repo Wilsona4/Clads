@@ -17,6 +17,7 @@ class ClientRepositoryImpl @Inject constructor(
 ) : ClientsRepository, SafeApiCall() {
 
     override suspend fun getClients(): Flow<Resource<List<Client>>> =
+
         networkBoundResource(
             fetchFromLocal = {
                 database.clientDao().readAllClients()
@@ -28,11 +29,10 @@ class ClientRepositoryImpl @Inject constructor(
                 apiService.getClients()
             },
             saveToLocalDB = { clientList ->
-                for (client in clientList.payload) {
-                    database.withTransaction {
-                        database.clientDao().addClient(
-                            client
-                        )
+                database.withTransaction {
+                    database.clientDao().deleteAllClients()
+                    for (client in clientList.payload) {
+                        database.clientDao().addClient(client)
                     }
                 }
             }
@@ -45,6 +45,7 @@ class ClientRepositoryImpl @Inject constructor(
     }
 
     override suspend fun addClient(client: Client): Flow<Resource<List<Client>>> =
+
         networkBoundResource(
             fetchFromLocal = {
                 database.clientDao().readAllClients()
@@ -64,15 +65,6 @@ class ClientRepositoryImpl @Inject constructor(
             }
         )
 
-//    override suspend fun deleteClient(clientId: Int) {
-//        val response = safeApiCall {
-//            apiService.deleteClient(clientId)
-//        }
-//        if (response is Resource.Success) {
-//            database.clientDao().deleteClient(clientId)
-//        }
-//    }
-
     override suspend fun deleteClient(clientId: Int): Flow<Resource<List<Client>>> =
         networkBoundResource(
             fetchFromLocal = {
@@ -87,6 +79,27 @@ class ClientRepositoryImpl @Inject constructor(
             saveToLocalDB = {
                 database.withTransaction {
                     database.clientDao().deleteClient(clientId)
+                }
+            }
+        )
+
+    override suspend fun updateClient(clientId: Int, client: Client): Flow<Resource<List<Client>>> =
+
+        networkBoundResource(
+
+            fetchFromLocal = {
+                database.clientDao().readAllClients()
+            },
+            shouldFetchFromRemote = {
+                true
+            },
+            fetchFromRemote = {
+                apiService.updateClient(clientId.toString(), client)
+            },
+            saveToLocalDB = {
+                database.withTransaction {
+                    database.clientDao().deleteClient(clientId)
+                    database.clientDao().addClient(client)
                 }
             }
         )

@@ -131,14 +131,11 @@ class AccountFragment : BaseFragment() {
                             accountFragmentStateValueTextView.text =
                                 userProfile.workshopAddress?.state ?: getString(R.string.lagos)
                             accountFragmentWorkshopAddressCityValueTextView.text =
-                                userProfile.workshopAddress?.city
-                                ?: getString(R.string.lagos)
+                                userProfile.workshopAddress?.city ?: getString(R.string.lagos)
                             accountFragmentWorkshopAddressStreetValueTextView.text =
-                                userProfile.workshopAddress?.street
-                                ?: getString(R.string.enter_address)
+                                userProfile.workshopAddress?.street ?: getString(R.string.enter_address)
                             accountFragmentShowroomAddressValueTextView.text =
-                                userProfile.showroomAddress?.state
-                                ?: getString(R.string.enter_address)
+                                userProfile.showroomAddress?.state ?: getString(R.string.enter_address)
                             accountFragmentNameOfUnionValueTextView.text = userProfile.union?.name
                                 ?: getString(R.string.enter_union_name)
                             accountFragmentWardValueTextView.text = userProfile.union?.ward
@@ -170,7 +167,7 @@ class AccountFragment : BaseFragment() {
                     handleApiError(it, mainRetrofit, requireView(), sessionManager, database)
                 } else {
                     progressDialog.hideProgressDialog()
-                    showToast("Update Successfull")
+                    showToast("Update Successful")
                     it.data?.let { profile ->
                         val userProfile = UserProfile(
                             country = profile.country,

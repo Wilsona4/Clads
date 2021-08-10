@@ -49,7 +49,6 @@ class ClientFragment : BaseFragment(), ClientListRvAdapter.Interaction {
         super.onViewCreated(view, savedInstanceState)
         init()
         setEventListeners()
-        setObservers()
 
         // implement swipe to refresh
         binding.clientFragmentSwipeRefreshLayout.setOnRefreshListener {
@@ -61,6 +60,7 @@ class ClientFragment : BaseFragment(), ClientListRvAdapter.Interaction {
     override fun onResume() {
         super.onResume()
         clientsRegisterViewModel.clearMeasurement()
+        setObservers()
     }
 
     override fun onDestroyView() {
@@ -85,7 +85,6 @@ class ClientFragment : BaseFragment(), ClientListRvAdapter.Interaction {
     }
 
     private fun setObservers() {
-
         clientViewModel.client.observe(
             viewLifecycleOwner,
             Observer {
@@ -153,6 +152,11 @@ class ClientFragment : BaseFragment(), ClientListRvAdapter.Interaction {
                     }
                     ItemTouchHelper.RIGHT -> {
                         /*Edit Client*/
+                        val action = ClientFragmentDirections.actionClientFragmentToAddClientFragment(swipedClient)
+
+                        /*Enable Conditional Rendering of fields*/
+                        clientsRegisterViewModel.setEdit(true)
+                        findNavController().navigate(action)
                     }
                 }
                 binding.clientListScreenRecyclerView.adapter?.notifyDataSetChanged()
