@@ -288,7 +288,6 @@ class DashboardActivity : AppCompatActivity(), updateToolbarTitleListener {
                 .setSmallIcon(R.drawable.clads_logo_blue)
                 .setContentText("You have a notification")
                 .setPriority(NotificationCompat.PRIORITY_DEFAULT)
-
                 // Set the intent that will fire when the user taps the notification
                 .setContentIntent(notifyPendingIntent)
                 .setAutoCancel(true)
