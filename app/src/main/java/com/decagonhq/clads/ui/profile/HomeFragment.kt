@@ -6,7 +6,6 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ArrayAdapter
 import android.widget.AutoCompleteTextView
-import android.widget.Button
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.observe
 import androidx.navigation.fragment.findNavController
@@ -64,10 +63,7 @@ class HomeFragment : BaseFragment(), ClientListRvAdapter.Interaction {
 
         homeFragmentYearDropdown = binding.homeFragmentYearDropdownAutocompleteTextView
         chartData(view)
-
     }
-
-
 
     override fun onResume() {
         super.onResume()

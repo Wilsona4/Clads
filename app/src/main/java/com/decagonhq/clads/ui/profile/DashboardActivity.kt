@@ -9,9 +9,7 @@ import android.content.Intent
 import android.os.Build
 import android.os.Bundle
 import android.view.View
-import android.view.ViewGroup
 import android.view.WindowManager
-import android.widget.Button
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.activity.viewModels
@@ -52,7 +50,6 @@ import kotlinx.coroutines.withContext
 import retrofit2.Retrofit
 import javax.inject.Inject
 import javax.inject.Named
-
 
 @AndroidEntryPoint
 class DashboardActivity : AppCompatActivity(), updateToolbarTitleListener {
