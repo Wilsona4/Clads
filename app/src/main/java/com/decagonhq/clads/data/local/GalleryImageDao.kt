@@ -26,4 +26,8 @@ interface GalleryImageDao {
     /*Delete userGallery Image in the Database*/
     @Query("DELETE FROM gallery_image_table WHERE fileId = :fileId")
     suspend fun deleteUserGalleryImage(fileId: String)
+
+    /*Delete All Gallery Images*/
+    @Query("DELETE FROM gallery_image_table")
+    suspend fun deleteAllUserGalleryImage()
 }

@@ -6,26 +6,30 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
 import androidx.core.os.bundleOf
+import androidx.fragment.app.activityViewModels
 import com.decagonhq.clads.R
 import com.decagonhq.clads.data.domain.client.DeliveryAddress
 import com.decagonhq.clads.databinding.DeliveryAddressFragmentBinding
 import com.decagonhq.clads.ui.BaseFragment
 import com.decagonhq.clads.ui.client.dialogfragment.ClientManagementDialogFragments
+import com.decagonhq.clads.viewmodels.ClientsRegisterViewModel
 import java.util.Locale
 
 class DeliveryAddressFragment : BaseFragment() {
+
     private var _binding: DeliveryAddressFragmentBinding? = null
     private lateinit var addDeliveryAddressButton: Button
 
     // This property is only valid between onCreateView and onDestroyView.
     private val binding get() = _binding!!
     private lateinit var clientAddress: DeliveryAddress
+    private val clientsRegisterViewModel: ClientsRegisterViewModel by activityViewModels()
 
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         // Inflate the layout for this fragment
         _binding = DeliveryAddressFragmentBinding.inflate(inflater, container, false)
         return binding.root
@@ -33,8 +37,10 @@ class DeliveryAddressFragment : BaseFragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
         init()
         setEventListeners()
+        setObserver()
     }
 
     override fun onDestroyView() {
@@ -45,6 +51,25 @@ class DeliveryAddressFragment : BaseFragment() {
     private fun setEventListeners() {
         addAddressDialogFragment()
         toggleButtonText()
+    }
+
+    private fun setObserver() {
+
+        clientsRegisterViewModel.clientAddress.observe(
+            viewLifecycleOwner,
+            {
+                val clientAddressEdit = it
+
+                it.city?.let {
+                    binding.deliveryAddressFragmentAddressTextView.text =
+                        "${clientAddressEdit?.street?.capitalize(Locale.ROOT)} ~ ${
+                        clientAddressEdit?.city?.capitalize(Locale.ROOT)
+                        } ~ ${clientAddressEdit?.state}"
+
+                    toggleButtonText()
+                }
+            }
+        )
     }
 
     private fun init() {
@@ -75,6 +100,7 @@ class DeliveryAddressFragment : BaseFragment() {
             DELIVERY_ADDRESS_REQUEST_KEY,
             requireActivity()
         ) { key, bundle ->
+
             // collect input values from dialog fragment and update the delivery address text of user
             val addressBundle = bundle.getParcelable<DeliveryAddress>(DELIVERY_ADDRESS_BUNDLE_KEY)
             addressBundle?.let {
@@ -83,6 +109,7 @@ class DeliveryAddressFragment : BaseFragment() {
                     it.city?.capitalize(Locale.ROOT),
                     it.state
                 )
+
                 binding.deliveryAddressFragmentAddressTextView.text =
                     "${it.street?.capitalize(Locale.ROOT)} ~ ${it.city?.capitalize(Locale.ROOT)} ~ ${it.state}"
                 toggleButtonText()
@@ -103,9 +130,7 @@ class DeliveryAddressFragment : BaseFragment() {
             ClientManagementDialogFragments.createClientDialogFragment(
                 R.layout.add_address_fragment,
                 bundle
-            ).show(
-                childFragmentManager, DeliveryAddressFragment::class.java.simpleName
-            )
+            ).show(childFragmentManager, DeliveryAddressFragment::class.java.simpleName)
         }
     }
 

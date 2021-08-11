@@ -35,11 +35,12 @@ class MeasurementsFragment : BaseFragment(), RecyclerClickListener {
     private lateinit var listMessageDisplay: TextView
     private lateinit var myAdapter: AddMeasurementAdapter
     private lateinit var recyclerView: RecyclerView
+
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         // Inflate the layout for this fragment
         _binding = MeasurementsFragmentBinding.inflate(inflater, container, false)
         return binding.root
@@ -110,6 +111,7 @@ class MeasurementsFragment : BaseFragment(), RecyclerClickListener {
 
         recyclerView.layoutManager =
             StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL)
+
         clientsRegisterViewModel.measurementData.observe(
             viewLifecycleOwner,
             Observer {
@@ -119,8 +121,7 @@ class MeasurementsFragment : BaseFragment(), RecyclerClickListener {
                 } else {
                     listMessageDisplay.hideView()
                 }
-                myAdapter =
-                    AddMeasurementAdapter(it, this@MeasurementsFragment, this@MeasurementsFragment)
+                myAdapter = AddMeasurementAdapter(it, this@MeasurementsFragment, this@MeasurementsFragment)
                 recyclerView.adapter = myAdapter
             }
         )

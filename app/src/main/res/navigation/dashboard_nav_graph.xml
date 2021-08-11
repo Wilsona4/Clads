@@ -101,8 +101,8 @@
     <fragment
         android:id="@+id/addClientFragment"
         android:name="com.decagonhq.clads.ui.client.AddClientFragment"
-        android:label="@string/add_client"
-        tools:layout="@layout/add_client_fragment" >
+
+        tools:layout="@layout/add_client_fragment">
         <action
             android:id="@+id/action_addClientFragment_to_clientFragment"
             app:destination="@id/clientFragment"
@@ -110,6 +110,12 @@
             app:exitAnim="@anim/slide_out_left"
             app:popEnterAnim="@anim/slide_in_left"
             app:popExitAnim="@anim/slide_out_right" />
+        <argument
+            android:name="client"
+            android:defaultValue="@null"
+            app:argType="com.decagonhq.clads.data.domain.client.Client"
+            app:nullable="true" />
+
     </fragment>
 
     <fragment
@@ -120,9 +126,9 @@
 
         <argument
             android:name="dress_measurement"
+            android:defaultValue="@null"
             app:argType="com.decagonhq.clads.data.domain.client.Measurement"
-            app:nullable="true"
-            android:defaultValue="@null" />
+            app:nullable="true" />
     </fragment>
 
     <fragment
@@ -171,6 +177,13 @@
             app:exitAnim="@anim/slide_out_left"
             app:popEnterAnim="@anim/slide_in_left"
             app:popExitAnim="@anim/slide_out_right" />
+
+        <argument
+            android:name="client"
+            android:defaultValue="@null"
+            app:argType="com.decagonhq.clads.data.domain.client.Client"
+            app:nullable="true" />
+
         <action
             android:id="@+id/action_clientFragment_to_clientDetailsFragment"
             app:destination="@id/clientDetailsFragment"
@@ -267,12 +280,16 @@
         android:id="@+id/clientDetailsFragment"
         android:name="com.decagonhq.clads.ui.client.ClientDetailsFragment"
         android:label="Client"
-        tools:layout="@layout/client_details_fragment" >
+        tools:layout="@layout/client_details_fragment">
         <argument
             android:name="clientModel"
+            android:defaultValue="@null"
             app:argType="com.decagonhq.clads.data.domain.client.Client"
-            app:nullable="true"
-            android:defaultValue="@null" />
+            app:nullable="true" />
+        <action
+            android:id="@+id/action_clientDetailsFragment_to_addClientFragment"
+            app:destination="@id/addClientFragment" />
+
     </fragment>
 
 </navigation>

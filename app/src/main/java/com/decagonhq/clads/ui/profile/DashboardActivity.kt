@@ -25,6 +25,7 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.NavController
 import androidx.navigation.findNavController
+import androidx.navigation.fragment.findNavController
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.navigateUp
 import androidx.navigation.ui.setupActionBarWithNavController
@@ -39,6 +40,7 @@ import com.decagonhq.clads.util.CustomProgressDialog
 import com.decagonhq.clads.util.SessionManager
 import com.decagonhq.clads.util.logOut
 import com.decagonhq.clads.viewmodels.ClientViewModel
+import com.decagonhq.clads.viewmodels.ClientsRegisterViewModel
 import com.decagonhq.clads.viewmodels.ImageUploadViewModel
 import com.decagonhq.clads.viewmodels.UserProfileViewModel
 import com.google.android.material.bottomnavigation.BottomNavigationView
@@ -53,7 +55,7 @@ import javax.inject.Named
 
 
 @AndroidEntryPoint
-class DashboardActivity : AppCompatActivity() {
+class DashboardActivity : AppCompatActivity(), updateToolbarTitleListener {
 
     private lateinit var appBarConfiguration: AppBarConfiguration
     private lateinit var binding: DashboardActivityBinding
@@ -85,6 +87,7 @@ class DashboardActivity : AppCompatActivity() {
     private val userProfileViewModel: UserProfileViewModel by viewModels()
     private val imageUploadViewModel: ImageUploadViewModel by viewModels()
     private val clientViewModel: ClientViewModel by viewModels()
+    private val clientsRegisterViewModel: ClientsRegisterViewModel by viewModels()
 
     override fun onStart() {
         super.onStart()
@@ -288,7 +291,6 @@ class DashboardActivity : AppCompatActivity() {
                 .setSmallIcon(R.drawable.clads_logo_blue)
                 .setContentText("You have a notification")
                 .setPriority(NotificationCompat.PRIORITY_DEFAULT)
-
                 // Set the intent that will fire when the user taps the notification
                 .setContentIntent(notifyPendingIntent)
                 .setAutoCancel(true)
@@ -314,7 +316,8 @@ class DashboardActivity : AppCompatActivity() {
     private fun onDestinationChangedListener() {
         listener =
             NavController.OnDestinationChangedListener { controller, destination, arguments ->
-                toolbarFragmentName.text = destination.label ?: getString(R.string.app_name)
+                toolbarFragmentName.text = destination.label ?: " "
+//                getString(R.string.app_name)
                 when (destination.id) {
                     R.id.nav_home -> {
                         bottomNavigationView.visibility = View.VISIBLE
@@ -402,15 +405,15 @@ class DashboardActivity : AppCompatActivity() {
                     }
                     R.id.individualVideoScreenFragment -> {
                         bottomNavigationView.visibility = View.GONE
-                        toolbarProfilePicture.visibility = View.INVISIBLE
-                        toolbarUserName.visibility = View.INVISIBLE
+                        toolbarProfilePicture.visibility = View.GONE
+                        toolbarUserName.visibility = View.GONE
                         toolbarNotificationIcon.visibility = View.GONE
                         toolbarFragmentName.visibility = View.INVISIBLE
                     }
                     else -> {
                         bottomNavigationView.visibility = View.VISIBLE
                         toolbarProfilePicture.visibility = View.INVISIBLE
-                        toolbarUserName.visibility = View.INVISIBLE
+                        toolbarUserName.visibility = View.GONE
                         toolbarNotificationIcon.visibility = View.GONE
                         toolbarFragmentName.visibility = View.VISIBLE
                     }
@@ -431,4 +434,12 @@ class DashboardActivity : AppCompatActivity() {
             }
         }
     }
+
+    override fun updateTitle(title: String) {
+        toolbarFragmentName.text = title
+    }
+}
+
+interface updateToolbarTitleListener {
+    fun updateTitle(title: String)
 }

@@ -27,7 +27,7 @@
     <string name="all_forgot_password">Forgot Password</string>
     <string name="all_remember_my_password">I can remember my password,</string>
     <string name="email_sign_up_fragment_create_an_account">Create an account</string>
-    <string name="email_sign_up_fragment_lets_get_to_know_you">Lets get to know you</string>
+    <string name="email_sign_up_fragment_lets_get_to_know_you">Let\'s get to know you</string>
     <string name="all_signup">Signup</string>
     <string name="all_have_an_account">Have an account?</string>
     <string name="all_login">Login</string>
@@ -85,7 +85,7 @@
     <string name="measurements">Measurements</string>
     <string name="delivery_addresses">Delivery Addresses</string>
     <string name="client_account">Client Account</string>
-    <string name="add_client">Add Client</string>
+    <string name="add_client"> Add Client </string>
     <string name="native_measurement">Native Measurement</string>
     <string name="english_measurement">English Measurement</string>
     <string name="add_measurement">Add Measurement</string>
@@ -105,11 +105,12 @@
     <string name="add_measurement_fragment_name">Name</string>
     <string name="add_measurement_fragment_add_measurement">Add measurement</string>
     <string name="all_save">Save</string>
+    <string name="all_update">Update</string>
     <string name="add_measurement_fragment_add_button">Add</string>
     <string name="blank_text_view_item">Blank text view item</string>
     <string name="add_delivery_address">Add Delivery Address</string>
     <string name="delivery_address">Delivery Address</string>
-    <string name="enter_delivery_address">Enter Delivery Address</string>
+    <string name="enter_street_address">Enter Street Address</string>
     <string name="delivery_address_city">City</string>
     <string name="delivery_address_state">State</string>
     <string name="there_are_no_delivery_address">There are no delivery address for this client</string>
@@ -357,7 +358,7 @@
     <string name="enter_union_ward">Enter Union Ward</string>
     <string name="rename_description">Rename description</string>
 
-<string name="two_weeks">2 Weeks</string>
+    <string name="two_weeks">2 Weeks</string>
     <string name="logout_confirmation_dialog_message">Are you sure you want to logout?</string>
     <string name="delete_image_confirmation">Are you sure you want to delete this item?</string>
     <string name="logout_confirmation_yes">YES</string>
@@ -369,13 +370,19 @@
     <string name="deleting_client">Deleting Client...</string>
 
     <string name="rename">Rename</string>
+
+    <string name="update_Address">Update Address</string>
+
     <string name="must_contain_3_or_more">Must Contain 3 or More Characters</string>
     <string name="edit_address">Edit Address</string>
     <string name="basic_info">Basic Info</string>
     <string name="_2nd_floor_luzen_plaza_igbo_efon_lekki_lagos">2nd_floor luzen plaza igbo efon lekki lagos</string>
     <string name="ykunleq_example_com">ykunleq@example.com</string>
     <string name="om">OM</string>
-
+    <string name="lga_label_str">LGA</string>
+    <string name="state_label_str">STATE</string>
+    <string name="hint_9_obasanjo_street">hint: 9, obasanjo street</string>
+    <string name="Edit_delivery_address">Edit Delivery Address</string>
 
     <string-array name="account_category">
         <item>Tailor</item>

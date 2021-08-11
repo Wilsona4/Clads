@@ -8,7 +8,6 @@ import android.widget.ArrayAdapter
 import android.widget.AutoCompleteTextView
 import android.widget.Button
 import androidx.fragment.app.activityViewModels
-import androidx.lifecycle.Observer
 import androidx.lifecycle.observe
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -83,9 +82,10 @@ class HomeFragment : BaseFragment(), ClientListRvAdapter.Interaction {
         /*Observing the user profile to display the user name*/
         userProfileViewModel.userProfile.observe(
             viewLifecycleOwner,
-            Observer {
+            {
                 it.data.let { userProfile ->
-                    val fullName = "${userProfile?.firstName ?: "---"} ${userProfile?.lastName ?: "---"}"
+                    val fullName =
+                        "${userProfile?.firstName ?: "---"} ${userProfile?.lastName ?: "---"}"
                     binding.homeFragmentAccountNameTextView.text = fullName
                 }
             }

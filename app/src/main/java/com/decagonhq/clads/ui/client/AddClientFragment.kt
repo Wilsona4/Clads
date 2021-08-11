@@ -5,9 +5,12 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
+import androidx.core.os.bundleOf
 import androidx.fragment.app.activityViewModels
+import androidx.fragment.app.setFragmentResult
 import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
+import androidx.navigation.fragment.navArgs
 import androidx.viewpager2.widget.ViewPager2
 import com.decagonhq.clads.R
 import com.decagonhq.clads.data.domain.client.Client
@@ -17,6 +20,7 @@ import com.decagonhq.clads.data.domain.client.Measurement
 import com.decagonhq.clads.databinding.AddClientFragmentBinding
 import com.decagonhq.clads.ui.BaseFragment
 import com.decagonhq.clads.ui.client.adapter.AddClientPagerAdapter
+import com.decagonhq.clads.ui.profile.updateToolbarTitleListener
 import com.decagonhq.clads.util.Resource
 import com.decagonhq.clads.util.handleApiError
 import com.decagonhq.clads.util.hideView
@@ -29,6 +33,8 @@ import com.google.android.material.tabs.TabLayoutMediator
 
 class AddClientFragment : BaseFragment() {
     private var _binding: AddClientFragmentBinding? = null
+    val args: AddClientFragmentArgs by navArgs()
+    var editClient: Client? = null
 
     // This property is only valid between onCreateView and onDestroyView.
     private val binding get() = _binding!!
@@ -45,11 +51,29 @@ class AddClientFragment : BaseFragment() {
     private val clientsRegisterViewModel: ClientsRegisterViewModel by activityViewModels()
     private val clientViewModel: ClientViewModel by activityViewModels()
 
+    override fun onStart() {
+        super.onStart()
+        if (args.client != null) {
+            (activity as updateToolbarTitleListener).updateTitle("Edit Client")
+        } else {
+            (activity as updateToolbarTitleListener).updateTitle("Add Client")
+        }
+    }
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        editClient = args.client
+
+        if (editClient == null) {
+            clientsRegisterViewModel.clearAddress()
+        }
+    }
+
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         // Inflate the layout for this fragment
         _binding = AddClientFragmentBinding.inflate(inflater, container, false)
         return binding.root
@@ -78,27 +102,50 @@ class AddClientFragment : BaseFragment() {
                 viewPager2.currentItem = 1
             } else if (pagePosition == 1 && clientMeasurements?.isNotEmpty() == true) {
                 viewPager2.currentItem = 2
+
+                setFragmentResult("requestKey", bundleOf("data" to editClient))
             } else if (pagePosition == 2 && this::clientDeliveryAddress.isInitialized) {
 
                 if (this::clientBio.isInitialized && clientMeasurements?.isNotEmpty() == true) {
-                    clientViewModel.addClient(
-                        Client(
-                            fullName = clientBio.fullName,
-                            phoneNumber = clientBio.phoneNumber,
-                            email = clientBio.email,
-                            gender = clientBio.gender,
-                            deliveryAddresses = arrayListOf(clientDeliveryAddress),
-                            measurements = clientMeasurements
+                    if (editClient == null) {
+                        /*Add Client*/
+                        clientViewModel.addClient(
+                            Client(
+                                fullName = clientBio.fullName,
+                                phoneNumber = clientBio.phoneNumber,
+                                email = clientBio.email,
+                                gender = clientBio.gender,
+                                deliveryAddresses = arrayListOf(clientDeliveryAddress),
+                                measurements = clientMeasurements
+                            )
                         )
-                    )
-                    progressDialog.showDialogFragment("Saving...Please wait")
+                    } else {
+                        /*Update Client*/
+                        editClient!!.id?.let { it1 ->
+                            clientViewModel.updateClient(
+                                it1,
+                                Client(
+                                    id = clientBio.id,
+                                    artisanId = clientBio.artisanId,
+                                    fullName = clientBio.fullName,
+                                    phoneNumber = clientBio.phoneNumber,
+                                    email = clientBio.email,
+                                    gender = clientBio.gender,
+                                    deliveryAddresses = arrayListOf(clientDeliveryAddress),
+                                    measurements = clientMeasurements
+                                )
+                            )
+                        }
+                    }
 
                     clientViewModel.client.observe(
                         viewLifecycleOwner,
                         Observer {
                             when (it) {
                                 is Resource.Loading -> {
-                                    progressDialog.showDialogFragment("Saving...Please wait")
+                                    editClient?.let {
+                                        progressDialog.showDialogFragment("Updating profile... Please wait")
+                                    } ?: progressDialog.showDialogFragment("Saving... Please wait")
                                 }
                                 is Resource.Error -> {
                                     progressDialog.hideProgressDialog()
@@ -113,8 +160,12 @@ class AddClientFragment : BaseFragment() {
                                 is Resource.Success -> {
                                     progressDialog.hideProgressDialog()
                                     it.data?.let {
-                                        showToast("Saved Successfully")
+                                        editClient?.let {
+                                            showToast("Updated Successfully")
+                                            findNavController().popBackStack(R.id.clientFragment, false)
+                                        } ?: showToast("Saved Successfully")
                                     }
+
                                     clientsRegisterViewModel.clearMeasurement()
                                     findNavController().popBackStack(R.id.clientFragment, false)
                                 }
@@ -144,7 +195,12 @@ class AddClientFragment : BaseFragment() {
                         binding.addClientFragmentPreviousButton.showView()
                     }
                     2 -> {
-                        binding.addClientFragmentNextButton.text = getString(R.string.all_save)
+                        if (editClient != null) {
+                            binding.addClientFragmentNextButton.text =
+                                getString(R.string.all_update)
+                        } else {
+                            binding.addClientFragmentNextButton.text = getString(R.string.all_save)
+                        }
                         binding.addClientFragmentPreviousButton.showView()
                     }
                 }
@@ -164,11 +220,14 @@ class AddClientFragment : BaseFragment() {
     }
 
     private fun init() {
+
         viewPager2 = binding.addClientViewPager
         tabLayout = binding.addClientTabLayout
         nextAndSaveButton = binding.addClientFragmentNextButton
         previousButton = binding.addClientFragmentPreviousButton
+
         val adapter = AddClientPagerAdapter(childFragmentManager, lifecycle)
+
         viewPager2.apply {
             this.adapter = adapter
             this.isUserInputEnabled = false
@@ -182,8 +241,29 @@ class AddClientFragment : BaseFragment() {
             }
         }.attach()
 
-//        /*Disable tab change on tapping tab-layout container*/
-//        tabLayout.touchables.forEach { it.isClickable = false }
+        /*Set Edit Client Variables*/
+        editClient?.let {
+
+            val clientReg =
+                ClientReg(it.id, it.artisanId, it.email, it.fullName, it.gender, it.phoneNumber)
+            clientsRegisterViewModel.setClient(clientReg)
+
+            it.measurements?.let { measurementList ->
+                clientsRegisterViewModel.setList(
+                    measurementList
+                )
+            }
+
+            it.deliveryAddresses?.let { deliveryAddresses ->
+                deliveryAddresses.firstOrNull()?.let { it1 ->
+                    clientsRegisterViewModel.clientNewAddress(
+                        it1
+                    )
+                }
+            }
+        }
+        /*Disable tab change on tapping tab-layout container*/
+        tabLayout.touchables.forEach { it.isClickable = false }
     }
 
     private fun setObservers() {
@@ -196,18 +276,16 @@ class AddClientFragment : BaseFragment() {
 
         clientsRegisterViewModel.measurementData.observe(
             viewLifecycleOwner,
-            Observer { it ->
+            Observer {
                 clientMeasurements = it
             }
         )
 
         clientsRegisterViewModel.clientAddress.observe(
             viewLifecycleOwner,
-            Observer {
-                it.getContentIfNotHandled()?.let { deliveryAddress ->
-                    // Only proceed if the event has never been handled
-                    clientDeliveryAddress = deliveryAddress
-                }
+            Observer { deliveryAddress ->
+                // Only proceed if the event has never been handled
+                clientDeliveryAddress = deliveryAddress
             }
         )
     }

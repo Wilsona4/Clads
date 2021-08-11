@@ -43,10 +43,6 @@ interface ApiService {
     @DELETE("client/{clientId}")
     suspend fun deleteClient(@Path("clientId") clientId: Int): GenericResponseClass<Client>
 
-    /*Update User Profile*/
-    @PUT("client/{clientId}")
-    suspend fun updateClient(@Path("clientId") @Body client: Client): GenericResponseClass<Client>
-
     /*Upload Profile Picture*/
     @Multipart
     @POST("upload")
@@ -89,4 +85,11 @@ interface ApiService {
     suspend fun verifyAuthToken(
         @Query("token") token: String
     ): GenericResponseClass<String>
+
+    /*Update User Profile*/
+    @PUT("client/{clientId}")
+    suspend fun updateClient(
+        @Path("clientId") clientId: String,
+        @Body client: Client
+    ): GenericResponseClass<Client>
 }

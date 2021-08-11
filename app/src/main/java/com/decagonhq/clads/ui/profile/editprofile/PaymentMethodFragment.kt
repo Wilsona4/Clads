@@ -247,6 +247,7 @@ class PaymentMethodFragment : BaseFragment() {
                     progressDialog.showDialogFragment("Uploading...")
                 } else if (it is Resource.Error) {
                     progressDialog.hideProgressDialog()
+                    showToast("Update Successful")
                     handleApiError(it, mainRetrofit, requireView(), sessionManager, database)
                 } else {
                     progressDialog.hideProgressDialog()
