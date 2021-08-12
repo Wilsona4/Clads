@@ -23,12 +23,10 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.NavController
 import androidx.navigation.findNavController
-import androidx.navigation.fragment.findNavController
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.navigateUp
 import androidx.navigation.ui.setupActionBarWithNavController
 import androidx.navigation.ui.setupWithNavController
-import com.bumptech.glide.Glide
 import com.decagonhq.clads.R
 import com.decagonhq.clads.data.local.CladsDatabase
 import com.decagonhq.clads.databinding.DashboardActivityBinding
@@ -36,6 +34,7 @@ import com.decagonhq.clads.ui.messages.MessagesFragment
 import com.decagonhq.clads.util.Constants
 import com.decagonhq.clads.util.CustomProgressDialog
 import com.decagonhq.clads.util.SessionManager
+import com.decagonhq.clads.util.loadImage
 import com.decagonhq.clads.util.logOut
 import com.decagonhq.clads.viewmodels.ClientViewModel
 import com.decagonhq.clads.viewmodels.ClientsRegisterViewModel
@@ -186,16 +185,11 @@ class DashboardActivity : AppCompatActivity(), updateToolbarTitleListener {
                     }"
                     profileName.text = fullName
 
-                    Glide.with(this)
-                        .load(userProfile?.thumbnail)
-                        .placeholder(R.drawable.nav_drawer_profile_avatar)
-                        .into(toolbarProfilePicture)
+                    /*Load Profile Picture with Glide*/
+                    toolbarProfilePicture.loadImage(userProfile?.thumbnail)
 
                     /*load profile image from shared pref*/
-                    Glide.with(this)
-                        .load(userProfile?.thumbnail)
-                        .placeholder(R.drawable.nav_drawer_profile_avatar)
-                        .into(profileImage)
+                    profileImage.loadImage(userProfile?.thumbnail)
                 }
             }
         )

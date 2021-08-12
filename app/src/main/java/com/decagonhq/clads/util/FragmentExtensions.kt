@@ -56,6 +56,7 @@ fun <T> Fragment.handleApiError(
                     if (errorMessage == "Invalid username/password" && findNavController().currentDestination?.id != R.id.login_fragment) {
                         logOut(sessionManager, database)
                     } else if (errorMessage == "401") {
+                        view.showSnackBar("Session Timeout")
                         logOut(sessionManager, database)
                     } else {
                         view.showSnackBar(errorMessage)
