@@ -70,8 +70,11 @@ class SpecialtyFragmentRecyclerAdapter :
     }
 
     fun populateList(list: MutableList<String>) {
-        savedSpecialtySet.addAll(list)
-        _specialtySet.addAll(list)
+        val filteredList = list.filter {
+            it.trim().isNotBlank()
+        }
+        savedSpecialtySet.addAll(filteredList)
+        _specialtySet.addAll(filteredList)
         notifyDataSetChanged()
     }
 
