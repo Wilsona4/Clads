@@ -22,8 +22,6 @@ Clads Codebase is designed to enable easy flow and collaboration among android n
 
 ## Contribution
 
-This Codebase is entirely developed by Decagon Institute Developers in Training, Android Stack, Squad 07. 
-
 As an intending contributor, you need to thoroughly go through the guidelines before you start contributing. You will find all the Guidlines in thw Wiki Page. 
 
 Wiki Pages :
